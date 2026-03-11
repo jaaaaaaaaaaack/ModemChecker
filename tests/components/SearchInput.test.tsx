@@ -1,0 +1,40 @@
+import { describe, it, expect, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { SearchInput } from "../../src/components/SearchInput";
+
+describe("SearchInput", () => {
+  it("renders heading and input field", () => {
+    render(<SearchInput onSearch={() => {}} />);
+    expect(screen.getByText(/find your modem/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/e\.g\./i)).toBeInTheDocument();
+  });
+
+  it("calls onSearch with input value on submit", async () => {
+    const onSearch = vi.fn();
+    render(<SearchInput onSearch={onSearch} />);
+
+    await userEvent.type(screen.getByPlaceholderText(/e\.g\./i), "TP-Link Archer");
+    await userEvent.click(screen.getByRole("button", { name: /continue/i }));
+
+    expect(onSearch).toHaveBeenCalledWith("TP-Link Archer");
+  });
+
+  it("does not submit when input is empty", async () => {
+    const onSearch = vi.fn();
+    render(<SearchInput onSearch={onSearch} />);
+
+    await userEvent.click(screen.getByRole("button", { name: /continue/i }));
+    expect(onSearch).not.toHaveBeenCalled();
+  });
+
+  it("submits on Enter key", async () => {
+    const onSearch = vi.fn();
+    render(<SearchInput onSearch={onSearch} />);
+
+    const input = screen.getByPlaceholderText(/e\.g\./i);
+    await userEvent.type(input, "Netgear{Enter}");
+
+    expect(onSearch).toHaveBeenCalledWith("Netgear");
+  });
+});
