@@ -1,0 +1,295 @@
+@theme {
+  /* Colors */
+  --color-brand-50: rgb(240 254 255);
+  --color-brand-100: rgb(207 250 254);
+  --color-brand-200: rgb(165 243 252);
+  --color-brand-300: rgb(103 232 249);
+  --color-brand-400: rgb(34 211 238);
+  --color-brand-500: rgb(6 182 212);
+  --color-brand-600: rgb(8 145 178);
+  --color-brand-700: rgb(14 116 144);
+  --color-brand-800: rgb(21 94 117);
+  --color-brand-900: rgb(15 60 77);
+  --color-brand-950: rgb(6 38 50);
+  --color-neutral-0: rgb(255 255 255);
+  --color-neutral-50: rgb(250 250 250);
+  --color-neutral-100: rgb(245 245 245);
+  --color-neutral-200: rgb(229 229 229);
+  --color-neutral-300: rgb(212 212 212);
+  --color-neutral-400: rgb(163 163 163);
+  --color-neutral-500: rgb(115 115 115);
+  --color-neutral-600: rgb(82 82 82);
+  --color-neutral-700: rgb(64 64 64);
+  --color-neutral-800: rgb(38 38 38);
+  --color-neutral-900: rgb(23 23 23);
+  --color-neutral-950: rgb(10 10 10);
+  --color-error-50: rgb(255 241 242);
+  --color-error-100: rgb(255 228 230);
+  --color-error-200: rgb(254 205 211);
+  --color-error-300: rgb(253 164 175);
+  --color-error-400: rgb(251 113 133);
+  --color-error-500: rgb(244 63 94);
+  --color-error-600: rgb(225 29 72);
+  --color-error-700: rgb(190 18 60);
+  --color-error-800: rgb(159 18 57);
+  --color-error-900: rgb(136 19 55);
+  --color-success-50: rgb(236 253 245);
+  --color-success-100: rgb(209 250 229);
+  --color-success-200: rgb(167 243 208);
+  --color-success-300: rgb(110 231 183);
+  --color-success-400: rgb(52 211 153);
+  --color-success-500: rgb(16 185 129);
+  --color-success-600: rgb(5 150 105);
+  --color-success-700: rgb(4 120 87);
+  --color-success-800: rgb(6 95 70);
+  --color-success-900: rgb(6 78 59);
+  --color-warning-50: rgb(255 251 235);
+  --color-warning-100: rgb(254 243 199);
+  --color-warning-200: rgb(253 230 138);
+  --color-warning-300: rgb(252 211 77);
+  --color-warning-400: rgb(251 191 36);
+  --color-warning-500: rgb(245 158 11);
+  --color-warning-600: rgb(217 119 6);
+  --color-warning-700: rgb(180 83 9);
+  --color-warning-800: rgb(146 64 14);
+  --color-warning-900: rgb(120 53 15);
+  --color-brand-primary: rgb(8 145 178);
+  --color-default-font: rgb(23 23 23);
+  --color-subtext-color: rgb(115 115 115);
+  --color-neutral-border: rgb(229 229 229);
+  --color-white: rgb(255 255 255);
+  --color-default-background: rgb(255 255 255);
+  --color-color-primary-50: rgb(212 251 255);
+  --color-color-primary-100: rgb(157 245 255);
+  --color-color-primary-200: rgb(0 230 255);
+  --color-color-primary-300: rgb(0 224 248);
+  --color-color-primary-400: rgb(0 176 195);
+  --color-color-primary-500: rgb(0 140 155);
+  --color-color-primary-600: rgb(0 108 119);
+  --color-color-primary-700: rgb(0 77 86);
+  --color-color-primary-800: rgb(0 44 49);
+  --color-color-primary-900: rgb(0 29 32);
+  --color-color-primary-950: rgb(0 18 20);
+  --color-color-secondary-50: rgb(201 255 236);
+  --color-color-secondary-100: rgb(120 255 207);
+  --color-color-secondary-200: rgb(59 255 185);
+  --color-color-secondary-300: rgb(0 232 149);
+  --color-color-secondary-400: rgb(0 183 117);
+  --color-color-secondary-500: rgb(0 145 93);
+  --color-color-secondary-600: rgb(0 112 72);
+  --color-color-secondary-700: rgb(0 80 52);
+  --color-color-secondary-800: rgb(0 45 29);
+  --color-color-secondary-900: rgb(0 30 20);
+  --color-color-secondary-950: rgb(0 19 12);
+  --color-color-neutral-50: rgb(255 255 255);
+  --color-color-neutral-100: rgb(245 245 245);
+  --color-color-neutral-200: rgb(231 231 231);
+  --color-color-neutral-300: rgb(218 218 218);
+  --color-color-neutral-400: rgb(203 203 203);
+  --color-color-neutral-500: rgb(160 160 160);
+  --color-color-neutral-600: rgb(126 126 126);
+  --color-color-neutral-700: rgb(97 97 97);
+  --color-color-neutral-800: rgb(69 69 69);
+  --color-color-neutral-900: rgb(25 25 25);
+  --color-color-neutral-950: rgb(0 0 0);
+  --color-color-accent2-50: rgb(246 241 255);
+  --color-color-accent2-100: rgb(237 227 255);
+  --color-color-accent2-200: rgb(227 211 255);
+  --color-color-accent2-300: rgb(216 193 255);
+  --color-color-accent2-400: rgb(181 137 255);
+  --color-color-accent2-500: rgb(152 89 255);
+  --color-color-accent2-600: rgb(116 32 255);
+  --color-color-accent2-700: rgb(77 0 205);
+  --color-color-accent2-800: rgb(46 0 122);
+  --color-color-accent2-900: rgb(33 0 87);
+  --color-color-accent2-950: rgb(22 0 60);
+  --color-color-accent3-50: rgb(255 239 252);
+  --color-color-accent3-100: rgb(255 221 248);
+  --color-color-accent3-200: rgb(255 202 245);
+  --color-color-accent3-300: rgb(255 168 238);
+  --color-color-accent3-400: rgb(255 96 224);
+  --color-color-accent3-500: rgb(233 0 188);
+  --color-color-accent3-600: rgb(182 0 146);
+  --color-color-accent3-700: rgb(133 0 107);
+  --color-color-accent3-800: rgb(78 0 63);
+  --color-color-accent3-900: rgb(55 0 44);
+  --color-color-accent3-950: rgb(38 0 30);
+  --color-color-primary-51: rgb(225 251 255);
+  --color-color-primary-101: rgb(182 244 255);
+  --color-color-primary-201: rgb(96 234 255);
+  --color-color-primary-301: rgb(0 213 237);
+  --color-color-primary-401: rgb(0 182 202);
+  --color-color-primary-501: rgb(0 151 169);
+  --color-color-primary-601: rgb(0 122 136);
+  --color-color-primary-701: rgb(0 94 105);
+  --color-color-primary-801: rgb(0 64 72);
+  --color-color-primary-901: rgb(0 42 48);
+  --color-color-primary-951: rgb(0 26 30);
+  --color-color-secondary-51: rgb(220 255 237);
+  --color-color-secondary-101: rgb(162 255 211);
+  --color-color-secondary-201: rgb(48 248 178);
+  --color-color-secondary-301: rgb(0 223 157);
+  --color-color-secondary-401: rgb(0 190 133);
+  --color-color-secondary-501: rgb(0 159 110);
+  --color-color-secondary-601: rgb(0 128 88);
+  --color-color-secondary-701: rgb(0 98 67);
+  --color-color-secondary-801: rgb(0 67 45);
+  --color-color-secondary-901: rgb(0 44 28);
+  --color-color-secondary-951: rgb(0 28 16);
+  --color-color-neutral-51: rgb(245 245 245);
+  --color-color-neutral-101: rgb(232 232 232);
+  --color-color-neutral-201: rgb(212 212 212);
+  --color-color-neutral-301: rgb(190 190 190);
+  --color-color-neutral-401: rgb(161 161 161);
+  --color-color-neutral-501: rgb(134 134 134);
+  --color-color-neutral-601: rgb(108 108 108);
+  --color-color-neutral-701: rgb(82 82 82);
+  --color-color-neutral-801: rgb(56 56 56);
+  --color-color-neutral-901: rgb(36 36 36);
+  --color-color-neutral-951: rgb(22 22 22);
+  --color-color-accent2-51: rgb(246 243 255);
+  --color-color-accent2-101: rgb(234 227 255);
+  --color-color-accent2-201: rgb(216 203 255);
+  --color-color-accent2-301: rgb(196 175 255);
+  --color-color-accent2-401: rgb(172 135 255);
+  --color-color-accent2-501: rgb(151 89 255);
+  --color-color-accent2-601: rgb(131 16 247);
+  --color-color-accent2-701: rgb(101 0 195);
+  --color-color-accent2-801: rgb(70 0 138);
+  --color-color-accent2-901: rgb(46 0 94);
+  --color-color-accent2-951: rgb(29 0 64);
+  --color-color-accent3-51: rgb(255 240 251);
+  --color-color-accent3-101: rgb(255 220 245);
+  --color-color-accent3-201: rgb(255 187 238);
+  --color-color-accent3-301: rgb(255 145 230);
+  --color-color-accent3-401: rgb(255 68 223);
+  --color-color-accent3-501: rgb(224 1 194);
+  --color-color-accent3-601: rgb(182 0 157);
+  --color-color-accent3-701: rgb(141 0 122);
+  --color-color-accent3-801: rgb(98 0 84);
+  --color-color-accent3-901: rgb(66 1 56);
+  --color-color-accent3-951: rgb(40 6 33);
+
+  /* Fonts */
+  --text-caption: 13px;
+  --text-caption--font-weight: 400;
+  --text-caption--letter-spacing: 0em;
+  --text-caption--line-height: 17px;
+  --text-caption-bold: 13px;
+  --text-caption-bold--font-weight: 600;
+  --text-caption-bold--letter-spacing: 0em;
+  --text-caption-bold--line-height: 17px;
+  --text-body: 15px;
+  --text-body--font-weight: 500;
+  --text-body--letter-spacing: 0em;
+  --text-body--line-height: 22px;
+  --text-body-bold: 15px;
+  --text-body-bold--font-weight: 600;
+  --text-body-bold--letter-spacing: 0em;
+  --text-body-bold--line-height: 22px;
+  --text-h3-700: 22px;
+  --text-h3-700--font-weight: 700;
+  --text-h3-700--letter-spacing: 0em;
+  --text-h3-700--line-height: 26px;
+  --text-h2: 28px;
+  --text-h2--font-weight: 700;
+  --text-h2--letter-spacing: 0em;
+  --text-h2--line-height: 34px;
+  --text-h1: 40px;
+  --text-h1--font-weight: 700;
+  --text-h1--letter-spacing: -0.025em;
+  --text-h1--line-height: 50px;
+  --text-monospace-body: 14px;
+  --text-monospace-body--font-weight: 400;
+  --text-monospace-body--letter-spacing: 0em;
+  --text-monospace-body--line-height: 20px;
+  --text-h3-500: 22px;
+  --text-h3-500--font-weight: 500;
+  --text-h3-500--letter-spacing: 0em;
+  --text-h3-500--line-height: 26px;
+  --text-h2-500: 28px;
+  --text-h2-500--font-weight: 500;
+  --text-h2-500--letter-spacing: 0em;
+  --text-h2-500--line-height: 34px;
+  --text-h4-button-700: 19px;
+  --text-h4-button-700--font-weight: 700;
+  --text-h4-button-700--letter-spacing: 0em;
+  --text-h4-button-700--line-height: 24px;
+  --text-h4-button-500: 19px;
+  --text-h4-button-500--font-weight: 500;
+  --text-h4-button-500--letter-spacing: 0em;
+  --text-h4-button-500--line-height: 24px;
+
+  /* Font families */
+  --font-caption: "Plus Jakarta Sans";
+  --font-caption-bold: "Plus Jakarta Sans";
+  --font-body: "Plus Jakarta Sans";
+  --font-body-bold: "Plus Jakarta Sans";
+  --font-h3-700: "Plus Jakarta Sans";
+  --font-h2: "Plus Jakarta Sans";
+  --font-h1: "Plus Jakarta Sans";
+  --font-monospace-body: monospace;
+  --font-h3-500: "Plus Jakarta Sans";
+  --font-h2-500: "Plus Jakarta Sans";
+  --font-h4-button-700: "Plus Jakarta Sans";
+  --font-h4-button-500: "Plus Jakarta Sans";
+
+  /* Box shadows */
+  --shadow-sm: 0px 1px 2px 0px rgb(0 0 0 / 0.05);
+  --shadow-default: 0px 1px 2px 0px rgb(0 0 0 / 0.05);
+  --shadow-md: 0px 4px 16px -2px rgb(0 0 0 / 0.08),
+    0px 2px 3px -1px rgb(0 0 0 / 0.04);
+  --shadow-lg: 0px 12px 32px -4px rgb(0 0 0 / 0.08),
+    0px 4px 8px -2px rgb(0 0 0 / 0.08);
+  --shadow-overlay: 0px 12px 32px -4px rgb(0 0 0 / 0.08),
+    0px 4px 8px -2px rgb(0 0 0 / 0.08);
+  --shadow-xl: 0px 18px 40px 0px rgb(0 0 0 / 0.08),
+    0px 7px 9px 0px rgb(0 0 0 / 0.03);
+
+  /* Border radiuses */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-DEFAULT: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --spacing-112: 28rem;
+  --spacing-144: 36rem;
+  --spacing-192: 48rem;
+  --spacing-256: 64rem;
+  --spacing-320: 80rem;
+}
+
+/* Container */
+@utility container {
+  padding-left: 16px;
+  padding-right: 16px;
+
+  @media (width >= theme(--breakpoint-sm)) {
+    padding-left: calc((100vw + 16px - 640px) / 2);
+    padding-right: calc((100vw + 16px - 640px) / 2);
+  }
+
+  @media (width >= theme(--breakpoint-md)) {
+    padding-left: calc((100vw + 16px - 768px) / 2);
+    padding-right: calc((100vw + 16px - 768px) / 2);
+  }
+
+  @media (width >= theme(--breakpoint-lg)) {
+    padding-left: calc((100vw + 16px - 1024px) / 2);
+    padding-right: calc((100vw + 16px - 1024px) / 2);
+  }
+
+  @media (width >= theme(--breakpoint-xl)) {
+    padding-left: calc((100vw + 16px - 1280px) / 2);
+    padding-right: calc((100vw + 16px - 1280px) / 2);
+  }
+
+  @media (width >= theme(--breakpoint-2xl)) {
+    padding-left: calc((100vw + 16px - 1536px) / 2);
+    padding-right: calc((100vw + 16px - 1536px) / 2);
+  }
+}
+
+@custom-variant mobile (@media (max-width: 767px));
