@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { ResultCard } from "../../src/components/ResultCard";
 import type { Modem } from "../../src/types";
 
@@ -60,5 +61,12 @@ describe("ResultCard", () => {
     render(<ResultCard modem={makeModem()} techType="fttp" />);
     expect(screen.getByText("TP-Link")).toBeInTheDocument();
     expect(screen.getByText("Archer VR1600v")).toBeInTheDocument();
+  });
+
+  it("calls onDone when close button clicked", async () => {
+    const onDone = vi.fn();
+    render(<ResultCard modem={makeModem()} techType="fttp" onDone={onDone} />);
+    await userEvent.click(screen.getByRole("button", { name: /close/i }));
+    expect(onDone).toHaveBeenCalledOnce();
   });
 });
