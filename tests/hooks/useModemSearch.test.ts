@@ -7,26 +7,12 @@ vi.mock("../../src/lib/search", () => ({
 
 import { useModemSearch } from "../../src/hooks/useModemSearch";
 import { searchModems } from "../../src/lib/search";
-import type { Modem } from "../../src/types";
+import { makeModem } from "../fixtures/modem";
 
 const mockSearch = vi.mocked(searchModems);
 
-const modemA: Modem = {
-  id: "a", brand: "TP-Link", model: "Archer VR1600v",
-  alternative_names: null, device_type: "modem_router",
-  isp_provided_by: null, is_isp_locked: false,
-  compatibility: {
-    fttp: { status: "yes", conditions: [] },
-    fttc: { status: "yes", conditions: [] },
-    fttn: { status: "yes", conditions: [] },
-    hfc: { status: "yes", conditions: [] },
-  },
-  wan: { has_vdsl2_modem: true, wan_port_speed_mbps: 1000 },
-  wifi: { wifi_standard: "Wi-Fi 5", wifi_generation: 5, bands: [], max_speed_mbps: { theoretical_combined: 0, per_band: {} } },
-  general: { release_year: null, still_sold: false, end_of_life: false, manufacturer_url: null },
-};
-
-const modemB: Modem = { ...modemA, id: "b", model: "Archer C7" };
+const modemA = makeModem({ id: "a" });
+const modemB = makeModem({ id: "b", model: "Archer C7" });
 
 describe("useModemSearch", () => {
   beforeEach(() => {
@@ -95,7 +81,7 @@ describe("useModemSearch", () => {
     }
   });
 
-  it("logs error to console.error on search failure", async () => {
+  it("transitions to error state on search failure", async () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const searchError = new Error("Network error");
     mockSearch.mockRejectedValue(searchError);
@@ -110,7 +96,7 @@ describe("useModemSearch", () => {
       "[ModemChecker] Search failed:",
       searchError
     );
-    expect(result.current.state).toEqual({ step: "no_match", query: "test" });
+    expect(result.current.state).toEqual({ step: "error", query: "test" });
     consoleSpy.mockRestore();
   });
 
@@ -203,5 +189,116 @@ describe("useModemSearch", () => {
 
     expect(result.current.state.step).toBe("idle");
     expect(result.current.direction).toBe("backward");
+  });
+
+  it("ignores stale response when a newer search has completed", async () => {
+    let resolveFirst!: (value: Modem[]) => void;
+    const firstPromise = new Promise<Modem[]>((resolve) => {
+      resolveFirst = resolve;
+    });
+
+    mockSearch
+      .mockImplementationOnce(() => firstPromise)
+      .mockResolvedValueOnce([modemA]);
+
+    const { result } = renderHook(() => useModemSearch());
+
+    // Start first search (will hang on firstPromise)
+    await act(async () => {
+      result.current.search("old query");
+    });
+    expect(result.current.state.step).toBe("searching");
+
+    // Start second search — this aborts the first controller, then resolves
+    await act(async () => {
+      await result.current.search("new query");
+    });
+    expect(result.current.state.step).toBe("single_match");
+
+    // Now resolve the first (stale) search — should be ignored
+    await act(async () => {
+      resolveFirst([modemB]);
+    });
+
+    // State should still be single_match from the second search, not overwritten
+    expect(result.current.state.step).toBe("single_match");
+    if (result.current.state.step === "single_match") {
+      expect(result.current.state.modem.id).toBe("a"); // modemA from second search
+    }
+  });
+
+  it("retry re-runs search with the same query", async () => {
+    mockSearch
+      .mockRejectedValueOnce(new Error("fail"))
+      .mockResolvedValueOnce([modemA]);
+
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      await result.current.search("tp-link");
+    });
+
+    expect(result.current.state.step).toBe("error");
+
+    await act(async () => {
+      await result.current.retry();
+    });
+
+    expect(result.current.state.step).toBe("single_match");
+    consoleSpy.mockRestore();
+  });
+
+  it("retry is a no-op when not in error state", async () => {
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      result.current.retry();
+    });
+
+    expect(result.current.state.step).toBe("idle");
+  });
+
+  it("reset aborts in-flight request and ignores late resolution", async () => {
+    let resolveSearch!: (value: Modem[]) => void;
+    const searchPromise = new Promise<Modem[]>((resolve) => {
+      resolveSearch = resolve;
+    });
+    mockSearch.mockImplementation(() => searchPromise);
+
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      result.current.search("test");
+    });
+
+    expect(result.current.state.step).toBe("searching");
+
+    act(() => {
+      result.current.reset();
+    });
+
+    expect(result.current.state.step).toBe("idle");
+
+    // Late resolution after reset — should be ignored (controller was aborted)
+    await act(async () => {
+      resolveSearch([modemA]);
+    });
+
+    expect(result.current.state.step).toBe("idle");
+  });
+
+  it("direction is forward when transitioning to error", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    mockSearch.mockRejectedValue(new Error("fail"));
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      await result.current.search("test");
+    });
+
+    expect(result.current.state.step).toBe("error");
+    expect(result.current.direction).toBe("forward");
+    consoleSpy.mockRestore();
   });
 });
