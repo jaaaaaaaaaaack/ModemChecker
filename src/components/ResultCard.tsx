@@ -2,29 +2,52 @@ import { Button } from "@/ui/components/Button";
 import { LinkButton } from "@/ui/components/LinkButton";
 import { StatusIte } from "@/ui/components/StatusIte";
 import { FeatherWifi } from "@subframe/core";
-import { STATUS_CONFIG } from "../constants";
+import { STATUS_CONFIG, DEFAULT_PLAN_SPEED_MBPS, SPEED_WARNING_COPY } from "../constants";
+import { assessCompatibility } from "../lib/compatibility";
 import { getModemImageUrl } from "../lib/supabase";
 import { ModemImage } from "./ModemImage";
 import { ConditionList } from "./ConditionList";
-import type { Modem, TechType, CompatibilityStatus } from "../types";
+import type { Modem, TechType } from "../types";
 
 interface ResultCardProps {
   modem: Modem;
   techType: TechType;
+  planSpeedMbps?: number;
   onDone?: () => void;
   onReset?: () => void;
 }
 
-const STATUS_TO_STATUSITE: Record<CompatibilityStatus, "compatible" | "incompatible" | "warning" | "option-1"> = {
-  yes: "compatible",
-  yes_but: "warning",
-  no: "incompatible",
-};
+export function ResultCard({
+  modem,
+  techType,
+  planSpeedMbps = DEFAULT_PLAN_SPEED_MBPS,
+  onDone,
+  onReset,
+}: ResultCardProps) {
+  const assessment = assessCompatibility(modem, techType, planSpeedMbps);
 
-export function ResultCard({ modem, techType, onDone, onReset }: ResultCardProps) {
-  const compat = modem.compatibility[techType];
-  const config = STATUS_CONFIG[compat.status];
-  const statusIteStatus = STATUS_TO_STATUSITE[compat.status];
+  // Map assessment to headline StatusIte props
+  let headlineTitle: string;
+  let headlineStatus: "compatible" | "incompatible" | "warning" | "option-1";
+
+  switch (assessment.cardStatus) {
+    case "compatible":
+      headlineTitle = STATUS_CONFIG.yes.heading;
+      headlineStatus = "compatible";
+      break;
+    case "speed-warning":
+      headlineTitle = SPEED_WARNING_COPY[assessment.speedWarning!.type].title;
+      headlineStatus = "warning";
+      break;
+    case "callout":
+      headlineTitle = STATUS_CONFIG.yes_but.heading;
+      headlineStatus = "compatible";
+      break;
+    case "not-compatible":
+      headlineTitle = STATUS_CONFIG.no.heading;
+      headlineStatus = "incompatible";
+      break;
+  }
 
   return (
     <div className="flex w-full flex-col items-start gap-5">
@@ -53,12 +76,12 @@ export function ResultCard({ modem, techType, onDone, onReset }: ResultCardProps
         <div className="flex w-full flex-col items-start gap-2">
           <StatusIte
             icon={null}
-            title={config.heading}
+            title={headlineTitle}
             description=""
-            status={statusIteStatus}
+            status={headlineStatus}
           />
-          {compat.status === "yes_but" && (
-            <ConditionList conditions={compat.conditions} />
+          {assessment.setupConditions.length > 0 && (
+            <ConditionList conditions={assessment.setupConditions} />
           )}
         </div>
       </div>

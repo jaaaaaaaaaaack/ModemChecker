@@ -69,4 +69,44 @@ describe("ResultCard", () => {
     await userEvent.click(screen.getByRole("button", { name: /close/i }));
     expect(onDone).toHaveBeenCalledOnce();
   });
+
+  it("shows speed warning headline for WAN bottleneck", () => {
+    const modem = makeModem({
+      wan: { has_vdsl2_modem: true, wan_port_speed_mbps: 100 },
+    });
+    render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
+    expect(
+      screen.getByText(/not fast enough to support your plan/i)
+    ).toBeInTheDocument();
+  });
+
+  it("shows speed warning headline for Wi-Fi bottleneck", () => {
+    const modem = makeModem({
+      wan: { has_vdsl2_modem: true, wan_port_speed_mbps: 1000 },
+      wifi: {
+        wifi_standard: "Wi-Fi 5",
+        wifi_generation: 5,
+        bands: ["5GHz"],
+        max_speed_mbps: { theoretical_combined: 867, per_band: { "5GHz": 867 } },
+      },
+    });
+    render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
+    expect(
+      screen.getByText(/may not be capable of supporting.*over Wi-Fi/i)
+    ).toBeInTheDocument();
+  });
+
+  it("shows callout headline for setup conditions without speed issues", () => {
+    const modem = makeModem({
+      compatibility: {
+        fttp: { status: "yes_but", conditions: ["SWITCH_TO_IPOE"] },
+        fttc: { status: "yes", conditions: [] },
+        fttn: { status: "yes", conditions: [] },
+        hfc: { status: "yes", conditions: [] },
+      },
+    });
+    render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
+    expect(screen.getByText("Compatible with some requirements")).toBeInTheDocument();
+    expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
+  });
 });
