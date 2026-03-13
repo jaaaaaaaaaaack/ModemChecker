@@ -276,7 +276,7 @@ const CompatibilityCardRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/15c47a51 flex w-full flex-col items-start gap-6 rounded-md bg-gradient-brand px-4 py-4",
+        "group/15c47a51 flex w-full flex-col items-start gap-6 rounded-md border border-solid border-brand-300 bg-gradient-brand px-4 py-4",
         { "flex-col flex-nowrap gap-6": status === "speed-warning" },
         className
       )}
