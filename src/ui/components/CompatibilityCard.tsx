@@ -9,6 +9,7 @@
  */
 
 import React from "react";
+import { motion } from "framer-motion";
 import { FeatherRotateCcw } from "@subframe/core";
 import { FeatherRouter } from "@subframe/core";
 import * as SubframeUtils from "../utils";
@@ -19,6 +20,44 @@ import { ModemImage } from "../../components/ModemImage";
 import { ConditionList } from "../../components/ConditionList";
 import { SPEED_WARNING_COPY, INDIVIDUAL_CONDITION_CODES } from "../../constants";
 import type { ConditionCode, SpeedWarning } from "../../types";
+
+// --- Stagger entry animation variants ---
+const EASE_SETTLE = [0.25, 0.1, 0.25, 1] as const;
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const modemRowVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.18, ease: EASE_SETTLE },
+  },
+};
+
+const statusSectionVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const statusItemVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.28, ease: EASE_SETTLE },
+  },
+};
 
 interface CompatibilityCalloutProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -72,7 +111,7 @@ const CompatibilityCallout = React.forwardRef<
           }
         )}
       >
-        <div
+        <motion.div
           className={SubframeUtils.twClassNames(
             "flex grow shrink-0 basis-0 flex-col items-start gap-2 pr-4",
             {
@@ -83,8 +122,11 @@ const CompatibilityCallout = React.forwardRef<
                 status === "not-compatible",
             }
           )}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <div
+          <motion.div
             className={SubframeUtils.twClassNames(
               "flex grow shrink-0 basis-0 items-center gap-3",
               {
@@ -92,6 +134,7 @@ const CompatibilityCallout = React.forwardRef<
                   status === "not-compatible",
               }
             )}
+            variants={modemRowVariants}
           >
             {image ? (
               <ModemImage
@@ -130,78 +173,70 @@ const CompatibilityCallout = React.forwardRef<
                 </span>
               ) : null}
             </div>
-          </div>
-          <div
+          </motion.div>
+          <motion.div
             className={SubframeUtils.twClassNames(
               "flex flex-col items-start gap-2",
               { "flex-col flex-nowrap gap-0": status === "not-compatible" }
             )}
+            variants={statusSectionVariants}
           >
-            <StatusIte
-              title={
-                status === "not-compatible"
-                  ? "Modem is not compatible"
-                  : "Compatible with Belong nbn\u00AE"
-              }
-              description={
-                status === "not-compatible"
-                  ? "Add a Belong modem to your order, or purchase a different compatible modem before your connection date."
-                  : undefined
-              }
-              status={status === "not-compatible" ? "incompatible" : undefined}
-              hasDescription={status === "not-compatible" ? true : undefined}
-            />
-            <div
-              className={SubframeUtils.twClassNames(
-                "hidden flex-col items-start pl-7",
-                { flex: status === "not-compatible" }
-              )}
-            >
-              <LinkButton
-                className={SubframeUtils.twClassNames("hidden", {
-                  flex: status === "not-compatible",
-                })}
-                variant={status === "not-compatible" ? "neutral" : undefined}
+            <motion.div variants={statusItemVariants}>
+              <StatusIte
+                title={
+                  status === "not-compatible"
+                    ? "Modem is not compatible"
+                    : "Compatible with Belong nbn\u00AE"
+                }
+                description={
+                  status === "not-compatible"
+                    ? "Add a Belong modem to your order, or purchase a different compatible modem before your connection date."
+                    : undefined
+                }
+                status={status === "not-compatible" ? "incompatible" : undefined}
+                hasDescription={status === "not-compatible" ? true : undefined}
+              />
+            </motion.div>
+            {status === "not-compatible" && (
+              <motion.div
+                className="flex flex-col items-start pl-7"
+                variants={statusItemVariants}
               >
-                {status === "not-compatible"
-                  ? "Learn more in our FAQs."
-                  : "Label"}
-              </LinkButton>
-            </div>
-            <StatusIte
-              className={SubframeUtils.twClassNames({
-                hidden: status === "not-compatible",
-              })}
-              title={
-                speedWarningType
-                  ? SPEED_WARNING_COPY[speedWarningType].title
-                  : "Fast enough for your selected plan"
-              }
-              status={speedWarningType ? "warning" : undefined}
-              hasDescription={speedWarningType ? false : undefined}
-            />
-            <StatusIte
-              className={SubframeUtils.twClassNames("hidden", {
-                flex: status === "callout",
-              })}
-              title={
-                status === "callout"
-                  ? "Some setup may be required"
-                  : "Fast enough for your selected plan"
-              }
-              description={
-                status === "callout"
-                  ? "You might need to update a few modem settings. We\u2019ll send you a simple guide after your order is submitted."
-                  : undefined
-              }
-              status={status === "callout" ? "callout" : undefined}
-              hasDescription={status === "callout" ? true : undefined}
-            />
-            {individualConditions.length > 0 && (
-              <ConditionList conditions={individualConditions} variant="callout" />
+                <LinkButton variant="neutral">
+                  Learn more in our FAQs.
+                </LinkButton>
+              </motion.div>
             )}
-          </div>
-        </div>
+            {status !== "not-compatible" && (
+              <motion.div variants={statusItemVariants}>
+                <StatusIte
+                  title={
+                    speedWarningType
+                      ? SPEED_WARNING_COPY[speedWarningType].title
+                      : "Fast enough for your selected plan"
+                  }
+                  status={speedWarningType ? "warning" : undefined}
+                  hasDescription={speedWarningType ? false : undefined}
+                />
+              </motion.div>
+            )}
+            {status === "callout" && (
+              <motion.div variants={statusItemVariants}>
+                <StatusIte
+                  title="Some setup may be required"
+                  description={"You might need to update a few modem settings. We\u2019ll send you a simple guide after your order is submitted."}
+                  status="callout"
+                  hasDescription={true}
+                />
+              </motion.div>
+            )}
+            {individualConditions.length > 0 && (
+              <motion.div variants={statusItemVariants}>
+                <ConditionList conditions={individualConditions} variant="callout" />
+              </motion.div>
+            )}
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );
