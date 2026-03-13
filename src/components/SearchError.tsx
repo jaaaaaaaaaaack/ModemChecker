@@ -6,7 +6,7 @@ interface SearchErrorProps {
   onReset: () => void;
 }
 
-export function SearchError({ query, onRetry, onReset }: SearchErrorProps) {
+export function SearchError({ query: _query, onRetry, onReset }: SearchErrorProps) {
   return (
     <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0">
       <div className="flex w-full flex-col items-start gap-4">

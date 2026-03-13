@@ -4,7 +4,7 @@ import type { Modem } from "../types";
 const SEARCH_COLUMNS = "id, brand, model, alternative_names, device_type, isp_provided_by, is_isp_locked, compatibility, wan, wifi, general";
 
 function sortByBrandModel(modems: Modem[]): Modem[] {
-  return modems.toSorted((a, b) =>
+  return [...modems].sort((a, b) =>
     a.brand.localeCompare(b.brand) || a.model.localeCompare(b.model)
   );
 }
