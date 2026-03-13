@@ -69,6 +69,14 @@ export const SPEED_CONDITION_CODES: ReadonlySet<ConditionCode> = new Set([
   "NEEDS_2_5G_WAN",
 ]);
 
+/**
+ * Condition codes that warrant their own individual display on the card.
+ * All other conditions are absorbed into the generic "Some setup may be required" callout.
+ */
+export const INDIVIDUAL_CONDITION_CODES: ReadonlySet<ConditionCode> = new Set([
+  "ISP_LOCK",
+]);
+
 export const SPEED_WARNING_COPY: Record<SpeedWarning["type"], { title: string }> = {
   "wan-bottleneck": {
     title: "This modem is not fast enough to support your plan's maximum speeds.",

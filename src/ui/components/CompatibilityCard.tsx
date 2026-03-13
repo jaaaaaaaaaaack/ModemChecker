@@ -17,7 +17,7 @@ import { LinkButton } from "./LinkButton";
 import { StatusIte } from "./StatusIte";
 import { ModemImage } from "../../components/ModemImage";
 import { ConditionList } from "../../components/ConditionList";
-import { SPEED_WARNING_COPY } from "../../constants";
+import { SPEED_WARNING_COPY, INDIVIDUAL_CONDITION_CODES } from "../../constants";
 import type { ConditionCode, SpeedWarning } from "../../types";
 
 interface CompatibilityCalloutProps
@@ -47,6 +47,10 @@ const CompatibilityCallout = React.forwardRef<
   }: CompatibilityCalloutProps,
   ref
 ) {
+  // Only ISP_LOCK (and other INDIVIDUAL_CONDITION_CODES) get their own line item.
+  // All other conditions are absorbed into the generic "Some setup may be required" callout.
+  const individualConditions = conditions.filter((c) => INDIVIDUAL_CONDITION_CODES.has(c));
+
   return (
     <div
       className={SubframeUtils.twClassNames(
@@ -193,8 +197,8 @@ const CompatibilityCallout = React.forwardRef<
               status={status === "callout" ? "callout" : undefined}
               hasDescription={status === "callout" ? true : undefined}
             />
-            {conditions.length > 0 && (
-              <ConditionList conditions={conditions} variant="callout" />
+            {individualConditions.length > 0 && (
+              <ConditionList conditions={individualConditions} variant="callout" />
             )}
           </div>
         </div>
@@ -212,6 +216,7 @@ interface CompatibilityCardRootProps
   image?: string;
   conditions?: ConditionCode[];
   speedWarningType?: SpeedWarning["type"] | null;
+  onButtonClick?: () => void;
   className?: string;
 }
 
@@ -227,6 +232,7 @@ const CompatibilityCardRoot = React.forwardRef<
     image,
     conditions = [],
     speedWarningType = null,
+    onButtonClick,
     className,
     ...otherProps
   }: CompatibilityCardRootProps,
@@ -283,6 +289,7 @@ const CompatibilityCardRoot = React.forwardRef<
         variant="brand-secondary"
         icon={state === "default" ? <FeatherRouter /> : <FeatherRotateCcw />}
         hasLeftIcon={true}
+        onClick={onButtonClick}
       >
         {state === "default" ? "Check your modem" : "Check another modem"}
       </Button>

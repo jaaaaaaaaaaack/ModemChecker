@@ -56,6 +56,7 @@ export function BaseScreen({
         modemName={verifiedModem.model}
         brand={verifiedModem.brand}
         image={getModemImageUrl(verifiedModem.id)}
+        onButtonClick={onCheckModem}
       />
     );
   };

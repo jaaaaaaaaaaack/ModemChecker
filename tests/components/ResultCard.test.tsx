@@ -43,7 +43,7 @@ describe("ResultCard", () => {
     expect(screen.getByText(/modem is not compatible/i)).toBeInTheDocument();
   });
 
-  it("shows conditions for yes_but status", () => {
+  it("absorbs setup conditions into generic callout for yes_but status", () => {
     const modem = makeModem({
       compatibility: {
         fttp: { status: "yes_but", conditions: ["SWITCH_TO_IPOE"] },
@@ -54,7 +54,8 @@ describe("ResultCard", () => {
     });
     render(<ResultCard modem={modem} techType="fttp" />);
     expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
-    expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
+    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
 
   it("displays modem brand and model separately", () => {
@@ -96,7 +97,7 @@ describe("ResultCard", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows callout summary and conditions for setup conditions without speed issues", () => {
+  it("shows generic callout for setup conditions without individual items", () => {
     const modem = makeModem({
       compatibility: {
         fttp: { status: "yes_but", conditions: ["SWITCH_TO_IPOE"] },
@@ -108,6 +109,21 @@ describe("ResultCard", () => {
     render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
     expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
     expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
-    expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
+    expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
+  });
+
+  it("shows ISP_LOCK individually alongside generic callout", () => {
+    const modem = makeModem({
+      compatibility: {
+        fttp: { status: "yes_but", conditions: ["SWITCH_TO_IPOE", "ISP_LOCK"] },
+        fttc: { status: "yes", conditions: [] },
+        fttn: { status: "yes", conditions: [] },
+        hfc: { status: "yes", conditions: [] },
+      },
+    });
+    render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
+    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("May be ISP-locked")).toBeInTheDocument();
+    expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
 });

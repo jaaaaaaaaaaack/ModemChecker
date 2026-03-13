@@ -44,16 +44,17 @@ describe("CompatibilityCard", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders individual callout items for each setup condition", () => {
+  it("absorbs setup conditions into generic callout without individual items", () => {
     render(
       <CompatibilityCard
         modemName="Needs Setup Router"
-        status="compatible"
+        status="callout"
         conditions={["SWITCH_TO_IPOE", "DISABLE_VLAN"]}
       />
     );
-    expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
-    expect(screen.getByText("Disable VLAN tagging")).toBeInTheDocument();
+    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
+    expect(screen.queryByText("Disable VLAN tagging")).not.toBeInTheDocument();
   });
 
   it("renders no callout rows when conditions is empty", () => {
@@ -67,7 +68,7 @@ describe("CompatibilityCard", () => {
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
 
-  it("renders callout status with setup summary", () => {
+  it("renders callout status with setup summary but no individual setup items", () => {
     render(
       <CompatibilityCard
         modemName="Setup Router"
@@ -76,6 +77,19 @@ describe("CompatibilityCard", () => {
       />
     );
     expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
-    expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
+    expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
+  });
+
+  it("renders ISP_LOCK as individual item alongside generic callout", () => {
+    render(
+      <CompatibilityCard
+        modemName="Locked Router"
+        status="callout"
+        conditions={["SWITCH_TO_IPOE", "ISP_LOCK"]}
+      />
+    );
+    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("May be ISP-locked")).toBeInTheDocument();
+    expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
 });
