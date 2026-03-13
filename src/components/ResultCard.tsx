@@ -15,10 +15,10 @@ interface ResultCardProps {
   onReset?: () => void;
 }
 
-const STATUS_TO_STATUSITE: Record<CompatibilityStatus, "success" | "warning" | "info"> = {
-  yes: "success",
+const STATUS_TO_STATUSITE: Record<CompatibilityStatus, "compatible" | "incompatible" | "warning" | "option-1"> = {
+  yes: "compatible",
   yes_but: "warning",
-  no: "warning",
+  no: "incompatible",
 };
 
 export function ResultCard({ modem, techType, onDone, onReset }: ResultCardProps) {

@@ -1,24 +1,23 @@
+// @subframe/sync-disable
 "use client";
 /*
  * Documentation:
  * Button — https://app.subframe.com/c141bce6134a/library?component=Button_3b777358-b86b-40af-9327-891efc6826fe
  * CompatibilityCard — https://app.subframe.com/c141bce6134a/library?component=CompatibilityCard_15c47a51-5291-4264-8249-1fd9e97a7afd
- * Icon with background — https://app.subframe.com/c141bce6134a/library?component=Icon+with+background_c5d68c0e-4c0c-4cff-8d8c-6ff334859b3a
  * Link Button — https://app.subframe.com/c141bce6134a/library?component=Link+Button_a4ee726a-774c-4091-8c49-55b659356024
+ * StatusIte — https://app.subframe.com/c141bce6134a/library?component=StatusIte_a6a68d53-7d15-411a-82fa-683addf6bc1c
  */
 
 import React from "react";
-import { FeatherGaugeCircle } from "@subframe/core";
-import { FeatherX } from "@subframe/core";
 import * as SubframeUtils from "../utils";
 import { Button } from "./Button";
-import { IconWithBackground } from "./IconWithBackground";
 import { LinkButton } from "./LinkButton";
+import { StatusIte } from "./StatusIte";
 import { ModemImage } from "../../components/ModemImage";
 
 interface CompatibilityCalloutProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  status?: "compatible" | "not-compatible" | "speed-warning";
+  status?: "compatible" | "not-compatible" | "speed-warning" | "callout";
   modemName?: React.ReactNode;
   image?: string;
   className?: string;
@@ -41,6 +40,7 @@ const CompatibilityCallout = React.forwardRef<
     <div
       className={SubframeUtils.twClassNames(
         "group/1d2e060b flex w-full flex-col items-start gap-2",
+        { "items-start justify-center": status === "not-compatible" },
         className
       )}
       ref={ref}
@@ -50,8 +50,9 @@ const CompatibilityCallout = React.forwardRef<
         className={SubframeUtils.twClassNames(
           "flex w-full items-center justify-between rounded-md border border-solid border-white bg-default-background pl-4 pr-3 py-2 shadow-sm",
           {
-            "flex-row flex-nowrap justify-between": status === "speed-warning",
-            "flex-row flex-nowrap justify-between border border-solid border-error-300":
+            "flex-row flex-nowrap items-start justify-between":
+              status === "speed-warning",
+            "flex-row flex-nowrap items-start justify-between border border-solid border-error-300 bg-error-50 px-4 py-4":
               status === "not-compatible",
           }
         )}
@@ -59,7 +60,12 @@ const CompatibilityCallout = React.forwardRef<
         <div
           className={SubframeUtils.twClassNames(
             "flex flex-col items-start gap-1.5",
-            { "items-start justify-center": status === "speed-warning" }
+            {
+              "items-start justify-center pl-0 pr-4 py-0":
+                status === "speed-warning",
+              "flex-col flex-nowrap gap-2 pl-0 pr-4 py-0":
+                status === "not-compatible",
+            }
           )}
         >
           {modemName ? (
@@ -72,47 +78,67 @@ const CompatibilityCallout = React.forwardRef<
               {modemName}
             </span>
           ) : null}
-          <div className="flex items-center gap-1">
-            <IconWithBackground
-              variant={
-                status === "speed-warning"
-                  ? "warning"
-                  : status === "not-compatible"
-                  ? "error"
-                  : "success"
+          <div
+            className={SubframeUtils.twClassNames("flex flex-col items-start", {
+              "flex-col flex-nowrap gap-0": status === "not-compatible",
+            })}
+          >
+            <StatusIte
+              title={
+                status === "not-compatible"
+                  ? "Not compatible with Belong nbn\u00AE"
+                  : "Compatible with Belong nbn\u00AE"
               }
-              size="small"
-              icon={
-                status === "speed-warning" ? (
-                  <FeatherGaugeCircle />
-                ) : status === "not-compatible" ? (
-                  <FeatherX />
-                ) : undefined
+              description={
+                status === "not-compatible"
+                  ? "You'll need to add a Belong modem or purchase a compatible modem before your connection date."
+                  : "Supports download speeds up to 380Mbps, which isn't fast enough to support your selected plan's 500Mbps max download speed."
               }
-              square={status === "not-compatible" ? false : undefined}
+              status={status === "not-compatible" ? "incompatible" : undefined}
+              hasDescription={status === "not-compatible" ? true : undefined}
             />
-            <span
-              className={SubframeUtils.twClassNames(
-                "text-caption font-caption text-brand-800",
-                {
-                  "text-neutral-600": status === "speed-warning",
-                  "text-neutral-800": status === "not-compatible",
-                }
-              )}
-            >
-              {status === "speed-warning"
-                ? "May not support the full download speeds of your plan."
-                : status === "not-compatible"
-                ? "Not compatible with Belong"
-                : "Compatible with Belong nbn®"}
-            </span>
+            <StatusIte
+              className={SubframeUtils.twClassNames({
+                hidden: status === "not-compatible",
+              })}
+              title={
+                status === "speed-warning"
+                  ? "May not support the full download speeds of your selected plan"
+                  : "Fast enough for your selected plan"
+              }
+              description="Supports download speeds up to 380Mbps, which isn't fast enough to support your selected plan's 500Mbps max download speed."
+              status={status === "speed-warning" ? "warning" : undefined}
+            />
+            <StatusIte
+              className={SubframeUtils.twClassNames("hidden", {
+                flex: status === "callout",
+              })}
+              title={
+                status === "callout"
+                  ? "Some setup required"
+                  : "Fast enough for your selected plan"
+              }
+              description={
+                status === "callout"
+                  ? "A few changes to your modem's settings will be needed to connect to Belong. It's very simple, and we'll send you the instructions after checkout."
+                  : "Supports download speeds up to 380Mbps, which isn't fast enough to support your selected plan's 500Mbps max download speed."
+              }
+              status={status === "callout" ? "option-1" : undefined}
+              hasDescription={status === "callout" ? true : undefined}
+            />
           </div>
         </div>
         {image ? (
           <ModemImage
             src={image}
             alt={String(modemName ?? "Modem")}
-            className="w-16 h-16 rounded-md"
+            className={SubframeUtils.twClassNames(
+              "max-h-[80px] flex-none self-stretch object-cover",
+              {
+                "h-20 w-auto flex-none":
+                  status === "speed-warning" || status === "not-compatible",
+              }
+            )}
           />
         ) : null}
       </div>

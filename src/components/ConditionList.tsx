@@ -1,5 +1,4 @@
 import { StatusIte } from "@/ui/components/StatusIte";
-import { FeatherAlertTriangle } from "@subframe/core";
 import { CONDITION_LABELS } from "../constants";
 import type { ConditionCode } from "../types";
 
@@ -17,10 +16,10 @@ export function ConditionList({ conditions }: ConditionListProps) {
         return (
           <StatusIte
             key={code}
-            icon={<FeatherAlertTriangle />}
             title={info.label}
             description={info.description}
             status="warning"
+            hasDescription={true}
           />
         );
       })}
