@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "../ui/components/Button";
 import { CompatibilityCard } from "../ui/components/CompatibilityCard";
 import { RadioCardGroup } from "../ui/components/RadioCardGroup";
@@ -86,18 +87,27 @@ export function BaseScreen({
           />
         </RadioCardGroup>
 
-        {selection === "byo" && (
-          <div className="flex w-full flex-col items-start gap-4">
-            <span className="text-h3-700 font-h3-700 text-color-primary-700">
-              BYO Modem compatibility
-            </span>
-            <span className="text-body font-body text-default-font">
-              Your choice of modem, and how you set it up, could cause
-              connectivity issues or limit the speed of your internet.
-            </span>
-            {renderModemCard()}
-          </div>
-        )}
+        <AnimatePresence>
+          {selection === "byo" && (
+            <motion.div
+              key="byo-section"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="flex w-full flex-col items-start gap-4"
+            >
+              <span className="text-h3-700 font-h3-700 text-color-primary-700">
+                BYO Modem compatibility
+              </span>
+              <span className="text-body font-body text-default-font">
+                Your choice of modem, and how you set it up, could cause
+                connectivity issues or limit the speed of your internet.
+              </span>
+              {renderModemCard()}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

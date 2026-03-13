@@ -1,3 +1,4 @@
+// @subframe/sync-disable
 "use client";
 /*
  * Documentation:
@@ -66,7 +67,7 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
     return (
       <button
         className={SubframeUtils.twClassNames(
-          "group/3b777358 flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border border-solid border-brand-800 bg-brand-800 px-6 text-left transition-[background-color,border-color] duration-150 hover:border hover:border-solid hover:border-brand-950 hover:bg-brand-950 disabled:cursor-default disabled:border disabled:border-solid disabled:border-neutral-200 disabled:bg-neutral-200 hover:disabled:cursor-default hover:disabled:border hover:disabled:border-solid hover:disabled:border-neutral-100 hover:disabled:bg-neutral-100",
+          "group/3b777358 flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border border-solid border-brand-800 bg-brand-800 px-6 text-left transition-[background-color,border-color,transform] duration-150 active:scale-[0.98] hover:border hover:border-solid hover:border-brand-950 hover:bg-brand-950 disabled:cursor-default disabled:border disabled:border-solid disabled:border-neutral-200 disabled:bg-neutral-200 disabled:active:scale-100 hover:disabled:cursor-default hover:disabled:border hover:disabled:border-solid hover:disabled:border-neutral-100 hover:disabled:bg-neutral-100",
           {
             "pl-7 pr-6 py-0": hasRightIcon,
             "pl-5 pr-7 py-0": hasLeftIcon,

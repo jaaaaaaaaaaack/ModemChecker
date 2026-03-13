@@ -16,18 +16,21 @@ const contentVariants = {
   enter: (direction: TransitionDirection) => ({
     opacity: 0,
     x: direction === "forward" ? 6 : -6,
+    scale: 1,
   }),
   center: {
     opacity: 1,
     x: 0,
+    scale: 1,
+    transition: { duration: 0.15, ease: "easeOut" as const },
   },
   exit: (direction: TransitionDirection) => ({
     opacity: 0,
     x: direction === "forward" ? -6 : 6,
+    scale: 0.98,
+    transition: { duration: 0.25, ease: "easeIn" as const },
   }),
 };
-
-const contentTransition = { duration: 0.15, ease: "easeOut" as const };
 
 interface ModemCheckerProps {
   techType: TechType;
@@ -76,7 +79,6 @@ export function ModemChecker({
             initial="enter"
             animate="center"
             exit="exit"
-            transition={contentTransition}
             className="flex-1 flex flex-col min-h-0 px-1 -mx-1"
           >
             {state.step === "idle" && <SearchInput onSearch={search} onClose={handleClose} />}
