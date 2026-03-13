@@ -14,12 +14,17 @@ import { Button } from "./Button";
 import { LinkButton } from "./LinkButton";
 import { StatusIte } from "./StatusIte";
 import { ModemImage } from "../../components/ModemImage";
+import { ConditionList } from "../../components/ConditionList";
+import { SPEED_WARNING_COPY } from "../../constants";
+import type { ConditionCode, SpeedWarning } from "../../types";
 
 interface CompatibilityCalloutProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  status?: "compatible" | "not-compatible" | "speed-warning" | "callout";
+  status?: "compatible" | "not-compatible" | "speed-warning";
   modemName?: React.ReactNode;
   image?: string;
+  conditions?: ConditionCode[];
+  speedWarningType?: SpeedWarning["type"] | null;
   className?: string;
 }
 
@@ -31,6 +36,8 @@ const CompatibilityCallout = React.forwardRef<
     status = "compatible",
     modemName,
     image,
+    conditions = [],
+    speedWarningType = null,
     className,
     ...otherProps
   }: CompatibilityCalloutProps,
@@ -102,30 +109,15 @@ const CompatibilityCallout = React.forwardRef<
                 hidden: status === "not-compatible",
               })}
               title={
-                status === "speed-warning"
-                  ? "May not support the full download speeds of your selected plan"
+                speedWarningType
+                  ? SPEED_WARNING_COPY[speedWarningType].title
                   : "Fast enough for your selected plan"
               }
-              description="Supports download speeds up to 380Mbps, which isn't fast enough to support your selected plan's 500Mbps max download speed."
-              status={status === "speed-warning" ? "warning" : undefined}
+              status={speedWarningType ? "warning" : undefined}
             />
-            <StatusIte
-              className={SubframeUtils.twClassNames("hidden", {
-                flex: status === "callout",
-              })}
-              title={
-                status === "callout"
-                  ? "Some setup required"
-                  : "Fast enough for your selected plan"
-              }
-              description={
-                status === "callout"
-                  ? "A few changes to your modem's settings will be needed to connect to Belong. It's very simple, and we'll send you the instructions after checkout."
-                  : "Supports download speeds up to 380Mbps, which isn't fast enough to support your selected plan's 500Mbps max download speed."
-              }
-              status={status === "callout" ? "option-1" : undefined}
-              hasDescription={status === "callout" ? true : undefined}
-            />
+            {conditions.length > 0 && (
+              <ConditionList conditions={conditions} variant="callout" />
+            )}
           </div>
         </div>
         {image ? (
@@ -152,6 +144,9 @@ interface CompatibilityCardRootProps
   modemName?: React.ReactNode;
   status?: "compatible" | "not-compatible" | "speed-warning";
   image?: string;
+  conditions?: ConditionCode[];
+  speedWarningType?: SpeedWarning["type"] | null;
+  onCheckAnother?: () => void;
   className?: string;
 }
 
@@ -164,6 +159,9 @@ const CompatibilityCardRoot = React.forwardRef<
     modemName,
     status = "compatible",
     image,
+    conditions = [],
+    speedWarningType = null,
+    onCheckAnother,
     className,
     ...otherProps
   }: CompatibilityCardRootProps,
@@ -192,12 +190,17 @@ const CompatibilityCardRoot = React.forwardRef<
         }
         modemName={modemName}
         image={image}
+        conditions={conditions}
+        speedWarningType={speedWarningType}
       />
       <LinkButton
-        className="hidden"
+        className={SubframeUtils.twClassNames("hidden", {
+          flex: !!onCheckAnother,
+        })}
         variant="brand"
         icon={null}
         iconRight={null}
+        onClick={onCheckAnother}
       >
         Check another modem
       </LinkButton>
@@ -207,10 +210,20 @@ const CompatibilityCardRoot = React.forwardRef<
           modem&#39;s details with the manufacturer or the ISP who provided it.
         </span>
       </div>
-      <span className="text-body font-body text-default-font">
+      <span
+        className={SubframeUtils.twClassNames(
+          "text-body font-body text-default-font",
+          { hidden: !!onCheckAnother }
+        )}
+      >
         Check if your modem is compatible with your internet plan.
       </span>
-      <Button variant="brand-secondary">Check your modem</Button>
+      <Button
+        className={SubframeUtils.twClassNames({ hidden: !!onCheckAnother })}
+        variant="brand-secondary"
+      >
+        Check your modem
+      </Button>
     </div>
   );
 });
