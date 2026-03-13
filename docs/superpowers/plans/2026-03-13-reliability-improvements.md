@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add proper error handling, request cancellation, and crash recovery to the ModemChecker widget.
+**Goal:** Add proper error handling, request cancellation, search timeout, and crash recovery to the ModemChecker widget.
 
-**Architecture:** New `error` step in the `SearchState` discriminated union, `AbortController` in `useModemSearch` for request lifecycle management, a `SearchError` component for the error UI, and an `ErrorBoundary` class component wrapping the widget in `App.tsx`.
+**Architecture:** New `error` step in the `SearchState` discriminated union, `AbortController` in `useModemSearch` for request lifecycle management with a 7-second timeout, a `SearchError` component for the error UI, and an `ErrorBoundary` class component wrapping the widget in `App.tsx`.
 
 **Tech Stack:** React 19, TypeScript, Vitest, @testing-library/react, Supabase JS (`.abortSignal()` API)
 
@@ -18,13 +18,13 @@
 |---|---|---|
 | `src/types.ts` | Modify | Add `error` step to `SearchState` union |
 | `src/lib/search.ts` | Modify | Accept `AbortSignal`, pass to Supabase, fast-fail between tiers |
-| `src/hooks/useModemSearch.ts` | Modify | AbortController lifecycle, error routing, retry action |
+| `src/hooks/useModemSearch.ts` | Modify | AbortController lifecycle, error routing, retry action, 7s timeout |
 | `src/components/SearchError.tsx` | Create | Error screen UI (heading, body, retry/reset buttons) |
 | `src/components/ErrorBoundary.tsx` | Create | React Error Boundary class component |
 | `src/components/ModemChecker.tsx` | Modify | Render `SearchError`, destructure `retry` from hook |
 | `src/App.tsx` | Modify | Wrap `ModemChecker` in `ErrorBoundary` |
 | `tests/lib/search.test.ts` | Modify | Tests for signal propagation |
-| `tests/hooks/useModemSearch.test.ts` | Modify | Update error test, add abort/retry/stale tests |
+| `tests/hooks/useModemSearch.test.ts` | Modify | Update error test, add abort/retry/stale/timeout tests |
 | `tests/components/SearchError.test.tsx` | Create | Error screen component tests |
 | `tests/components/ErrorBoundary.test.tsx` | Create | Error Boundary tests |
 | `tests/components/ModemChecker.test.tsx` | Modify | Error step rendering test |
@@ -151,6 +151,19 @@ describe("searchModems", () => {
     expect(rpcAbortSignal).toHaveBeenCalledWith(controller.signal);
   });
 
+  it("skips trigram RPC when signal is already aborted after FTS", async () => {
+    const controller = new AbortController();
+    mockLimit.mockResolvedValue({ data: [], error: null });
+
+    // Abort before the trigram call would happen
+    controller.abort();
+
+    await expect(searchModems("test", controller.signal)).rejects.toThrow(
+      "Aborted"
+    );
+    expect(mockRpc).not.toHaveBeenCalled();
+  });
+
   it("throws on FTS error", async () => {
     mockLimit.mockResolvedValue({ data: null, error: { message: "DB error" } });
 
@@ -237,6 +250,8 @@ git commit -m "feat: add AbortSignal support to searchModems"
 
 ### Task 3: Update useModemSearch with AbortController and error routing
 
+> **⚠️ Codebase drift note:** The hook may already have AbortController, error routing, and retry from earlier work. Step 4 below is a **full file replacement** that is still required — it adds the 7-second timeout and changes the catch block from `if (controller.signal.aborted) return` to `if (controller.signal.aborted && controller.signal.reason !== "timeout") return`. Do not skip this task.
+
 **Files:**
 - Modify: `src/hooks/useModemSearch.ts`
 - Modify: `tests/hooks/useModemSearch.test.ts`
@@ -266,7 +281,7 @@ it("transitions to error state on search failure", async () => {
 });
 ```
 
-- [ ] **Step 2: Write new tests for abort, retry, and stale response**
+- [ ] **Step 2: Write new tests for abort, retry, stale response, and timeout**
 
 Append to the same test file:
 
@@ -311,6 +326,7 @@ it("ignores stale response when a newer search has completed", async () => {
 });
 
 it("retry re-runs search with the same query", async () => {
+  const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
   mockSearch
     .mockRejectedValueOnce(new Error("fail"))
     .mockResolvedValueOnce([modemA]);
@@ -328,6 +344,7 @@ it("retry re-runs search with the same query", async () => {
   });
 
   expect(result.current.state.step).toBe("single_match");
+  consoleSpy.mockRestore();
 });
 
 it("retry is a no-op when not in error state", async () => {
@@ -370,6 +387,7 @@ it("reset aborts in-flight request and ignores late resolution", async () => {
 });
 
 it("direction is forward when transitioning to error", async () => {
+  const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
   mockSearch.mockRejectedValue(new Error("fail"));
   const { result } = renderHook(() => useModemSearch());
 
@@ -379,13 +397,70 @@ it("direction is forward when transitioning to error", async () => {
 
   expect(result.current.state.step).toBe("error");
   expect(result.current.direction).toBe("forward");
+  consoleSpy.mockRestore();
+});
+
+it("transitions to error after 7 second timeout", async () => {
+  vi.useFakeTimers();
+  const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+  // Mock a search that hangs until aborted
+  mockSearch.mockImplementation(
+    (_q: string, signal?: AbortSignal) =>
+      new Promise((_resolve, reject) => {
+        signal?.addEventListener("abort", () => reject(new Error("aborted")));
+      })
+  );
+
+  const { result } = renderHook(() => useModemSearch());
+
+  // Start search without awaiting (it won't resolve until abort)
+  act(() => {
+    result.current.search("slow query");
+  });
+
+  expect(result.current.state.step).toBe("searching");
+
+  // Fire the 7s timeout
+  await act(async () => {
+    vi.advanceTimersByTime(7000);
+  });
+
+  expect(result.current.state.step).toBe("error");
+  if (result.current.state.step === "error") {
+    expect(result.current.state.query).toBe("slow query");
+  }
+
+  consoleSpy.mockRestore();
+  vi.useRealTimers();
+});
+
+it("clears timeout when search resolves before 7 seconds", async () => {
+  vi.useFakeTimers();
+  mockSearch.mockResolvedValue([modemA]);
+
+  const { result } = renderHook(() => useModemSearch());
+
+  await act(async () => {
+    await result.current.search("fast query");
+  });
+
+  expect(result.current.state.step).toBe("single_match");
+
+  // Advancing time should NOT cause error since timeout was cleared
+  await act(async () => {
+    vi.advanceTimersByTime(7000);
+  });
+
+  expect(result.current.state.step).toBe("single_match");
+  vi.useRealTimers();
 });
 ```
 
 - [ ] **Step 3: Run tests to verify they fail**
 
 Run: `cd /Users/jack/Projects/ModemChecker/.worktrees/subframe-ui && npx vitest run tests/hooks/useModemSearch.test.ts`
-Expected: FAIL — current implementation routes errors to `no_match`, doesn't expose `retry`, doesn't use AbortController
+Expected: FAIL — current implementation routes errors to `no_match`, doesn't expose `retry`, doesn't use AbortController or timeout
 
 - [ ] **Step 4: Implement the hook changes**
 
@@ -395,6 +470,8 @@ Replace `src/hooks/useModemSearch.ts` with:
 import { useCallback, useRef, useState } from "react";
 import { searchModems } from "../lib/search";
 import type { Modem, SearchState, TransitionDirection } from "../types";
+
+const SEARCH_TIMEOUT_MS = 7000;
 
 const STEP_ORDINAL: Record<SearchState["step"], number> = {
   idle: 0,
@@ -425,6 +502,10 @@ export function useModemSearch() {
       const controller = new AbortController();
       abortRef.current = controller;
 
+      const timeoutId = setTimeout(() => {
+        controller.abort("timeout");
+      }, SEARCH_TIMEOUT_MS);
+
       setState({ step: "searching", query });
       try {
         const results = await searchModems(query, controller.signal);
@@ -437,9 +518,14 @@ export function useModemSearch() {
           setState({ step: "multiple_matches", modems: results });
         }
       } catch (error) {
-        if (controller.signal.aborted) return;
+        // User-initiated abort (reset, new search) → silent return.
+        // Timeout abort (reason === "timeout") → fall through to error state.
+        if (controller.signal.aborted && controller.signal.reason !== "timeout")
+          return;
         console.error("[ModemChecker] Search failed:", error);
         setState({ step: "error", query });
+      } finally {
+        clearTimeout(timeoutId);
       }
     },
     [setState]

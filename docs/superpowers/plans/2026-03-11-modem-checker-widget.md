@@ -8,6 +8,8 @@
 
 **Tech Stack:** React 18, TypeScript, Vite, Tailwind CSS, Supabase JS client (`@supabase/supabase-js`), Vitest + React Testing Library for tests, Plus Jakarta Sans font.
 
+**Design workflow:** Subframe (project `c141bce6134a`) is the SSoT for all visual components. Design screens in Subframe first → export generated React/Tailwind code → integrate into project. Do NOT hand-code component markup — always start from Subframe.
+
 **Prerequisites:**
 - Supabase anon key for project `mgkdulkdngifkzpgzofk` — set as `VITE_SUPABASE_ANON_KEY` in `.env`
 - Supabase URL: `https://mgkdulkdngifkzpgzofk.supabase.co`

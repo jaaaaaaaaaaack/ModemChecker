@@ -1,6 +1,8 @@
 # Figma → Subframe UI Build — Implementation Plan
 
 > **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
+>
+> **PROGRESS (2026-03-12):** Chunks 1-3 DONE. Subframe pages designed and accepted. Pending: design refinements (RadioCard component, edit_page approvals), then export & wire (Chunks 4-5). See `memory/subframe-pages.md` for full state. Worktree: `.worktrees/subframe-ui` on branch `feature/subframe-ui-build`.
 
 **Goal:** Translate the Figma modem checker designs into Subframe components and screens, export code, and wire into the existing data layer to produce a working widget.
 

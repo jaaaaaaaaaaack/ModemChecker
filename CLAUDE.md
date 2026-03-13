@@ -12,6 +12,6 @@
 
 - UX flow: `docs/ux-flow.md`
 - Backend/data context: `docs/frontend-context.md`
-- Figma node IDs: `memory/figma-nodes.md` (in project memory dir)
+- Figma node IDs: `figma-nodes.md` (Claude project memory, not repo)
 - Subframe project: `c141bce6134a`
 - Figma file: `yyeLxpgLuFDjWj7325id9s`

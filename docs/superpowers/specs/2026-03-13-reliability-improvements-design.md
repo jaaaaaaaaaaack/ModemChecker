@@ -1,17 +1,19 @@
 # Reliability Improvements — Design Spec
 
 **Date:** 2026-03-13
-**Scope:** Error state in search state machine, request cancellation, Error Boundary
+**Scope:** Error state in search state machine, request cancellation, search timeout, Error Boundary
 
 ## Problem
 
-The ModemChecker widget has three reliability gaps:
+The ModemChecker widget has four reliability gaps:
 
 1. **Silent error masking** — When `searchModems()` throws (network failure, Supabase outage), the error is caught, logged to `console.error`, and the state silently transitions to `no_match`. The user sees "No modem found" with no indication that the search failed due to an error rather than a genuine lack of results.
 
 2. **Race condition** — If a user triggers a second search before the first resolves, both promises race. There is no `AbortController`, no request ID tracking, and no staleness check. The first to resolve sets state, then the second overwrites it.
 
-3. **No Error Boundary** — If any component throws during render (e.g., unexpected `null` from malformed data), the entire widget unmounts with no recovery path. For an embeddable widget running inside a host page, this is particularly risky.
+3. **No search timeout** — If Supabase hangs (network stall, DNS timeout, cold function), the user sees the loading spinner indefinitely. There is no timeout, no "still searching" message, and no way to cancel or retry.
+
+4. **No Error Boundary** — If any component throws during render (e.g., unexpected `null` from malformed data), the entire widget unmounts with no recovery path. For an embeddable widget running inside a host page, this is particularly risky.
 
 ## Design
 
@@ -47,6 +49,8 @@ Three changes to `src/hooks/useModemSearch.ts`:
 **d) New `retry` action** — Convenience method exposed from the hook that re-calls `search()` with the query from the current error state. No-op if `state.step !== "error"` (guard clause). Only called by the `SearchError` component, which is only rendered when `state.step === "error"`, so the guard is purely defensive.
 
 **e) Stale response guard** — After `await searchModems()` returns, check `controller.signal.aborted` before setting state. This prevents a completed-but-stale response from overwriting the current state if the controller was aborted between the await resolving and the state update executing.
+
+**f) Search timeout** — A 7-second `setTimeout` fires if the search hasn't resolved. It calls `controller.abort("timeout")` with a reason string to distinguish timeouts from user-initiated aborts. The catch block checks: if `controller.signal.aborted` is true but `controller.signal.reason === "timeout"`, it falls through to the error state (not silent return). User-initiated aborts (reset, new search) call `abort()` with no reason, so `signal.reason` defaults to a `DOMException` — only timeouts have the `"timeout"` string. The timeout is cleared in a `finally` block so it doesn't fire after successful resolution. Constant: `SEARCH_TIMEOUT_MS = 7000` at the top of the hook file.
 
 ### 3. searchModems signature change
 
@@ -117,7 +121,7 @@ A React class component wrapping `<ModemChecker>` in `App.tsx`.
 |---|---|
 | `src/types.ts` | Add `error` step to `SearchState` union |
 | `src/lib/search.ts` | Add optional `signal` param, pass to Supabase calls |
-| `src/hooks/useModemSearch.ts` | AbortController ref, aggressive cancellation, error routing, retry action, stale response guard |
+| `src/hooks/useModemSearch.ts` | AbortController ref, aggressive cancellation, error routing, retry action, stale response guard, 7s timeout |
 | `src/components/SearchError.tsx` | **New** — error screen component |
 | `src/components/ModemChecker.tsx` | Render `SearchError` for error step, destructure `retry` from hook |
 | `src/components/ErrorBoundary.tsx` | **New** — Error Boundary class component |
@@ -133,3 +137,4 @@ A React class component wrapping `<ModemChecker>` in `App.tsx`.
 - Error reporting/telemetry service integration
 - Retry with exponential backoff — single manual retry is sufficient
 - Offline detection — the error screen covers this implicitly
+- Progressive timeout messaging ("still searching…" before hard timeout) — the 7s hard cutoff to error is sufficient
