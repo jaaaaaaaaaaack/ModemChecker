@@ -4,26 +4,28 @@ import type { Modem } from "../../src/types";
 // Mock supabase before importing search
 vi.mock("../../src/lib/supabase", () => {
   const mockLimit = vi.fn();
-  const mockTextSearch = vi.fn(() => ({ limit: mockLimit }));
+  const mockAbortSignal = vi.fn(() => ({ limit: mockLimit }));
+  const mockTextSearch = vi.fn(() => ({ limit: mockLimit, abortSignal: mockAbortSignal }));
   const mockSelect = vi.fn(() => ({ textSearch: mockTextSearch }));
   const mockFrom = vi.fn(() => ({ select: mockSelect }));
   const mockRpc = vi.fn();
 
   return {
     supabase: { from: mockFrom, rpc: mockRpc },
-    __mocks: { mockFrom, mockSelect, mockTextSearch, mockLimit, mockRpc },
+    __mocks: { mockFrom, mockSelect, mockTextSearch, mockLimit, mockRpc, mockAbortSignal },
   };
 });
 
 import { searchModems } from "../../src/lib/search";
 import { __mocks } from "../../src/lib/supabase";
 
-const { mockLimit, mockRpc } = __mocks as {
+const { mockLimit, mockRpc, mockAbortSignal } = __mocks as {
   mockFrom: ReturnType<typeof vi.fn>;
   mockSelect: ReturnType<typeof vi.fn>;
   mockTextSearch: ReturnType<typeof vi.fn>;
   mockLimit: ReturnType<typeof vi.fn>;
   mockRpc: ReturnType<typeof vi.fn>;
+  mockAbortSignal: ReturnType<typeof vi.fn>;
 };
 
 const fakeModem: Modem = {
@@ -101,5 +103,27 @@ describe("searchModems", () => {
   it("trims and rejects empty queries", async () => {
     const result = await searchModems("   ");
     expect(result).toEqual([]);
+  });
+
+  it("passes AbortSignal to FTS query", async () => {
+    const controller = new AbortController();
+    mockLimit.mockResolvedValue({ data: [fakeModem], error: null });
+
+    await searchModems("test", controller.signal);
+
+    expect(mockAbortSignal).toHaveBeenCalledWith(controller.signal);
+  });
+
+  it("passes AbortSignal to trigram RPC when FTS returns empty", async () => {
+    const controller = new AbortController();
+    mockLimit.mockResolvedValue({ data: [], error: null });
+
+    const rpcAbortSignal = vi.fn().mockResolvedValue({ data: [], error: null });
+    mockRpc.mockReturnValue({ abortSignal: rpcAbortSignal });
+
+    await searchModems("test", controller.signal);
+
+    expect(mockRpc).toHaveBeenCalled();
+    expect(rpcAbortSignal).toHaveBeenCalledWith(controller.signal);
   });
 });
