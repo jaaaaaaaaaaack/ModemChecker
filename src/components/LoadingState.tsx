@@ -3,7 +3,7 @@ import { FeatherLoader, FeatherWifi } from "@subframe/core";
 export function LoadingState() {
   return (
     <div
-      className="flex w-full flex-col items-center justify-center gap-6"
+      className="flex w-full flex-1 flex-col items-center justify-center gap-6"
       role="status"
     >
       <div className="flex flex-col items-center justify-center relative">

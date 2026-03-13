@@ -24,7 +24,7 @@ export function ResultCard({
   const assessment = assessCompatibility(modem, techType, planSpeedMbps);
 
   return (
-    <div className="flex w-full flex-col items-start gap-5">
+    <div className="flex w-full flex-1 flex-col items-start gap-5">
       <span className="text-h2 font-h2 text-color-primary-700">
         Compatibility results
       </span>
@@ -36,7 +36,7 @@ export function ResultCard({
         conditions={assessment.setupConditions}
         speedWarningType={assessment.speedWarning?.type ?? null}
       />
-      <div className="flex w-full items-center justify-between pt-2">
+      <div className="flex w-full items-center justify-between mt-auto pt-2">
         <LinkButton
           variant="brand"
           icon={null}

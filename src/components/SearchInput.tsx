@@ -22,7 +22,7 @@ export function SearchInput({ onSearch }: SearchInputProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full flex-col items-start gap-6"
+      className="flex w-full flex-1 flex-col items-start gap-6"
     >
       <div className="flex w-full flex-col items-start gap-2">
         <span className="text-h2 font-h2 text-color-primary-701">
@@ -47,7 +47,7 @@ export function SearchInput({ onSearch }: SearchInputProps) {
           Help me find the model name
         </LinkButton>
       </div>
-      <div className="flex w-full items-center justify-end pt-2">
+      <div className="flex w-full items-center justify-end mt-auto pt-2">
         <Button
           className="rounded-full"
           variant="brand-primary"

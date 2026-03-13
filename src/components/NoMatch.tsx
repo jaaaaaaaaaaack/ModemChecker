@@ -8,7 +8,7 @@ interface NoMatchProps {
 
 export function NoMatch({ onRetry, query }: NoMatchProps) {
   return (
-    <div className="flex w-full flex-col items-center gap-6">
+    <div className="flex w-full flex-1 flex-col items-center gap-6">
       <div className="flex w-full flex-col items-start gap-4">
         <span className="text-h2 font-h2 text-brand-900">No modem found</span>
         {query && (
@@ -25,7 +25,7 @@ export function NoMatch({ onRetry, query }: NoMatchProps) {
           Read the modem compatibility FAQs.
         </LinkButton>
       </div>
-      <div className="flex w-full items-center pt-2">
+      <div className="flex w-full items-center mt-auto pt-2">
         <Button
           className="rounded-full"
           variant="brand-secondary"

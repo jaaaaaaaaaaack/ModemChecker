@@ -51,6 +51,7 @@ export function BottomSheet({ open, onClose, children }: BottomSheetProps) {
                 className={[
                   // Base
                   "fixed z-50 bg-gradient-brand shadow-xl overflow-y-auto outline-none",
+                  "flex flex-col min-h-[60vh]",
                   // Mobile: bottom sheet
                   "inset-x-0 bottom-0 max-h-[85vh] rounded-t-3xl p-5 pb-8",
                   // Desktop: side sheet

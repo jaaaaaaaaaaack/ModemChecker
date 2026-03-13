@@ -24,7 +24,7 @@ export function MultipleMatches({ modems, onSelect, onBack }: MultipleMatchesPro
   }
 
   return (
-    <div className="flex w-full flex-col items-start gap-6">
+    <div className="flex w-full flex-1 flex-col items-start gap-6">
       <div className="flex w-full flex-col items-start gap-3">
         <span className="text-h2 font-h2 text-brand-900">Multiple matches found</span>
         <span className="text-body font-body text-brand-800">
@@ -49,7 +49,7 @@ export function MultipleMatches({ modems, onSelect, onBack }: MultipleMatchesPro
       <LinkButton variant="brand" onClick={() => {}}>
         Help me identify my modem
       </LinkButton>
-      <div className="flex w-full items-center justify-between pt-2">
+      <div className="flex w-full items-center justify-between mt-auto pt-2">
         <IconButton
           className="rounded-full"
           variant="neutral-primary"
