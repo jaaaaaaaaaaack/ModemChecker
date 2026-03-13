@@ -31,7 +31,7 @@ export type SearchState =
 
 Design decisions:
 - `query` is preserved so the error screen can offer a one-tap retry with the same query.
-- Step ordinal for direction tracking: `error: 2` (same level as `no_match` — forward from `searching`).
+- Step ordinal for direction tracking: `error: 2` (same level as `no_match` — forward from `searching`). Updated `STEP_ORDINAL` map: `{ idle: 0, searching: 1, multiple_matches: 2, no_match: 2, error: 2, single_match: 3 }`.
 - No error message string in state. The error UI shows a generic "Something went wrong" message. Supabase error messages are technical and not useful to end users. The original error is still logged to `console.error` for debugging.
 
 ### 2. AbortController in useModemSearch
@@ -42,9 +42,9 @@ Three changes to `src/hooks/useModemSearch.ts`:
 
 **b) Aggressive cancellation** — `reset()` also aborts any in-flight request. Since `handleClose` in ModemChecker already calls `reset()`, closing the sheet mid-search automatically cancels the request.
 
-**c) Error routing** — The catch block distinguishes `AbortError` (silently ignored — user moved on intentionally) from real errors (transition to `{ step: "error", query }`).
+**c) Error routing** — The catch block checks `controller.signal.aborted` first — if true, the request was intentionally cancelled and the error is silently ignored (return early). Otherwise, it's a real error and the state transitions to `{ step: "error", query }`. Note: we check the signal, not the error type, because Supabase's postgrest-js client catches `AbortError` internally and returns it as a `{ error }` response object. The `throw new Error(ftsError.message)` in `search.ts` then wraps it as a plain `Error`, losing the `AbortError` name.
 
-**d) New `retry` action** — Convenience method exposed from the hook that re-calls `search()` with the query from the current error state.
+**d) New `retry` action** — Convenience method exposed from the hook that re-calls `search()` with the query from the current error state. No-op if `state.step !== "error"` (guard clause). Only called by the `SearchError` component, which is only rendered when `state.step === "error"`, so the guard is purely defensive.
 
 **e) Stale response guard** — After `await searchModems()` returns, check `controller.signal.aborted` before setting state. This prevents a completed-but-stale response from overwriting the current state if the controller was aborted between the await resolving and the state update executing.
 
@@ -59,7 +59,7 @@ export async function searchModems(
 ): Promise<Modem[]>
 ```
 
-The signal is passed to both Supabase calls (FTS and trigram) via the `.abortSignal(signal)` method on the Supabase query builder. When aborted, Supabase throws a `DOMException` with `name: "AbortError"`, which the hook's catch block handles.
+The signal is passed to both Supabase calls (FTS and trigram) via the `.abortSignal(signal)` method on the Supabase query builder. Between the FTS and trigram calls, check `signal?.aborted` for a fast-fail path to avoid making a second network request when the first was already cancelled. Supabase's postgrest-js client catches `AbortError` internally and returns it as `{ error }` rather than re-throwing — the hook handles this via `controller.signal.aborted` check (see section 2c).
 
 ### 4. SearchError component
 
@@ -87,7 +87,7 @@ Uses existing Subframe `Button` component and the same flex layout patterns as o
 
 ### 5. ModemChecker integration
 
-`src/components/ModemChecker.tsx` — Two changes:
+`src/components/ModemChecker.tsx` — One change:
 
 **a) Error step rendering** — New branch in the `AnimatePresence` content:
 ```tsx
@@ -96,7 +96,7 @@ Uses existing Subframe `Button` component and the same flex layout patterns as o
 )}
 ```
 
-**b) Submit guard** — Pass `disabled={state.step === "searching"}` to `SearchInput` to prevent double-submit during in-flight requests. `SearchInput` receives an optional `disabled` prop that disables the submit button.
+Note: A submit guard (`disabled` prop on SearchInput) is unnecessary because `SearchInput` only renders when `state.step === "idle"`. The moment `search()` is called, state transitions to `searching` and `AnimatePresence` unmounts `SearchInput` entirely, replacing it with `LoadingState`.
 
 ### 6. ErrorBoundary wrapper
 
@@ -106,7 +106,7 @@ A React class component wrapping `<ModemChecker>` in `App.tsx`.
 
 - Catches render errors via `componentDidCatch` (logs to `console.error`)
 - Renders a minimal inline fallback: "Something went wrong" + "Reload" button
-- "Reload" calls `this.setState({ hasError: false })` to reset the boundary and re-mount the component tree
+- "Reload" calls `this.setState({ hasError: false })` to reset the boundary and re-mount the entire component tree, which resets all React state including the `useModemSearch` hook (back to idle)
 - Styled with Tailwind classes, no Subframe dependency
 - Accepts `children` and optional `fallback` render prop for reusability
 - Exempt from Subframe-first rule (behavioral wrapper, not a visual design component)
@@ -119,15 +119,13 @@ A React class component wrapping `<ModemChecker>` in `App.tsx`.
 | `src/lib/search.ts` | Add optional `signal` param, pass to Supabase calls |
 | `src/hooks/useModemSearch.ts` | AbortController ref, aggressive cancellation, error routing, retry action, stale response guard |
 | `src/components/SearchError.tsx` | **New** — error screen component |
-| `src/components/SearchInput.tsx` | Accept optional `disabled` prop for submit button |
-| `src/components/ModemChecker.tsx` | Render `SearchError` for error step, pass disabled to SearchInput, destructure `retry` from hook |
+| `src/components/ModemChecker.tsx` | Render `SearchError` for error step, destructure `retry` from hook |
 | `src/components/ErrorBoundary.tsx` | **New** — Error Boundary class component |
 | `src/App.tsx` | Wrap `ModemChecker` in `ErrorBoundary` |
-| `tests/hooks/useModemSearch.test.ts` | Tests for error state, retry, AbortController, stale response |
+| `tests/hooks/useModemSearch.test.ts` | Update existing error test (currently asserts `no_match`, must change to `error`). Add tests for error state, retry, AbortController, stale response |
 | `tests/components/SearchError.test.tsx` | **New** — tests for error screen |
 | `tests/components/ErrorBoundary.test.tsx` | **New** — tests for Error Boundary |
-| `tests/components/ModemChecker.test.tsx` | Test for error step rendering, submit guard |
-| `tests/components/SearchInput.test.tsx` | Test disabled prop |
+| `tests/components/ModemChecker.test.tsx` | Test for error step rendering |
 
 ## Out of scope
 
