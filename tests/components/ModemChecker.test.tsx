@@ -41,4 +41,24 @@ describe("ModemChecker", () => {
 
     expect(screen.getByText(/finding your modem/i)).toBeInTheDocument();
   });
+
+  it("shows error screen when search fails", async () => {
+    mockSearch.mockRejectedValue(new Error("Network error"));
+    render(<ModemChecker techType="fttp" />);
+
+    // Open sheet
+    await userEvent.click(screen.getByText(/no, i.ll use my own/i));
+    await userEvent.click(
+      screen.getByRole("button", { name: /check your modem/i })
+    );
+
+    // Submit search
+    const input = screen.getByRole("textbox");
+    await userEvent.type(input, "TP-Link");
+    await userEvent.click(screen.getByRole("button", { name: /continue/i }));
+
+    // Should show error screen, not "No modem found"
+    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+    expect(screen.queryByText(/no modem found/i)).not.toBeInTheDocument();
+  });
 });

@@ -10,6 +10,7 @@ import { LoadingState } from "./LoadingState";
 import { MultipleMatches } from "./MultipleMatches";
 import { ResultCard } from "./ResultCard";
 import { NoMatch } from "./NoMatch";
+import { SearchError } from "./SearchError";
 
 const contentVariants = {
   enter: (direction: TransitionDirection) => ({
@@ -39,7 +40,7 @@ export function ModemChecker({
 }: ModemCheckerProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [verifiedModem, setVerifiedModem] = useState<Modem | undefined>();
-  const { state, direction, search, selectModem, reset } = useModemSearch();
+  const { state, direction, search, selectModem, reset, retry } = useModemSearch();
 
   const handleClose = () => {
     setSheetOpen(false);
@@ -100,6 +101,13 @@ export function ModemChecker({
               <NoMatch
                 onRetry={reset}
                 query={state.query}
+              />
+            )}
+            {state.step === "error" && (
+              <SearchError
+                query={state.query}
+                onRetry={retry}
+                onReset={reset}
               />
             )}
           </motion.div>
