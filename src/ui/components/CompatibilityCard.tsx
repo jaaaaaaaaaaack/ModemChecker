@@ -9,6 +9,8 @@
  */
 
 import React from "react";
+import { FeatherRotateCcw } from "@subframe/core";
+import { FeatherRouter } from "@subframe/core";
 import * as SubframeUtils from "../utils";
 import { Button } from "./Button";
 import { LinkButton } from "./LinkButton";
@@ -20,8 +22,9 @@ import type { ConditionCode, SpeedWarning } from "../../types";
 
 interface CompatibilityCalloutProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  status?: "compatible" | "not-compatible" | "speed-warning";
+  status?: "compatible" | "not-compatible" | "speed-warning" | "callout";
   modemName?: React.ReactNode;
+  brand?: React.ReactNode;
   image?: string;
   conditions?: ConditionCode[];
   speedWarningType?: SpeedWarning["type"] | null;
@@ -35,6 +38,7 @@ const CompatibilityCallout = React.forwardRef<
   {
     status = "compatible",
     modemName,
+    brand,
     image,
     conditions = [],
     speedWarningType = null,
@@ -46,7 +50,7 @@ const CompatibilityCallout = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/1d2e060b flex w-full flex-col items-start gap-2",
+        "group/1d2e060b flex w-full flex-col items-start gap-2 rounded-md",
         { "items-start justify-center": status === "not-compatible" },
         className
       )}
@@ -55,55 +59,111 @@ const CompatibilityCallout = React.forwardRef<
     >
       <div
         className={SubframeUtils.twClassNames(
-          "flex w-full items-center justify-between rounded-md border border-solid border-white bg-default-background pl-4 pr-3 py-2 shadow-sm",
+          "flex w-full items-start justify-between rounded-md border border-solid border-neutral-300 bg-default-background pl-5 pr-4 py-4",
           {
-            "flex-row flex-nowrap items-start justify-between":
+            "flex-row flex-nowrap justify-between pl-4 pr-3 py-3":
               status === "speed-warning",
-            "flex-row flex-nowrap items-start justify-between border border-solid border-error-300 bg-error-50 px-4 py-4":
+            "flex-row flex-nowrap items-start justify-between border border-solid border-error-700 bg-white px-4 py-4":
               status === "not-compatible",
           }
         )}
       >
         <div
           className={SubframeUtils.twClassNames(
-            "flex flex-col items-start gap-1.5",
+            "flex grow shrink-0 basis-0 flex-col items-start gap-2 pr-4",
             {
-              "items-start justify-center pl-0 pr-4 py-0":
+              "flex-col flex-nowrap gap-3": status === "callout",
+              "flex-col flex-nowrap items-start justify-center gap-3 pl-0 pr-4 py-0":
                 status === "speed-warning",
-              "flex-col flex-nowrap gap-2 pl-0 pr-4 py-0":
+              "flex-col flex-nowrap gap-3 pl-0 pr-4 py-0":
                 status === "not-compatible",
             }
           )}
         >
-          {modemName ? (
-            <span
+          <div
+            className={SubframeUtils.twClassNames(
+              "flex grow shrink-0 basis-0 items-center gap-3",
+              {
+                "flex-row flex-nowrap items-center justify-center gap-3":
+                  status === "not-compatible",
+              }
+            )}
+          >
+            {image ? (
+              <ModemImage
+                src={image}
+                alt={String(modemName ?? "Modem")}
+                className={SubframeUtils.twClassNames(
+                  "h-16 w-16 flex-none object-cover",
+                  {
+                    "h-16 w-auto flex-none":
+                      status === "callout" ||
+                      status === "speed-warning" ||
+                      status === "not-compatible",
+                  }
+                )}
+              />
+            ) : null}
+            <div
               className={SubframeUtils.twClassNames(
-                "text-body-bold font-body-bold text-default-font",
-                { "text-color-neutral-900": status === "speed-warning" }
+                "flex flex-col items-start gap-1",
+                { "flex-col flex-nowrap gap-1": status === "not-compatible" }
               )}
             >
-              {modemName}
-            </span>
-          ) : null}
+              {modemName ? (
+                <span
+                  className={SubframeUtils.twClassNames(
+                    "text-h4-button-500 font-h4-button-500 text-default-font",
+                    { "text-color-neutral-900": status === "speed-warning" }
+                  )}
+                >
+                  {modemName}
+                </span>
+              ) : null}
+              {brand ? (
+                <span className="text-body font-body text-subtext-color">
+                  {brand}
+                </span>
+              ) : null}
+            </div>
+          </div>
           <div
-            className={SubframeUtils.twClassNames("flex flex-col items-start", {
-              "flex-col flex-nowrap gap-0": status === "not-compatible",
-            })}
+            className={SubframeUtils.twClassNames(
+              "flex flex-col items-start gap-2",
+              { "flex-col flex-nowrap gap-0": status === "not-compatible" }
+            )}
           >
             <StatusIte
               title={
                 status === "not-compatible"
-                  ? "Not compatible with Belong nbn\u00AE"
+                  ? "Modem is not compatible"
                   : "Compatible with Belong nbn\u00AE"
               }
               description={
                 status === "not-compatible"
-                  ? "You'll need to add a Belong modem or purchase a compatible modem before your connection date."
-                  : "Supports download speeds up to 380Mbps, which isn't fast enough to support your selected plan's 500Mbps max download speed."
+                  ? "Add a Belong modem to your order, or purchase a different compatible modem before your connection date."
+                  : undefined
               }
               status={status === "not-compatible" ? "incompatible" : undefined}
               hasDescription={status === "not-compatible" ? true : undefined}
             />
+            <div
+              className={SubframeUtils.twClassNames(
+                "hidden flex-col items-start pl-7",
+                { flex: status === "not-compatible" }
+              )}
+            >
+              <LinkButton
+                className={SubframeUtils.twClassNames("hidden", {
+                  flex: status === "not-compatible",
+                })}
+                variant={status === "not-compatible" ? "neutral" : undefined}
+              >
+                {status === "not-compatible"
+                  ? "Learn more in our FAQs."
+                  : "Label"}
+              </LinkButton>
+            </div>
             <StatusIte
               className={SubframeUtils.twClassNames({
                 hidden: status === "not-compatible",
@@ -114,25 +174,30 @@ const CompatibilityCallout = React.forwardRef<
                   : "Fast enough for your selected plan"
               }
               status={speedWarningType ? "warning" : undefined}
+              hasDescription={speedWarningType ? false : undefined}
+            />
+            <StatusIte
+              className={SubframeUtils.twClassNames("hidden", {
+                flex: status === "callout",
+              })}
+              title={
+                status === "callout"
+                  ? "Some setup may be required"
+                  : "Fast enough for your selected plan"
+              }
+              description={
+                status === "callout"
+                  ? "You might need to update a few modem settings. We\u2019ll send you a simple guide after your order is submitted."
+                  : undefined
+              }
+              status={status === "callout" ? "callout" : undefined}
+              hasDescription={status === "callout" ? true : undefined}
             />
             {conditions.length > 0 && (
               <ConditionList conditions={conditions} variant="callout" />
             )}
           </div>
         </div>
-        {image ? (
-          <ModemImage
-            src={image}
-            alt={String(modemName ?? "Modem")}
-            className={SubframeUtils.twClassNames(
-              "max-h-[80px] flex-none self-stretch object-cover",
-              {
-                "h-20 w-auto flex-none":
-                  status === "speed-warning" || status === "not-compatible",
-              }
-            )}
-          />
-        ) : null}
       </div>
     </div>
   );
@@ -140,13 +205,13 @@ const CompatibilityCallout = React.forwardRef<
 
 interface CompatibilityCardRootProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  state?: "default" | "option-1";
+  state?: "results" | "default";
   modemName?: React.ReactNode;
-  status?: "compatible" | "not-compatible" | "speed-warning";
+  brand?: React.ReactNode;
+  status?: "compatible" | "not-compatible" | "speed-warning" | "callout";
   image?: string;
   conditions?: ConditionCode[];
   speedWarningType?: SpeedWarning["type"] | null;
-  onCheckAnother?: () => void;
   className?: string;
 }
 
@@ -155,13 +220,13 @@ const CompatibilityCardRoot = React.forwardRef<
   CompatibilityCardRootProps
 >(function CompatibilityCardRoot(
   {
-    state = "default",
+    state = "results",
     modemName,
+    brand,
     status = "compatible",
     image,
     conditions = [],
     speedWarningType = null,
-    onCheckAnother,
     className,
     ...otherProps
   }: CompatibilityCardRootProps,
@@ -170,59 +235,56 @@ const CompatibilityCardRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/15c47a51 flex w-full flex-col items-start gap-3 rounded-md bg-color-primary-50 px-4 py-4",
+        "group/15c47a51 flex w-full flex-col items-start gap-6 rounded-md bg-color-primary-50 px-4 py-4",
+        { "flex-col flex-nowrap gap-6": status === "speed-warning" },
         className
       )}
       ref={ref}
       {...otherProps}
     >
-      <span className="text-h3-700 font-h3-700 text-color-primary-700">
-        Modem compatibility checker
-      </span>
-      <CompatibilityCallout
-        className={SubframeUtils.twClassNames({ hidden: state === "option-1" })}
-        status={
-          status === "speed-warning"
-            ? "speed-warning"
-            : status === "not-compatible"
-            ? "not-compatible"
-            : undefined
-        }
-        modemName={modemName}
-        image={image}
-        conditions={conditions}
-        speedWarningType={speedWarningType}
-      />
+      <div className="flex w-full flex-col items-start gap-3">
+        <span className="text-h3-700 font-h3-700 text-color-primary-700">
+          Compatibility checker
+        </span>
+        <CompatibilityCallout
+          className={SubframeUtils.twClassNames({
+            hidden: state === "default",
+          })}
+          status={
+            status === "speed-warning"
+              ? "speed-warning"
+              : status === "not-compatible"
+              ? "not-compatible"
+              : status === "callout"
+              ? "callout"
+              : undefined
+          }
+          modemName={modemName}
+          brand={brand}
+          image={image}
+          conditions={conditions}
+          speedWarningType={speedWarningType}
+        />
+        <span className="text-caption font-caption text-default-font">
+          {state === "default"
+            ? "Check if your modem is compatible with Belong."
+            : "This tool provides general advice only, we cannot guarantee its accuracy. You should verify your modem\u2019s details with the manufacturer or retailer."}
+        </span>
+      </div>
       <LinkButton
-        className={SubframeUtils.twClassNames("hidden", {
-          flex: !!onCheckAnother,
-        })}
+        className="hidden"
         variant="brand"
         icon={null}
         iconRight={null}
-        onClick={onCheckAnother}
       >
         Check another modem
       </LinkButton>
-      <div className="hidden w-full flex-wrap items-start gap-1">
-        <span className="text-body font-body text-neutral-600">
-          This tool provides general information only. You should verify your
-          modem&#39;s details with the manufacturer or the ISP who provided it.
-        </span>
-      </div>
-      <span
-        className={SubframeUtils.twClassNames(
-          "text-body font-body text-default-font",
-          { hidden: !!onCheckAnother }
-        )}
-      >
-        Check if your modem is compatible with your internet plan.
-      </span>
       <Button
-        className={SubframeUtils.twClassNames({ hidden: !!onCheckAnother })}
         variant="brand-secondary"
+        icon={state === "default" ? <FeatherRouter /> : <FeatherRotateCcw />}
+        hasLeftIcon={true}
       >
-        Check your modem
+        {state === "default" ? "Check your modem" : "Check another modem"}
       </Button>
     </div>
   );

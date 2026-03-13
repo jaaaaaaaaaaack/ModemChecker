@@ -7,9 +7,10 @@
 
 import React from "react";
 import { FeatherAlertTriangle } from "@subframe/core";
-import { FeatherAsterisk } from "@subframe/core";
+import { FeatherSettings } from "@subframe/core";
 import { FeatherWifi } from "@subframe/core";
 import { FeatherX } from "@subframe/core";
+import * as SubframeCore from "@subframe/core";
 import * as SubframeUtils from "../utils";
 import { IconWithBackground } from "./IconWithBackground";
 
@@ -18,7 +19,7 @@ interface StatusIteRootProps
   icon?: React.ReactNode;
   title?: React.ReactNode;
   description?: React.ReactNode;
-  status?: "compatible" | "incompatible" | "warning" | "option-1";
+  status?: "compatible" | "incompatible" | "warning" | "callout";
   hasDescription?: boolean;
   className?: string;
 }
@@ -39,7 +40,7 @@ const StatusIteRoot = React.forwardRef<HTMLDivElement, StatusIteRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/a6a68d53 flex w-full items-start gap-2 pb-2",
+          "group/a6a68d53 flex w-full items-start gap-2",
           className
         )}
         ref={ref}
@@ -48,17 +49,17 @@ const StatusIteRoot = React.forwardRef<HTMLDivElement, StatusIteRootProps>(
         <div className="flex items-start gap-2 pt-0.5">
           <IconWithBackground
             variant={
-              status === "option-1"
-                ? "brand"
+              status === "callout"
+                ? "neutral"
                 : status === "warning"
-                ? "warning"
+                ? "warning-2"
                 : status === "incompatible"
                 ? "error-dark"
                 : "success-dark"
             }
             icon={
-              status === "option-1" ? (
-                <FeatherAsterisk />
+              status === "callout" ? (
+                <FeatherSettings />
               ) : status === "warning" ? (
                 <FeatherWifi />
               ) : status === "incompatible" ? (
@@ -69,7 +70,15 @@ const StatusIteRoot = React.forwardRef<HTMLDivElement, StatusIteRootProps>(
         </div>
         <div className="flex grow shrink-0 basis-0 flex-col items-start gap-0.5 pt-px">
           {title ? (
-            <span className="text-body font-body text-default-font">
+            <span
+              className={SubframeUtils.twClassNames(
+                "text-body font-body text-default-font",
+                {
+                  "text-body-bold font-body-bold text-error-900":
+                    status === "incompatible",
+                }
+              )}
+            >
               {title}
             </span>
           ) : null}

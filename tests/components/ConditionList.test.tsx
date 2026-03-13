@@ -14,14 +14,14 @@ describe("ConditionList", () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it("renders StatusIte with option-1 status when variant is callout", () => {
+  it("renders StatusIte with callout status when variant is callout", () => {
     const { container } = render(
       <ConditionList conditions={["SWITCH_TO_IPOE"]} variant="callout" />
     );
-    // StatusIte status="option-1" → IconWithBackground variant="brand" (default)
-    // which uses bg-brand-100 background. The "warning" variant would use bg-warning-100.
-    expect(container.querySelector('[class*="bg-warning-100"]')).not.toBeInTheDocument();
-    // And verify the label still renders
+    // StatusIte status="callout" → IconWithBackground variant="neutral"
+    // which uses bg-neutral-200 background (not bg-warning-300).
+    expect(container.querySelector('[class*="bg-warning-300"]')).not.toBeInTheDocument();
+    expect(container.querySelector('[class*="bg-neutral-200"]')).toBeInTheDocument();
     expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
   });
 
@@ -29,8 +29,8 @@ describe("ConditionList", () => {
     const { container } = render(
       <ConditionList conditions={["SWITCH_TO_IPOE"]} />
     );
-    // Default variant="warning" → StatusIte status="warning" → IconWithBackground variant="warning"
-    // which applies bg-warning-100
-    expect(container.querySelector('[class*="bg-warning-100"]')).toBeInTheDocument();
+    // Default variant="warning" → StatusIte status="warning" → IconWithBackground variant="warning-2"
+    // which applies bg-warning-300
+    expect(container.querySelector('[class*="bg-warning-300"]')).toBeInTheDocument();
   });
 });

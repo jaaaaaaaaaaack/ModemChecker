@@ -6,13 +6,16 @@ describe("CompatibilityCard", () => {
   it("renders compatible status with green checkmark row", () => {
     render(
       <CompatibilityCard
-        modemName="TP-Link Archer VR1600v"
+        modemName="Archer VR1600v"
+        brand="TP-Link"
         status="compatible"
       />
     );
-    expect(screen.getByText("TP-Link Archer VR1600v")).toBeInTheDocument();
+    expect(screen.getByText("Archer VR1600v")).toBeInTheDocument();
+    expect(screen.getByText("TP-Link")).toBeInTheDocument();
     expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
-    expect(screen.getByText("Fast enough for your selected plan")).toBeInTheDocument();
+    // Speed row + hidden callout placeholder both contain this text
+    expect(screen.getAllByText("Fast enough for your selected plan").length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders speed warning with correct copy for wan-bottleneck", () => {
@@ -62,5 +65,17 @@ describe("CompatibilityCard", () => {
       />
     );
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
+  });
+
+  it("renders callout status with setup summary", () => {
+    render(
+      <CompatibilityCard
+        modemName="Setup Router"
+        status="callout"
+        conditions={["SWITCH_TO_IPOE"]}
+      />
+    );
+    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
   });
 });

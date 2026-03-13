@@ -48,17 +48,13 @@ export function BaseScreen({
 
     const assessment = assessCompatibility(verifiedModem, techType, planSpeedMbps);
 
-    // "callout" is visually "compatible" (green) — callout items render via conditions prop
-    const cardStatus = assessment.cardStatus === "callout"
-      ? "compatible" as const
-      : assessment.cardStatus;
-
     return (
       <CompatibilityCard
-        status={cardStatus}
+        status={assessment.cardStatus}
         speedWarningType={assessment.speedWarning?.type ?? null}
         conditions={assessment.setupConditions}
-        modemName={`${verifiedModem.brand} ${verifiedModem.model}`}
+        modemName={verifiedModem.model}
+        brand={verifiedModem.brand}
         image={getModemImageUrl(verifiedModem.id)}
       />
     );

@@ -27,7 +27,7 @@ const makeModem = (overrides: Partial<Modem> = {}): Modem => ({
 describe("ResultCard", () => {
   it("shows compatible heading for yes status", () => {
     render(<ResultCard modem={makeModem()} techType="fttp" />);
-    expect(screen.getByText("Compatible with Belong nbn")).toBeInTheDocument();
+    expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
   });
 
   it("shows incompatible heading for no status", () => {
@@ -40,7 +40,7 @@ describe("ResultCard", () => {
       },
     });
     render(<ResultCard modem={modem} techType="fttp" />);
-    expect(screen.getByText("Not compatible with Belong nbn")).toBeInTheDocument();
+    expect(screen.getByText(/modem is not compatible/i)).toBeInTheDocument();
   });
 
   it("shows conditions for yes_but status", () => {
@@ -53,14 +53,14 @@ describe("ResultCard", () => {
       },
     });
     render(<ResultCard modem={modem} techType="fttp" />);
-    expect(screen.getByText("Compatible with some requirements")).toBeInTheDocument();
+    expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
     expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
   });
 
-  it("displays modem brand and model", () => {
+  it("displays modem brand and model separately", () => {
     render(<ResultCard modem={makeModem()} techType="fttp" />);
-    expect(screen.getByText("TP-Link")).toBeInTheDocument();
     expect(screen.getByText("Archer VR1600v")).toBeInTheDocument();
+    expect(screen.getByText("TP-Link")).toBeInTheDocument();
   });
 
   it("calls onDone when close button clicked", async () => {
@@ -96,7 +96,7 @@ describe("ResultCard", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows callout headline for setup conditions without speed issues", () => {
+  it("shows callout summary and conditions for setup conditions without speed issues", () => {
     const modem = makeModem({
       compatibility: {
         fttp: { status: "yes_but", conditions: ["SWITCH_TO_IPOE"] },
@@ -106,7 +106,8 @@ describe("ResultCard", () => {
       },
     });
     render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
-    expect(screen.getByText("Compatible with some requirements")).toBeInTheDocument();
+    expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
+    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
     expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
   });
 });

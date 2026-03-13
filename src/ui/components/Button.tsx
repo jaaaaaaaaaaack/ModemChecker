@@ -77,7 +77,7 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
               variant === "neutral-primary",
             "border border-solid border-brand-200 bg-brand-200 hover:border hover:border-solid hover:border-brand-600 hover:bg-brand-100 active:border active:border-solid active:border-brand-400 active:bg-brand-400":
               variant === "brand-tertiary",
-            "bg-transparent hover:border hover:border-solid hover:border-brand-700 hover:bg-default-background active:bg-brand-700":
+            "bg-transparent hover:border hover:border-solid hover:border-brand-200 hover:bg-brand-200 active:border active:border-solid active:border-brand-800":
               variant === "brand-secondary",
           },
           className
@@ -156,7 +156,7 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
                   variant === "neutral-primary",
                 "text-brand-800 group-active/3b777358:text-brand-800":
                   variant === "brand-tertiary",
-                "text-brand-800 group-active/3b777358:text-brand-200":
+                "text-brand-800 group-hover/3b777358:text-brand-900 group-active/3b777358:text-brand-950":
                   variant === "brand-secondary",
               }
             )}

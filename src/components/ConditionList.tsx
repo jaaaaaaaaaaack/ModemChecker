@@ -10,7 +10,7 @@ interface ConditionListProps {
 export function ConditionList({ conditions, variant = "warning" }: ConditionListProps) {
   if (conditions.length === 0) return null;
 
-  const statusIteStatus = variant === "callout" ? ("option-1" as const) : ("warning" as const);
+  const statusIteStatus = variant === "callout" ? ("callout" as const) : ("warning" as const);
 
   return (
     <div className="flex w-full flex-col items-start gap-2">

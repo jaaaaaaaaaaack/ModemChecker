@@ -60,7 +60,8 @@ describe("BaseScreen", () => {
       <BaseScreen onCheckModem={() => {}} verifiedModem={modem} techType="fttp" planSpeedMbps={500} />
     );
     await userEvent.click(screen.getByText(/no, i.ll use my own/i));
-    expect(screen.getByText("TP-Link Archer VR1600v")).toBeInTheDocument();
+    expect(screen.getByText("Archer VR1600v")).toBeInTheDocument();
+    expect(screen.getByText("TP-Link")).toBeInTheDocument();
     expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
   });
 
