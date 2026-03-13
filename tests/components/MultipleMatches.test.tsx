@@ -45,11 +45,22 @@ describe("MultipleMatches", () => {
     expect(screen.getByText("Archer C7")).toBeInTheDocument();
   });
 
-  it("Continue button is disabled until a modem is selected", () => {
+  it("Continue button is aria-disabled until a modem is selected", () => {
     render(
       <MultipleMatches modems={modems} onSelect={() => {}} onBack={() => {}} />
     );
-    expect(screen.getByRole("button", { name: /continue/i })).toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: /continue/i })
+    ).toHaveAttribute("aria-disabled", "true");
+  });
+
+  it("clicking Continue while aria-disabled does not call onSelect", async () => {
+    const onSelect = vi.fn();
+    render(
+      <MultipleMatches modems={modems} onSelect={onSelect} onBack={() => {}} />
+    );
+    await userEvent.click(screen.getByRole("button", { name: /continue/i }));
+    expect(onSelect).not.toHaveBeenCalled();
   });
 
   it("calls onSelect with chosen modem on Continue", async () => {

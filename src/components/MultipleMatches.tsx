@@ -65,11 +65,21 @@ export function MultipleMatches({ modems, onSelect, onBack }: MultipleMatchesPro
           variant="brand-primary"
           iconRight={<FeatherChevronRight />}
           hasRightIcon={true}
-          disabled={!selectedId}
-          onClick={handleContinue}
+          aria-disabled={!selectedId || undefined}
+          onClick={(e) => {
+            if (!selectedId) {
+              e.preventDefault();
+              return;
+            }
+            handleContinue();
+          }}
+          aria-describedby={!selectedId ? "select-modem-hint" : undefined}
         >
           Continue
         </Button>
+        <span id="select-modem-hint" className="sr-only">
+          Select a modem above to continue
+        </span>
       </div>
     </div>
   );
