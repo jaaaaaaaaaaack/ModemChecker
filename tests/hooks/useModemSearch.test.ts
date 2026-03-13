@@ -128,4 +128,80 @@ describe("useModemSearch", () => {
 
     expect(result.current.state.step).toBe("idle");
   });
+
+  it("direction starts as forward", () => {
+    const { result } = renderHook(() => useModemSearch());
+    expect(result.current.direction).toBe("forward");
+  });
+
+  it("direction is forward when advancing: idle → searching", async () => {
+    mockSearch.mockImplementation(() => new Promise(() => {}));
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      result.current.search("test");
+    });
+
+    expect(result.current.direction).toBe("forward");
+  });
+
+  it("direction is forward when advancing: searching → single_match", async () => {
+    mockSearch.mockResolvedValue([modemA]);
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      await result.current.search("tp-link");
+    });
+
+    expect(result.current.state.step).toBe("single_match");
+    expect(result.current.direction).toBe("forward");
+  });
+
+  it("direction is forward when advancing: multiple_matches → single_match", async () => {
+    mockSearch.mockResolvedValue([modemA, modemB]);
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      await result.current.search("archer");
+    });
+
+    act(() => {
+      result.current.selectModem(modemA);
+    });
+
+    expect(result.current.state.step).toBe("single_match");
+    expect(result.current.direction).toBe("forward");
+  });
+
+  it("direction is backward on reset from single_match", async () => {
+    mockSearch.mockResolvedValue([modemA]);
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      await result.current.search("tp-link");
+    });
+
+    act(() => {
+      result.current.reset();
+    });
+
+    expect(result.current.state.step).toBe("idle");
+    expect(result.current.direction).toBe("backward");
+  });
+
+  it("direction is backward on reset from no_match", async () => {
+    mockSearch.mockResolvedValue([]);
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      await result.current.search("nonexistent");
+    });
+
+    act(() => {
+      result.current.reset();
+    });
+
+    expect(result.current.state.step).toBe("idle");
+    expect(result.current.direction).toBe("backward");
+  });
 });

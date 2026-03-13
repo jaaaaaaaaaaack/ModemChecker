@@ -81,3 +81,5 @@ export interface CompatibilityAssessment {
   speedWarning: SpeedWarning | null;
   setupConditions: ConditionCode[];
 }
+
+export type TransitionDirection = "forward" | "backward";

@@ -1,9 +1,27 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { searchModems } from "../lib/search";
-import type { Modem, SearchState } from "../types";
+import type { Modem, SearchState, TransitionDirection } from "../types";
+
+const STEP_ORDINAL: Record<SearchState["step"], number> = {
+  idle: 0,
+  searching: 1,
+  multiple_matches: 2,
+  no_match: 2,
+  single_match: 3,
+};
 
 export function useModemSearch() {
-  const [state, setState] = useState<SearchState>({ step: "idle" });
+  const [state, setStateRaw] = useState<SearchState>({ step: "idle" });
+  const [direction, setDirection] = useState<TransitionDirection>("forward");
+  const prevStepRef = useRef<SearchState["step"]>("idle");
+
+  const setState = useCallback((next: SearchState) => {
+    const prevOrd = STEP_ORDINAL[prevStepRef.current];
+    const nextOrd = STEP_ORDINAL[next.step];
+    setDirection(nextOrd >= prevOrd ? "forward" : "backward");
+    prevStepRef.current = next.step;
+    setStateRaw(next);
+  }, []);
 
   const search = useCallback(async (query: string) => {
     setState({ step: "searching", query });
@@ -20,15 +38,15 @@ export function useModemSearch() {
       console.error("[ModemChecker] Search failed:", error);
       setState({ step: "no_match", query });
     }
-  }, []);
+  }, [setState]);
 
   const selectModem = useCallback((modem: Modem) => {
     setState({ step: "single_match", modem });
-  }, []);
+  }, [setState]);
 
   const reset = useCallback(() => {
     setState({ step: "idle" });
-  }, []);
+  }, [setState]);
 
-  return { state, search, selectModem, reset };
+  return { state, direction, search, selectModem, reset };
 }
