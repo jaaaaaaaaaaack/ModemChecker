@@ -31,7 +31,7 @@ export function MultipleMatches({ modems, onSelect, onBack }: MultipleMatchesPro
           Check your modem's model info and select the correct one below.
         </span>
       </div>
-      <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0 overflow-y-auto">
+      <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0 overflow-y-auto px-1 -mx-1">
         <RadioCardGroup
           label="Select your modem"
           value={selectedId}

@@ -36,6 +36,9 @@ export function ResultCard({
         conditions={assessment.setupConditions}
         speedWarningType={assessment.speedWarning?.type ?? null}
       />
+      <span className="text-caption font-caption text-default-font">
+        This tool provides general advice only, we cannot guarantee its accuracy. You should verify your modem{"\u2019"}s details with the manufacturer or retailer.
+      </span>
       <div className="flex w-full items-center justify-between mt-auto pt-2">
         <LinkButton
           variant="brand"
