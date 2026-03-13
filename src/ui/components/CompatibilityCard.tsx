@@ -176,7 +176,7 @@ const CompatibilityCallout = React.forwardRef<
           </motion.div>
           <motion.div
             className={SubframeUtils.twClassNames(
-              "flex flex-col items-start gap-2",
+              "flex w-full flex-col items-start gap-2",
               { "flex-col flex-nowrap gap-0": status === "not-compatible" }
             )}
             variants={statusSectionVariants}
