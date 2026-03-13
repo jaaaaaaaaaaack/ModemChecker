@@ -1,5 +1,6 @@
 import { useState } from "react";
-import type { TechType, CompatibilityStatus } from "../types";
+import type { TechType, Modem } from "../types";
+import { DEFAULT_PLAN_SPEED_MBPS } from "../constants";
 import { useModemSearch } from "../hooks/useModemSearch";
 import { BaseScreen } from "./BaseScreen";
 import { BottomSheet } from "./BottomSheet";
@@ -11,18 +12,15 @@ import { NoMatch } from "./NoMatch";
 
 interface ModemCheckerProps {
   techType: TechType;
+  planSpeedMbps?: number;
 }
 
-interface VerifiedModem {
-  id: string;
-  brand: string;
-  model: string;
-  status: CompatibilityStatus;
-}
-
-export function ModemChecker({ techType }: ModemCheckerProps) {
+export function ModemChecker({
+  techType,
+  planSpeedMbps = DEFAULT_PLAN_SPEED_MBPS,
+}: ModemCheckerProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [verifiedModem, setVerifiedModem] = useState<VerifiedModem | undefined>();
+  const [verifiedModem, setVerifiedModem] = useState<Modem | undefined>();
   const { state, search, selectModem, reset } = useModemSearch();
 
   const handleClose = () => {
@@ -32,13 +30,7 @@ export function ModemChecker({ techType }: ModemCheckerProps) {
 
   const handleDone = () => {
     if (state.step === "single_match") {
-      const compat = state.modem.compatibility[techType];
-      setVerifiedModem({
-        id: state.modem.id,
-        brand: state.modem.brand,
-        model: state.modem.model,
-        status: compat.status,
-      });
+      setVerifiedModem(state.modem);
     }
     setSheetOpen(false);
     reset();
@@ -53,6 +45,8 @@ export function ModemChecker({ techType }: ModemCheckerProps) {
       <BaseScreen
         onCheckModem={() => setSheetOpen(true)}
         verifiedModem={verifiedModem}
+        techType={techType}
+        planSpeedMbps={planSpeedMbps}
       />
       <BottomSheet open={sheetOpen} onClose={handleClose}>
         {state.step === "idle" && <SearchInput onSearch={search} />}
@@ -68,6 +62,7 @@ export function ModemChecker({ techType }: ModemCheckerProps) {
           <ResultCard
             modem={state.modem}
             techType={techType}
+            planSpeedMbps={planSpeedMbps}
             onDone={handleDone}
             onReset={handleCheckAnother}
           />
