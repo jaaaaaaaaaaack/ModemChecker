@@ -10,7 +10,6 @@ import { FeatherAlertTriangle } from "@subframe/core";
 import { FeatherSettings } from "@subframe/core";
 import { FeatherWifi } from "@subframe/core";
 import { FeatherX } from "@subframe/core";
-import * as SubframeCore from "@subframe/core";
 import * as SubframeUtils from "../utils";
 import { IconWithBackground } from "./IconWithBackground";
 
