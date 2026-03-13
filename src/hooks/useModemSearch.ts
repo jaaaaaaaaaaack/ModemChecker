@@ -7,6 +7,7 @@ const STEP_ORDINAL: Record<SearchState["step"], number> = {
   searching: 1,
   multiple_matches: 2,
   no_match: 2,
+  error: 2,
   single_match: 3,
 };
 

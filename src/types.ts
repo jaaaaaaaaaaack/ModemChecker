@@ -70,7 +70,8 @@ export type SearchState =
   | { step: "searching"; query: string }
   | { step: "single_match"; modem: Modem }
   | { step: "multiple_matches"; modems: Modem[] }
-  | { step: "no_match"; query: string };
+  | { step: "no_match"; query: string }
+  | { step: "error"; query: string };
 
 export interface SpeedWarning {
   type: "wan-bottleneck" | "wifi-bottleneck";
