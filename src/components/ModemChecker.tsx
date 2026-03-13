@@ -1,5 +1,6 @@
 import { useState } from "react";
-import type { TechType, Modem } from "../types";
+import { AnimatePresence, motion } from "framer-motion";
+import type { TechType, Modem, TransitionDirection } from "../types";
 import { DEFAULT_PLAN_SPEED_MBPS } from "../constants";
 import { useModemSearch } from "../hooks/useModemSearch";
 import { BaseScreen } from "./BaseScreen";
@@ -9,6 +10,23 @@ import { LoadingState } from "./LoadingState";
 import { MultipleMatches } from "./MultipleMatches";
 import { ResultCard } from "./ResultCard";
 import { NoMatch } from "./NoMatch";
+
+const contentVariants = {
+  enter: (direction: TransitionDirection) => ({
+    opacity: 0,
+    x: direction === "forward" ? 6 : -6,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: (direction: TransitionDirection) => ({
+    opacity: 0,
+    x: direction === "forward" ? -6 : 6,
+  }),
+};
+
+const contentTransition = { duration: 0.15, ease: "easeOut" };
 
 interface ModemCheckerProps {
   techType: TechType;
@@ -21,7 +39,7 @@ export function ModemChecker({
 }: ModemCheckerProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [verifiedModem, setVerifiedModem] = useState<Modem | undefined>();
-  const { state, search, selectModem, reset } = useModemSearch();
+  const { state, direction, search, selectModem, reset } = useModemSearch();
 
   const handleClose = () => {
     setSheetOpen(false);
@@ -49,30 +67,43 @@ export function ModemChecker({
         planSpeedMbps={planSpeedMbps}
       />
       <BottomSheet open={sheetOpen} onClose={handleClose}>
-        {state.step === "idle" && <SearchInput onSearch={search} />}
-        {state.step === "searching" && <LoadingState />}
-        {state.step === "multiple_matches" && (
-          <MultipleMatches
-            modems={state.modems}
-            onSelect={selectModem}
-            onBack={reset}
-          />
-        )}
-        {state.step === "single_match" && (
-          <ResultCard
-            modem={state.modem}
-            techType={techType}
-            planSpeedMbps={planSpeedMbps}
-            onDone={handleDone}
-            onReset={handleCheckAnother}
-          />
-        )}
-        {state.step === "no_match" && (
-          <NoMatch
-            onRetry={reset}
-            query={state.query}
-          />
-        )}
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={state.step}
+            custom={direction}
+            variants={contentVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={contentTransition}
+            className="overflow-hidden"
+          >
+            {state.step === "idle" && <SearchInput onSearch={search} />}
+            {state.step === "searching" && <LoadingState />}
+            {state.step === "multiple_matches" && (
+              <MultipleMatches
+                modems={state.modems}
+                onSelect={selectModem}
+                onBack={reset}
+              />
+            )}
+            {state.step === "single_match" && (
+              <ResultCard
+                modem={state.modem}
+                techType={techType}
+                planSpeedMbps={planSpeedMbps}
+                onDone={handleDone}
+                onReset={handleCheckAnother}
+              />
+            )}
+            {state.step === "no_match" && (
+              <NoMatch
+                onRetry={reset}
+                query={state.query}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </BottomSheet>
     </>
   );
