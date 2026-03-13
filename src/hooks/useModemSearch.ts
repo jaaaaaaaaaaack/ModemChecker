@@ -16,7 +16,8 @@ export function useModemSearch() {
       } else {
         setState({ step: "multiple_matches", modems: results });
       }
-    } catch {
+    } catch (error) {
+      console.error("[ModemChecker] Search failed:", error);
       setState({ step: "no_match", query });
     }
   }, []);

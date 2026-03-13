@@ -95,6 +95,25 @@ describe("useModemSearch", () => {
     }
   });
 
+  it("logs error to console.error on search failure", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const searchError = new Error("Network error");
+    mockSearch.mockRejectedValue(searchError);
+
+    const { result } = renderHook(() => useModemSearch());
+
+    await act(async () => {
+      await result.current.search("test");
+    });
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      "[ModemChecker] Search failed:",
+      searchError
+    );
+    expect(result.current.state).toEqual({ step: "no_match", query: "test" });
+    consoleSpy.mockRestore();
+  });
+
   it("reset returns to idle", async () => {
     mockSearch.mockResolvedValue([modemA]);
     const { result } = renderHook(() => useModemSearch());
