@@ -26,7 +26,8 @@ const contentVariants = {
   }),
 };
 
-const contentTransition = { duration: 0.15, ease: "easeOut" };
+const contentTransition = { duration: 0.15, ease: "easeOut" as const };
+const heightSpring = { type: "spring" as const, damping: 25, stiffness: 200 };
 
 interface ModemCheckerProps {
   techType: TechType;
@@ -67,43 +68,45 @@ export function ModemChecker({
         planSpeedMbps={planSpeedMbps}
       />
       <BottomSheet open={sheetOpen} onClose={handleClose}>
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={state.step}
-            custom={direction}
-            variants={contentVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={contentTransition}
-            className="overflow-hidden"
-          >
-            {state.step === "idle" && <SearchInput onSearch={search} />}
-            {state.step === "searching" && <LoadingState />}
-            {state.step === "multiple_matches" && (
-              <MultipleMatches
-                modems={state.modems}
-                onSelect={selectModem}
-                onBack={reset}
-              />
-            )}
-            {state.step === "single_match" && (
-              <ResultCard
-                modem={state.modem}
-                techType={techType}
-                planSpeedMbps={planSpeedMbps}
-                onDone={handleDone}
-                onReset={handleCheckAnother}
-              />
-            )}
-            {state.step === "no_match" && (
-              <NoMatch
-                onRetry={reset}
-                query={state.query}
-              />
-            )}
-          </motion.div>
-        </AnimatePresence>
+        <motion.div layout transition={heightSpring}>
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={state.step}
+              custom={direction}
+              variants={contentVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={contentTransition}
+              className="overflow-hidden"
+            >
+              {state.step === "idle" && <SearchInput onSearch={search} />}
+              {state.step === "searching" && <LoadingState />}
+              {state.step === "multiple_matches" && (
+                <MultipleMatches
+                  modems={state.modems}
+                  onSelect={selectModem}
+                  onBack={reset}
+                />
+              )}
+              {state.step === "single_match" && (
+                <ResultCard
+                  modem={state.modem}
+                  techType={techType}
+                  planSpeedMbps={planSpeedMbps}
+                  onDone={handleDone}
+                  onReset={handleCheckAnother}
+                />
+              )}
+              {state.step === "no_match" && (
+                <NoMatch
+                  onRetry={reset}
+                  query={state.query}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
       </BottomSheet>
     </>
   );
