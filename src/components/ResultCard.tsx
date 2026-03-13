@@ -24,7 +24,7 @@ export function ResultCard({
   const assessment = assessCompatibility(modem, techType, planSpeedMbps);
 
   return (
-    <div className="flex w-full flex-1 flex-col items-start gap-5">
+    <div className="flex w-full flex-1 flex-col items-start gap-5 min-h-0">
       <span className="text-h2 font-h2 text-color-primary-700">
         Compatibility results
       </span>

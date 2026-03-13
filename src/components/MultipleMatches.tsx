@@ -24,32 +24,34 @@ export function MultipleMatches({ modems, onSelect, onBack }: MultipleMatchesPro
   }
 
   return (
-    <div className="flex w-full flex-1 flex-col items-start gap-6">
-      <div className="flex w-full flex-col items-start gap-3">
+    <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0">
+      <div className="flex w-full flex-col items-start gap-3 flex-shrink-0">
         <span className="text-h2 font-h2 text-brand-900">Multiple matches found</span>
         <span className="text-body font-body text-brand-800">
           Check your modem's model info and select the correct one below.
         </span>
       </div>
-      <RadioCardGroup
-        label="Select your modem"
-        value={selectedId}
-        onValueChange={setSelectedId}
-      >
-        {modems.map((modem) => (
-          <RadioCardGroup.RadioCard
-            key={modem.id}
-            label={modem.model}
-            description={modem.brand}
-            image={getModemImageUrl(modem.id)}
-            value={modem.id}
-          />
-        ))}
-      </RadioCardGroup>
-      <LinkButton variant="brand" onClick={() => {}}>
-        Help me identify my modem
-      </LinkButton>
-      <div className="flex w-full items-center justify-between mt-auto pt-2">
+      <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0 overflow-y-auto">
+        <RadioCardGroup
+          label="Select your modem"
+          value={selectedId}
+          onValueChange={setSelectedId}
+        >
+          {modems.map((modem) => (
+            <RadioCardGroup.RadioCard
+              key={modem.id}
+              label={modem.model}
+              description={modem.brand}
+              image={getModemImageUrl(modem.id)}
+              value={modem.id}
+            />
+          ))}
+        </RadioCardGroup>
+        <LinkButton variant="brand" onClick={() => {}}>
+          Help me identify my modem
+        </LinkButton>
+      </div>
+      <div className="flex w-full items-center justify-between flex-shrink-0 mt-auto pt-2">
         <IconButton
           className="rounded-full"
           variant="neutral-primary"

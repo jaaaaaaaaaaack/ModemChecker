@@ -22,7 +22,7 @@ export function SearchInput({ onSearch }: SearchInputProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full flex-1 flex-col items-start gap-6"
+      className="flex w-full flex-1 flex-col items-start gap-6 min-h-0"
     >
       <div className="flex w-full flex-col items-start gap-2">
         <span className="text-h2 font-h2 text-color-primary-701">

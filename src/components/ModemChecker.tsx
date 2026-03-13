@@ -76,7 +76,7 @@ export function ModemChecker({
             animate="center"
             exit="exit"
             transition={contentTransition}
-            className="flex-1 flex flex-col overflow-hidden px-1 -mx-1"
+            className="flex-1 flex flex-col min-h-0 px-1 -mx-1"
           >
             {state.step === "idle" && <SearchInput onSearch={search} />}
             {state.step === "searching" && <LoadingState />}
