@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Modem, TechType, CompatibilityStatus } from "../types";
+import type { TechType, CompatibilityStatus } from "../types";
 import { useModemSearch } from "../hooks/useModemSearch";
 import { BaseScreen } from "./BaseScreen";
 import { BottomSheet } from "./BottomSheet";

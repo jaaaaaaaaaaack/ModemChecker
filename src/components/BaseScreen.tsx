@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "../ui/components/Button";
 import { CompatibilityCard } from "../ui/components/CompatibilityCard";
-import { LinkButton } from "../ui/components/LinkButton";
 import { RadioCardGroup } from "../ui/components/RadioCardGroup";
 import { getModemImageUrl } from "../lib/supabase";
 import type { CompatibilityStatus } from "../types";
