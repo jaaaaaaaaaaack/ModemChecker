@@ -1,6 +1,6 @@
 import { Button } from "@/ui/components/Button";
 import { LinkButton } from "@/ui/components/LinkButton";
-import { CompatibilityCard } from "@/ui/components/CompatibilityCard";
+import { CheckerCard } from "@/ui/components/CheckerCard";
 import { DEFAULT_PLAN_SPEED_MBPS } from "../constants";
 import { assessCompatibility } from "../lib/compatibility";
 import { getModemImageUrl } from "../lib/supabase";
@@ -28,7 +28,7 @@ export function ResultCard({
       <span className="text-h2 font-h2 text-color-primary-700">
         Compatibility results
       </span>
-      <CompatibilityCard.CompatibilityCallout
+      <CheckerCard.ResultsCard
         status={assessment.cardStatus}
         modemName={modem.model}
         brand={modem.brand}

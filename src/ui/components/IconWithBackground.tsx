@@ -21,7 +21,8 @@ interface IconWithBackgroundRootProps
     | "neutral-dark"
     | "success-dark"
     | "error-dark"
-    | "warning-2";
+    | "warning-2"
+    | "brand-outline";
   size?: "x-large" | "large" | "medium" | "small" | "x-small";
   icon?: React.ReactNode;
   square?: boolean;
@@ -52,6 +53,8 @@ const IconWithBackgroundRoot = React.forwardRef<
           "h-8 w-8": size === "medium",
           "h-12 w-12": size === "large",
           "h-16 w-16": size === "x-large",
+          "border border-solid border-brand-primary bg-transparent":
+            variant === "brand-outline",
           "bg-warning-300": variant === "warning-2",
           "bg-error-800": variant === "error-dark",
           "bg-success-600": variant === "success-dark",
@@ -76,9 +79,8 @@ const IconWithBackgroundRoot = React.forwardRef<
               "text-body font-body": size === "medium",
               "text-h2 font-h2": size === "large",
               "text-h1 font-h1": size === "x-large",
-              "text-neutral-900":
-                variant === "warning-2",
-              "text-warning-800": variant === "warning",
+              "text-brand-700": variant === "brand-outline",
+              "text-neutral-900": variant === "warning-2",
               "text-error-50": variant === "error-dark",
               "font-['Inter'] text-[14px] font-[400] leading-[12px] tracking-normal text-neutral-0":
                 variant === "success-dark",
@@ -86,6 +88,7 @@ const IconWithBackgroundRoot = React.forwardRef<
                 variant === "neutral-dark",
               "font-['Inter'] text-[14px] font-[400] leading-[12px] tracking-normal text-brand-100":
                 variant === "dark-brand",
+              "text-warning-800": variant === "warning",
               "text-success-800": variant === "success",
               "text-error-800": variant === "error",
               "text-neutral-700": variant === "neutral",

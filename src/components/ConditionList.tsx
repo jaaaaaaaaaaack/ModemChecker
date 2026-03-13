@@ -1,4 +1,4 @@
-import { StatusIte } from "@/ui/components/StatusIte";
+import { StatusItem } from "@/ui/components/StatusItem";
 import { CONDITION_LABELS } from "../constants";
 import type { ConditionCode } from "../types";
 
@@ -10,18 +10,18 @@ interface ConditionListProps {
 export function ConditionList({ conditions, variant = "warning" }: ConditionListProps) {
   if (conditions.length === 0) return null;
 
-  const statusIteStatus = variant === "callout" ? ("callout" as const) : ("warning" as const);
+  const statusItemStatus = variant === "callout" ? ("callout" as const) : ("warning" as const);
 
   return (
     <div className="flex w-full flex-col items-start gap-2">
       {conditions.map((code) => {
         const info = CONDITION_LABELS[code];
         return (
-          <StatusIte
+          <StatusItem
             key={code}
             title={info.label}
             description={info.description}
-            status={statusIteStatus}
+            status={statusItemStatus}
             hasDescription={true}
           />
         );

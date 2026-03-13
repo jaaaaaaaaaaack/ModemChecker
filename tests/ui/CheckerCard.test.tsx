@@ -1,11 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { CompatibilityCard } from "../../src/ui/components/CompatibilityCard";
+import { CheckerCard } from "../../src/ui/components/CheckerCard";
 
-describe("CompatibilityCard", () => {
+describe("CheckerCard", () => {
   it("renders compatible status with green checkmark row", () => {
     render(
-      <CompatibilityCard
+      <CheckerCard
         modemName="Archer VR1600v"
         brand="TP-Link"
         status="compatible"
@@ -20,7 +20,7 @@ describe("CompatibilityCard", () => {
 
   it("renders speed warning with correct copy for wan-bottleneck", () => {
     render(
-      <CompatibilityCard
+      <CheckerCard
         modemName="Old Router"
         status="speed-warning"
         speedWarningType="wan-bottleneck"
@@ -33,7 +33,7 @@ describe("CompatibilityCard", () => {
 
   it("renders speed warning with correct copy for wifi-bottleneck", () => {
     render(
-      <CompatibilityCard
+      <CheckerCard
         modemName="Slow WiFi Router"
         status="speed-warning"
         speedWarningType="wifi-bottleneck"
@@ -46,20 +46,20 @@ describe("CompatibilityCard", () => {
 
   it("absorbs setup conditions into generic callout without individual items", () => {
     render(
-      <CompatibilityCard
+      <CheckerCard
         modemName="Needs Setup Router"
         status="callout"
         conditions={["SWITCH_TO_IPOE", "DISABLE_VLAN"]}
       />
     );
-    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("Some setup required")).toBeInTheDocument();
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
     expect(screen.queryByText("Disable VLAN tagging")).not.toBeInTheDocument();
   });
 
   it("renders no callout rows when conditions is empty", () => {
     render(
-      <CompatibilityCard
+      <CheckerCard
         modemName="Clean Router"
         status="compatible"
         conditions={[]}
@@ -70,25 +70,25 @@ describe("CompatibilityCard", () => {
 
   it("renders callout status with setup summary but no individual setup items", () => {
     render(
-      <CompatibilityCard
+      <CheckerCard
         modemName="Setup Router"
         status="callout"
         conditions={["SWITCH_TO_IPOE"]}
       />
     );
-    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("Some setup required")).toBeInTheDocument();
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
 
   it("renders ISP_LOCK as individual item alongside generic callout", () => {
     render(
-      <CompatibilityCard
+      <CheckerCard
         modemName="Locked Router"
         status="callout"
         conditions={["SWITCH_TO_IPOE", "ISP_LOCK"]}
       />
     );
-    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("Some setup required")).toBeInTheDocument();
     expect(screen.getByText("May be ISP-locked")).toBeInTheDocument();
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });

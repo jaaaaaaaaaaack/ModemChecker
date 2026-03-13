@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "../ui/components/Button";
-import { CompatibilityCard } from "../ui/components/CompatibilityCard";
+import { CheckerCard } from "../ui/components/CheckerCard";
 import { RadioCardGroup } from "../ui/components/RadioCardGroup";
 import { getModemImageUrl } from "../lib/supabase";
 import { assessCompatibility } from "../lib/compatibility";
@@ -50,7 +50,7 @@ export function BaseScreen({
     const assessment = assessCompatibility(verifiedModem, techType, planSpeedMbps);
 
     return (
-      <CompatibilityCard
+      <CheckerCard
         status={assessment.cardStatus}
         speedWarningType={assessment.speedWarning?.type ?? null}
         conditions={assessment.setupConditions}

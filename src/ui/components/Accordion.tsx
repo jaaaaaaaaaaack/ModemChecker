@@ -22,7 +22,7 @@ const Chevron = React.forwardRef<
     <SubframeCore.Collapsible.Chevron {...otherProps}>
       <FeatherChevronDown
         className={SubframeUtils.twClassNames(
-          "text-body font-body text-default-font",
+          "text-h4-button-500 font-h4-button-500 text-default-font",
           className
         )}
         ref={ref}
@@ -86,6 +86,7 @@ interface AccordionRootProps
   trigger?: React.ReactNode;
   children?: React.ReactNode;
   open?: boolean;
+  variant?: "option-1" | "option-2";
   className?: string;
 }
 
@@ -95,6 +96,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(
       trigger,
       children,
       open,
+      variant = "option-1",
       className,
       defaultOpen = false,
       ...otherProps

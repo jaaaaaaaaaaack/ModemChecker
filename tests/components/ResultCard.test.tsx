@@ -54,7 +54,7 @@ describe("ResultCard", () => {
     });
     render(<ResultCard modem={modem} techType="fttp" />);
     expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
-    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("Some setup required")).toBeInTheDocument();
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
 
@@ -108,7 +108,7 @@ describe("ResultCard", () => {
     });
     render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
     expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
-    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("Some setup required")).toBeInTheDocument();
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
 
@@ -122,7 +122,7 @@ describe("ResultCard", () => {
       },
     });
     render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
-    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("Some setup required")).toBeInTheDocument();
     expect(screen.getByText("May be ISP-locked")).toBeInTheDocument();
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });

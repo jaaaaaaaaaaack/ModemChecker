@@ -3,9 +3,9 @@
 /*
  * Documentation:
  * Button — https://app.subframe.com/c141bce6134a/library?component=Button_3b777358-b86b-40af-9327-891efc6826fe
- * CompatibilityCard — https://app.subframe.com/c141bce6134a/library?component=CompatibilityCard_15c47a51-5291-4264-8249-1fd9e97a7afd
+ * CheckerCard — https://app.subframe.com/c141bce6134a/library?component=CheckerCard_15c47a51-5291-4264-8249-1fd9e97a7afd
  * Link Button — https://app.subframe.com/c141bce6134a/library?component=Link+Button_a4ee726a-774c-4091-8c49-55b659356024
- * StatusIte — https://app.subframe.com/c141bce6134a/library?component=StatusIte_a6a68d53-7d15-411a-82fa-683addf6bc1c
+ * StatusItem — https://app.subframe.com/c141bce6134a/library?component=StatusItem_a6a68d53-7d15-411a-82fa-683addf6bc1c
  */
 
 import React from "react";
@@ -15,7 +15,7 @@ import { FeatherRouter } from "@subframe/core";
 import * as SubframeUtils from "../utils";
 import { Button } from "./Button";
 import { LinkButton } from "./LinkButton";
-import { StatusIte } from "./StatusIte";
+import { StatusItem } from "./StatusItem";
 import { ModemImage } from "../../components/ModemImage";
 import { ConditionList } from "../../components/ConditionList";
 import { SPEED_WARNING_COPY, INDIVIDUAL_CONDITION_CODES } from "../../constants";
@@ -59,8 +59,7 @@ const statusItemVariants = {
   },
 };
 
-interface CompatibilityCalloutProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface ResultsCardProps extends React.HTMLAttributes<HTMLDivElement> {
   status?: "compatible" | "not-compatible" | "speed-warning" | "callout";
   modemName?: React.ReactNode;
   brand?: React.ReactNode;
@@ -70,10 +69,10 @@ interface CompatibilityCalloutProps
   className?: string;
 }
 
-const CompatibilityCallout = React.forwardRef<
+const ResultsCard = React.forwardRef<
   HTMLDivElement,
-  CompatibilityCalloutProps
->(function CompatibilityCallout(
+  ResultsCardProps
+>(function ResultsCard(
   {
     status = "compatible",
     modemName,
@@ -83,11 +82,11 @@ const CompatibilityCallout = React.forwardRef<
     speedWarningType = null,
     className,
     ...otherProps
-  }: CompatibilityCalloutProps,
+  }: ResultsCardProps,
   ref
 ) {
   // Only ISP_LOCK (and other INDIVIDUAL_CONDITION_CODES) get their own line item.
-  // All other conditions are absorbed into the generic "Some setup may be required" callout.
+  // All other conditions are absorbed into the generic "Some setup required" callout.
   const individualConditions = conditions.filter((c) => INDIVIDUAL_CONDITION_CODES.has(c));
 
   return (
@@ -106,7 +105,7 @@ const CompatibilityCallout = React.forwardRef<
           {
             "flex-row flex-nowrap justify-between pl-4 pr-3 py-3":
               status === "speed-warning",
-            "flex-row flex-nowrap items-start justify-between border border-solid border-error-700 bg-white px-4 py-4":
+            "flex-row flex-nowrap justify-between bg-white px-4 py-4":
               status === "not-compatible",
           }
         )}
@@ -141,9 +140,9 @@ const CompatibilityCallout = React.forwardRef<
                 src={image}
                 alt={String(modemName ?? "Modem")}
                 className={SubframeUtils.twClassNames(
-                  "h-16 w-16 flex-none object-cover",
+                  "h-16 max-w-[80px] flex-none object-contain",
                   {
-                    "h-16 w-auto flex-none":
+                    "h-16 w-auto max-w-[80px] flex-none":
                       status === "callout" ||
                       status === "speed-warning" ||
                       status === "not-compatible",
@@ -182,7 +181,7 @@ const CompatibilityCallout = React.forwardRef<
             variants={statusSectionVariants}
           >
             <motion.div variants={statusItemVariants}>
-              <StatusIte
+              <StatusItem
                 title={
                   status === "not-compatible"
                     ? "Modem is not compatible"
@@ -209,7 +208,7 @@ const CompatibilityCallout = React.forwardRef<
             )}
             {status !== "not-compatible" && (
               <motion.div variants={statusItemVariants}>
-                <StatusIte
+                <StatusItem
                   title={
                     speedWarningType
                       ? SPEED_WARNING_COPY[speedWarningType].title
@@ -222,8 +221,8 @@ const CompatibilityCallout = React.forwardRef<
             )}
             {status === "callout" && (
               <motion.div variants={statusItemVariants}>
-                <StatusIte
-                  title="Some setup may be required"
+                <StatusItem
+                  title="Some setup required"
                   description={"You might need to update a few modem settings. We\u2019ll send you a simple guide after your order is submitted."}
                   status="callout"
                   hasDescription={true}
@@ -242,7 +241,7 @@ const CompatibilityCallout = React.forwardRef<
   );
 });
 
-interface CompatibilityCardRootProps
+interface CheckerCardRootProps
   extends React.HTMLAttributes<HTMLDivElement> {
   state?: "results" | "default";
   modemName?: React.ReactNode;
@@ -255,10 +254,10 @@ interface CompatibilityCardRootProps
   className?: string;
 }
 
-const CompatibilityCardRoot = React.forwardRef<
+const CheckerCardRoot = React.forwardRef<
   HTMLDivElement,
-  CompatibilityCardRootProps
->(function CompatibilityCardRoot(
+  CheckerCardRootProps
+>(function CheckerCardRoot(
   {
     state = "results",
     modemName,
@@ -270,13 +269,13 @@ const CompatibilityCardRoot = React.forwardRef<
     onButtonClick,
     className,
     ...otherProps
-  }: CompatibilityCardRootProps,
+  }: CheckerCardRootProps,
   ref
 ) {
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/15c47a51 flex w-full flex-col items-start gap-6 rounded-md border border-solid border-brand-300 bg-gradient-brand px-4 py-4",
+        "group/15c47a51 flex w-full flex-col items-start gap-4 rounded-md border border-solid border-brand-400 bg-color-primary-50 px-4 py-4",
         { "flex-col flex-nowrap gap-6": status === "speed-warning" },
         className
       )}
@@ -285,9 +284,11 @@ const CompatibilityCardRoot = React.forwardRef<
     >
       <div className="flex w-full flex-col items-start gap-3">
         <span className="text-h3-700 font-h3-700 text-color-primary-700">
-          Compatibility checker
+          {state === "default"
+            ? "Compatibility checker"
+            : "Compatibility results"}
         </span>
-        <CompatibilityCallout
+        <ResultsCard
           className={SubframeUtils.twClassNames({
             hidden: state === "default",
           })}
@@ -306,10 +307,15 @@ const CompatibilityCardRoot = React.forwardRef<
           conditions={conditions}
           speedWarningType={speedWarningType}
         />
-        <span className="text-caption font-caption text-default-font">
+        <span
+          className={SubframeUtils.twClassNames(
+            "text-caption font-caption text-brand-900",
+            { "text-body font-body text-brand-800": state === "default" }
+          )}
+        >
           {state === "default"
-            ? "Check if your modem is compatible with Belong."
-            : "This tool provides general advice only, we cannot guarantee its accuracy. You should verify your modem\u2019s details with the manufacturer or retailer."}
+            ? "Check if your modem is compatible with Belong, and if it\u2019s fast enough for your selected plan."
+            : "Important: This tool provides general advice only, based on information sourced online. You should verify your modem\u2019s details with the manufacturer or retailer."}
         </span>
       </div>
       <LinkButton
@@ -321,7 +327,7 @@ const CompatibilityCardRoot = React.forwardRef<
         Check another modem
       </LinkButton>
       <Button
-        variant="brand-secondary"
+        variant="brand-tertiary"
         icon={state === "default" ? <FeatherRouter /> : <FeatherRotateCcw />}
         hasLeftIcon={true}
         onClick={onButtonClick}
@@ -332,6 +338,6 @@ const CompatibilityCardRoot = React.forwardRef<
   );
 });
 
-export const CompatibilityCard = Object.assign(CompatibilityCardRoot, {
-  CompatibilityCallout,
+export const CheckerCard = Object.assign(CheckerCardRoot, {
+  ResultsCard,
 });

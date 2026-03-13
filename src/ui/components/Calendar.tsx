@@ -6,7 +6,7 @@
 
 import React from "react";
 import * as SubframeCore from "@subframe/core";
-// import * as SubframeUtils from "../utils";
+import * as SubframeUtils from "../utils";
 
 type CalendarRootProps = React.ComponentProps<typeof SubframeCore.Calendar> & {
   className?: string;

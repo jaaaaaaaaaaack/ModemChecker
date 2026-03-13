@@ -2,18 +2,19 @@
 /*
  * Documentation:
  * Icon with background — https://app.subframe.com/c141bce6134a/library?component=Icon+with+background_c5d68c0e-4c0c-4cff-8d8c-6ff334859b3a
- * StatusIte — https://app.subframe.com/c141bce6134a/library?component=StatusIte_a6a68d53-7d15-411a-82fa-683addf6bc1c
+ * StatusItem — https://app.subframe.com/c141bce6134a/library?component=StatusItem_a6a68d53-7d15-411a-82fa-683addf6bc1c
  */
 
 import React from "react";
 import { FeatherAlertTriangle } from "@subframe/core";
-import { FeatherSettings } from "@subframe/core";
+import { FeatherAsterisk } from "@subframe/core";
 import { FeatherWifi } from "@subframe/core";
 import { FeatherX } from "@subframe/core";
+import * as SubframeCore from "@subframe/core";
 import * as SubframeUtils from "../utils";
 import { IconWithBackground } from "./IconWithBackground";
 
-interface StatusIteRootProps
+interface StatusItemRootProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   icon?: React.ReactNode;
   title?: React.ReactNode;
@@ -23,8 +24,8 @@ interface StatusIteRootProps
   className?: string;
 }
 
-const StatusIteRoot = React.forwardRef<HTMLDivElement, StatusIteRootProps>(
-  function StatusIteRoot(
+const StatusItemRoot = React.forwardRef<HTMLDivElement, StatusItemRootProps>(
+  function StatusItemRoot(
     {
       icon = <FeatherAlertTriangle />,
       title,
@@ -33,7 +34,7 @@ const StatusIteRoot = React.forwardRef<HTMLDivElement, StatusIteRootProps>(
       hasDescription = false,
       className,
       ...otherProps
-    }: StatusIteRootProps,
+    }: StatusItemRootProps,
     ref
   ) {
     return (
@@ -49,16 +50,17 @@ const StatusIteRoot = React.forwardRef<HTMLDivElement, StatusIteRootProps>(
           <IconWithBackground
             variant={
               status === "callout"
-                ? "neutral"
+                ? "dark-brand"
                 : status === "warning"
-                ? "warning-2"
+                ? "neutral"
                 : status === "incompatible"
                 ? "error-dark"
                 : "success-dark"
             }
+            size="small"
             icon={
               status === "callout" ? (
-                <FeatherSettings />
+                <FeatherAsterisk />
               ) : status === "warning" ? (
                 <FeatherWifi />
               ) : status === "incompatible" ? (
@@ -67,7 +69,7 @@ const StatusIteRoot = React.forwardRef<HTMLDivElement, StatusIteRootProps>(
             }
           />
         </div>
-        <div className="flex grow shrink-0 basis-0 flex-col items-start gap-0.5 pt-px">
+        <div className="flex grow shrink-0 basis-0 flex-col items-start justify-center gap-0.5 self-stretch pt-px">
           {title ? (
             <span
               className={SubframeUtils.twClassNames(
@@ -97,4 +99,4 @@ const StatusIteRoot = React.forwardRef<HTMLDivElement, StatusIteRootProps>(
   }
 );
 
-export const StatusIte = StatusIteRoot;
+export const StatusItem = StatusItemRoot;
