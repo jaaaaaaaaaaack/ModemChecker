@@ -1,7 +1,7 @@
 # Sheet & Search Improvements — Design Spec
 
 **Date:** 2026-03-13
-**Status:** Approved
+**Status:** Approved (post-review revision)
 
 ## Problem
 
@@ -22,14 +22,14 @@ Replace the current conditional-render `BottomSheet` with a Radix Dialog-based c
 | Breakpoint | Layout | Animation |
 |---|---|---|
 | < 768px (mobile) | Bottom sheet — full width, rounded top corners (`rounded-t-3xl`), anchored to bottom | Slides up from below viewport (`translateY(100%)` → `translateY(0)`) |
-| ≥ 768px (desktop) | Side sheet — full height, fixed width (~480px), anchored to right edge, no rounded corners | Slides in from right (`translateX(100%)` → `translateX(0)`) |
+| ≥ 768px (desktop) | Side sheet — full height, `w-[480px]`, anchored to right edge, no rounded corners | Slides in from right (`translateX(100%)` → `translateX(0)`) |
 
 ### Animation
 
 - **Duration:** ~300ms ease-out for enter, ~200ms ease-in for exit
 - **Scrim:** `Dialog.Overlay` fades opacity from 0 to `bg-black/40` on enter, reverses on exit
 - **Sheet body:** CSS transition on `transform` property
-- **Implementation:** Use `data-[state=open]` / `data-[state=closed]` attributes from Radix to drive CSS transitions. Use `forceMount` on Overlay and Content to keep them in DOM during exit animations, with `onAnimationEnd` or transition-based unmounting.
+- **Implementation:** Use `data-[state=open]` / `data-[state=closed]` attributes from Radix to drive CSS `@keyframes` animations. Both Overlay and Content use `forceMount` so they remain in the DOM during exit. The component manages an internal `visible` state: when `open` transitions to `false`, the exit animation plays via `data-[state=closed]` keyframes. An `onAnimationEnd` handler sets `visible = false`, which unmounts the Portal. This keeps animation control in CSS while React handles the mount/unmount lifecycle.
 
 ### Accessibility (from Radix Dialog)
 
@@ -81,8 +81,8 @@ Sheet content area scrolls internally (`overflow-y: auto`) if content exceeds vi
 - Only invoked if Tier 1 returns 0 results
 - Database-side RPC function `search_modems_fuzzy(query_text, max_results)`
 - Uses `pg_trgm` extension for similarity matching
-- Concatenates `brand || ' ' || model || ' ' || coalesce(alternative_names, '')` into a searchable string
-- Ranks by `similarity()` score, filters by threshold (~0.15 to be forgiving)
+- Concatenates `brand || ' ' || model || ' ' || coalesce(array_to_string(alternative_names, ' '), '')` into a searchable string (`alternative_names` is `TEXT[]`, requires `array_to_string`)
+- Ranks by `similarity()` score, filters by threshold (starting at 0.15 — validate against the 70-modem dataset before finalising; see Threshold Validation below)
 - Returns top 10 results ordered by similarity descending
 
 ### Database Migration
@@ -103,16 +103,41 @@ AS $$
   SELECT *
   FROM modems
   WHERE similarity(
-    lower(brand || ' ' || model || ' ' || coalesce(alternative_names, '')),
+    lower(brand || ' ' || model || ' ' || coalesce(array_to_string(alternative_names, ' '), '')),
     lower(query_text)
   ) > 0.15
   ORDER BY similarity(
-    lower(brand || ' ' || model || ' ' || coalesce(alternative_names, '')),
+    lower(brand || ' ' || model || ' ' || coalesce(array_to_string(alternative_names, ' '), '')),
     lower(query_text)
   ) DESC
   LIMIT max_results;
 $$;
+
+-- GIN index for trigram queries (70 rows today, but good practice for growth)
+CREATE INDEX IF NOT EXISTS idx_modems_trgm ON modems
+USING gin (
+  (lower(brand || ' ' || model || ' ' || coalesce(array_to_string(alternative_names, ' '), '')))
+  gin_trgm_ops
+);
 ```
+
+### Threshold Validation
+
+Before finalising the 0.15 threshold, run these test queries against the live database:
+
+```sql
+-- Test queries to validate threshold
+SELECT brand, model,
+  similarity(
+    lower(brand || ' ' || model || ' ' || coalesce(array_to_string(alternative_names, ' '), '')),
+    lower('Ero 6')
+  ) AS score
+FROM modems ORDER BY score DESC LIMIT 5;
+
+-- Repeat for: 'TPLink', 'eero', 'netgear nighthawk', 'tp link archer'
+```
+
+Adjust threshold if legitimate matches score below 0.15 or irrelevant matches score above it.
 
 ### Client-Side Changes
 
@@ -158,15 +183,15 @@ body, #root {
 
 - `BottomSheet.tsx` — code-only shell (Radix Dialog wrapper, animation, responsive layout). **Exempt from Subframe workflow.**
 - `src/lib/search.ts` — data layer, no UI. **Exempt from Subframe workflow.**
-- All visual child components (SearchInput, MultipleMatches, ResultCard, etc.) remain Subframe-managed and unchanged.
+- All visual child components (SearchInput, MultipleMatches, ResultCard, NoMatch, etc.) remain Subframe-managed and unchanged. Their props interfaces (`NoMatch.query`, `NoMatch.onRetry`, etc.) are not affected by this spec.
 
 ## Testing Strategy
 
-- **BottomSheet:** Test open/close callbacks, Escape key handling, scrim click, `aria-modal` presence. Animation is CSS-only and not unit-testable.
-- **Search:** Test FTS-first-then-trigram fallback logic. Mock Supabase responses for both tiers. Test error logging.
-- **Integration:** Manual verification in browser — animation smoothness, responsive breakpoint, search results for "Eero 6", "eero", "TPLink", typos.
+- **BottomSheet:** Existing tests (`BottomSheet.test.tsx`) must be **rewritten** — the switch from conditional rendering to Radix Dialog changes the DOM structure (Portal rendering, `Dialog.Overlay` replaces `data-testid="bottom-sheet-backdrop"`, `forceMount` means content is in DOM during exit). New tests cover: open/close via `onOpenChange`, Escape key, overlay click, `aria-modal` presence, focus trap behavior. Animation is CSS-only and not unit-testable.
+- **Search:** Test FTS-first-then-trigram fallback logic. Mock Supabase responses for both tiers. Test error logging (`console.error` spy).
+- **Integration:** Manual verification in browser — animation smoothness, responsive breakpoint at 768px, search results for "Eero 6", "eero", "TPLink", "Ero 6" (typo).
 
 ## Dependencies
 
-- `@radix-ui/react-dialog` — likely already installed via Subframe (uses Radix primitives). Verify, install if needed.
+- `@radix-ui/react-dialog` — check if re-exported from `@subframe/core`; if not, install directly. Do not assume Subframe bundles it.
 - `pg_trgm` Postgres extension — enable via Supabase SQL editor or migration.
