@@ -71,3 +71,13 @@ export type SearchState =
   | { step: "single_match"; modem: Modem }
   | { step: "multiple_matches"; modems: Modem[] }
   | { step: "no_match"; query: string };
+
+export interface SpeedWarning {
+  type: "wan-bottleneck" | "wifi-bottleneck";
+}
+
+export interface CompatibilityAssessment {
+  cardStatus: "compatible" | "not-compatible" | "speed-warning" | "callout";
+  speedWarning: SpeedWarning | null;
+  setupConditions: ConditionCode[];
+}
