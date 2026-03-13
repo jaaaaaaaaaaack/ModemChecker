@@ -1,4 +1,4 @@
-import type { ConditionCode, CompatibilityStatus } from "./types";
+import type { ConditionCode, CompatibilityStatus, SpeedWarning } from "./types";
 
 export const CONDITION_LABELS: Record<ConditionCode, { label: string; description: string }> = {
   SWITCH_TO_IPOE: {
@@ -58,5 +58,30 @@ export const STATUS_CONFIG: Record<CompatibilityStatus, { heading: string; color
     heading: "Not compatible with Belong nbn",
     color: "text-error-500",
     bgColor: "bg-error-50",
+  },
+};
+
+export const DEFAULT_PLAN_SPEED_MBPS = 500;
+
+/** Condition codes that are superseded by the runtime speed assessment */
+export const SPEED_CONDITION_CODES: ReadonlySet<ConditionCode> = new Set([
+  "WAN_PORT_LIMIT",
+  "NEEDS_2_5G_WAN",
+]);
+
+/**
+ * Condition codes that warrant their own individual display on the card.
+ * All other conditions are absorbed into the generic "Some setup may be required" callout.
+ */
+export const INDIVIDUAL_CONDITION_CODES: ReadonlySet<ConditionCode> = new Set([
+  "ISP_LOCK",
+]);
+
+export const SPEED_WARNING_COPY: Record<SpeedWarning["type"], { title: string }> = {
+  "wan-bottleneck": {
+    title: "This modem is not fast enough to support your plan's maximum speeds.",
+  },
+  "wifi-bottleneck": {
+    title: "This modem may not be capable of supporting your plan's maximum speeds over Wi-Fi.",
   },
 };

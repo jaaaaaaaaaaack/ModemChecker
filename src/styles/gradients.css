@@ -1,0 +1,27 @@
+/* Brand gradient utilities — applied at the container level (BottomSheet, CompatibilityCard).
+ * These live outside Subframe's theme.css because Subframe doesn't support gradients.
+ */
+
+/* Full gradient: cyan → near-white over the entire element height.
+ * Used on the mobile bottom sheet and the CompatibilityCard. */
+@utility bg-gradient-brand {
+  background-color: #FFFFFF;
+  background-image: linear-gradient(
+    180deg,
+    rgba(195, 249, 255, 1) 0%,
+    rgba(240, 253, 255, 1) 100%
+  );
+}
+
+/* Compact gradient: transitions over the first ~300px, then settles to white.
+ * Used on the desktop side sheet where the full-height gradient would be too heavy. */
+@utility bg-gradient-brand-compact {
+  background-color: #FFFFFF;
+  background-image: linear-gradient(
+    180deg,
+    rgba(195, 249, 255, 1) 0%,
+    rgba(225, 252, 255, 1) 120px,
+    rgba(250, 254, 255, 1) 240px,
+    rgba(255, 255, 255, 1) 320px
+  );
+}

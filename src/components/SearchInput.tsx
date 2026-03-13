@@ -1,4 +1,10 @@
+"use client";
+
 import { useState, type FormEvent } from "react";
+import { FeatherChevronRight } from "@subframe/core";
+import { TextField } from "@/ui/components/TextField";
+import { Button } from "@/ui/components/Button";
+import { LinkButton } from "@/ui/components/LinkButton";
 
 interface SearchInputProps {
   onSearch: (query: string) => void;
@@ -14,30 +20,43 @@ export function SearchInput({ onSearch }: SearchInputProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <h2 className="text-2xl font-bold text-brand-700">
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-full flex-1 flex-col items-start gap-6 min-h-0"
+    >
+      <div className="flex w-full flex-col items-start gap-2">
+        <span className="text-h2 font-h2 text-color-primary-701">
           Find your modem's model name/number
-        </h2>
-        <p className="text-sm text-gray-500">
-          Check the sticker on the back or bottom of your device.
-        </p>
+        </span>
+        <span className="text-body font-body text-default-font">
+          Model details are usually found on the back or bottom of the device.
+        </span>
       </div>
-
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="e.g. TP-Link Archer VR1600v"
-        className="w-full rounded-xl border border-gray-300 px-4 py-3 text-base outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
-      />
-
-      <button
-        type="submit"
-        className="w-full rounded-full bg-brand-500 py-3 text-base font-semibold text-white hover:bg-brand-600 active:bg-brand-700"
-      >
-        Continue
-      </button>
+      <div className="flex w-full flex-col items-start gap-3">
+        <span className="text-body-bold font-body-bold text-color-primary-701">
+          Type your modem name / model
+        </span>
+        <TextField className="h-auto w-full flex-none" variant="outline" label="" helpText="">
+          <TextField.Input
+            placeholder={'"Eero 6", "TP Link R400"'}
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </TextField>
+        <LinkButton variant="brand" type="button" onClick={() => {}}>
+          Help me find the model name
+        </LinkButton>
+      </div>
+      <div className="flex w-full items-center justify-end mt-auto pt-2">
+        <Button
+          className="rounded-full"
+          variant="brand-primary"
+          iconRight={<FeatherChevronRight />}
+          type="submit"
+        >
+          Continue
+        </Button>
+      </div>
     </form>
   );
 }

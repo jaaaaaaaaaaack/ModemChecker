@@ -22,7 +22,13 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Import aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@/ui/*": ["./src/ui/*"]
+    }
   },
   "include": ["src"]
 }

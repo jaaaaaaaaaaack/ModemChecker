@@ -13,4 +13,24 @@ describe("ConditionList", () => {
     const { container } = render(<ConditionList conditions={[]} />);
     expect(container.firstChild).toBeNull();
   });
+
+  it("renders StatusIte with callout status when variant is callout", () => {
+    const { container } = render(
+      <ConditionList conditions={["SWITCH_TO_IPOE"]} variant="callout" />
+    );
+    // StatusIte status="callout" → IconWithBackground variant="neutral"
+    // which uses bg-neutral-200 background (not bg-warning-300).
+    expect(container.querySelector('[class*="bg-warning-300"]')).not.toBeInTheDocument();
+    expect(container.querySelector('[class*="bg-neutral-200"]')).toBeInTheDocument();
+    expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
+  });
+
+  it("renders StatusIte with warning status by default", () => {
+    const { container } = render(
+      <ConditionList conditions={["SWITCH_TO_IPOE"]} />
+    );
+    // Default variant="warning" → StatusIte status="warning" → IconWithBackground variant="warning-2"
+    // which applies bg-warning-300
+    expect(container.querySelector('[class*="bg-warning-300"]')).toBeInTheDocument();
+  });
 });

@@ -7,14 +7,14 @@ describe("SearchInput", () => {
   it("renders heading and input field", () => {
     render(<SearchInput onSearch={() => {}} />);
     expect(screen.getByText(/find your modem/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/e\.g\./i)).toBeInTheDocument();
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 
   it("calls onSearch with input value on submit", async () => {
     const onSearch = vi.fn();
     render(<SearchInput onSearch={onSearch} />);
 
-    await userEvent.type(screen.getByPlaceholderText(/e\.g\./i), "TP-Link Archer");
+    await userEvent.type(screen.getByRole("textbox"), "TP-Link Archer");
     await userEvent.click(screen.getByRole("button", { name: /continue/i }));
 
     expect(onSearch).toHaveBeenCalledWith("TP-Link Archer");
@@ -32,7 +32,7 @@ describe("SearchInput", () => {
     const onSearch = vi.fn();
     render(<SearchInput onSearch={onSearch} />);
 
-    const input = screen.getByPlaceholderText(/e\.g\./i);
+    const input = screen.getByRole("textbox");
     await userEvent.type(input, "Netgear{Enter}");
 
     expect(onSearch).toHaveBeenCalledWith("Netgear");

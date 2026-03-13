@@ -1,33 +1,74 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { searchModems } from "../lib/search";
-import type { Modem, SearchState } from "../types";
+import type { Modem, SearchState, TransitionDirection } from "../types";
+
+const STEP_ORDINAL: Record<SearchState["step"], number> = {
+  idle: 0,
+  searching: 1,
+  multiple_matches: 2,
+  no_match: 2,
+  error: 2,
+  single_match: 3,
+};
 
 export function useModemSearch() {
-  const [state, setState] = useState<SearchState>({ step: "idle" });
+  const [state, setStateRaw] = useState<SearchState>({ step: "idle" });
+  const [direction, setDirection] = useState<TransitionDirection>("forward");
+  const prevStepRef = useRef<SearchState["step"]>("idle");
+  const abortRef = useRef<AbortController | null>(null);
 
-  const search = useCallback(async (query: string) => {
-    setState({ step: "searching", query });
-    try {
-      const results = await searchModems(query);
-      if (results.length === 0) {
-        setState({ step: "no_match", query });
-      } else if (results.length === 1) {
-        setState({ step: "single_match", modem: results[0] });
-      } else {
-        setState({ step: "multiple_matches", modems: results });
+  const setState = useCallback((next: SearchState) => {
+    const prevOrd = STEP_ORDINAL[prevStepRef.current];
+    const nextOrd = STEP_ORDINAL[next.step];
+    setDirection(nextOrd >= prevOrd ? "forward" : "backward");
+    prevStepRef.current = next.step;
+    setStateRaw(next);
+  }, []);
+
+  const search = useCallback(
+    async (query: string) => {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
+      setState({ step: "searching", query });
+      try {
+        const results = await searchModems(query, controller.signal);
+        if (controller.signal.aborted) return;
+        if (results.length === 0) {
+          setState({ step: "no_match", query });
+        } else if (results.length === 1) {
+          setState({ step: "single_match", modem: results[0] });
+        } else {
+          setState({ step: "multiple_matches", modems: results });
+        }
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        console.error("[ModemChecker] Search failed:", error);
+        setState({ step: "error", query });
       }
-    } catch {
-      setState({ step: "no_match", query });
-    }
-  }, []);
+    },
+    [setState]
+  );
 
-  const selectModem = useCallback((modem: Modem) => {
-    setState({ step: "single_match", modem });
-  }, []);
+  const selectModem = useCallback(
+    (modem: Modem) => {
+      setState({ step: "single_match", modem });
+    },
+    [setState]
+  );
 
   const reset = useCallback(() => {
+    abortRef.current?.abort();
+    abortRef.current = null;
     setState({ step: "idle" });
-  }, []);
+  }, [setState]);
 
-  return { state, search, selectModem, reset };
+  const retry = useCallback(() => {
+    if (state.step === "error") {
+      search(state.query);
+    }
+  }, [state, search]);
+
+  return { state, direction, search, selectModem, reset, retry };
 }

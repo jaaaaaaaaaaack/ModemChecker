@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { ResultCard } from "../../src/components/ResultCard";
 import type { Modem } from "../../src/types";
 
@@ -26,7 +27,7 @@ const makeModem = (overrides: Partial<Modem> = {}): Modem => ({
 describe("ResultCard", () => {
   it("shows compatible heading for yes status", () => {
     render(<ResultCard modem={makeModem()} techType="fttp" />);
-    expect(screen.getByText("Compatible with Belong nbn")).toBeInTheDocument();
+    expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
   });
 
   it("shows incompatible heading for no status", () => {
@@ -39,10 +40,10 @@ describe("ResultCard", () => {
       },
     });
     render(<ResultCard modem={modem} techType="fttp" />);
-    expect(screen.getByText("Not compatible with Belong nbn")).toBeInTheDocument();
+    expect(screen.getByText(/modem is not compatible/i)).toBeInTheDocument();
   });
 
-  it("shows conditions for yes_but status", () => {
+  it("absorbs setup conditions into generic callout for yes_but status", () => {
     const modem = makeModem({
       compatibility: {
         fttp: { status: "yes_but", conditions: ["SWITCH_TO_IPOE"] },
@@ -52,13 +53,77 @@ describe("ResultCard", () => {
       },
     });
     render(<ResultCard modem={modem} techType="fttp" />);
-    expect(screen.getByText("Compatible with some requirements")).toBeInTheDocument();
-    expect(screen.getByText("Reconfigure to IPoE")).toBeInTheDocument();
+    expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
+    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
 
-  it("displays modem brand and model", () => {
+  it("displays modem brand and model separately", () => {
     render(<ResultCard modem={makeModem()} techType="fttp" />);
-    expect(screen.getByText("TP-Link")).toBeInTheDocument();
     expect(screen.getByText("Archer VR1600v")).toBeInTheDocument();
+    expect(screen.getByText("TP-Link")).toBeInTheDocument();
+  });
+
+  it("calls onDone when close button clicked", async () => {
+    const onDone = vi.fn();
+    render(<ResultCard modem={makeModem()} techType="fttp" onDone={onDone} />);
+    await userEvent.click(screen.getByRole("button", { name: /close/i }));
+    expect(onDone).toHaveBeenCalledOnce();
+  });
+
+  it("shows speed warning headline for WAN bottleneck", () => {
+    const modem = makeModem({
+      wan: { has_vdsl2_modem: true, wan_port_speed_mbps: 100 },
+    });
+    render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
+    expect(
+      screen.getByText(/not fast enough to support your plan/i)
+    ).toBeInTheDocument();
+  });
+
+  it("shows speed warning headline for Wi-Fi bottleneck", () => {
+    const modem = makeModem({
+      wan: { has_vdsl2_modem: true, wan_port_speed_mbps: 1000 },
+      wifi: {
+        wifi_standard: "Wi-Fi 5",
+        wifi_generation: 5,
+        bands: ["5GHz"],
+        max_speed_mbps: { theoretical_combined: 867, per_band: { "5GHz": 867 } },
+      },
+    });
+    render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
+    expect(
+      screen.getByText(/may not be capable of supporting.*over Wi-Fi/i)
+    ).toBeInTheDocument();
+  });
+
+  it("shows generic callout for setup conditions without individual items", () => {
+    const modem = makeModem({
+      compatibility: {
+        fttp: { status: "yes_but", conditions: ["SWITCH_TO_IPOE"] },
+        fttc: { status: "yes", conditions: [] },
+        fttn: { status: "yes", conditions: [] },
+        hfc: { status: "yes", conditions: [] },
+      },
+    });
+    render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
+    expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
+    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
+  });
+
+  it("shows ISP_LOCK individually alongside generic callout", () => {
+    const modem = makeModem({
+      compatibility: {
+        fttp: { status: "yes_but", conditions: ["SWITCH_TO_IPOE", "ISP_LOCK"] },
+        fttc: { status: "yes", conditions: [] },
+        fttn: { status: "yes", conditions: [] },
+        hfc: { status: "yes", conditions: [] },
+      },
+    });
+    render(<ResultCard modem={modem} techType="fttp" planSpeedMbps={500} />);
+    expect(screen.getByText("Some setup may be required")).toBeInTheDocument();
+    expect(screen.getByText("May be ISP-locked")).toBeInTheDocument();
+    expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
 });

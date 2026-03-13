@@ -1,28 +1,63 @@
-import { STATUS_CONFIG } from "../constants";
-import { ConditionList } from "./ConditionList";
+import { Button } from "@/ui/components/Button";
+import { LinkButton } from "@/ui/components/LinkButton";
+import { CompatibilityCard } from "@/ui/components/CompatibilityCard";
+import { DEFAULT_PLAN_SPEED_MBPS } from "../constants";
+import { assessCompatibility } from "../lib/compatibility";
+import { getModemImageUrl } from "../lib/supabase";
 import type { Modem, TechType } from "../types";
 
 interface ResultCardProps {
   modem: Modem;
   techType: TechType;
+  planSpeedMbps?: number;
+  onDone?: () => void;
+  onReset?: () => void;
 }
 
-export function ResultCard({ modem, techType }: ResultCardProps) {
-  const compat = modem.compatibility[techType];
-  const config = STATUS_CONFIG[compat.status];
+export function ResultCard({
+  modem,
+  techType,
+  planSpeedMbps = DEFAULT_PLAN_SPEED_MBPS,
+  onDone,
+  onReset,
+}: ResultCardProps) {
+  const assessment = assessCompatibility(modem, techType, planSpeedMbps);
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className={`rounded-2xl ${config.bgColor} p-4 text-center`}>
-        <p className={`text-lg font-bold ${config.color}`}>{config.heading}</p>
+    <div className="flex w-full flex-1 flex-col items-start gap-5 min-h-0">
+      <span className="text-h2 font-h2 text-color-primary-700">
+        Compatibility results
+      </span>
+      <CompatibilityCard.CompatibilityCallout
+        status={assessment.cardStatus}
+        modemName={modem.model}
+        brand={modem.brand}
+        image={getModemImageUrl(modem.id)}
+        conditions={assessment.setupConditions}
+        speedWarningType={assessment.speedWarning?.type ?? null}
+      />
+      <span className="text-caption font-caption text-default-font">
+        This tool provides general advice only, we cannot guarantee its accuracy. You should verify your modem{"\u2019"}s details with the manufacturer or retailer.
+      </span>
+      <div className="flex w-full items-center justify-between mt-auto pt-2">
+        <LinkButton
+          variant="brand"
+          icon={null}
+          iconRight={null}
+          onClick={onReset}
+        >
+          Check another modem
+        </LinkButton>
+        <Button
+          className="rounded-full"
+          variant="brand-primary"
+          icon={null}
+          iconRight={null}
+          onClick={onDone}
+        >
+          Close
+        </Button>
       </div>
-
-      <div className="rounded-2xl bg-gray-50 p-4">
-        <p className="text-sm text-gray-500">{modem.brand}</p>
-        <p className="text-base font-semibold text-gray-900">{modem.model}</p>
-      </div>
-
-      <ConditionList conditions={compat.conditions} />
     </div>
   );
 }
