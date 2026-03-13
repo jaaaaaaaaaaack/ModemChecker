@@ -3,6 +3,8 @@ import { LinkButton } from "@/ui/components/LinkButton";
 import { StatusIte } from "@/ui/components/StatusIte";
 import { FeatherWifi } from "@subframe/core";
 import { STATUS_CONFIG } from "../constants";
+import { getModemImageUrl } from "../lib/supabase";
+import { ModemImage } from "./ModemImage";
 import { ConditionList } from "./ConditionList";
 import type { Modem, TechType, CompatibilityStatus } from "../types";
 
@@ -34,6 +36,11 @@ export function ResultCard({ modem, techType, onDone, onReset }: ResultCardProps
           Compatibility results
         </span>
         <div className="flex w-full items-center gap-3 rounded-md bg-white px-4 py-3 shadow-sm">
+          <ModemImage
+            src={getModemImageUrl(modem.id)}
+            alt={`${modem.brand} ${modem.model}`}
+            className="w-12 h-12 rounded-md"
+          />
           <div className="flex flex-col items-start gap-0.5">
             <span className="text-caption font-caption text-subtext-color">
               {modem.brand}

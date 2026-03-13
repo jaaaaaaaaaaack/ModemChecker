@@ -14,6 +14,7 @@ interface ModemCheckerProps {
 }
 
 interface VerifiedModem {
+  id: string;
   brand: string;
   model: string;
   status: CompatibilityStatus;
@@ -33,6 +34,7 @@ export function ModemChecker({ techType }: ModemCheckerProps) {
     if (state.step === "single_match") {
       const compat = state.modem.compatibility[techType];
       setVerifiedModem({
+        id: state.modem.id,
         brand: state.modem.brand,
         model: state.modem.model,
         status: compat.status,

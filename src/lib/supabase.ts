@@ -8,3 +8,11 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+/**
+ * Get the public Storage URL for a modem image.
+ * Returns the URL whether or not the image exists — use onError fallback in <img>.
+ */
+export function getModemImageUrl(modemId: string): string {
+  return `${supabaseUrl}/storage/v1/object/public/modem-images/${modemId}.webp`;
+}

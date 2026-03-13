@@ -12,6 +12,7 @@
 import React from "react";
 import * as SubframeCore from "@subframe/core";
 import * as SubframeUtils from "../utils";
+import { ModemImage } from "../../components/ModemImage";
 
 interface RadioCardProps
   extends React.ComponentProps<typeof SubframeCore.RadioGroup.Item> {
@@ -82,9 +83,10 @@ const RadioCard = React.forwardRef<HTMLButtonElement, RadioCardProps>(
               ) : null}
             </div>
             {image ? (
-              <img
-                className="w-16 flex-none self-stretch object-contain drop-shadow-sm mix-blend-multiply"
+              <ModemImage
                 src={image}
+                alt={String(label ?? "Modem")}
+                className="w-16 h-16 rounded-lg"
               />
             ) : null}
           </div>

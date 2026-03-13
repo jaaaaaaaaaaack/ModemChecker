@@ -2,22 +2,23 @@
 
 import { useState } from "react";
 import { Button } from "../ui/components/Button";
+import { CompatibilityCard } from "../ui/components/CompatibilityCard";
 import { LinkButton } from "../ui/components/LinkButton";
 import { RadioCardGroup } from "../ui/components/RadioCardGroup";
-import { StatusIte } from "../ui/components/StatusIte";
-import { STATUS_CONFIG } from "../constants";
+import { getModemImageUrl } from "../lib/supabase";
 import type { CompatibilityStatus } from "../types";
 
 interface VerifiedModem {
+  id: string;
   brand: string;
   model: string;
   status: CompatibilityStatus;
 }
 
-const STATUS_TO_STATUSITE: Record<CompatibilityStatus, "success" | "warning" | "info"> = {
-  yes: "success",
-  yes_but: "warning",
-  no: "warning",
+const STATUS_TO_COMPAT_CARD: Record<CompatibilityStatus, "compatible" | "not-compatible" | "speed-warning"> = {
+  yes: "compatible",
+  yes_but: "speed-warning",
+  no: "not-compatible",
 };
 
 interface BaseScreenProps {
@@ -64,30 +65,11 @@ export function BaseScreen({ onCheckModem, verifiedModem }: BaseScreenProps) {
             </span>
 
             {verifiedModem ? (
-              <div className="flex w-full flex-col items-start gap-3 rounded-md bg-color-primary-50 px-4 py-4">
-                <span className="text-h3-700 font-h3-700 text-color-primary-700">
-                  Modem compatibility checker
-                </span>
-                <div className="flex w-full flex-col items-start gap-2 rounded-md bg-default-background px-4 py-3 shadow-sm">
-                  <div className="flex flex-col items-start gap-0.5">
-                    <span className="text-caption font-caption text-subtext-color">
-                      {verifiedModem.brand}
-                    </span>
-                    <span className="text-body-bold font-body-bold text-default-font">
-                      {verifiedModem.model}
-                    </span>
-                  </div>
-                  <StatusIte
-                    icon={null}
-                    title={STATUS_CONFIG[verifiedModem.status].heading}
-                    description=""
-                    status={STATUS_TO_STATUSITE[verifiedModem.status]}
-                  />
-                </div>
-                <LinkButton variant="brand" onClick={onCheckModem}>
-                  Check another modem
-                </LinkButton>
-              </div>
+              <CompatibilityCard
+                modemName={`${verifiedModem.brand} ${verifiedModem.model}`}
+                image={getModemImageUrl(verifiedModem.id)}
+                status={STATUS_TO_COMPAT_CARD[verifiedModem.status]}
+              />
             ) : (
               <div className="flex w-full flex-col items-start gap-3 rounded-md bg-color-primary-50 px-4 py-4">
                 <span className="text-h3-700 font-h3-700 text-color-primary-700">

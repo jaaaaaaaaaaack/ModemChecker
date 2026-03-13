@@ -4,6 +4,7 @@ import { Button } from "../ui/components/Button";
 import { IconButton } from "../ui/components/IconButton";
 import { LinkButton } from "../ui/components/LinkButton";
 import { RadioCardGroup } from "../ui/components/RadioCardGroup";
+import { getModemImageUrl } from "../lib/supabase";
 import type { Modem } from "../types";
 
 interface MultipleMatchesProps {
@@ -40,6 +41,7 @@ export function MultipleMatches({ modems, onSelect, onBack }: MultipleMatchesPro
             key={modem.id}
             label={modem.model}
             description={modem.brand}
+            image={getModemImageUrl(modem.id)}
             value={modem.id}
           />
         ))}

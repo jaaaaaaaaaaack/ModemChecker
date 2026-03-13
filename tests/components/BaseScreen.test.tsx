@@ -29,9 +29,9 @@ describe("BaseScreen", () => {
   });
 
   it("shows verified modem info when provided", async () => {
-    render(<BaseScreen onCheckModem={() => {}} verifiedModem={{ brand: "TP-Link", model: "Archer VR1600v", status: "yes" }} />);
+    render(<BaseScreen onCheckModem={() => {}} verifiedModem={{ id: "tp-link-archer-vr1600v", brand: "TP-Link", model: "Archer VR1600v", status: "yes" }} />);
     await userEvent.click(screen.getByText(/no, i.ll use my own/i));
-    expect(screen.getByText("Archer VR1600v")).toBeInTheDocument();
+    expect(screen.getByText("TP-Link Archer VR1600v")).toBeInTheDocument();
     expect(screen.getByText(/compatible with belong nbn/i)).toBeInTheDocument();
   });
 });

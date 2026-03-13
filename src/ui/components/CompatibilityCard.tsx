@@ -14,10 +14,13 @@ import * as SubframeUtils from "../utils";
 import { Button } from "./Button";
 import { IconWithBackground } from "./IconWithBackground";
 import { LinkButton } from "./LinkButton";
+import { ModemImage } from "../../components/ModemImage";
 
 interface CompatibilityCalloutProps
   extends React.HTMLAttributes<HTMLDivElement> {
   status?: "compatible" | "not-compatible" | "speed-warning";
+  modemName?: React.ReactNode;
+  image?: string;
   className?: string;
 }
 
@@ -27,6 +30,8 @@ const CompatibilityCallout = React.forwardRef<
 >(function CompatibilityCallout(
   {
     status = "compatible",
+    modemName,
+    image,
     className,
     ...otherProps
   }: CompatibilityCalloutProps,
@@ -45,9 +50,8 @@ const CompatibilityCallout = React.forwardRef<
         className={SubframeUtils.twClassNames(
           "flex w-full items-center justify-between rounded-md border border-solid border-white bg-default-background pl-4 pr-3 py-2 shadow-sm",
           {
-            "flex-row flex-nowrap justify-between pl-4 pr-3 py-2":
-              status === "speed-warning",
-            "flex-row flex-nowrap items-center justify-between border border-solid border-error-300 pl-4 pr-3 py-2":
+            "flex-row flex-nowrap justify-between": status === "speed-warning",
+            "flex-row flex-nowrap justify-between border border-solid border-error-300":
               status === "not-compatible",
           }
         )}
@@ -58,14 +62,16 @@ const CompatibilityCallout = React.forwardRef<
             { "items-start justify-center": status === "speed-warning" }
           )}
         >
-          <span
-            className={SubframeUtils.twClassNames(
-              "text-body-bold font-body-bold text-default-font",
-              { "text-color-neutral-900": status === "speed-warning" }
-            )}
-          >
-            Eero 6E
-          </span>
+          {modemName ? (
+            <span
+              className={SubframeUtils.twClassNames(
+                "text-body-bold font-body-bold text-default-font",
+                { "text-color-neutral-900": status === "speed-warning" }
+              )}
+            >
+              {modemName}
+            </span>
+          ) : null}
           <div className="flex items-center gap-1">
             <IconWithBackground
               variant={
@@ -75,13 +81,7 @@ const CompatibilityCallout = React.forwardRef<
                   ? "error"
                   : "success"
               }
-              size={
-                status === "speed-warning"
-                  ? "small"
-                  : status === "not-compatible"
-                  ? "small"
-                  : "small"
-              }
+              size="small"
               icon={
                 status === "speed-warning" ? (
                   <FeatherGaugeCircle />
@@ -108,10 +108,13 @@ const CompatibilityCallout = React.forwardRef<
             </span>
           </div>
         </div>
-        <img
-          className="h-16 flex-none object-cover"
-          src="https://res.cloudinary.com/subframe/image/upload/v1773225254/uploads/11901/cffrdmrmfmgaxf3mqk4s.png"
-        />
+        {image ? (
+          <ModemImage
+            src={image}
+            alt={String(modemName ?? "Modem")}
+            className="w-16 h-16 rounded-md"
+          />
+        ) : null}
       </div>
     </div>
   );
@@ -161,6 +164,8 @@ const CompatibilityCardRoot = React.forwardRef<
             ? "not-compatible"
             : undefined
         }
+        modemName={modemName}
+        image={image}
       />
       <LinkButton
         className="hidden"
