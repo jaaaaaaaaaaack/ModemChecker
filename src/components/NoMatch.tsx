@@ -8,7 +8,7 @@ interface NoMatchProps {
 
 export function NoMatch({ onRetry, query }: NoMatchProps) {
   return (
-    <div className="flex w-full flex-col items-center gap-6 rounded-lg bg-color-primary-50 px-5 py-6">
+    <div className="flex w-full flex-col items-center gap-6">
       <div className="flex w-full flex-col items-start gap-4">
         <span className="text-h2 font-h2 text-brand-900">No modem found</span>
         {query && (

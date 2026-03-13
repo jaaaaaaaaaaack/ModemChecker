@@ -10,6 +10,7 @@ interface ResultCardProps {
   modem: Modem;
   techType: TechType;
   onDone?: () => void;
+  onReset?: () => void;
 }
 
 const STATUS_TO_STATUSITE: Record<CompatibilityStatus, "success" | "warning" | "info"> = {
@@ -18,13 +19,13 @@ const STATUS_TO_STATUSITE: Record<CompatibilityStatus, "success" | "warning" | "
   no: "warning",
 };
 
-export function ResultCard({ modem, techType, onDone }: ResultCardProps) {
+export function ResultCard({ modem, techType, onDone, onReset }: ResultCardProps) {
   const compat = modem.compatibility[techType];
   const config = STATUS_CONFIG[compat.status];
   const statusIteStatus = STATUS_TO_STATUSITE[compat.status];
 
   return (
-    <div className="flex w-full max-w-[384px] flex-col items-start gap-5 rounded-md bg-color-primary-50 px-5 py-5">
+    <div className="flex w-full flex-col items-start gap-5">
       <div className="flex h-40 w-40 flex-none items-center justify-center rounded-md bg-color-primary-100">
         <FeatherWifi className="font-['Plus_Jakarta_Sans'] text-[64px] font-[400] leading-[96px] text-color-primary-400" />
       </div>
@@ -59,7 +60,7 @@ export function ResultCard({ modem, techType, onDone }: ResultCardProps) {
           variant="brand"
           icon={null}
           iconRight={null}
-          onClick={() => {}}
+          onClick={onReset}
         >
           Check another modem
         </LinkButton>

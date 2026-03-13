@@ -4,11 +4,21 @@ import { useState } from "react";
 import { Button } from "../ui/components/Button";
 import { LinkButton } from "../ui/components/LinkButton";
 import { RadioCardGroup } from "../ui/components/RadioCardGroup";
+import { StatusIte } from "../ui/components/StatusIte";
+import { STATUS_CONFIG } from "../constants";
+import type { CompatibilityStatus } from "../types";
 
 interface VerifiedModem {
   brand: string;
   model: string;
+  status: CompatibilityStatus;
 }
+
+const STATUS_TO_STATUSITE: Record<CompatibilityStatus, "success" | "warning" | "info"> = {
+  yes: "success",
+  yes_but: "warning",
+  no: "warning",
+};
 
 interface BaseScreenProps {
   onCheckModem: () => void;
@@ -58,12 +68,23 @@ export function BaseScreen({ onCheckModem, verifiedModem }: BaseScreenProps) {
                 <span className="text-h3-700 font-h3-700 text-color-primary-700">
                   Modem compatibility checker
                 </span>
-                <div className="flex w-full items-center justify-between rounded-md border border-solid border-white bg-default-background pl-4 pr-3 py-2 shadow-sm">
-                  <span className="text-body-bold font-body-bold text-default-font">
-                    {verifiedModem.model}
-                  </span>
+                <div className="flex w-full flex-col items-start gap-2 rounded-md bg-default-background px-4 py-3 shadow-sm">
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span className="text-caption font-caption text-subtext-color">
+                      {verifiedModem.brand}
+                    </span>
+                    <span className="text-body-bold font-body-bold text-default-font">
+                      {verifiedModem.model}
+                    </span>
+                  </div>
+                  <StatusIte
+                    icon={null}
+                    title={STATUS_CONFIG[verifiedModem.status].heading}
+                    description=""
+                    status={STATUS_TO_STATUSITE[verifiedModem.status]}
+                  />
                 </div>
-                <LinkButton variant="brand" onClick={() => {}}>
+                <LinkButton variant="brand" onClick={onCheckModem}>
                   Check another modem
                 </LinkButton>
               </div>

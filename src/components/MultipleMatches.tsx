@@ -23,7 +23,7 @@ export function MultipleMatches({ modems, onSelect, onBack }: MultipleMatchesPro
   }
 
   return (
-    <div className="flex w-full flex-col items-start gap-6 rounded-lg bg-color-primary-50 px-5 py-5 mobile:px-4 mobile:py-4">
+    <div className="flex w-full flex-col items-start gap-6">
       <div className="flex w-full flex-col items-start gap-3">
         <span className="text-h2 font-h2 text-brand-900">Multiple matches found</span>
         <span className="text-body font-body text-brand-800">

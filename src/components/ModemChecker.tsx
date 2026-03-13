@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Modem, TechType } from "../types";
+import type { Modem, TechType, CompatibilityStatus } from "../types";
 import { useModemSearch } from "../hooks/useModemSearch";
 import { BaseScreen } from "./BaseScreen";
 import { BottomSheet } from "./BottomSheet";
@@ -13,11 +13,15 @@ interface ModemCheckerProps {
   techType: TechType;
 }
 
+interface VerifiedModem {
+  brand: string;
+  model: string;
+  status: CompatibilityStatus;
+}
+
 export function ModemChecker({ techType }: ModemCheckerProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [verifiedModem, setVerifiedModem] = useState<
-    Pick<Modem, "brand" | "model"> | undefined
-  >();
+  const [verifiedModem, setVerifiedModem] = useState<VerifiedModem | undefined>();
   const { state, search, selectModem, reset } = useModemSearch();
 
   const handleClose = () => {
@@ -27,9 +31,18 @@ export function ModemChecker({ techType }: ModemCheckerProps) {
 
   const handleDone = () => {
     if (state.step === "single_match") {
-      setVerifiedModem({ brand: state.modem.brand, model: state.modem.model });
+      const compat = state.modem.compatibility[techType];
+      setVerifiedModem({
+        brand: state.modem.brand,
+        model: state.modem.model,
+        status: compat.status,
+      });
     }
     setSheetOpen(false);
+    reset();
+  };
+
+  const handleCheckAnother = () => {
     reset();
   };
 
@@ -54,6 +67,7 @@ export function ModemChecker({ techType }: ModemCheckerProps) {
             modem={state.modem}
             techType={techType}
             onDone={handleDone}
+            onReset={handleCheckAnother}
           />
         )}
         {state.step === "no_match" && (

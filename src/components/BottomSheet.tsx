@@ -39,7 +39,7 @@ export function BottomSheet({ open, onClose, children }: BottomSheetProps) {
           }}
           className={[
             // Base
-            "fixed z-50 bg-white shadow-xl overflow-y-auto outline-none",
+            "fixed z-50 bg-color-primary-50 shadow-xl overflow-y-auto outline-none",
             // Mobile: bottom sheet
             "inset-x-0 bottom-0 max-h-[85vh] rounded-t-3xl p-5 pb-8",
             "data-[state=open]:animate-[sheet-slide-up_300ms_ease-out]",
