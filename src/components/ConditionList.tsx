@@ -4,10 +4,13 @@ import type { ConditionCode } from "../types";
 
 interface ConditionListProps {
   conditions: ConditionCode[];
+  variant?: "warning" | "callout";
 }
 
-export function ConditionList({ conditions }: ConditionListProps) {
+export function ConditionList({ conditions, variant = "warning" }: ConditionListProps) {
   if (conditions.length === 0) return null;
+
+  const statusIteStatus = variant === "callout" ? ("option-1" as const) : ("warning" as const);
 
   return (
     <div className="flex w-full flex-col items-start gap-2">
@@ -18,7 +21,7 @@ export function ConditionList({ conditions }: ConditionListProps) {
             key={code}
             title={info.label}
             description={info.description}
-            status="warning"
+            status={statusIteStatus}
             hasDescription={true}
           />
         );
