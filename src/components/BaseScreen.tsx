@@ -27,7 +27,7 @@ export function BaseScreen({
   const renderModemCard = () => {
     if (!verifiedModem) {
       return (
-        <div className="flex w-full flex-col items-start gap-3 rounded-md bg-color-primary-50 px-4 py-4">
+        <div className="flex w-full flex-col items-start gap-3 rounded-md bg-gradient-brand px-4 py-4">
           <span className="text-h3-700 font-h3-700 text-color-primary-700">
             Modem compatibility checker
           </span>
