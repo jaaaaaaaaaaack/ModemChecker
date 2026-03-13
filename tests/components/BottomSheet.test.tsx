@@ -42,17 +42,6 @@ describe("BottomSheet", () => {
     expect(dialog).toHaveAttribute("aria-labelledby");
   });
 
-  it("calls onClose when close button clicked", async () => {
-    const onClose = vi.fn();
-    render(
-      <BottomSheet open onClose={onClose}>
-        <p>Content</p>
-      </BottomSheet>
-    );
-    await userEvent.click(screen.getByLabelText("Close"));
-    expect(onClose).toHaveBeenCalledOnce();
-  });
-
   it("calls onClose when Escape is pressed", async () => {
     const onClose = vi.fn();
     render(

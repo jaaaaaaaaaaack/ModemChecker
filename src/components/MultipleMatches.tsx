@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FeatherChevronLeft, FeatherChevronRight } from "@subframe/core";
+import { FeatherChevronLeft, FeatherChevronRight, FeatherX } from "@subframe/core";
 import { Button } from "../ui/components/Button";
 import { IconButton } from "../ui/components/IconButton";
 import { LinkButton } from "../ui/components/LinkButton";
@@ -11,9 +11,10 @@ interface MultipleMatchesProps {
   modems: Modem[];
   onSelect: (modem: Modem) => void;
   onBack: () => void;
+  onClose?: () => void;
 }
 
-export function MultipleMatches({ modems, onSelect, onBack }: MultipleMatchesProps) {
+export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleMatchesProps) {
   const [selectedId, setSelectedId] = useState<string>("");
 
   function handleContinue() {
@@ -26,7 +27,17 @@ export function MultipleMatches({ modems, onSelect, onBack }: MultipleMatchesPro
   return (
     <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0">
       <div className="flex w-full flex-col items-start gap-3 flex-shrink-0">
-        <span className="text-h2 font-h2 text-brand-900">Multiple matches found</span>
+        <div className="flex w-full items-start gap-2">
+          <span className="flex-1 text-h2 font-h2 text-brand-900">Multiple matches found</span>
+          {onClose && (
+            <IconButton
+              variant="brand-secondary"
+              icon={<FeatherX />}
+              onClick={onClose}
+              aria-label="Close"
+            />
+          )}
+        </div>
         <span className="text-body font-body text-brand-800">
           Check your modem's model info and select the correct one below.
         </span>

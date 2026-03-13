@@ -37,4 +37,16 @@ describe("SearchInput", () => {
 
     expect(onSearch).toHaveBeenCalledWith("Netgear");
   });
+
+  it("calls onClose when close button clicked", async () => {
+    const onClose = vi.fn();
+    render(<SearchInput onSearch={() => {}} onClose={onClose} />);
+    await userEvent.click(screen.getByLabelText("Close"));
+    expect(onClose).toHaveBeenCalledOnce();
+  });
+
+  it("does not render close button when onClose is omitted", () => {
+    render(<SearchInput onSearch={() => {}} />);
+    expect(screen.queryByLabelText("Close")).not.toBeInTheDocument();
+  });
 });

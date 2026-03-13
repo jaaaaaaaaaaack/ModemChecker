@@ -82,4 +82,20 @@ describe("MultipleMatches", () => {
     await userEvent.click(backButton);
     expect(onBack).toHaveBeenCalledOnce();
   });
+
+  it("calls onClose when close button clicked", async () => {
+    const onClose = vi.fn();
+    render(
+      <MultipleMatches modems={modems} onSelect={() => {}} onBack={() => {}} onClose={onClose} />
+    );
+    await userEvent.click(screen.getByLabelText("Close"));
+    expect(onClose).toHaveBeenCalledOnce();
+  });
+
+  it("does not render close button when onClose is omitted", () => {
+    render(
+      <MultipleMatches modems={modems} onSelect={() => {}} onBack={() => {}} />
+    );
+    expect(screen.queryByLabelText("Close")).not.toBeInTheDocument();
+  });
 });

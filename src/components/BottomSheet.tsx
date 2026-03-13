@@ -60,12 +60,6 @@ export function BottomSheet({ open, onClose, children }: BottomSheetProps) {
                 ].join(" ")}
               >
                 <Dialog.Title className="sr-only">Modem search</Dialog.Title>
-                <Dialog.Close
-                  aria-label="Close"
-                  className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                >
-                  ✕
-                </Dialog.Close>
                 {children}
               </motion.div>
             </Dialog.Content>

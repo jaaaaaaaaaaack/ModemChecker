@@ -1,16 +1,18 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { FeatherChevronRight } from "@subframe/core";
+import { FeatherChevronRight, FeatherX } from "@subframe/core";
 import { TextField } from "@/ui/components/TextField";
 import { Button } from "@/ui/components/Button";
+import { IconButton } from "@/ui/components/IconButton";
 import { LinkButton } from "@/ui/components/LinkButton";
 
 interface SearchInputProps {
   onSearch: (query: string) => void;
+  onClose?: () => void;
 }
 
-export function SearchInput({ onSearch }: SearchInputProps) {
+export function SearchInput({ onSearch, onClose }: SearchInputProps) {
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
@@ -25,9 +27,19 @@ export function SearchInput({ onSearch }: SearchInputProps) {
       className="flex w-full flex-1 flex-col items-start gap-6 min-h-0"
     >
       <div className="flex w-full flex-col items-start gap-2">
-        <span className="text-h2 font-h2 text-color-primary-701">
-          Find your modem's model name/number
-        </span>
+        <div className="flex w-full items-start gap-2">
+          <span className="flex-1 text-h2 font-h2 text-color-primary-701">
+            Find your modem's model name/number
+          </span>
+          {onClose && (
+            <IconButton
+              variant="brand-secondary"
+              icon={<FeatherX />}
+              onClick={onClose}
+              aria-label="Close"
+            />
+          )}
+        </div>
         <span className="text-body font-body text-default-font">
           Model details are usually found on the back or bottom of the device.
         </span>

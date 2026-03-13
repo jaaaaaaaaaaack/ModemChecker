@@ -79,13 +79,14 @@ export function ModemChecker({
             transition={contentTransition}
             className="flex-1 flex flex-col min-h-0 px-1 -mx-1"
           >
-            {state.step === "idle" && <SearchInput onSearch={search} />}
+            {state.step === "idle" && <SearchInput onSearch={search} onClose={handleClose} />}
             {state.step === "searching" && <LoadingState />}
             {state.step === "multiple_matches" && (
               <MultipleMatches
                 modems={state.modems}
                 onSelect={selectModem}
                 onBack={reset}
+                onClose={handleClose}
               />
             )}
             {state.step === "single_match" && (
