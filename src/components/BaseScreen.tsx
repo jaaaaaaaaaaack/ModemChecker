@@ -5,28 +5,64 @@ import { Button } from "../ui/components/Button";
 import { CompatibilityCard } from "../ui/components/CompatibilityCard";
 import { RadioCardGroup } from "../ui/components/RadioCardGroup";
 import { getModemImageUrl } from "../lib/supabase";
-import type { CompatibilityStatus } from "../types";
-
-interface VerifiedModem {
-  id: string;
-  brand: string;
-  model: string;
-  status: CompatibilityStatus;
-}
-
-const STATUS_TO_COMPAT_CARD: Record<CompatibilityStatus, "compatible" | "not-compatible" | "speed-warning"> = {
-  yes: "compatible",
-  yes_but: "speed-warning",
-  no: "not-compatible",
-};
+import { assessCompatibility } from "../lib/compatibility";
+import { DEFAULT_PLAN_SPEED_MBPS } from "../constants";
+import type { Modem, TechType } from "../types";
 
 interface BaseScreenProps {
   onCheckModem: () => void;
-  verifiedModem?: VerifiedModem;
+  verifiedModem?: Modem;
+  techType?: TechType;
+  planSpeedMbps?: number;
 }
 
-export function BaseScreen({ onCheckModem, verifiedModem }: BaseScreenProps) {
+export function BaseScreen({
+  onCheckModem,
+  verifiedModem,
+  techType = "fttp",
+  planSpeedMbps = DEFAULT_PLAN_SPEED_MBPS,
+}: BaseScreenProps) {
   const [selection, setSelection] = useState<string>("");
+
+  const renderModemCard = () => {
+    if (!verifiedModem) {
+      return (
+        <div className="flex w-full flex-col items-start gap-3 rounded-md bg-color-primary-50 px-4 py-4">
+          <span className="text-h3-700 font-h3-700 text-color-primary-700">
+            Modem compatibility checker
+          </span>
+          <span className="text-body font-body text-default-font">
+            Check that your modem can connect to Belong nbn® and that
+            it's fast enough for your selected plan.
+          </span>
+          <Button
+            className="rounded-full"
+            variant="brand-secondary"
+            onClick={onCheckModem}
+          >
+            Check your modem
+          </Button>
+        </div>
+      );
+    }
+
+    const assessment = assessCompatibility(verifiedModem, techType, planSpeedMbps);
+
+    // "callout" is visually "compatible" (green) — callout items render via conditions prop
+    const cardStatus = assessment.cardStatus === "callout"
+      ? "compatible" as const
+      : assessment.cardStatus;
+
+    return (
+      <CompatibilityCard
+        status={cardStatus}
+        speedWarningType={assessment.speedWarning?.type ?? null}
+        conditions={assessment.setupConditions}
+        modemName={`${verifiedModem.brand} ${verifiedModem.model}`}
+        image={getModemImageUrl(verifiedModem.id)}
+      />
+    );
+  };
 
   return (
     <div className="flex w-full flex-col items-center bg-white px-4 py-6">
@@ -62,31 +98,7 @@ export function BaseScreen({ onCheckModem, verifiedModem }: BaseScreenProps) {
               Your choice of modem, and how you set it up, could cause
               connectivity issues or limit the speed of your internet.
             </span>
-
-            {verifiedModem ? (
-              <CompatibilityCard
-                modemName={`${verifiedModem.brand} ${verifiedModem.model}`}
-                image={getModemImageUrl(verifiedModem.id)}
-                status={STATUS_TO_COMPAT_CARD[verifiedModem.status]}
-              />
-            ) : (
-              <div className="flex w-full flex-col items-start gap-3 rounded-md bg-color-primary-50 px-4 py-4">
-                <span className="text-h3-700 font-h3-700 text-color-primary-700">
-                  Modem compatibility checker
-                </span>
-                <span className="text-body font-body text-default-font">
-                  Check that your modem can connect to Belong nbn® and that
-                  it's fast enough for your selected plan.
-                </span>
-                <Button
-                  className="rounded-full"
-                  variant="brand-secondary"
-                  onClick={onCheckModem}
-                >
-                  Check your modem
-                </Button>
-              </div>
-            )}
+            {renderModemCard()}
           </div>
         )}
       </div>
