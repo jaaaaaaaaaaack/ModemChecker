@@ -12,6 +12,24 @@ const MOTION_PROPS = new Set([
   "whileInView", "drag", "dragConstraints",
 ]);
 
+// Stub window.matchMedia for components using useMediaQuery.
+// Individual tests can override with vi.stubGlobal("matchMedia", ...).
+if (typeof window !== "undefined" && !window.matchMedia) {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: vi.fn((query: string) => ({
+      matches: false,
+      media: query,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+      onchange: null,
+    })),
+  });
+}
+
 // Mock framer-motion to avoid animation timing issues in tests.
 // AnimatePresence renders children immediately; motion.div renders
 // as a plain div with motion props filtered out.
