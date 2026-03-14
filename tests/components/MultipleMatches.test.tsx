@@ -36,44 +36,36 @@ const makeModem = (id: string, model: string): Modem => ({
 const modems = [makeModem("a", "Archer VR1600v"), makeModem("b", "Archer C7")];
 
 describe("MultipleMatches", () => {
-  it("renders heading and all modem options", () => {
+  it("renders heading and all modem options as buttons", () => {
     render(
       <MultipleMatches modems={modems} onSelect={() => {}} onBack={() => {}} />
     );
-    expect(screen.getByText(/multiple matches/i)).toBeInTheDocument();
+    expect(screen.getByText("Select your modem")).toBeInTheDocument();
     expect(screen.getByText("Archer VR1600v")).toBeInTheDocument();
     expect(screen.getByText("Archer C7")).toBeInTheDocument();
   });
 
-  it("Continue button is aria-disabled until a modem is selected", () => {
+  it("calls onSelect immediately when a modem card is tapped", async () => {
+    const onSelect = vi.fn();
+    render(
+      <MultipleMatches modems={modems} onSelect={onSelect} onBack={() => {}} />
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: /Archer C7/i })
+    );
+    expect(onSelect).toHaveBeenCalledWith(modems[1]);
+  });
+
+  it("does not render a Continue button", () => {
     render(
       <MultipleMatches modems={modems} onSelect={() => {}} onBack={() => {}} />
     );
     expect(
-      screen.getByRole("button", { name: /continue/i })
-    ).toHaveAttribute("aria-disabled", "true");
+      screen.queryByRole("button", { name: /continue/i })
+    ).not.toBeInTheDocument();
   });
 
-  it("clicking Continue while aria-disabled does not call onSelect", async () => {
-    const onSelect = vi.fn();
-    render(
-      <MultipleMatches modems={modems} onSelect={onSelect} onBack={() => {}} />
-    );
-    await userEvent.click(screen.getByRole("button", { name: /continue/i }));
-    expect(onSelect).not.toHaveBeenCalled();
-  });
-
-  it("calls onSelect with chosen modem on Continue", async () => {
-    const onSelect = vi.fn();
-    render(
-      <MultipleMatches modems={modems} onSelect={onSelect} onBack={() => {}} />
-    );
-    await userEvent.click(screen.getByText("Archer C7"));
-    await userEvent.click(screen.getByRole("button", { name: /continue/i }));
-    expect(onSelect).toHaveBeenCalledWith(modems[1]);
-  });
-
-  it("calls onBack when back button clicked", async () => {
+  it("calls onBack when inline back button is clicked", async () => {
     const onBack = vi.fn();
     render(
       <MultipleMatches modems={modems} onSelect={() => {}} onBack={onBack} />
@@ -97,5 +89,22 @@ describe("MultipleMatches", () => {
       <MultipleMatches modems={modems} onSelect={() => {}} onBack={() => {}} />
     );
     expect(screen.queryByLabelText("Close")).not.toBeInTheDocument();
+  });
+
+  it("renders the help link", () => {
+    render(
+      <MultipleMatches modems={modems} onSelect={() => {}} onBack={() => {}} />
+    );
+    expect(
+      screen.getByText(/help me identify my modem/i)
+    ).toBeInTheDocument();
+  });
+
+  it("renders all modem cards with brand names", () => {
+    render(
+      <MultipleMatches modems={modems} onSelect={() => {}} onBack={() => {}} />
+    );
+    const brandLabels = screen.getAllByText("TP-Link");
+    expect(brandLabels).toHaveLength(modems.length);
   });
 });
