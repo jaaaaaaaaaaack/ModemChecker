@@ -222,7 +222,7 @@ export function BaseScreen({
         </div>
 
         {/* Footer buttons */}
-        <div className="flex w-full items-center justify-between pt-6">
+        <div className={`flex w-full items-center justify-between ${selection ? "pt-6" : "pt-10"}`}>
           <Button
             className="h-12 w-auto flex-none"
             variant="brand-secondary"
@@ -230,14 +230,26 @@ export function BaseScreen({
           >
             Back
           </Button>
-          <Button
-            className="h-12 w-auto flex-none"
-            iconRight={<FeatherChevronRight />}
-            hasRightIcon={true}
-            onClick={() => {}}
-          >
-            Continue
-          </Button>
+          <AnimatePresence>
+            {selection && (
+              <motion.div
+                key="continue-btn"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                <Button
+                  className="h-12 w-auto flex-none"
+                  iconRight={<FeatherChevronRight />}
+                  hasRightIcon={true}
+                  onClick={() => {}}
+                >
+                  Continue
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
