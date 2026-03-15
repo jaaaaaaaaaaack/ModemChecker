@@ -1,5 +1,8 @@
 export type TechType = "fttp" | "fttc" | "fttn" | "hfc";
 
+/** Display tech type includes FTTB (maps to FTTN for compatibility lookups) */
+export type NbnTechType = "fttp" | "fttb" | "fttn" | "fttc" | "hfc";
+
 export type CompatibilityStatus = "yes" | "yes_but" | "no";
 
 export type ConditionCode =

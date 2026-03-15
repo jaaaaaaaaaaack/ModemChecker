@@ -327,7 +327,7 @@ const CheckerCardRoot = React.forwardRef<
         Check another modem
       </LinkButton>
       <Button
-        variant="brand-tertiary"
+        variant="brand-secondary"
         icon={state === "default" ? <FeatherRouter /> : <FeatherRotateCcw />}
         hasLeftIcon={true}
         onClick={onButtonClick}

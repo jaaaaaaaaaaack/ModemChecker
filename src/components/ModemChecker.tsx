@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import type { TechType, Modem, TransitionDirection } from "../types";
-import { DEFAULT_PLAN_SPEED_MBPS } from "../constants";
+import type { TechType, Modem, TransitionDirection, NbnTechType } from "../types";
+import { DEFAULT_PLAN_SPEED_MBPS, NBN_PLANS, NBN_TECH_TYPES } from "../constants";
 import { useModemSearch } from "../hooks/useModemSearch";
 import { BaseScreen } from "./BaseScreen";
 import { BottomSheet } from "./BottomSheet";
@@ -11,6 +11,7 @@ import { MultipleMatches } from "./MultipleMatches";
 import { ResultCard } from "./ResultCard";
 import { NoMatch } from "./NoMatch";
 import { SearchError } from "./SearchError";
+import { DevMenu } from "./DevMenu";
 
 const contentVariants = {
   enter: (direction: TransitionDirection) => ({
@@ -32,18 +33,21 @@ const contentVariants = {
   }),
 };
 
-interface ModemCheckerProps {
-  techType: TechType;
-  planSpeedMbps?: number;
-}
-
-export function ModemChecker({
-  techType,
-  planSpeedMbps = DEFAULT_PLAN_SPEED_MBPS,
-}: ModemCheckerProps) {
+export function ModemChecker() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [verifiedModem, setVerifiedModem] = useState<Modem | undefined>();
   const { state, direction, search, selectModem, reset, retry } = useModemSearch();
+
+  // Dev menu state
+  const [devMenuOpen, setDevMenuOpen] = useState(false);
+  const [planId, setPlanId] = useState("nbn500");
+  const [nbnTechType, setNbnTechType] = useState<NbnTechType>("fttp");
+
+  // Derive the DB-level techType and plan speed from dev menu selections
+  const techOption = NBN_TECH_TYPES.find((t) => t.id === nbnTechType) ?? NBN_TECH_TYPES[0];
+  const techType: TechType = techOption.dbTechType;
+  const currentPlan = NBN_PLANS.find((p) => p.id === planId) ?? NBN_PLANS[1];
+  const planSpeedMbps = currentPlan.speedMbps;
 
   const handleClose = () => {
     setSheetOpen(false);
@@ -69,6 +73,17 @@ export function ModemChecker({
         verifiedModem={verifiedModem}
         techType={techType}
         planSpeedMbps={planSpeedMbps}
+        nbnTechType={nbnTechType}
+        planId={planId}
+        onOpenDevMenu={() => setDevMenuOpen(true)}
+      />
+      <DevMenu
+        open={devMenuOpen}
+        onClose={() => setDevMenuOpen(false)}
+        planId={planId}
+        nbnTechType={nbnTechType}
+        onPlanChange={setPlanId}
+        onTechTypeChange={setNbnTechType}
       />
       <BottomSheet open={sheetOpen} onClose={handleClose}>
         <AnimatePresence mode="wait" custom={direction}>

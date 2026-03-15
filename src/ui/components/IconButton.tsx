@@ -22,7 +22,8 @@ interface IconButtonRootProps
     | "destructive-primary"
     | "destructive-secondary"
     | "destructive-tertiary"
-    | "inverse";
+    | "inverse"
+    | "option-1";
   size?: "large" | "medium" | "small";
   icon?: React.ReactNode;
   loading?: boolean;
@@ -51,6 +52,7 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
           {
             "h-6 w-6": size === "small",
             "h-10 w-10": size === "large",
+            "bg-brand-200": variant === "option-1",
             "hover:bg-[#ffffff29] active:bg-[#ffffff3d]": variant === "inverse",
             "hover:bg-error-50 active:bg-error-100":
               variant === "destructive-tertiary",
@@ -58,7 +60,7 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
               variant === "destructive-secondary",
             "bg-error-600 hover:bg-error-500 active:bg-error-600":
               variant === "destructive-primary",
-            "border-2 border-solid border-brand-800 hover:bg-neutral-100 active:bg-white":
+            "border-2 border-solid border-brand-800 hover:border-2 hover:border-solid hover:border-brand-200 hover:bg-brand-200 active:border-2 active:border-solid active:border-brand-700 active:bg-brand-700":
               variant === "neutral-secondary",
             "bg-neutral-100 hover:bg-neutral-200 active:bg-neutral-100":
               variant === "neutral-primary",
@@ -84,6 +86,7 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
                 hidden: loading,
                 "text-body font-body": size === "small",
                 "text-h3-700 font-h3-700": size === "large",
+                "text-brand-700": variant === "option-1",
                 "text-white group-hover/af9405b1:text-white":
                   variant === "inverse",
                 "text-error-700 group-hover/af9405b1:text-error-700 group-active/af9405b1:text-error-700":
@@ -92,7 +95,8 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
                 "text-white group-hover/af9405b1:text-white group-active/af9405b1:text-white":
                   variant === "destructive-primary" ||
                   variant === "brand-primary",
-                "text-brand-800": variant === "neutral-secondary",
+                "text-brand-800 group-active/af9405b1:text-brand-100":
+                  variant === "neutral-secondary",
                 "text-neutral-700 group-hover/af9405b1:text-neutral-700 group-active/af9405b1:text-neutral-700":
                   variant === "neutral-primary",
                 "text-brand-700 group-hover/af9405b1:text-brand-700 group-active/af9405b1:text-brand-700":

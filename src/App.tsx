@@ -4,7 +4,7 @@ import { ModemChecker } from "./components/ModemChecker";
 function App() {
   return (
     <ErrorBoundary>
-      <ModemChecker techType="fttp" />
+      <ModemChecker />
     </ErrorBoundary>
   );
 }

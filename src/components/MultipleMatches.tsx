@@ -1,7 +1,8 @@
-import { FeatherChevronLeft, FeatherChevronRight, FeatherX } from "@subframe/core";
+import { useCallback, useRef, useState } from "react";
+import { FeatherChevronLeft, FeatherX } from "@subframe/core";
 import { IconButton } from "../ui/components/IconButton";
 import { LinkButton } from "../ui/components/LinkButton";
-import { ModemImage } from "./ModemImage";
+import { CardButton } from "../ui/components/CardButton";
 import { getModemImageUrl } from "../lib/supabase";
 import type { Modem } from "../types";
 
@@ -13,64 +14,88 @@ interface MultipleMatchesProps {
 }
 
 export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleMatchesProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (el) setIsScrolled(el.scrollTop > 4);
+  }, []);
+
   return (
     <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0">
       <div className="flex w-full flex-col items-start gap-3 flex-shrink-0">
-        <div className="flex w-full items-center gap-2">
-          <button
-            type="button"
-            className="flex items-center justify-center text-brand-600 hover:text-brand-800 transition-colors duration-150 -ml-1 flex-none"
+        <div className="flex w-full items-start gap-2">
+          <IconButton
+            className="h-8 w-8 flex-none rounded-full"
+            variant="option-1"
+            size="large"
+            icon={<FeatherChevronLeft />}
             onClick={onBack}
             aria-label="Back"
-          >
-            <FeatherChevronLeft className="w-5 h-5" />
-          </button>
-          <span className="flex-1 text-h2 font-h2 text-brand-900">Select your modem</span>
+          />
+          <span className="grow shrink-0 basis-0 font-['Plus_Jakarta_Sans'] text-[28px] font-[700] leading-[30px] tracking-[-0.02em] text-brand-900">
+            Select your modem
+          </span>
           {onClose && (
             <IconButton
-              variant="brand-secondary"
+              className="h-8 w-8 flex-none rounded-full"
+              variant="brand-tertiary"
+              size="large"
               icon={<FeatherX />}
               onClick={onClose}
               aria-label="Close"
             />
           )}
         </div>
-        <span className="text-body font-body text-brand-800">
-          Check your modem&apos;s model info and select the correct one below.
+        <span className="whitespace-pre-wrap text-body font-body text-brand-800">
+          We found multiple possible matches. Please select your device from the list below.
         </span>
       </div>
-      <div className="flex w-full flex-1 flex-col items-start gap-2 min-h-0 overflow-y-auto px-1 -mx-1">
-        {modems.map((modem) => (
-          <button
-            key={modem.id}
-            type="button"
-            className="flex w-full cursor-pointer items-center gap-3 rounded-xl border border-solid border-neutral-200 bg-default-background pl-4 pr-4 py-4 text-left transition-all duration-200 hover:border-brand-primary hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2 active:scale-[0.98] active:bg-brand-100"
-            onClick={() => onSelect(modem)}
-            aria-label={`${modem.brand} ${modem.model}`}
-          >
-            <div className="flex grow shrink-0 basis-0 items-center gap-4">
-              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-0.5">
-                <span className="text-body-bold font-body-bold text-default-font">
-                  {modem.model}
-                </span>
-                <span className="text-body font-body text-neutral-500">
-                  {modem.brand}
-                </span>
-              </div>
-              <ModemImage
-                src={getModemImageUrl(modem.id)}
-                alt={modem.model}
-                className="w-16 h-16 rounded-lg"
-              />
-            </div>
-            <FeatherChevronRight className="w-5 h-5 text-neutral-400 flex-none" />
-          </button>
-        ))}
-        <div className="flex-shrink-0 pt-2 pb-1">
-          <LinkButton variant="brand" onClick={() => {}}>
-            Help me identify my modem
-          </LinkButton>
+      <div className="relative flex flex-col flex-1 min-h-0 w-full">
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex-1 min-h-0 flex flex-col items-start gap-2 overflow-y-auto pl-1 -ml-1 pr-2 pb-2"
+        >
+          {modems.map((modem) => (
+            <CardButton
+              key={modem.id}
+              role="button"
+              tabIndex={0}
+              image={getModemImageUrl(modem.id)}
+              modelName={modem.model}
+              brand={modem.brand}
+              onClick={() => onSelect(modem)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSelect(modem);
+                }
+              }}
+              aria-label={`${modem.brand} ${modem.model}`}
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2"
+            />
+          ))}
+          <div className="flex-shrink-0 pt-2 pb-1">
+            <LinkButton variant="brand" onClick={() => {}}>
+              Help me identify my modem
+            </LinkButton>
+          </div>
         </div>
+        {/* Scroll-aware top scrim — fades in when content scrolls beneath the heading */}
+        <div
+          aria-hidden="true"
+          className={[
+            "pointer-events-none absolute top-0 left-0 right-0 h-16",
+            "transition-opacity duration-200",
+            isScrolled ? "opacity-100" : "opacity-0",
+          ].join(" ")}
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(210, 250, 255, 0.92), transparent)",
+          }}
+        />
       </div>
     </div>
   );

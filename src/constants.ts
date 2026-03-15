@@ -1,4 +1,4 @@
-import type { ConditionCode, CompatibilityStatus, SpeedWarning } from "./types";
+import type { ConditionCode, CompatibilityStatus, SpeedWarning, TechType, NbnTechType } from "./types";
 
 export const CONDITION_LABELS: Record<ConditionCode, { label: string; description: string }> = {
   SWITCH_TO_IPOE: {
@@ -85,3 +85,33 @@ export const SPEED_WARNING_COPY: Record<SpeedWarning["type"], { title: string }>
     title: "This modem may not be capable of supporting your plan's maximum speeds over Wi-Fi.",
   },
 };
+
+// --- Dev menu plan & tech type config ---
+
+export interface NbnPlan {
+  id: string;
+  label: string;
+  speedMbps: number;
+  price: string;
+}
+
+export const NBN_PLANS: NbnPlan[] = [
+  { id: "nbn100", label: "nbn\u00AE100", speedMbps: 100, price: "$65/month" },
+  { id: "nbn500", label: "nbn\u00AE500", speedMbps: 500, price: "$79/month" },
+  { id: "nbn1000", label: "nbn\u00AE1000", speedMbps: 880, price: "$99/month" },
+];
+
+export interface NbnTechOption {
+  id: NbnTechType;
+  label: string;
+  /** The DB-level TechType used for compatibility lookups */
+  dbTechType: TechType;
+}
+
+export const NBN_TECH_TYPES: NbnTechOption[] = [
+  { id: "fttp", label: "FTTP", dbTechType: "fttp" },
+  { id: "fttb", label: "FTTB", dbTechType: "fttn" },
+  { id: "fttn", label: "FTTN", dbTechType: "fttn" },
+  { id: "fttc", label: "FTTC", dbTechType: "fttc" },
+  { id: "hfc", label: "HFC", dbTechType: "hfc" },
+];
