@@ -55,6 +55,12 @@ export function ModemChecker() {
   const planSpeedMbps = currentPlan.speedMbps;
 
   const handleClose = () => {
+    // If the user completed the flow (reached results), preserve the result
+    // even when closing via overlay tap / Escape key.
+    if (state.step === "single_match") {
+      handleDone();
+      return;
+    }
     setSheetOpen(false);
     reset();
   };
