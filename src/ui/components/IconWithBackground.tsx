@@ -66,7 +66,7 @@ const IconWithBackgroundRoot = React.forwardRef<
           "bg-color-accent2-600": variant === "accent",
           "border border-solid border-brand-primary bg-transparent":
             variant === "brand-outline",
-          "bg-warning-300": variant === "warning-2",
+          "bg-warning-400": variant === "warning-2",
           "bg-error-800": variant === "error-dark",
           "bg-success-600": variant === "success-dark",
           "bg-neutral-600": variant === "neutral-dark",
@@ -98,7 +98,8 @@ const IconWithBackgroundRoot = React.forwardRef<
                 variant === "success-on-dark" || variant === "success",
               "text-color-accent2-50": variant === "accent",
               "text-brand-700": variant === "brand-outline",
-              "text-neutral-900": variant === "warning-2",
+              "font-['Inter'] text-[16px] font-[400] leading-[12px] tracking-normal text-neutral-900":
+                variant === "warning-2",
               "text-error-50": variant === "error-dark",
               "font-['Inter'] text-[14px] font-[400] leading-[12px] tracking-normal text-neutral-0":
                 variant === "success-dark",

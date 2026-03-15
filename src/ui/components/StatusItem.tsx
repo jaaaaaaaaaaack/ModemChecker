@@ -8,7 +8,7 @@
 import React from "react";
 import { FeatherAlertTriangle } from "@subframe/core";
 import { FeatherAsterisk } from "@subframe/core";
-import { FeatherFlag } from "@subframe/core";
+import { FeatherBell } from "@subframe/core";
 import { FeatherX } from "@subframe/core";
 import * as SubframeCore from "@subframe/core";
 import * as SubframeUtils from "../utils";
@@ -69,7 +69,7 @@ const StatusItemRoot = React.forwardRef<HTMLDivElement, StatusItemRootProps>(
                 : status === "warning"
                 ? "neutral"
                 : status === "incompatible"
-                ? "error-dark"
+                ? "warning-2"
                 : "success-dark"
             }
             size="small"
@@ -77,7 +77,7 @@ const StatusItemRoot = React.forwardRef<HTMLDivElement, StatusItemRootProps>(
               status === "callout" ? (
                 <FeatherAsterisk />
               ) : status === "warning" ? (
-                <FeatherFlag />
+                <FeatherBell />
               ) : status === "incompatible" ? (
                 <FeatherX />
               ) : undefined
@@ -95,7 +95,7 @@ const StatusItemRoot = React.forwardRef<HTMLDivElement, StatusItemRootProps>(
                     status === "info-on-dark" ||
                     status === "warning-on-dark" ||
                     status === "compatible-on-dark",
-                  "text-body-bold font-body-bold text-error-900":
+                  "text-body-bold font-body-bold text-neutral-800":
                     status === "incompatible",
                 }
               )}
