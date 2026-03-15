@@ -1043,9 +1043,115 @@ The fix is to add `role="button"`, `tabIndex={0}`, and an `onKeyDown` handler (E
 
 WCAG 1.3.1 (A): Appropriate use of semantic landmark elements.
 
+**Context:** This is an embeddable widget, not a standalone page. The host page provides its own `<main>`, `<header>`, `<footer>`, etc. Landmark expectations are therefore lighter — we check for reasonable semantic structure within the widget boundary, not a full page scaffold. The key question is whether screen reader users can orient themselves within the widget using landmark navigation.
+
+### Method
+
+Searched all owned components (`src/components/`) and Subframe UI components (`src/ui/components/`) for HTML5 landmark elements (`<main>`, `<section>`, `<header>`, `<footer>`, `<nav>`, `<aside>`, `<article>`) and ARIA landmark roles (`role="main"`, `role="banner"`, `role="navigation"`, `role="contentinfo"`, `role="complementary"`, `role="region"`, `role="search"`). Also checked `<form>` elements for accessible names (a `<form>` is only a landmark if it has an accessible name via `aria-label` or `aria-labelledby`).
+
+**What was found:** Zero landmark elements or landmark roles in any owned page component. The only landmark-adjacent elements in the codebase are:
+- `<nav>` in `SidebarWithSections.tsx` and `SidebarRailWithIcons.tsx` — Subframe library components not used by any screen.
+- `role="status"` on `LoadingState` — this is a live region role, not a landmark. Correct usage.
+- `role="dialog"` on BottomSheet's `Dialog.Content` (via Radix) — dialog is not a landmark role per se, but it creates a modal context that screen readers announce. This is correct and appropriate.
+
 ### Findings
 
-_Pending audit_
+#### Root: App + ModemChecker
+
+`App.tsx` renders `<ErrorBoundary><ModemChecker /></ErrorBoundary>`. `ModemChecker.tsx` renders a fragment (`<>...</>`) wrapping `BaseScreen`, `DevMenu`, and two `BottomSheet` instances. There is no wrapping landmark element (`<main>`, `<section>`, etc.) around the widget.
+
+- [owned] **medium** **No widget-level landmark.** The entire widget renders without any landmark region. A screen reader user navigating by landmarks would skip over the widget entirely. Wrapping the widget root in a `<section>` or `<div role="region">` with an `aria-label` (e.g., "Modem selection") would make the widget discoverable via landmark navigation. **quick-win** — add to `ModemChecker.tsx` or `App.tsx`.
+
+#### Screen 1: BaseScreen (landing)
+
+`BaseScreen` renders a plain `<div>` container. Within it:
+- The "Modem selection" heading + intro text has no enclosing landmark.
+- The Belong Modem info box (`bg-color-accent2-100`) is a plain `<div>`.
+- The `RadioCardGroup` is a Radix RadioGroup (no landmark role).
+- The BYO "Modem compatibility" section (conditionally rendered) is a `<motion.div>`.
+- The footer buttons ("Back" / "Continue") sit in a plain `<div>`.
+- `OrderCard` is a plain `<div>`.
+
+No `<section>`, `<header>`, `<footer>`, or `<nav>` elements are used.
+
+- [owned] **low** **No `<section>` or region for the BYO compatibility area.** The BYO section is a distinct functional region that appears/disappears based on user selection. Wrapping it in a `<section aria-label="Modem compatibility">` would help screen reader users understand the page structure, but since the content is short and linear, this is a nice-to-have. **quick-win**
+- [owned] **low** **Footer buttons have no `<footer>` or landmark.** The "Back" and "Continue" buttons at the bottom of BaseScreen could be wrapped in a `<footer>` or given `role="contentinfo"`, but since this is a widget (not a page), and there are only two buttons in a linear flow, this is low priority.
+
+#### Screen 2: BaseScreen (results — BYO selected, verified modem)
+
+Same structure as Screen 1 with the addition of `CheckerCard` (Subframe component) in the BYO section. No additional landmarks.
+
+- Same issues as Screen 1 apply.
+
+#### Screen 3: Search step (BottomSheet + SearchInput)
+
+`BottomSheet` renders a Radix `Dialog.Content` (provides `role="dialog"` and `aria-modal="true"`). Inside, `SearchInput` renders a `<form>` element.
+
+- [owned] **low** **`<form>` lacks accessible name — not a search landmark.** The `<form>` in `SearchInput` has no `aria-label` or `aria-labelledby`. Per ARIA spec, a `<form>` without an accessible name is not exposed as a landmark. Adding `aria-label="Search for your modem"` or `role="search"` would make it a landmark, improving discoverability within the dialog. **quick-win**
+
+Note: The dialog itself provides good structural context via `Dialog.Title` ("Modem search") and `aria-modal="true"`. The form is the only content in the dialog, so the lack of a form/search landmark is minor.
+
+#### Screen 4: LoadingState (BottomSheet + LoadingState)
+
+Inside the dialog, `LoadingState` renders a `<div role="status">`. This is a live region, not a landmark, and is correctly used to announce the loading state to screen readers.
+
+- No landmark issues. The dialog provides sufficient structural context.
+
+#### Screen 5: MultipleMatches (BottomSheet + MultipleMatches)
+
+Inside the dialog, `MultipleMatches` renders a flat `<div>` structure with header, scrollable card list, and help link. No landmarks used.
+
+- [owned] **low** **Card list could be a `<ul>` with list semantics** rather than landmark — but this is a heading hierarchy / list semantics issue, not a landmark issue. No landmark findings for this screen.
+- The dialog provides sufficient structural context.
+
+#### Screen 6: ResultCard (BottomSheet + ResultCard)
+
+Inside the dialog, `ResultCard` renders a `<div>` with heading, `CheckerCard.ResultsCard`, disclaimer text, and action buttons. No landmarks.
+
+- No landmark issues. The dialog provides sufficient structural context.
+
+#### Screen 7: NoMatch (BottomSheet + NoMatch)
+
+Inside the dialog, `NoMatch` renders a `<div>` with heading, description text, FAQ link, and retry button. No landmarks.
+
+- No landmark issues. Content is short and linear within the dialog.
+
+#### Screen 8: SearchError (BottomSheet + SearchError)
+
+Inside the dialog, `SearchError` renders a `<div>` with heading, description, and two action buttons. No landmarks.
+
+- No landmark issues. Content is short and linear within the dialog.
+
+#### Screen 9: ErrorBoundary (crash fallback)
+
+When triggered, `ErrorBoundary` renders a `<div>` with error message and reload button. No landmarks. This replaces the entire widget content.
+
+- [owned] **low** **Crash fallback has no landmark wrapper.** If the widget root gets a landmark (per the medium-severity item above), the ErrorBoundary fallback would render inside it, inheriting that context. No separate action needed for ErrorBoundary specifically.
+
+#### Screen 10: ModemInfoSheet (BottomSheet + ModemInfoSheet)
+
+Inside a separate `BottomSheet` dialog (accent2 gradient), `ModemInfoSheet` renders a `<div>` with image, title, feature list (`FeatureItem` components), and footer buttons. No landmarks.
+
+- No landmark issues. The dialog provides sufficient structural context via `Dialog.Title` ("Belong modem information").
+
+### Summary
+
+| Severity | Count | Screen(s) | Description |
+|---|---|---|---|
+| **medium** | 1 | App / ModemChecker (all screens) | No widget-level landmark — screen reader landmark navigation skips the entire widget |
+| **low** | 1 | SearchInput (search step) | `<form>` has no accessible name, so it is not exposed as a search/form landmark |
+| **low** | 1 | BaseScreen | BYO compatibility section has no `<section>` landmark |
+| **low** | 1 | BaseScreen | Footer buttons have no `<footer>` landmark |
+| **low** | 1 | ErrorBoundary | No landmark in crash fallback (resolved if widget root gets a landmark) |
+
+**Total: 5 items (1 medium, 4 low)**
+
+**Quick wins (3):**
+1. **Widget-level landmark** — Wrap `ModemChecker` return in `<section aria-label="Modem selection">` (or `<div role="region" aria-label="Modem selection">`). One-line change in `ModemChecker.tsx`. Fixes the medium-severity item and implicitly covers ErrorBoundary's fallback if moved to wrap inside `App.tsx`.
+2. **Search form landmark** — Add `aria-label="Search for your modem"` to the `<form>` in `SearchInput.tsx`. One attribute addition.
+3. **BYO section landmark** — Change the BYO `<motion.div>` wrapper to `<motion.section aria-label="Modem compatibility">` in `BaseScreen.tsx`. One element change.
+
+**Assessment:** The landmark situation is reasonable for an embedded widget. The BottomSheet dialog screens benefit from Radix's `role="dialog"` and `aria-modal`, which provide clear structural context to screen readers. The main gap is the lack of a top-level landmark to make the widget itself discoverable via landmark navigation — a single wrapping `<section>` would resolve this. The remaining items are low-severity improvements that would enhance navigation within the widget but are not critical given the widget's compact, linear layout.
 
 ---
 
