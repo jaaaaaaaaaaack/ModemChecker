@@ -89,6 +89,7 @@ const HeaderWithNavigationRoot = React.forwardRef<
         ) : null}
         {onClose ? (
           <IconButton
+            className="rounded-full"
             variant={
               variant === "2-slot-purple"
                 ? "neutral-primary"
