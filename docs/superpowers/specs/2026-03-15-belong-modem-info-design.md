@@ -74,7 +74,7 @@ The three bullets address three purchase anxieties for a "just make it work" cus
 
 ## Section 2: Detail Sheet ("Learn more")
 
-Opens in the existing BottomSheet component. Tapping "Learn more" on the summary block triggers it.
+Opens in a **separate BottomSheet instance** dedicated to modem info (distinct from the compatibility checker sheet). This keeps the two concerns cleanly separated — the modem info sheet has no search state, no step transitions, just static content. `ModemChecker` manages the open/close state for both sheets independently.
 
 ### Content
 
@@ -86,7 +86,7 @@ Opens in the existing BottomSheet component. Tapping "Learn more" on the summary
 Wi-Fi 6 delivers speeds up to 950Mbps — fast enough for all Belong nbn plans, including nbn1000. Supports 12+ simultaneous device connections, so everyone in the household can stream, game, and browse without competing for bandwidth.
 
 **Security & updates**
-WPA3 encryption keeps your network secure. Firmware updates are delivered automatically — you won't need to do a thing.
+WPA2/WPA3 encryption keeps your network secure. Firmware updates are delivered automatically — you won't need to do a thing.
 
 **What's included**
 24-month warranty with troubleshooting support (live chat or phone). 4 ethernet ports for wired connections. USB 3.0 port. Built-in parental controls.
@@ -105,16 +105,19 @@ WPA3 encryption keeps your network secure. Firmware updates are delivered automa
 
 ## Section 3: Cross-Linking from Compatibility Results
 
-When the BYO compatibility checker returns "not compatible", the ResultCard currently displays:
+When the BYO compatibility checker returns "not compatible", the `ResultsCard` sub-component in `CheckerCard.tsx` displays:
 
 > "Add a Belong modem to your order, or purchase a different compatible modem before your connection date."
 
 ### Change
 
-Make **"Add a Belong modem to your order"** a tappable link. Tapping it:
+Make **"Add a Belong modem to your order"** a tappable link within the StatusItem description. The `description` prop on StatusItem will need to accept `ReactNode` (currently `string`).
 
-1. Closes the bottom sheet (same animation as "Done")
-2. Scrolls the page to the modem summary block
+Tapping the link triggers a new callback (e.g. `onAddBelongModem`) that propagates up through `CheckerCard` → `ResultCard` → `ModemChecker`. The orchestrator then:
+
+1. Closes the compatibility checker bottom sheet (same animation as "Done")
+2. Clears `verifiedModem` state (an incompatible modem shouldn't persist in the BYO section)
+3. Scrolls the page to the modem summary block (via ref + `scrollIntoView`)
 
 No auto-selection of the "Yes" radio — the user makes that choice explicitly. No highlight/pulse animation on the target — the scroll itself is sufficient signal.
 
@@ -126,8 +129,13 @@ No auto-selection of the "Yes" radio — the user makes that choice explicitly. 
 
 ---
 
+## Implementation Notes
+
+- **All modem summary content is hardcoded** — there is only one Belong modem (DWA4135). No data layer needed.
+- **Modem image:** Use a static asset bundled with the widget, or a hardcoded Supabase Storage URL. Exact source to be decided during implementation.
+- **"Supports all Belong nbn plans" accuracy:** Verified against current plans. The 1Gbps WAN port exceeds nbn1000's 880Mbps tier speed, and Wi-Fi 6 at 950Mbps also clears it. This claim holds for all current Belong plans. If a true 1Gbps+ plan were introduced, this copy would need revisiting.
+
 ## Out of Scope
 
 - Payment method radio group (upfront vs. split) — acknowledged as part of the real flow but not being built in this prototype
-- Modem image sourcing for the summary block (can use existing Supabase storage or a static asset)
 - OrderCard pricing updates (currently shows "$0 upfront" — will need updating separately to reflect real pricing)
