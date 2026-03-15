@@ -15,13 +15,14 @@ Produce a findings report covering fundamental accessibility issues across the M
 | Focus rings | 2.4.7 (AA) | `:focus-visible` styles on all interactive elements. Consistency of ring color, width, offset |
 | Tab order | 2.4.3 (A) | Logical tab sequence per screen. No unreachable or out-of-order elements |
 | Heading hierarchy | 1.3.1 (A) | No skipped levels in assembled DOM per screen. Correct nesting |
-| Semantic HTML | 1.3.1 (A), 4.1.2 (A) | Buttons are `<button>`, inputs have `<label>`, images have `alt`, landmarks present |
+| Accessible names | 4.1.2 (A) | All interactive elements have an accessible name. Icon-only buttons have `aria-label` or visually hidden text |
+| Roles & semantics | 1.3.1 (A), 4.1.2 (A) | Clickable elements are native interactive elements or have appropriate ARIA roles + keyboard handlers. Buttons are `<button>`, inputs have `<label>`, images have `alt`, landmarks present. Existing ARIA attributes checked for correctness |
 
 ### Out of scope (pass 2)
 
 - Focus trapping and restoration in modals
 - Screen reader announcements (`aria-live`, `aria-busy`)
-- `aria-expanded`, `aria-describedby`, `aria-invalid`
+- Adding new ARIA attributes (`aria-expanded`, `aria-describedby`, `aria-invalid`). Note: existing ARIA attributes encountered during the audit are checked for correctness
 - `prefers-reduced-motion` support
 - Skip-to-content links
 - Dark mode
@@ -44,6 +45,7 @@ Audit each component for self-contained issues: contrast, touch targets, focus r
 - CheckerCard (sync-disabled)
 - StatusItem (sync-disabled)
 - IconWithBackground (sync-disabled)
+- OrderCard
 
 **Owned components to audit:**
 - ModemChecker (root orchestrator)
@@ -72,14 +74,20 @@ Walk each screen in user-flow order. Check heading hierarchy, tab order, and lan
 6. ResultCard
 7. NoMatch
 8. SearchError
+9. ErrorBoundary (crash fallback state)
+
+**Excluded:** DevMenu (dev-only, not shipped to production)
 
 ## Tagging
 
 Each finding is tagged:
 
-- **Ownership:** `owned` (we fix it) or `subframe` (flagged for upstream fix in Subframe, or sync-disable later)
+- **Ownership:**
+  - `owned` — we fix it directly
+  - `subframe-disabled` — Subframe component already sync-disabled, we can fix it
+  - `subframe` — Subframe component still synced, needs upstream fix in Subframe or sync-disable decision
 - **Severity:**
-  - `critical` — fails WCAG A, or interactive element unusable
+  - `critical` — fails WCAG A and materially affects ability to complete the flow
   - `high` — fails WCAG AA, or significantly degraded experience
   - `medium` — suboptimal but functional (e.g. inconsistent focus rings)
   - `low` — minor, cosmetic, or edge case
@@ -118,7 +126,9 @@ Single markdown file at `docs/a11y-audit-pass1.md`, structured by category:
 - Priority breakdown (critical / high / medium / low)
 ```
 
-Each finding includes: the specific component or screen, what's wrong, the measured value vs the requirement, and a brief note on what the fix would involve.
+Each finding includes: the specific component or screen, what's wrong, the measured value vs the requirement, and a brief note on what the fix would involve. Trivially fixable items (e.g. single CSS property additions) are tagged `quick-win` to aid fix plan prioritisation.
+
+**Note on disabled states:** WCAG 1.4.3 exempts disabled controls from contrast requirements. The audit will note disabled-state contrast for awareness but will not flag them as failures.
 
 ## What this does NOT include
 
