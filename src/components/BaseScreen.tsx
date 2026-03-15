@@ -194,18 +194,31 @@ export function BaseScreen({
             </AnimatePresence>
           </div>
 
-          {/* Order summary */}
-          <OrderCard
-            planLabel={`${currentPlan.label} plan`}
-            planPrice={currentPlan.price}
-            modemLabel={selection === "byo" ? "Bring-your-own modem" : selection === "belong" ? "Belong Modem" : "No modem selected"}
-            modemPrice={selection === "byo" ? "Free" : selection === "belong" ? "$0 upfront" : ""}
-            totalPrice={currentPlan.price}
-            serviceAddress="123 Somewhere St, Anytown, VIC"
-            nbnTechType={NBN_TECH_LABELS[nbnTechType]}
-            onClick={onOpenDevMenu}
-            className="cursor-pointer transition-colors hover:border-brand-400 active:scale-[0.99]"
-          />
+          {/* Order summary — hidden until a modem choice is made */}
+          <AnimatePresence>
+            {selection && (
+              <motion.div
+                key="order-summary"
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="w-full"
+              >
+                <OrderCard
+                  planLabel={`${currentPlan.label} plan`}
+                  planPrice={currentPlan.price}
+                  modemLabel={selection === "byo" ? "Bring-your-own modem" : "Belong Modem"}
+                  modemPrice={selection === "byo" ? "Free" : "$0 upfront"}
+                  totalPrice={currentPlan.price}
+                  serviceAddress="123 Somewhere St, Anytown, VIC"
+                  nbnTechType={NBN_TECH_LABELS[nbnTechType]}
+                  onClick={onOpenDevMenu}
+                  className="cursor-pointer transition-colors hover:border-brand-400 active:scale-[0.99]"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Footer buttons */}
