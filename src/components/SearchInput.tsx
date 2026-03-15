@@ -29,7 +29,7 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
       <div className="flex w-full flex-col items-start gap-2">
         <div className="flex w-full items-start gap-2">
           <span className="flex-1 text-h2 font-h2 text-color-primary-701">
-            Find your modem's model name/number
+            Search for your modem
           </span>
           {onClose && (
             <IconButton
@@ -41,16 +41,16 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
           )}
         </div>
         <span className="text-body font-body text-default-font">
-          Model details are usually found on the back or bottom of the device.
+          Search by brand, model name, or model number. You can usually find these on the back or bottom of your device.
         </span>
       </div>
       <div className="flex w-full flex-col items-start gap-3">
         <span className="text-body-bold font-body-bold text-color-primary-701">
-          Type your modem name / model
+          Brand, model name, or model number
         </span>
         <TextField className="h-auto w-full flex-none" variant="outline" label="" helpText="">
           <TextField.Input
-            placeholder={'"Eero 6", "TP Link R400"'}
+            placeholder={'"Eero", "TP-Link Archer", "R400"'}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />

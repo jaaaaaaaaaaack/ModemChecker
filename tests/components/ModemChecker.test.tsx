@@ -12,24 +12,24 @@ const mockSearch = vi.mocked(searchModems);
 
 describe("ModemChecker", () => {
   it("renders base screen with modem selection", () => {
-    render(<ModemChecker techType="fttp" />);
+    render(<ModemChecker />);
     expect(screen.getByText(/modem selection/i)).toBeInTheDocument();
   });
 
   it("opens bottom sheet when check my modem is clicked", async () => {
-    render(<ModemChecker techType="fttp" />);
+    render(<ModemChecker />);
     await userEvent.click(screen.getByText(/no, i.ll use my own/i));
     await userEvent.click(
       screen.getByRole("button", { name: /check your modem/i })
     );
-    expect(screen.getByText(/find your modem/i)).toBeInTheDocument();
+    expect(screen.getByText(/search for your modem/i)).toBeInTheDocument();
   });
 
   it("shows loading state after search", async () => {
     mockSearch.mockImplementation(
       () => new Promise(() => {}) // never resolves — stays in searching state
     );
-    render(<ModemChecker techType="fttp" />);
+    render(<ModemChecker />);
     await userEvent.click(screen.getByText(/no, i.ll use my own/i));
     await userEvent.click(
       screen.getByRole("button", { name: /check your modem/i })
@@ -44,7 +44,7 @@ describe("ModemChecker", () => {
 
   it("shows error screen when search fails", async () => {
     mockSearch.mockRejectedValue(new Error("Network error"));
-    render(<ModemChecker techType="fttp" />);
+    render(<ModemChecker />);
 
     // Open sheet
     await userEvent.click(screen.getByText(/no, i.ll use my own/i));
