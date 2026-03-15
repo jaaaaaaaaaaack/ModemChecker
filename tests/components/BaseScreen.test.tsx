@@ -75,4 +75,26 @@ describe("BaseScreen", () => {
     await userEvent.click(screen.getByText(/no, i.ll use my own/i));
     expect(screen.getByText(/not fast enough to support/i)).toBeInTheDocument();
   });
+
+  it("renders the modem summary block with product name and price", () => {
+    render(<BaseScreen onCheckModem={() => {}} />);
+    expect(screen.getByText("Belong Modem")).toBeInTheDocument();
+    expect(
+      screen.getByText("$132 upfront, or $11/month over 12 months")
+    ).toBeInTheDocument();
+  });
+
+  it("renders the three benefit bullets", () => {
+    render(<BaseScreen onCheckModem={() => {}} />);
+    expect(screen.getByText("Supports all Belong nbn plans")).toBeInTheDocument();
+    expect(screen.getByText(/Connect to 12\+ devices/)).toBeInTheDocument();
+    expect(screen.getByText("24-month warranty")).toBeInTheDocument();
+  });
+
+  it("calls onLearnMore when Learn more link is clicked", async () => {
+    const onLearnMore = vi.fn();
+    render(<BaseScreen onCheckModem={() => {}} onLearnMore={onLearnMore} />);
+    await userEvent.click(screen.getByText("Learn more"));
+    expect(onLearnMore).toHaveBeenCalledOnce();
+  });
 });
