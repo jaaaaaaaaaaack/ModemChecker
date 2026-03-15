@@ -414,9 +414,51 @@ Extracted Tailwind height/width/padding classes from each interactive element's 
 
 WCAG 2.4.7 (AA): All interactive elements must have a visible focus indicator.
 
-### Findings
+### Method
 
-_Pending audit_
+Read every interactive component and searched for `focus-visible:`, `focus-within:`, `focus:`, `outline`, and `ring` in Tailwind classes. Assessed whether each component has a visible focus indicator and whether the ring appearance (color, width, offset) is consistent across the component set.
+
+**Tailwind v4 preflight behavior:** `@import "tailwindcss"` includes preflight, which does NOT strip `:focus-visible` outlines from native elements. Buttons and inputs get the browser's default `outline` on `:focus-visible` unless explicitly removed. However, `<div>` elements with `tabIndex` or `role="button"` do NOT get browser default focus rings -- they must be styled explicitly.
+
+**Established ring pattern (from RadioCardGroup.RadioCard):** `ring-2 ring-brand-600 ring-offset-2` -- 2px brand-colored ring with 2px offset. This is the consistency target for all components.
+
+### Failures
+
+- [subframe-disabled] high **Button**: No `focus-visible` styles. Relies on browser default `:focus-visible` outline (typically a thin blue or black line). While visible, it is inconsistent with the `ring-2 ring-brand-600 ring-offset-2` pattern used elsewhere. The `rounded-full` shape makes the default rectangular outline particularly jarring. `quick-win`: add `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2` to the root `<button>`. ❌
+- [subframe] high **IconButton**: No `focus-visible` styles. Same issue as Button -- browser default outline is inconsistent with ring pattern. `quick-win`: add `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2` to the root `<button>`. ❌
+- [subframe] high **LinkButton**: No `focus-visible` styles. `<button>` with `border-none bg-transparent` -- browser default outline shows but is inconsistent with ring pattern. `quick-win`: add `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2` to the root `<button>`. ❌
+- [subframe] high **CardButton**: No focus styles at all. Root element is a `<div>`, not a `<button>`, so it receives no browser default focus indicator. In MultipleMatches, the caller adds `role="button" tabIndex={0}` and explicit `focus-visible:ring-*` classes via `className` -- this works but the fix lives in the consumer, not the component. If CardButton is used elsewhere without those classes, focus will be invisible. `quick-win`: add `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2` to the root `<div>` in the component itself, and remove the duplicate from MultipleMatches. ❌
+- [subframe] high **SettingsMenu.Item**: No focus styles. Root element is a `<div>` with `cursor-pointer` -- no `tabIndex`, no `role`, no focus indicator. If made keyboard-accessible (which it should be), it would need explicit focus ring styles. `quick-win`: change to `<button>` or add `tabIndex={0} role="menuitem"` + `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2`. ❌
+- [subframe-disabled] high **CheckerCard** (inline "Add a Belong modem" button): `<button>` with `border-none bg-transparent p-0` -- no `focus-visible` styles. Browser default outline will appear but is inconsistent and very tight against the inline text. `quick-win`: add `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-1 rounded-sm` to the inline `<button>`. ❌
+- [owned] high **ErrorBoundary** (Reload button): Plain `<button>` with `rounded-full` -- no `focus-visible` styles. Browser default outline is visible but inconsistent. `quick-win`: add `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2`. ❌
+- [subframe-disabled] medium **OrderCard** (used as interactive in BaseScreen): `<div>` with `onClick` and `cursor-pointer` className added by BaseScreen. No `tabIndex`, no `role`, no focus styles. Currently not keyboard-accessible at all. If made accessible, would need focus ring. ❌
+- [subframe] medium **TextField.Input**: The `<input>` has `outline-none`, which suppresses the browser default focus indicator. The parent container uses `group-focus-within:border-brand-primary` to change the border color on focus, providing a visual cue. However, this border-color change is subtle (1px border goes from `neutral-300` to `brand-primary`) and does not meet the ring-2 consistency pattern. The container does NOT add `ring-*` classes on focus. Partially accessible but inconsistent. ❌
+
+### Passing
+
+- [subframe-disabled] pass **RadioCardGroup.RadioCard**: `focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-600 focus-within:ring-offset-2` on the inner `<button>`. Uses `focus-within:` (not `focus-visible:`) because the Radix `RadioGroup.Item` manages focus on the wrapping element. This is correct -- the ring appears when the radio card receives keyboard focus. This is the reference pattern for the codebase. ✅
+- [owned] pass **MultipleMatches** (CardButton wrappers): Adds `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2` via `className` on each CardButton instance. Matches the reference pattern. Note: this compensates for CardButton's own lack of focus styles. ✅
+- [owned] pass **BottomSheet** (Dialog.Content): `outline-none` on the modal container. This is correct -- the dialog container itself should not show a focus ring; focus should be on interactive children inside. ✅
+
+### Consistency Analysis
+
+Only 2 out of 10 interactive component types have explicit focus ring styles. The established pattern is `ring-2 ring-brand-600 ring-offset-2`, but it appears in only RadioCardGroup.RadioCard (component-level) and MultipleMatches CardButton usage (consumer-level). All other components rely on the browser's default `:focus-visible` outline (for `<button>` elements) or have no focus indicator at all (for `<div>` elements used as buttons).
+
+The TextField uses a different approach entirely: a border-color change via `focus-within` on the container, rather than a ring. This is a common pattern for text fields but is visually inconsistent with the ring-based approach used elsewhere.
+
+### Quick-win Summary
+
+| # | Component | Fix | Effort |
+|---|---|---|---|
+| 1 | Button | Add `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2` to root `<button>` | Low (subframe-disabled) |
+| 2 | IconButton | Same focus-visible ring classes on root `<button>` | Low (subframe, synced) |
+| 3 | LinkButton | Same focus-visible ring classes on root `<button>` | Low (subframe, synced) |
+| 4 | CardButton | Same focus-visible ring classes on root `<div>`, remove duplicate from MultipleMatches | Low (subframe, synced + owned) |
+| 5 | SettingsMenu.Item | Change to `<button>` element + add focus-visible ring classes | Medium (subframe, synced) |
+| 6 | CheckerCard inline button | Add focus-visible ring classes + `rounded-sm` to the inline `<button>` | Low (subframe-disabled) |
+| 7 | ErrorBoundary Reload | Add focus-visible ring classes to the `<button>` | Trivial (owned) |
+| 8 | TextField | Add `focus-within:ring-2 focus-within:ring-brand-600 focus-within:ring-offset-2` to container `<div>` alongside existing border change | Low (subframe, synced) |
+| 9 | OrderCard (BaseScreen) | Add `tabIndex={0} role="button"` + focus-visible ring classes when used as interactive | Medium (owned + subframe-disabled) |
 
 ---
 
