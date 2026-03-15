@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
-import { FeatherChevronLeft, FeatherX } from "@subframe/core";
-import { IconButton } from "../ui/components/IconButton";
+import { HeaderWithNavigation } from "@/ui/components/HeaderWithNavigation";
+import { Button } from "../ui/components/Button";
 import { LinkButton } from "../ui/components/LinkButton";
 import { CardButton } from "../ui/components/CardButton";
 import { getModemImageUrl } from "../lib/supabase";
@@ -25,29 +25,11 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
   return (
     <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0">
       <div className="flex w-full flex-col items-start gap-3 flex-shrink-0">
-        <div className="flex w-full items-start gap-2">
-          <IconButton
-            className="h-8 w-8 flex-none rounded-full"
-            variant="option-1"
-            size="large"
-            icon={<FeatherChevronLeft />}
-            onClick={onBack}
-            aria-label="Back"
-          />
-          <span className="grow shrink-0 basis-0 font-['Plus_Jakarta_Sans'] text-[28px] font-[700] leading-[30px] tracking-[-0.02em] text-brand-900">
-            Select your modem
-          </span>
-          {onClose && (
-            <IconButton
-              className="h-8 w-8 flex-none rounded-full"
-              variant="brand-tertiary"
-              size="large"
-              icon={<FeatherX />}
-              onClick={onClose}
-              aria-label="Close"
-            />
-          )}
-        </div>
+        <HeaderWithNavigation
+          title="Select your modem"
+          variant="2-slot-blue"
+          onClose={onClose}
+        />
         <span className="whitespace-pre-wrap text-body font-body text-brand-800">
           We found multiple possible matches. Please select your device from the list below.
         </span>
@@ -77,11 +59,6 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
               className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2"
             />
           ))}
-          <div className="flex-shrink-0 pt-2 pb-1">
-            <LinkButton variant="brand" onClick={() => {}}>
-              Help me identify my modem
-            </LinkButton>
-          </div>
         </div>
         {/* Scroll-aware top scrim — fades in when content scrolls beneath the heading */}
         <div
@@ -96,6 +73,17 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
               "linear-gradient(to bottom, rgba(210, 250, 255, 0.92), transparent)",
           }}
         />
+      </div>
+      <div className="flex w-full items-center justify-between flex-shrink-0">
+        <Button
+          variant="brand-secondary"
+          onClick={onBack}
+        >
+          Back
+        </Button>
+        <LinkButton variant="brand" onClick={() => {}}>
+          I can't find my modem
+        </LinkButton>
       </div>
     </div>
   );

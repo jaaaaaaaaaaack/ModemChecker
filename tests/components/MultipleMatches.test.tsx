@@ -65,13 +65,12 @@ describe("MultipleMatches", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("calls onBack when inline back button is clicked", async () => {
+  it("calls onBack when bottom bar Back button is clicked", async () => {
     const onBack = vi.fn();
     render(
       <MultipleMatches modems={modems} onSelect={() => {}} onBack={onBack} />
     );
-    const backButton = screen.getByLabelText(/back/i);
-    await userEvent.click(backButton);
+    await userEvent.click(screen.getByRole("button", { name: /^back$/i }));
     expect(onBack).toHaveBeenCalledOnce();
   });
 
@@ -96,7 +95,7 @@ describe("MultipleMatches", () => {
       <MultipleMatches modems={modems} onSelect={() => {}} onBack={() => {}} />
     );
     expect(
-      screen.getByText(/help me identify my modem/i)
+      screen.getByText(/i can't find my modem/i)
     ).toBeInTheDocument();
   });
 
