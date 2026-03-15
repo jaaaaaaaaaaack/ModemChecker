@@ -336,9 +336,77 @@ Disabled controls are exempt from WCAG 1.4.3 per SC exception for "inactive user
 
 WCAG 2.5.8 (AA): 44×44px target, 24px minimum.
 
-### Findings
+### Method
 
-_Pending audit_
+Extracted Tailwind height/width/padding classes from each interactive element's root `<button>` or clickable `<div>`. Calculated effective touch target dimensions. For text-only elements with no explicit height, estimated based on font-size line-height from theme.css tokens (`text-body` = 16px/20px, `text-caption` = 14px/17px, `text-h3-700` = 22px/28px).
+
+**Tailwind size reference:** `h-6`=24px, `h-8`=32px, `h-9`=36px, `h-10`=40px, `h-11`=44px, `h-12`=48px, `h-14`=56px, `h-24`=96px. `p-1`=4px, `p-2`=8px, `p-3`=12px, `p-4`=16px.
+
+### Failures
+
+#### Critical (below 24px on at least one axis)
+
+- [subframe] critical **LinkButton** (medium, default): ~content-width x ~20px — no `min-height`, no vertical padding, height determined solely by `text-body` line-height (~20px). Target 44x44px. `quick-win`: add `min-h-11` to root button. ❌
+- [subframe] critical **LinkButton** (small): ~content-width x ~17px — `text-caption` line-height (~17px), no vertical padding. Target 44x44px. `quick-win`: add `min-h-11` to root button. ❌
+- [subframe-disabled] critical **CheckerCard.ResultsCard** (inline "Add a Belong modem" button): ~content-width x ~20px — `p-0 border-none bg-transparent` inline `<button>`, height = body text line-height (~20px), no padding or min-height. Target 44x44px. `quick-win`: add `min-h-11 px-1` or wrap in a larger tap target area. ❌
+
+#### High (24-43px)
+
+- [subframe] high **IconButton** (small): 24x24px — `h-6 w-6`. Meets the 24px absolute minimum but far below 44x44px target. `quick-win`: add `min-h-11 min-w-11` (visual size unchanged, touch area expanded). ❌
+- [subframe] high **IconButton** (medium, default): 32x32px — `h-8 w-8`. Target 44x44px. `quick-win`: add `min-h-11 min-w-11`. ❌
+- [subframe] high **IconButton** (large): 40x40px — `h-10 w-10`. Target 44x44px. `quick-win`: add `min-h-11 min-w-11`. ❌
+- [subframe-disabled] high **Button** (small): content-width x 36px — `h-9`, `px-4`. Width is content-dependent but typically >44px. Height is below target. `quick-win`: change `h-9` to `h-11` for small variant. ❌
+- [subframe] high **LinkButton** (large): ~content-width x ~28px — `text-h3-700` line-height (~28px), no vertical padding. Target 44x44px. `quick-win`: add `min-h-11` to root button. ❌
+- [subframe] high **SettingsMenu.Item**: full-width x 32px — `h-8`, `px-3 py-1`. Target 44x44px. `quick-win`: change `h-8` to `h-11`. ❌
+
+#### Contextual findings in page components
+
+- [owned] high **SearchInput**: Close `IconButton` uses default size (32x32px) — inherits IconButton medium finding above. ❌
+- [owned] critical **SearchInput**: "Help me find the model name" `LinkButton` uses medium default (~20px tall) — inherits LinkButton critical finding. ❌
+- [owned] high **MultipleMatches**: Back `IconButton` has `className="h-8 w-8"` with `size="large"` — the className overrides the large size back to 32x32px. Target 44x44px. `quick-win`: change to `h-11 w-11`. ❌
+- [owned] high **MultipleMatches**: Close `IconButton` has `className="h-8 w-8"` with `size="large"` — same issue as Back button, 32x32px. `quick-win`: change to `h-11 w-11`. ❌
+- [owned] critical **MultipleMatches**: "Help me identify my modem" `LinkButton` (medium, ~20px tall) — inherits LinkButton critical finding. ❌
+- [owned] critical **ResultCard**: "Check another modem" `LinkButton` (medium, ~20px tall) — inherits LinkButton critical finding. ❌
+- [owned] critical **NoMatch**: "Read the modem compatibility FAQs" `LinkButton` (medium, ~20px tall) — inherits LinkButton critical finding. ❌
+- [owned] critical **BaseScreen**: "Learn more" `LinkButton` (medium, ~20px tall) in Belong Modem info box — inherits LinkButton critical finding. ❌
+- [owned] critical **BaseScreen**: "Modem compatibility FAQs" `LinkButton` (medium, brand variant, ~20px tall) in BYO section — inherits LinkButton critical finding. ❌
+- [owned] critical **CheckerCard**: "Check another modem" `LinkButton` (hidden, brand variant) — inherits LinkButton critical finding. Currently hidden (`className="hidden"`) so no runtime impact, but would fail if shown. ❌
+- [owned] critical **CheckerCard**: "Learn more in our FAQs" `LinkButton` (neutral, ~20px tall) in not-compatible state — inherits LinkButton critical finding. ❌
+
+### Passing (44px or above)
+
+<details>
+<summary>All elements meeting the 44x44px target</summary>
+
+- [subframe-disabled] pass **Button** (medium, default): content-width x 48px — `h-12`, `px-8`. 48px height >= 44px target. ✅
+- [subframe-disabled] pass **Button** (large): content-width x 56px — `h-14`, `px-8`. 56px height >= 44px target. ✅
+- [subframe] pass **TextField** (input container): full-width x 48px — `h-12`, `px-2`. 48px height >= 44px target. ✅
+- [subframe-disabled] pass **RadioCardGroup.RadioCard**: full-width x ~84px — `py-4` (32px vertical padding) + body text content (~20px) + radio indicator (24px). Well above 44px target. ✅
+- [subframe] pass **CardButton**: full-width x 96px — `h-24`, `px-4 py-4`. 96px height >= 44px target. ✅
+- [subframe-disabled] pass **OrderCard** (used as interactive in BaseScreen): full-width x ~200px+ — `px-4 py-4` + substantial content. Well above 44px target. ✅
+- [owned] pass **SearchInput** "Continue" `Button` (medium): inherits Button medium = 48px tall. ✅
+- [owned] pass **BaseScreen** "Check your modem" `Button` (medium): `h-12` = 48px. ✅
+- [owned] pass **BaseScreen** "Back" `Button` (medium): `h-12` = 48px. ✅
+- [owned] pass **BaseScreen** "Start checkout" `Button` (medium): `h-12` = 48px. ✅
+- [owned] pass **CheckerCard** "Check your/another modem" `Button` (medium): inherits Button medium = 48px. ✅
+- [owned] pass **ResultCard** "Close" `Button` (medium): inherits Button medium = 48px. ✅
+- [owned] pass **NoMatch** "Try a new search" `Button` (medium): inherits Button medium = 48px. ✅
+- [owned] pass **SearchError** "Try again" `Button` (medium): inherits Button medium = 48px. ✅
+- [owned] pass **SearchError** "Start a new search" `Button` (medium): inherits Button medium = 48px. ✅
+- [owned] pass **MultipleMatches** `CardButton` items: inherits CardButton = 96px. ✅
+
+</details>
+
+### Quick-win Summary
+
+| # | Component | Current | Fix | Effort |
+|---|---|---|---|---|
+| 1 | LinkButton (all sizes) | No height/padding (~17-28px) | Add `min-h-11` to root `<button>` | Low (subframe, synced) |
+| 2 | IconButton (all sizes) | 24-40px square | Add `min-h-11 min-w-11` to root `<button>`, keep visual size with inner icon wrapper | Low (subframe, synced) |
+| 3 | Button (small) | `h-9` = 36px | Change to `h-11` = 44px | Low (subframe-disabled) |
+| 4 | MultipleMatches Back/Close | `h-8 w-8` className override | Change to `h-11 w-11` in className | Trivial (owned) |
+| 5 | SettingsMenu.Item | `h-8` = 32px | Change to `h-11` = 44px | Low (subframe, synced) |
+| 6 | CheckerCard inline button | `p-0` inline text button (~20px) | Add `min-h-11 px-1` or replace with LinkButton (once LinkButton is fixed) | Medium (subframe-disabled) |
 
 ---
 
