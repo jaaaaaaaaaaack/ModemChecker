@@ -36,7 +36,7 @@ export function BaseScreen({
   onOpenDevMenu,
   modemSummaryRef,
 }: BaseScreenProps) {
-  const [selection, setSelection] = useState<string>("");
+  const [selection, setSelection] = useState<"" | "belong" | "byo">("");
   const byoSectionRef = useRef<HTMLDivElement>(null);
   const orderCardRef = useRef<HTMLDivElement>(null);
 

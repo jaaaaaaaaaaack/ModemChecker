@@ -74,10 +74,11 @@ export function BottomSheet({ open, onClose, children, gradient = "brand", title
                   // Base
                   `fixed z-50 ${gradientConfig.full} shadow-xl overflow-hidden outline-none`,
                   "flex flex-col",
-                  // Mobile: bottom sheet
-                  "inset-x-0 bottom-0 max-h-[85vh] rounded-t-3xl p-5 pb-8",
+                  // Mobile: bottom sheet — extra bottom padding (-bottom-10 + pb-18)
+                  // absorbs spring overshoot so no black bar flashes beneath
+                  "inset-x-0 -bottom-10 max-h-[85vh] rounded-t-3xl p-5 pb-18",
                   // Desktop: side sheet
-                  "md:inset-y-0 md:right-0 md:left-auto",
+                  "md:inset-y-0 md:bottom-0 md:right-0 md:left-auto",
                   `${gradientConfig.compact} md:w-[480px] md:max-h-none md:rounded-none md:p-6`,
                 ].join(" ")}
               >
