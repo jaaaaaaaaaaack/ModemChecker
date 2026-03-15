@@ -609,9 +609,85 @@ Read every interactive component (Subframe primitives in `src/ui/components/` an
 
 WCAG 1.3.1 (A), 4.1.2 (A): Correct use of native elements, ARIA roles, labels, alt text, landmarks.
 
-### Findings
+### Method
 
-_Pending audit_
+Reviewed every component listed in the audit scope for: correct HTML element usage on interactive elements, ARIA role/tabIndex/keyboard handler completeness on `<div>`/`<span>` with click handlers, correct existing ARIA attributes, `alt` on `<img>` elements, and accessible submit mechanisms on `<form>` elements.
+
+### Findings — Interactive elements
+
+- [subframe] critical **CardButton**: Root `<div>` has `cursor-pointer` and accepts `onClick` via `...otherProps` spread, but the component itself does not provide `role="button"`, `tabIndex={0}`, or a keyboard handler. Consumers must add all three manually (as MultipleMatches does). The component should be a `<button>` or at minimum include `role="button"`, `tabIndex={0}`, and an `onKeyDown` for Enter/Space. `quick-win` if adding role+tabIndex; better fix is changing root to `<button>`.
+
+- [subframe-disabled] high **OrderCard**: Root `<div>` extends `HTMLDivElement` props. In BaseScreen (line 190-199), it receives `onClick={onOpenDevMenu}` with `cursor-pointer` and `active:scale-[0.99]` classes but has no `role`, `tabIndex`, or keyboard handler — it is completely invisible to assistive technology as an interactive element. `quick-win` — add `role="button"` and `tabIndex={0}` at the call site in BaseScreen, plus an `onKeyDown` for Enter/Space. Better fix: change the root element to `<button>` since it's sync-disabled.
+
+- [subframe] critical **SettingsMenu.Item**: `<div>` root has `cursor-pointer`, `hover:bg-neutral-100`, and `active:bg-neutral-50` indicating interactivity, but no `role`, `tabIndex`, or keyboard handler. Not currently imported/used in the app, but the component is broken for accessibility if used. Should be a `<button>`. `quick-win`
+
+- [owned] medium **DevMenu backdrop**: The `<motion.div>` overlay (line 41-48) has `onClick={onClose}` but no role or keyboard attributes. This is acceptable for a dismissal overlay — keyboard users close via Escape (handled on line 29). However, the overlay is currently focusable by default (divs are not, so this is technically fine). Adding `aria-hidden="true"` would be a minor improvement to signal that this is not interactive content. `informational`
+
+- [owned] high **DevMenu sheet**: The `<motion.div>` sheet (line 50-108) acts as a modal dialog but lacks `role="dialog"`, `aria-modal="true"`, and an accessible label (`aria-label`). It also has no focus trap — Tab can escape the sheet into background content. The Escape handler is manual (via `useEffect`) rather than using a dialog primitive. Contrast with BottomSheet which correctly uses Radix Dialog for all of this.
+
+- [owned] low **DevMenu plan/tech buttons**: The `<button>` elements (lines 64, 86) for plan and tech type selection function as toggle buttons but lack `aria-pressed` to communicate selected state. The visual `border-brand-500 bg-color-primary-50` style communicates selection visually but not programmatically.
+
+### Findings — ARIA attributes (existing)
+
+- [owned] ok **BottomSheet `aria-modal="true"`**: Correctly set on `Dialog.Content` via `asChild`. Radix Dialog also sets this internally, so the explicit attribute is redundant but not harmful.
+
+- [owned] ok **BottomSheet `aria-describedby={undefined}`**: Correctly suppresses the Radix Dialog warning about missing description. Since the sheet content varies by step, there is no single static description. This is the documented Radix pattern.
+
+- [owned] ok **BottomSheet `Dialog.Title`**: Present with `className="sr-only"` — correctly provides an accessible name for the dialog while remaining visually hidden. Configurable via `title` prop (defaults to "Modem search").
+
+- [owned] ok **LoadingState `role="status"`**: Correct. This is an implicit `aria-live="polite"` region, so screen readers will announce "Finding your modem..." when the component appears. Appropriate for a loading indicator.
+
+- [owned] ok **MultipleMatches CardButton usage**: Each CardButton instance correctly receives `role="button"`, `tabIndex={0}`, `onKeyDown` (Enter/Space), `aria-label`, and `focus-visible` ring styles. This compensates for CardButton's lack of built-in accessibility.
+
+- [owned] ok **SearchInput close IconButton**: Has `aria-label="Close"`.
+
+- [owned] ok **MultipleMatches back/close IconButtons**: Both have `aria-label` ("Back" and "Close").
+
+- [owned] ok **ModemInfoSheet dismiss IconButton**: Has `aria-label="Dismiss"`.
+
+### Findings — Images
+
+- [subframe] high **CardButton `<img>`**: The `<img>` element (line 43) has no `alt` attribute. When a modem image is provided, screen readers will fall back to the file path/URL, which is not meaningful. Should use the `modelName` prop value as `alt` text. `quick-win`
+
+- [owned] ok **ModemImage**: Requires `alt` prop (TypeScript enforced) and passes it to the `<img>` element. All call sites provide meaningful alt text.
+
+- [owned] ok **BaseScreen Belong Modem image**: Has `alt="Belong Modem"`.
+
+- [owned] ok **ModemInfoSheet image**: Has `alt="Belong Wi-Fi 6 Modem"`.
+
+- [owned] ok **CheckerCard.ResultsCard ModemImage**: Uses `String(modemName ?? "Modem")` as alt text.
+
+### Findings — Forms
+
+- [owned] ok **SearchInput `<form>`**: Wraps input and submit button in a `<form>` with `onSubmit`. The submit button uses `type="submit"`. Enter key submission works natively via form semantics.
+
+- [owned] ok **Button `type` defaults**: The Button component defaults `type="button"` (line 65), preventing accidental form submission. SearchInput explicitly overrides to `type="submit"` for the Continue button.
+
+### Findings — Native element usage (good patterns)
+
+- [subframe-disabled] ok **Button**: Uses native `<button>` element with proper `disabled` support.
+- [subframe] ok **IconButton**: Uses native `<button>` element with `type="button"` default.
+- [subframe] ok **LinkButton**: Uses native `<button>` element with `type="button"` default. Despite the name suggesting a link, this is semantically correct as it triggers actions rather than navigation.
+- [subframe-disabled] ok **RadioCardGroup.RadioCard**: Uses `<button>` inside `SubframeCore.RadioGroup.Item` with `asChild`. Radix RadioGroup provides correct `role="radio"` and `aria-checked` attributes.
+- [subframe] ok **TextField**: Uses `<label>` as root element, which correctly associates with the child `<input>` for click-to-focus behavior.
+- [owned] ok **ErrorBoundary reload button**: Uses native `<button>` element.
+
+### Summary
+
+| Severity | Count | Quick-wins |
+|---|---|---|
+| Critical | 2 | 2 |
+| High | 3 | 2 |
+| Medium | 1 | 0 |
+| Low | 1 | 0 |
+| OK (verified correct) | 14 | — |
+
+**Top priorities:**
+1. CardButton: change `<div>` to `<button>` (or add role+tabIndex+keyDown) — affects MultipleMatches screen
+2. OrderCard in BaseScreen: add role+tabIndex+keyDown to the click handler usage (or change root to `<button>`)
+3. CardButton `<img>`: add `alt` attribute using `modelName` prop
+4. DevMenu: replace custom sheet with Radix Dialog (or add `role="dialog"` + `aria-modal` + focus trap + `aria-label`)
+5. SettingsMenu.Item: change `<div>` to `<button>` (not currently used, low urgency)
 
 ---
 
