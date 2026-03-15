@@ -25,3 +25,27 @@
     rgba(255, 255, 255, 1) 320px
   );
 }
+
+/* Accent2 (purple) gradient: mirrors brand gradient structure for the modem info sheet.
+ * Full gradient transitions from accent2-100 to white. */
+@utility bg-gradient-accent2 {
+  background-color: #FFFFFF;
+  background-image: linear-gradient(
+    180deg,
+    rgba(237, 227, 255, 1) 0%,
+    rgba(248, 245, 255, 1) 100%
+  );
+}
+
+/* Compact accent2 gradient: transitions over the first ~300px, then settles to white.
+ * Used on the desktop side sheet. */
+@utility bg-gradient-accent2-compact {
+  background-color: #FFFFFF;
+  background-image: linear-gradient(
+    180deg,
+    rgba(237, 227, 255, 1) 0%,
+    rgba(245, 240, 255, 1) 120px,
+    rgba(252, 250, 255, 1) 240px,
+    rgba(255, 255, 255, 1) 320px
+  );
+}
