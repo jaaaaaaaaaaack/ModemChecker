@@ -125,7 +125,7 @@ export function BaseScreen({
             label="Do you want to add a Belong Modem?"
             helpText=""
             value={selection}
-            onValueChange={(value: string) => setSelection(value)}
+            onValueChange={(value: string) => setSelection(value as "" | "belong" | "byo")}
           >
             <RadioCardGroup.RadioCard
               hideRadio={false}
