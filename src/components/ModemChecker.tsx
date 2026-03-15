@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { TechType, Modem, TransitionDirection, NbnTechType } from "../types";
 import { DEFAULT_PLAN_SPEED_MBPS, NBN_PLANS, NBN_TECH_TYPES } from "../constants";
@@ -38,6 +38,7 @@ export function ModemChecker() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [verifiedModem, setVerifiedModem] = useState<Modem | undefined>();
   const { state, direction, search, selectModem, reset, retry } = useModemSearch();
+  const modemSummaryRef = useRef<HTMLDivElement>(null);
 
   // Dev menu state
   const [devMenuOpen, setDevMenuOpen] = useState(false);
@@ -68,9 +69,20 @@ export function ModemChecker() {
     reset();
   };
 
+  const handleAddBelongModem = () => {
+    setSheetOpen(false);
+    setVerifiedModem(undefined);
+    reset();
+    // Scroll after sheet close animation settles
+    setTimeout(() => {
+      modemSummaryRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 350);
+  };
+
   return (
     <>
       <BaseScreen
+        modemSummaryRef={modemSummaryRef}
         onCheckModem={() => setSheetOpen(true)}
         onLearnMore={() => setModemInfoOpen(true)}
         verifiedModem={verifiedModem}
@@ -124,6 +136,7 @@ export function ModemChecker() {
                 planSpeedMbps={planSpeedMbps}
                 onDone={handleDone}
                 onReset={handleCheckAnother}
+                onAddBelongModem={handleAddBelongModem}
               />
             )}
             {state.step === "no_match" && (

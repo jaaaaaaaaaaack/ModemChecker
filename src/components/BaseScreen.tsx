@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type RefObject } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FeatherCheck, FeatherChevronRight, FeatherRouter } from "@subframe/core";
 import { Button } from "../ui/components/Button";
@@ -22,6 +22,7 @@ interface BaseScreenProps {
   nbnTechType: NbnTechType;
   planId: string;
   onOpenDevMenu: () => void;
+  modemSummaryRef?: RefObject<HTMLDivElement | null>;
 }
 
 export function BaseScreen({
@@ -33,6 +34,7 @@ export function BaseScreen({
   nbnTechType,
   planId,
   onOpenDevMenu,
+  modemSummaryRef,
 }: BaseScreenProps) {
   const [selection, setSelection] = useState<string>("");
 
@@ -52,7 +54,7 @@ export function BaseScreen({
                 You can choose to add a Belong modem, or use your own
                 compatible modem.
               </span>
-              <div className="flex w-full flex-col items-start gap-3 rounded-md bg-color-accent2-100 px-4 py-4">
+              <div ref={modemSummaryRef} className="flex w-full flex-col items-start gap-3 rounded-md bg-color-accent2-100 px-4 py-4">
                 <div className="flex w-full items-start gap-4">
                   <div className="flex grow shrink-0 basis-0 flex-col items-start gap-2">
                     <span className="text-h4-button-500 font-h4-button-500 text-color-accent2-800">
