@@ -33,11 +33,11 @@ describe("ModemInfoSheet", () => {
     expect(onClose).toHaveBeenCalledOnce();
   });
 
-  it("calls onClose when dismiss (X) button is clicked", async () => {
+  it("calls onClose when header close (X) button is clicked", async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
     render(<ModemInfoSheet onClose={onClose} />);
-    await user.click(screen.getByRole("button", { name: /dismiss/i }));
+    await user.click(screen.getByLabelText("Close"));
     expect(onClose).toHaveBeenCalledOnce();
   });
 });

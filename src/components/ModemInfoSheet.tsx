@@ -1,14 +1,13 @@
 import { FeatureItem } from "@/ui/components/FeatureItem";
 import { LinkButton } from "@/ui/components/LinkButton";
 import { Button } from "@/ui/components/Button";
-import { IconButton } from "@/ui/components/IconButton";
+import { HeaderWithNavigation } from "@/ui/components/HeaderWithNavigation";
 import {
   FeatherZap,
   FeatherWifi,
   FeatherSmile,
   FeatherShield,
   FeatherHeart,
-  FeatherX,
 } from "@subframe/core";
 
 const BELONG_SUPPORT_URL =
@@ -21,21 +20,7 @@ interface ModemInfoSheetProps {
 export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
   return (
     <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0 overflow-y-auto pr-2 -mr-2">
-      {/* Header */}
-      <div className="flex w-full items-start justify-between">
-        <img
-          className="h-28 w-36 flex-none object-cover"
-          src="https://res.cloudinary.com/subframe/image/upload/v1773555007/uploads/11901/q3kxnpvkqcjl8176het5.png"
-          alt="Belong Wi-Fi 6 Modem"
-        />
-        <IconButton
-          variant="neutral-primary"
-          size="large"
-          icon={<FeatherX />}
-          onClick={onClose}
-          aria-label="Dismiss"
-        />
-      </div>
+      <HeaderWithNavigation variant="image" onClose={onClose} />
 
       {/* Title + intro */}
       <div className="flex flex-col items-start gap-2">
