@@ -107,9 +107,9 @@ const ResultsCard = React.forwardRef<
     >
       <div
         className={SubframeUtils.twClassNames(
-          "flex w-full items-start justify-between rounded-md border border-solid border-neutral-300 bg-default-background pl-5 pr-4 py-4",
+          "flex w-full items-start justify-between rounded-md border border-solid border-brand-300 bg-default-background px-4 py-4",
           {
-            "flex-row flex-nowrap justify-between pl-4 pr-3 py-3":
+            "flex-row flex-nowrap justify-between":
               status === "speed-warning",
             "flex-row flex-nowrap justify-between bg-white px-4 py-4":
               status === "not-compatible",
@@ -182,7 +182,7 @@ const ResultsCard = React.forwardRef<
           <motion.div
             className={SubframeUtils.twClassNames(
               "flex w-full flex-col items-start gap-2",
-              { "flex-col flex-nowrap gap-0": status === "not-compatible" }
+              { "flex-col flex-nowrap gap-1": status === "not-compatible" }
             )}
             variants={statusSectionVariants}
           >
@@ -240,7 +240,7 @@ const ResultsCard = React.forwardRef<
             </motion.div>
             {status === "not-compatible" && (
               <motion.div
-                className="flex flex-col items-start pl-7"
+                className="flex flex-col items-start pl-8"
                 variants={statusItemVariants}
               >
                 <LinkButton variant="neutral">
