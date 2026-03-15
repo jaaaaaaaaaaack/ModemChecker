@@ -2,6 +2,8 @@ import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { TechType, Modem, TransitionDirection, NbnTechType } from "../types";
 import { DEFAULT_PLAN_SPEED_MBPS, NBN_PLANS, NBN_TECH_TYPES } from "../constants";
+import { getModemImageUrl } from "../lib/supabase";
+import { preloadImages } from "../lib/preloadImages";
 import { useModemSearch } from "../hooks/useModemSearch";
 import { BaseScreen } from "./BaseScreen";
 import { BottomSheet } from "./BottomSheet";
@@ -59,6 +61,8 @@ export function ModemChecker() {
 
   const handleDone = () => {
     if (state.step === "single_match") {
+      // Warm the browser cache so the BaseScreen CheckerCard image is instant
+      preloadImages([getModemImageUrl(state.modem.id)]);
       setVerifiedModem(state.modem);
     }
     setSheetOpen(false);

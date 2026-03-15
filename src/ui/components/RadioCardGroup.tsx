@@ -86,7 +86,7 @@ const RadioCard = React.forwardRef<HTMLButtonElement, RadioCardProps>(
               <ModemImage
                 src={image}
                 alt={String(label ?? "Modem")}
-                className="w-16 h-16 rounded-lg"
+                className="w-16 flex-none self-stretch object-contain drop-shadow-sm mix-blend-multiply"
               />
             ) : null}
           </div>
@@ -130,7 +130,7 @@ const RadioCardGroupRoot = React.forwardRef<
       >
         <div className="flex flex-col items-start gap-1">
           {label ? (
-            <span className="text-body-bold font-body-bold text-brand-800">
+            <span className="text-h4-button-700 font-h4-button-700 text-brand-800">
               {label}
             </span>
           ) : null}

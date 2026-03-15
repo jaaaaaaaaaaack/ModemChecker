@@ -5,6 +5,10 @@ vi.mock("../../src/lib/search", () => ({
   searchModems: vi.fn(),
 }));
 
+vi.mock("../../src/lib/preloadImages", () => ({
+  preloadImages: vi.fn().mockResolvedValue(undefined),
+}));
+
 import { useModemSearch } from "../../src/hooks/useModemSearch";
 import { searchModems } from "../../src/lib/search";
 import { makeModem } from "../fixtures/modem";

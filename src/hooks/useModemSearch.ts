@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { searchModems } from "../lib/search";
+import { getModemImageUrl } from "../lib/supabase";
+import { preloadImages } from "../lib/preloadImages";
 import type { Modem, SearchState, TransitionDirection } from "../types";
 
 const STEP_ORDINAL: Record<SearchState["step"], number> = {
@@ -37,10 +39,18 @@ export function useModemSearch() {
         if (controller.signal.aborted) return;
         if (results.length === 0) {
           setState({ step: "no_match", query });
-        } else if (results.length === 1) {
-          setState({ step: "single_match", modem: results[0] });
         } else {
-          setState({ step: "multiple_matches", modems: results });
+          // Preload modem images while the loading screen is still visible.
+          // Wait at most 2 s — after that the skeleton placeholders take over.
+          const urls = results.map((m) => getModemImageUrl(m.id));
+          await preloadImages(urls, 2000, controller.signal);
+          if (controller.signal.aborted) return;
+
+          if (results.length === 1) {
+            setState({ step: "single_match", modem: results[0] });
+          } else {
+            setState({ step: "multiple_matches", modems: results });
+          }
         }
       } catch (error) {
         if (controller.signal.aborted) return;
