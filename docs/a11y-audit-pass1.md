@@ -932,9 +932,110 @@ For **BottomSheet screens** (modal context, Dialog.Title is the `<h2>`):
 
 WCAG 2.4.3 (A): Logical tab sequence per screen, no unreachable or out-of-order elements.
 
+### Method
+
+Traced every focusable element (native `<button>`, `<input>`, `<a>`, elements with `tabIndex`, Radix primitives) in DOM source order for each screen. Compared DOM order to visual layout order (top-to-bottom, left-to-right). Searched codebase for any `tabIndex` values > 0 (none found). Verified hidden elements (`className="hidden"` / `display: none`) are excluded from tab order.
+
+**General notes:**
+- All BottomSheet screens are wrapped in a Radix `Dialog.Content` which provides focus trapping — Tab cycles within the dialog when open. This is correct behavior.
+- Radix RadioGroup items use arrow keys (not Tab) to navigate between options — Tab moves into/out of the group as a single stop. This is correct.
+- No `tabIndex` values > 0 found anywhere in the codebase.
+- The only explicit `tabIndex={0}` is on CardButton `<div>` elements in MultipleMatches, which is necessary since `<div>` is not natively focusable.
+
 ### Findings
 
-_Pending audit_
+#### Screen 1: BaseScreen (landing — idle, no BYO selection)
+
+Tab sequence: LinkButton "Learn more" → RadioCard "Yes, I want a Belong modem" (arrow keys between options) → OrderCard div → Button "Back" → Button "Start checkout"
+
+- `subframe-disabled` `high` **OrderCard is an interactive `<div>` with `onClick` but no `role`, `tabIndex`, or `onKeyDown`**. It receives `onClick={onOpenDevMenu}` via spread props onto a plain `<div>`. Keyboard users cannot reach or activate it. (Note: currently this opens the dev menu — even in production this card pattern would need to be keyboard-accessible if it has a click handler.) `quick-win`
+- No other issues. RadioCardGroup correctly receives focus as a single tab stop with arrow-key navigation between items.
+
+#### Screen 2: BaseScreen (landing — BYO selected, no verified modem)
+
+Tab sequence: LinkButton "Learn more" → RadioCard group (arrow keys) → Button "Check your modem" → LinkButton "Modem compatibility FAQs" → OrderCard div → Button "Back" → Button "Start checkout"
+
+- `subframe-disabled` `high` **OrderCard keyboard inaccessibility** — same issue as Screen 1. `quick-win`
+- Tab order matches visual layout. BYO section animates in below the radio group and its interactive elements appear in correct DOM/visual order.
+
+#### Screen 3: BaseScreen (landing — BYO selected, with verified modem)
+
+Tab sequence: LinkButton "Learn more" → RadioCard group (arrow keys) → [CheckerCard internals: inline "Add a Belong modem" button (only if not-compatible) → LinkButton "Learn more in our FAQs" (only if not-compatible) → Button "Check another modem"] → LinkButton "Modem compatibility FAQs" → OrderCard div → Button "Back" → Button "Start checkout"
+
+- `subframe-disabled` `high` **OrderCard keyboard inaccessibility** — same issue as Screens 1-2. `quick-win`
+- `subframe-disabled` `medium` **CheckerCard has a hidden LinkButton** (`className="hidden"`, line 342). This uses `display: none` which correctly excludes it from the tab order. No issue.
+- CheckerCard.ResultsCard inline "Add a Belong modem" `<button>` inside the StatusItem description (line 197-206) is a native `<button>` — correctly focusable and keyboard-accessible.
+
+#### Screen 4: Search step (BottomSheet + SearchInput)
+
+Tab sequence: IconButton "Close" (X) → TextField.Input (text input) → LinkButton "Help me find the model name" → Button "Continue"
+
+- `owned` `high` **Close button appears before the heading text but visually sits to the right of it**. The DOM order is: heading `<span>` (not focusable), then IconButton Close. Since the heading is not focusable, the Close button is the first tab stop. Visually, the heading is left and Close is right — but since there are no focusable elements before Close, the tab order is acceptable. The text input follows naturally below. No issue.
+- Tab order matches visual top-to-bottom flow: close → input → help link → submit. This is logical.
+- Radix Dialog focus trap keeps Tab cycling within the sheet. Correct.
+
+#### Screen 5: LoadingState (BottomSheet + LoadingState)
+
+Tab sequence: (no interactive elements inside LoadingState)
+
+- No focusable elements within the loading content. The Radix Dialog container itself is focusable (it receives initial focus). This is acceptable — there is nothing for the user to interact with during loading.
+- No issues.
+
+#### Screen 6: MultipleMatches (BottomSheet + MultipleMatches)
+
+Tab sequence: IconButton "Back" → IconButton "Close" (X) → CardButton modem 1 → CardButton modem 2 → ... → CardButton modem N → LinkButton "Help me identify my modem"
+
+- `owned` `medium` **Back button (left) and Close button (right) are in correct visual L-to-R DOM order** — Back is first in DOM and visually left, Close is second and visually right. Correct.
+- `subframe` `medium` **CardButton is a `<div>` with `role="button"` and `tabIndex={0}`** — this is the correct pattern for a non-native interactive element. The `onKeyDown` handler supports Enter and Space. Focus ring styling is applied via `focus-visible:ring-2`. No issue.
+- Tab order matches visual layout: header buttons → scrollable card list (top to bottom) → help link at bottom.
+- No issues found.
+
+#### Screen 7: ResultCard (BottomSheet + ResultCard)
+
+Tab sequence: [CheckerCard.ResultsCard internals: inline "Add a Belong modem" button (only if not-compatible) → LinkButton "Learn more in our FAQs" (only if not-compatible)] → LinkButton "Check another modem" → Button "Close"
+
+- Tab order matches visual layout. The results card content appears above the action buttons. The "Check another modem" link is visually left, "Close" button is visually right — DOM order matches.
+- No issues found.
+
+#### Screen 8: NoMatch (BottomSheet + NoMatch)
+
+Tab sequence: LinkButton "Read the modem compatibility FAQs." → Button "Try a new search"
+
+- Tab order matches visual layout: FAQ link above, action button below.
+- No issues found.
+
+#### Screen 9: SearchError (BottomSheet + SearchError)
+
+Tab sequence: Button "Try again" → Button "Start a new search"
+
+- Tab order matches visual layout: primary action on top, secondary below.
+- No issues found.
+
+#### Screen 10: ErrorBoundary
+
+Tab sequence: button "Reload"
+
+- Single native `<button>` element. Correctly focusable and keyboard-accessible.
+- No issues found.
+
+### Summary Table
+
+| # | Screen | Issues | Severity |
+|---|--------|--------|----------|
+| 1 | BaseScreen (landing) | OrderCard not keyboard-accessible | high |
+| 2 | BaseScreen (BYO, no modem) | OrderCard not keyboard-accessible | high |
+| 3 | BaseScreen (BYO, verified modem) | OrderCard not keyboard-accessible | high |
+| 4 | Search step | None | — |
+| 5 | LoadingState | None | — |
+| 6 | MultipleMatches | None | — |
+| 7 | ResultCard | None | — |
+| 8 | NoMatch | None | — |
+| 9 | SearchError | None | — |
+| 10 | ErrorBoundary | None | — |
+
+**Total issues: 1 unique issue (OrderCard keyboard inaccessibility) affecting 3 screens.**
+
+The fix is to add `role="button"`, `tabIndex={0}`, and an `onKeyDown` handler (Enter/Space) to the OrderCard root `<div>` in `BaseScreen.tsx`, or wrap it in a `<button>`. Tagged `quick-win` since the change is localized to the OrderCard usage in BaseScreen.
 
 ---
 
