@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { FeatherChevronRight, FeatherX } from "@subframe/core";
+import { FeatherChevronRight } from "@subframe/core";
 import { TextField } from "@/ui/components/TextField";
 import { Button } from "@/ui/components/Button";
-import { IconButton } from "@/ui/components/IconButton";
+import { HeaderWithNavigation } from "@/ui/components/HeaderWithNavigation";
 import { LinkButton } from "@/ui/components/LinkButton";
 
 interface SearchInputProps {
@@ -27,19 +27,11 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
       className="flex w-full flex-1 flex-col items-start gap-6 min-h-0"
     >
       <div className="flex w-full flex-col items-start gap-2">
-        <div className="flex w-full items-start gap-2">
-          <span className="flex-1 text-h2 font-h2 text-color-primary-701">
-            Search for your modem
-          </span>
-          {onClose && (
-            <IconButton
-              variant="brand-secondary"
-              icon={<FeatherX />}
-              onClick={onClose}
-              aria-label="Close"
-            />
-          )}
-        </div>
+        <HeaderWithNavigation
+          title="Search for your modem"
+          variant="2-slot-blue"
+          onClose={onClose}
+        />
         <span className="text-body font-body text-default-font">
           Search by brand, model name, or model number. You can usually find these on the back or bottom of your device.
         </span>
