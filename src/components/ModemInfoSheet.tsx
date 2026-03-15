@@ -54,11 +54,13 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
         ref={scrollRef}
         onScroll={handleScroll}
         className="flex w-full flex-1 flex-col items-start gap-6 min-h-0 overflow-y-auto pr-2 -mr-2 -mb-8 pb-8 md:-mb-6 md:pb-6"
-        style={
-          maskValue
+        style={{
+          scrollbarColor: "rgba(160, 130, 210, 0.35) transparent",
+          scrollbarWidth: "thin" as const,
+          ...(maskValue
             ? { maskImage: maskValue, WebkitMaskImage: maskValue }
-            : undefined
-        }
+            : undefined),
+        }}
       >
         {/* Modem image only — close button is pinned separately above */}
         <HeaderWithNavigation variant="image" />

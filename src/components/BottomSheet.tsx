@@ -50,8 +50,19 @@ export function BottomSheet({ open, onClose, children, gradient = "brand", title
                 transition={overlayTransition.enter}
               />
             </Dialog.Overlay>
-            <Dialog.Content forceMount asChild>
+            <Dialog.Content
+              forceMount
+              asChild
+              onOpenAutoFocus={(e) => {
+                // Prevent Radix from focusing the first button (e.g. close).
+                // Instead, focus the sheet container — a11y focus trap still
+                // works, but no button gets a jarring highlight on open.
+                e.preventDefault();
+                (e.target as HTMLElement).focus();
+              }}
+            >
               <motion.div
+                tabIndex={-1}
                 aria-modal="true"
                 aria-describedby={undefined}
                 initial={{ [axis]: "100%" }}

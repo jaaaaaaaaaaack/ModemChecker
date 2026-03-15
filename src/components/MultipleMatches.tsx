@@ -39,6 +39,10 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
           ref={scrollRef}
           onScroll={handleScroll}
           className="flex-1 min-h-0 flex flex-col items-start gap-2 overflow-y-auto pl-1 -ml-1 pr-2 pb-2"
+          style={{
+            scrollbarColor: "rgba(0, 150, 170, 0.3) transparent",
+            scrollbarWidth: "thin" as const,
+          }}
         >
           {modems.map((modem) => (
             <CardButton
