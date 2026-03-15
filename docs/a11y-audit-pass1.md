@@ -1157,4 +1157,55 @@ Inside a separate `BottomSheet` dialog (accent2 gradient), `ModemInfoSheet` rend
 
 ## Summary
 
-_Pending audit completion_
+### Findings by category
+
+| Category | Critical | High | Medium | Low | Total |
+|---|---|---|---|---|---|
+| Color Contrast | — | 6 | — | — | 6 |
+| Touch Targets | 3 | 6 | — | — | 9 (+11 inherited) |
+| Focus Rings | — | 7 | 2 | — | 9 |
+| Accessible Names | — | 2 | 5 | — | 7 |
+| Roles & Semantics | 2 | 3 | 1 | 1 | 7 |
+| Heading Hierarchy | — | 9 | 5 | 2 | 16 |
+| Tab Order | — | 1 | — | — | 1 |
+| Landmarks | — | — | 1 | 4 | 5 |
+| **Total** | **5** | **34** | **14** | **7** | **60** |
+
+Note: Some components appear in multiple categories (e.g. OrderCard has findings in touch targets, focus rings, accessible names, roles & semantics, tab order, and heading hierarchy). The counts above are per-category, not deduplicated. The 11 "inherited" touch target findings are page components that use undersized Subframe primitives — fixing the root component fixes all inherited instances.
+
+### Findings by ownership
+
+| Ownership | Critical | High | Medium | Low | Total |
+|---|---|---|---|---|---|
+| **Owned** | — | 15 | 6 | 5 | 26 |
+| **Subframe (sync-disabled)** | 1 | 9 | 5 | — | 15 |
+| **Subframe (synced)** | 4 | 10 | 3 | 2 | 19 |
+| **Total** | **5** | **34** | **14** | **7** | **60** |
+
+### Quick wins
+
+~30 items tagged as `quick-win` across all categories. Most are single CSS class additions, attribute additions, or HTML element swaps. See per-section quick-win summary tables for details.
+
+### Top priorities
+
+1. **Heading hierarchy (all screens)** — Zero semantic headings in the entire widget. Every heading is a `<span>` with visual styling. Screen readers cannot navigate by heading. Fix: change `<span>` to `<h2>`/`<h3>`/`<h4>` — all 12 quick-wins. **Highest impact, lowest effort.**
+
+2. **Focus rings (7 components)** — Button, IconButton, LinkButton, CardButton, SettingsMenu.Item, CheckerCard inline button, and ErrorBoundary all lack explicit focus ring styles. Most rely on browser defaults; `<div>`-based buttons get none. Fix: add `focus-visible:ring-2 ring-brand-600 ring-offset-2` to match the established RadioCard pattern. All quick-wins.
+
+3. **Touch targets — LinkButton (5+ screens)** — No `min-height` at all. Medium variant is ~20px tall, small is ~17px (both below 24px minimum). Used in SearchInput, MultipleMatches, ResultCard, NoMatch, BaseScreen. Fix: add `min-h-11` to LinkButton root. One change, fixes all instances.
+
+4. **Touch targets — IconButton (3 variants)** — All three size variants (24px, 32px, 40px) are below the 44px target. Used for close/back buttons in SearchInput, MultipleMatches, ModemInfoSheet. Fix: add `min-h-11 min-w-11` to IconButton root.
+
+5. **CardButton semantics** — Root `<div>` has no `role`, `tabIndex`, or keyboard handler. Consumers (MultipleMatches) compensate manually, but the component is broken by default. Fix: change root to `<button>` or add role+tabIndex+onKeyDown.
+
+6. **OrderCard keyboard accessibility** — Interactive `<div>` with `onClick` but no `role`, `tabIndex`, or keyboard handler. Appears in BaseScreen on all 3 states. Completely invisible to assistive technology. Fix: add `role="button"` + `tabIndex={0}` + `onKeyDown` at BaseScreen call site.
+
+7. **Color contrast — ErrorBoundary** — Reload button white text on `brand-600` is 3.7:1 (needs 4.5:1). Quick-win: swap to `brand-800`.
+
+### Systemic patterns
+
+- **Subframe generates `<span>` for all headings** — this is a design system issue. Every heading in the widget comes from Subframe-synced or Subframe-patterned components using `<span class="text-h*">`. A fix in Subframe (or a convention to use heading elements) would prevent this from recurring.
+
+- **Subframe interactive components lack focus ring styles** — Button, IconButton, and LinkButton all rely on browser defaults. Adding a standard focus ring to the Subframe base components would fix ~7 findings at once.
+
+- **LinkButton has no height constraint** — the most widespread touch target issue. One `min-h-11` addition to LinkButton fixes ~10 downstream findings.
