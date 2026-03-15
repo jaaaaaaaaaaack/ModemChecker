@@ -12,6 +12,7 @@ interface ResultCardProps {
   planSpeedMbps?: number;
   onDone?: () => void;
   onReset?: () => void;
+  onAddBelongModem?: () => void;
 }
 
 export function ResultCard({
@@ -20,6 +21,7 @@ export function ResultCard({
   planSpeedMbps = DEFAULT_PLAN_SPEED_MBPS,
   onDone,
   onReset,
+  onAddBelongModem,
 }: ResultCardProps) {
   const assessment = assessCompatibility(modem, techType, planSpeedMbps);
 
@@ -35,6 +37,7 @@ export function ResultCard({
         image={getModemImageUrl(modem.id)}
         conditions={assessment.setupConditions}
         speedWarningType={assessment.speedWarning?.type ?? null}
+        onAddBelongModem={onAddBelongModem}
       />
       <span className="text-caption font-caption text-default-font">
         This tool provides general advice only, we cannot guarantee its accuracy. You should verify your modem{"\u2019"}s details with the manufacturer or retailer.

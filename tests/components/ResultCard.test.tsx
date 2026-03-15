@@ -126,4 +126,42 @@ describe("ResultCard", () => {
     expect(screen.getByText("May be ISP-locked")).toBeInTheDocument();
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
   });
+
+  it("renders 'Add a Belong modem' as a link when incompatible and calls onAddBelongModem", async () => {
+    const onAddBelongModem = vi.fn();
+    const modem = makeModem({
+      compatibility: {
+        fttp: { status: "no", conditions: [] },
+        fttc: { status: "no", conditions: [] },
+        fttn: { status: "no", conditions: [] },
+        hfc: { status: "no", conditions: [] },
+      },
+    });
+    render(
+      <ResultCard
+        modem={modem}
+        techType="fttp"
+        onAddBelongModem={onAddBelongModem}
+      />
+    );
+    const link = screen.getByText(/Add a Belong modem/i);
+    expect(link).toBeInTheDocument();
+    await userEvent.click(link);
+    expect(onAddBelongModem).toHaveBeenCalledOnce();
+  });
+
+  it("does not render cross-link button when onAddBelongModem is not provided", () => {
+    const modem = makeModem({
+      compatibility: {
+        fttp: { status: "no", conditions: [] },
+        fttc: { status: "no", conditions: [] },
+        fttn: { status: "no", conditions: [] },
+        hfc: { status: "no", conditions: [] },
+      },
+    });
+    render(<ResultCard modem={modem} techType="fttp" />);
+    // Text should exist as plain text, not as a button
+    expect(screen.getByText(/Add a Belong modem/i)).toBeInTheDocument();
+    expect(screen.getByText(/Add a Belong modem/i).tagName).not.toBe("BUTTON");
+  });
 });

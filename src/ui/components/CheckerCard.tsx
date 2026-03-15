@@ -66,6 +66,7 @@ interface ResultsCardProps extends React.HTMLAttributes<HTMLDivElement> {
   image?: string;
   conditions?: ConditionCode[];
   speedWarningType?: SpeedWarning["type"] | null;
+  onAddBelongModem?: () => void;
   className?: string;
 }
 
@@ -80,6 +81,7 @@ const ResultsCard = React.forwardRef<
     image,
     conditions = [],
     speedWarningType = null,
+    onAddBelongModem,
     className,
     ...otherProps
   }: ResultsCardProps,
@@ -189,7 +191,23 @@ const ResultsCard = React.forwardRef<
                 }
                 description={
                   status === "not-compatible"
-                    ? "Add a Belong modem to your order, or purchase a different compatible modem before your connection date."
+                    ? onAddBelongModem
+                      ? (
+                          <>
+                            <button
+                              type="button"
+                              className="inline cursor-pointer border-none bg-transparent p-0 text-brand-800 underline hover:no-underline"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onAddBelongModem();
+                              }}
+                            >
+                              Add a Belong modem to your order
+                            </button>
+                            , or purchase a different compatible modem before your connection date.
+                          </>
+                        )
+                      : "Add a Belong modem to your order, or purchase a different compatible modem before your connection date."
                     : undefined
                 }
                 status={status === "not-compatible" ? "incompatible" : undefined}
@@ -251,6 +269,7 @@ interface CheckerCardRootProps
   conditions?: ConditionCode[];
   speedWarningType?: SpeedWarning["type"] | null;
   onButtonClick?: () => void;
+  onAddBelongModem?: () => void;
   className?: string;
 }
 
@@ -267,6 +286,7 @@ const CheckerCardRoot = React.forwardRef<
     conditions = [],
     speedWarningType = null,
     onButtonClick,
+    onAddBelongModem,
     className,
     ...otherProps
   }: CheckerCardRootProps,
@@ -306,6 +326,7 @@ const CheckerCardRoot = React.forwardRef<
           image={image}
           conditions={conditions}
           speedWarningType={speedWarningType}
+          onAddBelongModem={onAddBelongModem}
         />
         <span
           className={SubframeUtils.twClassNames(
