@@ -97,4 +97,64 @@ describe("BaseScreen", () => {
     await userEvent.click(screen.getByText("Learn more"));
     expect(onLearnMore).toHaveBeenCalledOnce();
   });
+
+  it("shows FTTN-specific not-compatible description for verified modem on fttn", async () => {
+    const modem = makeModem({
+      compatibility: {
+        fttp: { status: "yes", conditions: [] },
+        fttc: { status: "yes", conditions: [] },
+        fttn: { status: "no", conditions: [] },
+        hfc: { status: "yes", conditions: [] },
+      },
+      wan: { has_vdsl2_modem: false, wan_port_speed_mbps: 1000 },
+    });
+    render(
+      <BaseScreen
+        onCheckModem={vi.fn()}
+        verifiedModem={modem}
+        techType="fttn"
+        planSpeedMbps={500}
+        nbnTechType="fttn"
+        planId="nbn500"
+        onOpenDevMenu={vi.fn()}
+      />
+    );
+    await userEvent.click(screen.getByText(/no, i'll use my own modem/i));
+    expect(
+      screen.getByText(/won\u2019t work with your home\u2019s nbn connection type/i)
+    ).toBeInTheDocument();
+  });
+
+  it("scrolls to modem summary when 'add a Belong modem' is clicked", async () => {
+    const modem = makeModem({
+      compatibility: {
+        fttp: { status: "yes", conditions: [] },
+        fttc: { status: "yes", conditions: [] },
+        fttn: { status: "no", conditions: [] },
+        hfc: { status: "yes", conditions: [] },
+      },
+      wan: { has_vdsl2_modem: false, wan_port_speed_mbps: 1000 },
+    });
+    const scrollIntoViewMock = vi.fn();
+    Element.prototype.scrollIntoView = scrollIntoViewMock;
+
+    const ref = { current: document.createElement("div") };
+    render(
+      <BaseScreen
+        modemSummaryRef={ref}
+        onCheckModem={vi.fn()}
+        verifiedModem={modem}
+        techType="fttn"
+        planSpeedMbps={500}
+        nbnTechType="fttn"
+        planId="nbn500"
+        onOpenDevMenu={vi.fn()}
+      />
+    );
+    await userEvent.click(screen.getByText(/no, i'll use my own modem/i));
+    await userEvent.click(
+      screen.getByRole("button", { name: /add a belong modem/i })
+    );
+    expect(scrollIntoViewMock).toHaveBeenCalled();
+  });
 });
