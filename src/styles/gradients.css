@@ -27,13 +27,13 @@
 }
 
 /* Accent2 (purple) gradient: mirrors brand gradient structure for the modem info sheet.
- * Full gradient transitions from accent2-100 to white. */
+ * Full gradient transitions from accent2-200 to near-white for visible range. */
 @utility bg-gradient-accent2 {
   background-color: #FFFFFF;
   background-image: linear-gradient(
     180deg,
-    rgba(237, 227, 255, 1) 0%,
-    rgba(248, 245, 255, 1) 100%
+    rgba(227, 211, 255, 1) 0%,
+    rgba(246, 241, 255, 1) 100%
   );
 }
 
@@ -43,9 +43,9 @@
   background-color: #FFFFFF;
   background-image: linear-gradient(
     180deg,
-    rgba(237, 227, 255, 1) 0%,
-    rgba(245, 240, 255, 1) 120px,
-    rgba(252, 250, 255, 1) 240px,
+    rgba(227, 211, 255, 1) 0%,
+    rgba(240, 233, 255, 1) 120px,
+    rgba(250, 248, 255, 1) 240px,
     rgba(255, 255, 255, 1) 320px
   );
 }

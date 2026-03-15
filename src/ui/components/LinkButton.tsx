@@ -38,7 +38,7 @@ const LinkButtonRoot = React.forwardRef<HTMLButtonElement, LinkButtonRootProps>(
     return (
       <button
         className={SubframeUtils.twClassNames(
-          "group/a4ee726a flex cursor-pointer items-center gap-1 border-none bg-transparent text-left",
+          "group/a4ee726a flex cursor-pointer items-center gap-1 border-none bg-transparent text-left hover:rounded-sm",
           { "flex-row flex-nowrap gap-1": size === "large" },
           className
         )}
@@ -67,7 +67,7 @@ const LinkButtonRoot = React.forwardRef<HTMLButtonElement, LinkButtonRootProps>(
         {children ? (
           <span
             className={SubframeUtils.twClassNames(
-              "text-body-bold font-body-bold text-neutral-700 underline group-hover/a4ee726a:text-body-bold group-hover/a4ee726a:font-body-bold group-hover/a4ee726a:text-brand-700 group-hover/a4ee726a:underline group-disabled/a4ee726a:text-neutral-400 group-hover/a4ee726a:group-disabled/a4ee726a:text-neutral-400 group-hover/a4ee726a:group-disabled/a4ee726a:no-underline",
+              "text-body-bold font-body-bold text-brand-800 underline group-hover/a4ee726a:no-underline group-disabled/a4ee726a:text-neutral-400 group-hover/a4ee726a:group-disabled/a4ee726a:text-neutral-400 group-hover/a4ee726a:group-disabled/a4ee726a:no-underline",
               {
                 "text-caption-bold font-caption-bold text-brand-700 underline group-hover/a4ee726a:text-caption-bold group-hover/a4ee726a:font-caption-bold group-hover/a4ee726a:text-brand-900":
                   size === "small",
@@ -75,7 +75,7 @@ const LinkButtonRoot = React.forwardRef<HTMLButtonElement, LinkButtonRootProps>(
                   size === "large",
                 "text-brand-200 group-hover/a4ee726a:text-brand-50":
                   variant === "inverse",
-                "text-brand-700 underline group-hover/a4ee726a:text-brand-900":
+                "text-brand-800 group-hover/a4ee726a:text-brand-900 group-hover/a4ee726a:no-underline":
                   variant === "brand",
               }
             )}

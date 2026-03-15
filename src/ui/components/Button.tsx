@@ -34,7 +34,9 @@ interface ButtonRootProps
     | "purple-tertiary"
     | "pink-primary"
     | "pink-secondary"
-    | "pink-tertiary";
+    | "pink-tertiary"
+    | "secondary-inverse"
+    | "option-1";
   size?: "large" | "medium" | "small";
   children?: React.ReactNode;
   icon?: React.ReactNode;
@@ -67,13 +69,17 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
     return (
       <button
         className={SubframeUtils.twClassNames(
-          "group/3b777358 flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border border-solid border-brand-800 bg-brand-800 px-6 text-left transition-[background-color,border-color,transform] duration-150 active:scale-[0.98] hover:border hover:border-solid hover:border-brand-950 hover:bg-brand-950 disabled:cursor-default disabled:border disabled:border-solid disabled:border-neutral-200 disabled:bg-neutral-200 disabled:active:scale-100 hover:disabled:cursor-default hover:disabled:border hover:disabled:border-solid hover:disabled:border-neutral-100 hover:disabled:bg-neutral-100",
+          "group/3b777358 flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-solid border-brand-800 bg-brand-800 px-8 text-left transition-[background-color,border-color,transform] duration-150 active:scale-[0.98] disabled:active:scale-100 hover:border hover:border-solid hover:border-brand-950 hover:bg-brand-950 disabled:cursor-default disabled:border disabled:border-solid disabled:border-neutral-200 disabled:bg-neutral-200 hover:disabled:cursor-default hover:disabled:border hover:disabled:border-solid hover:disabled:border-neutral-300 hover:disabled:bg-neutral-100 active:disabled:cursor-default active:disabled:bg-neutral-200",
           {
             "pl-7 pr-6 py-0": hasRightIcon,
             "pl-5 pr-7 py-0": hasLeftIcon,
             "px-12 py-0": loading,
             "h-9 w-auto flex-row flex-nowrap gap-1 px-4 py-0": size === "small",
             "h-14 w-auto px-8 py-0": size === "large",
+            "border-none bg-transparent hover:border-none hover:bg-brand-100 active:bg-brand-200":
+              variant === "option-1",
+            "border border-solid border-brand-300 bg-transparent hover:border hover:border-solid hover:border-brand-300 hover:bg-brand-300 active:bg-brand-100":
+              variant === "secondary-inverse",
             "border border-solid border-color-accent3-201 bg-color-accent3-201 hover:border hover:border-solid hover:border-color-accent3-401 hover:bg-color-accent3-101 active:bg-color-accent3-301 active:transition-[background-color,border-color] active:duration-150 active:border-color-accent3-301":
               variant === "pink-tertiary",
             "border border-solid border-color-accent3-601 bg-transparent hover:border hover:border-solid hover:border-color-accent3-701 hover:bg-color-accent3-101 active:bg-color-accent3-201":
@@ -112,7 +118,7 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
               variant === "neutral-secondary",
             "border border-solid border-neutral-500 bg-neutral-100 hover:border hover:border-solid hover:border-neutral-500 hover:bg-neutral-200 active:border active:border-solid active:border-neutral-700 active:bg-neutral-700":
               variant === "neutral-primary",
-            "border border-solid border-brand-200 bg-brand-200 hover:border hover:border-solid hover:border-brand-600 hover:bg-brand-100 active:border active:border-solid active:border-brand-400 active:bg-brand-400":
+            "border border-solid border-brand-200 bg-brand-200 hover:border hover:border-solid hover:border-brand-800 hover:bg-brand-200 active:bg-brand-50":
               variant === "brand-tertiary",
             "bg-transparent hover:border hover:border-solid hover:border-brand-200 hover:bg-brand-200 active:border active:border-solid active:border-brand-800":
               variant === "brand-secondary",
@@ -131,6 +137,8 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
               {
                 hidden: loading,
                 "text-h3-700 font-h3-700": size === "large",
+                "text-brand-300 group-hover/3b777358:text-brand-800":
+                  variant === "secondary-inverse",
                 "text-color-accent3-701":
                   variant === "pink-tertiary" || variant === "pink-secondary",
                 "text-color-accent2-701":
@@ -147,8 +155,9 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
                   variant === "neutral-tertiary" ||
                   variant === "neutral-secondary" ||
                   variant === "neutral-primary",
-                "text-brand-700":
-                  variant === "brand-tertiary" || variant === "brand-secondary",
+                "text-brand-700 group-active/3b777358:text-brand-800":
+                  variant === "brand-tertiary",
+                "text-brand-700": variant === "brand-secondary",
               }
             )}
           >
@@ -166,6 +175,7 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
               "font-['Inter'] text-[20px] font-[400] leading-[20px] text-brand-100 group-disabled/3b777358:text-caption group-disabled/3b777358:font-caption group-disabled/3b777358:text-neutral-400",
               {
                 "text-caption font-caption": size === "small",
+                "text-brand-300": variant === "secondary-inverse",
                 "text-caption font-caption text-color-accent3-701":
                   variant === "pink-tertiary" || variant === "pink-secondary",
                 "text-caption font-caption text-color-accent2-701":
@@ -191,11 +201,15 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
         {children ? (
           <span
             className={SubframeUtils.twClassNames(
-              "whitespace-nowrap text-body-bold font-body-bold text-brand-50 group-active/3b777358:text-brand-300 group-disabled/3b777358:text-neutral-500 group-hover/3b777358:group-disabled/3b777358:text-neutral-400 group-active/3b777358:group-disabled/3b777358:text-neutral-400",
+              "whitespace-nowrap text-body-bold font-body-bold text-brand-50 group-active/3b777358:text-brand-300 group-disabled/3b777358:text-neutral-600 group-hover/3b777358:group-disabled/3b777358:text-neutral-600 group-active/3b777358:group-disabled/3b777358:text-neutral-800",
               {
                 hidden: loading,
                 "text-caption-bold font-caption-bold": size === "small",
                 "text-h3-500 font-h3-500": size === "large",
+                "text-brand-800 underline group-active/3b777358:text-brand-900":
+                  variant === "option-1",
+                "text-brand-300 group-hover/3b777358:text-brand-800 group-active/3b777358:text-brand-800":
+                  variant === "secondary-inverse",
                 "text-color-accent3-801 group-active/3b777358:text-color-accent3-801":
                   variant === "pink-tertiary",
                 "text-color-accent3-701 group-active/3b777358:text-color-accent3-901":
@@ -246,9 +260,11 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
         {iconRight ? (
           <SubframeCore.IconWrapper
             className={SubframeUtils.twClassNames(
-              "text-h3-500 font-h3-500 text-white group-disabled/3b777358:text-neutral-400",
+              "text-h3-500 font-h3-500 text-white group-active/3b777358:text-color-primary-200 group-disabled/3b777358:text-neutral-600 group-hover/3b777358:group-disabled/3b777358:text-neutral-600 group-active/3b777358:group-disabled/3b777358:text-color-primary-800",
               {
                 "text-h3-700 font-h3-700": size === "large",
+                "text-brand-300 group-hover/3b777358:text-brand-800 group-active/3b777358:text-brand-800":
+                  variant === "secondary-inverse",
                 "text-color-accent3-701":
                   variant === "pink-tertiary" || variant === "pink-secondary",
                 "text-color-accent2-701":
@@ -265,8 +281,10 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
                   variant === "neutral-tertiary" ||
                   variant === "neutral-secondary" ||
                   variant === "neutral-primary",
-                "text-brand-700":
-                  variant === "brand-tertiary" || variant === "brand-secondary",
+                "text-brand-700 group-hover/3b777358:text-brand-50 group-active/3b777358:text-color-primary-300":
+                  variant === "brand-tertiary",
+                "text-brand-700 group-active/3b777358:text-color-primary-700":
+                  variant === "brand-secondary",
               }
             )}
           >

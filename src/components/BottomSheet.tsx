@@ -14,6 +14,8 @@ interface BottomSheetProps {
   children: ReactNode;
   gradient?: "brand" | "accent2";
   title?: string;
+  /** Mobile min-height. Defaults to "75vh". Desktop side-sheet ignores this. */
+  minHeight?: string;
 }
 
 const overlayTransition = {
@@ -23,7 +25,7 @@ const overlayTransition = {
 
 const sheetSpring = { type: "spring" as const, damping: 30, stiffness: 300 };
 
-export function BottomSheet({ open, onClose, children, gradient = "brand", title = "Modem search" }: BottomSheetProps) {
+export function BottomSheet({ open, onClose, children, gradient = "brand", title = "Modem search", minHeight = "75vh" }: BottomSheetProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const axis = isDesktop ? "x" : "y";
   const gradientConfig = GRADIENT_CLASSES[gradient];
@@ -56,10 +58,11 @@ export function BottomSheet({ open, onClose, children, gradient = "brand", title
                 animate={{ [axis]: 0 }}
                 exit={{ [axis]: "100%" }}
                 transition={sheetSpring}
+                style={isDesktop ? undefined : { minHeight }}
                 className={[
                   // Base
                   `fixed z-50 ${gradientConfig.full} shadow-xl overflow-hidden outline-none`,
-                  "flex flex-col min-h-[70vh]",
+                  "flex flex-col",
                   // Mobile: bottom sheet
                   "inset-x-0 bottom-0 max-h-[85vh] rounded-t-3xl p-5 pb-8",
                   // Desktop: side sheet

@@ -115,3 +115,12 @@ export const NBN_TECH_TYPES: NbnTechOption[] = [
   { id: "fttc", label: "FTTC", dbTechType: "fttc" },
   { id: "hfc", label: "HFC", dbTechType: "hfc" },
 ];
+
+/** Human-readable tech type labels for the order summary */
+export const NBN_TECH_LABELS: Record<NbnTechType, string> = {
+  fttp: "Fibre-to-the-premises (FTTP)",
+  fttb: "Fibre-to-the-building (FTTB)",
+  fttn: "Fibre-to-the-node (FTTN)",
+  fttc: "Fibre-to-the-curb (FTTC)",
+  hfc: "Hybrid fibre coaxial (HFC)",
+};
