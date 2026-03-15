@@ -7,20 +7,21 @@ describe("ModemInfoSheet", () => {
   it("renders the modem heading and intro", () => {
     render(<ModemInfoSheet onClose={() => {}} />);
     expect(screen.getByText("Belong Wi-Fi 6 Modem")).toBeInTheDocument();
-    expect(screen.getByText(/fast and reliable modem/i)).toBeInTheDocument();
+    expect(screen.getByText(/fast, reliable and simple modem/i)).toBeInTheDocument();
   });
 
-  it("renders all four feature sections", () => {
+  it("renders all five feature sections", () => {
     render(<ModemInfoSheet onClose={() => {}} />);
-    expect(screen.getByText("The speed your home needs")).toBeInTheDocument();
+    expect(screen.getByText("Speed and reliability")).toBeInTheDocument();
     expect(screen.getByText("Connect the whole house")).toBeInTheDocument();
-    expect(screen.getByText("Support and warranty")).toBeInTheDocument();
-    expect(screen.getByText("Safe and secure")).toBeInTheDocument();
+    expect(screen.getByText("Super easy setup")).toBeInTheDocument();
+    expect(screen.getByText("Safety and security")).toBeInTheDocument();
+    expect(screen.getByText("Great support")).toBeInTheDocument();
   });
 
   it("renders the external link to belong.com.au", () => {
     render(<ModemInfoSheet onClose={() => {}} />);
-    expect(screen.getByText(/View full details on belong.com.au/i)).toBeInTheDocument();
+    expect(screen.getByText(/View full details on our Modem FAQs page/i)).toBeInTheDocument();
   });
 
   it("calls onClose when Close button is clicked", async () => {

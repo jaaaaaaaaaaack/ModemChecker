@@ -5,8 +5,9 @@ import { IconButton } from "@/ui/components/IconButton";
 import {
   FeatherZap,
   FeatherWifi,
-  FeatherHeart,
+  FeatherSmile,
   FeatherShield,
+  FeatherHeart,
   FeatherX,
 } from "@subframe/core";
 
@@ -20,6 +21,7 @@ interface ModemInfoSheetProps {
 export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
   return (
     <div className="flex w-full flex-1 flex-col items-start gap-6 min-h-0">
+      {/* Header */}
       <div className="flex w-full items-start justify-between">
         <img
           className="h-28 w-36 flex-none object-cover"
@@ -34,20 +36,24 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
           aria-label="Dismiss"
         />
       </div>
+
+      {/* Title + intro */}
       <div className="flex flex-col items-start gap-2">
         <span className="text-h2 font-h2 text-color-accent2-800">
           Belong Wi-Fi 6 Modem
         </span>
         <span className="text-body-bold font-body-bold text-color-accent2-800">
-          A fast and reliable modem designed to get the most out of your Belong
-          nbn plan.
+          A fast, reliable and simple modem designed to get the most out of
+          your plan.
         </span>
       </div>
+
+      {/* Feature cards */}
       <div className="flex w-full flex-col items-start gap-2">
         <FeatureItem
           icon={<FeatherZap />}
-          title="The speed your home needs"
-          description="The Belong modem delivers speeds up to 950Mbps, fast enough for all Belong nbn plans — including ultra fast fibre."
+          title="Speed and reliability"
+          description="Capable of speeds up to 950Mbps over Wifi 6 — fast enough for all our plans."
           variant="card"
         />
         <FeatureItem
@@ -57,27 +63,35 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
           variant="card"
         />
         <FeatureItem
-          icon={<FeatherHeart />}
-          title="Support and warranty"
-          description="24-month warranty with troubleshooting support (live chat or phone)."
+          icon={<FeatherSmile />}
+          title="Super easy setup"
+          description="Works with all Belong plans right out of the box. Plug it in and you're ready to go."
           variant="card"
         />
         <FeatureItem
           icon={<FeatherShield />}
-          title="Safe and secure"
-          description="Customisable parental controls built-in. Encryption keeps your network secure, and security updates are delivered automatically — you won't need to do a thing."
+          title="Safety and security"
+          description="Customisable parental controls help keep your kids safe online, while encryption and security updates keep your network secure."
+          variant="card"
+        />
+        <FeatureItem
+          icon={<FeatherHeart />}
+          title="Great support"
+          description="Get enhanced troubleshooting and support via chat or phone. You're also covered by our 24-month warranty."
           variant="card"
         />
       </div>
+
+      {/* Footer */}
       <div className="flex w-full flex-col items-start gap-8 mt-auto">
         <LinkButton
           variant="brand"
           icon={null}
           onClick={() => window.open(BELONG_SUPPORT_URL, "_blank", "noopener")}
         >
-          View full details on belong.com.au
+          View full details on our Modem FAQs page
         </LinkButton>
-        <Button className="h-12 w-full flex-none" onClick={onClose}>
+        <Button onClick={onClose}>
           Close
         </Button>
       </div>

@@ -43,56 +43,64 @@ export function BaseScreen({
   return (
     <div className="flex w-full flex-col items-center bg-neutral-50 px-4 py-6">
       <div className="flex w-full max-w-[384px] flex-col items-start justify-between pb-2">
-        <div className="flex w-full flex-col items-start gap-12">
-          <div className="flex w-full flex-col items-start gap-6">
-            {/* Heading + radio group */}
-            <div className="flex w-full flex-col items-start gap-3">
-              <span className="text-h2 font-h2 text-brand-800">
-                Modem selection
-              </span>
-              <span className="text-body font-body text-default-font">
-                You can choose to add a Belong modem, or use your own
-                compatible modem.
-              </span>
-              <div ref={modemSummaryRef} className="flex w-full flex-col items-start gap-3 rounded-md bg-color-accent2-100 px-4 py-4">
-                <div className="flex w-full items-start gap-4">
-                  <div className="flex grow shrink-0 basis-0 flex-col items-start gap-2">
-                    <span className="text-h4-button-500 font-h4-button-500 text-color-accent2-800">
-                      Belong Modem
-                    </span>
-                    <span className="text-body font-body text-default-font">
-                      $132 upfront, or $11/month over 12 months
-                    </span>
-                  </div>
-                  <img
-                    className="h-20 w-28 flex-none rounded-md object-cover"
-                    src="https://res.cloudinary.com/subframe/image/upload/v1773555007/uploads/11901/q3kxnpvkqcjl8176het5.png"
-                    alt="Belong Modem"
-                  />
+        <div className="flex w-full flex-col items-start gap-8">
+          <div className="flex w-full flex-col items-start gap-4">
+            {/* Heading + modem summary + radio group */}
+            <div className="flex w-full flex-col items-start gap-8">
+              <div className="flex w-full flex-col items-start gap-4">
+                <div className="flex flex-col items-start gap-2">
+                  <span className="text-h2 font-h2 text-brand-800">
+                    Modem selection
+                  </span>
+                  <span className="text-body-bold font-body-bold text-default-font">
+                    You can choose to add a Belong modem, or bring-your-own
+                    compatible modem.
+                  </span>
+                  <span className="text-body font-body text-default-font">
+                    If you choose to BYO modem, we&apos;ll help you check
+                    that it&apos;s compatible with your plan.
+                  </span>
                 </div>
-                <div className="flex flex-col items-start gap-1">
-                  <div className="flex items-center gap-2">
-                    <FeatherCheck className="text-h4-button-500 font-h4-button-500 text-color-accent2-800" />
-                    <span className="text-body font-body text-default-font">
-                      Supports all Belong nbn plans
-                    </span>
+                <div ref={modemSummaryRef} className="flex w-full flex-col items-start gap-3 rounded-md bg-color-accent2-100 px-4 py-4">
+                  <div className="flex w-full items-start gap-4">
+                    <div className="flex grow shrink-0 basis-0 flex-col items-start gap-2">
+                      <span className="text-h4-button-700 font-h4-button-700 text-color-accent2-800">
+                        Belong Modem
+                      </span>
+                      <span className="text-body font-body text-default-font">
+                        $132 upfront, or $11/month over 12 months
+                      </span>
+                    </div>
+                    <img
+                      className="h-20 w-28 flex-none rounded-md object-cover"
+                      src="https://res.cloudinary.com/subframe/image/upload/v1773555007/uploads/11901/q3kxnpvkqcjl8176het5.png"
+                      alt="Belong Modem"
+                    />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <FeatherCheck className="text-h4-button-500 font-h4-button-500 text-color-accent2-800" />
-                    <span className="text-body font-body text-default-font">
-                      Connect to 12+ devices at once
-                    </span>
+                  <div className="flex flex-col items-start gap-1">
+                    <div className="flex items-center gap-2">
+                      <FeatherCheck className="text-h4-button-500 font-h4-button-500 text-color-accent2-800" />
+                      <span className="text-body font-body text-default-font">
+                        Supports all Belong nbn plans
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FeatherCheck className="text-h4-button-500 font-h4-button-500 text-color-accent2-800" />
+                      <span className="text-body font-body text-default-font">
+                        Connect to 12+ devices at once
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FeatherCheck className="text-h4-button-500 font-h4-button-500 text-color-accent2-800" />
+                      <span className="text-body font-body text-default-font">
+                        24-month warranty
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <FeatherCheck className="text-h4-button-500 font-h4-button-500 text-color-accent2-800" />
-                    <span className="text-body font-body text-default-font">
-                      24-month warranty
-                    </span>
-                  </div>
+                  <LinkButton icon={null} iconRight={null} onClick={onLearnMore}>
+                    Learn more
+                  </LinkButton>
                 </div>
-                <LinkButton icon={null} iconRight={null} onClick={onLearnMore}>
-                  Learn more
-                </LinkButton>
               </div>
               <RadioCardGroup
                 className="flex-col"
@@ -215,7 +223,7 @@ export function BaseScreen({
             hasRightIcon={true}
             onClick={() => {}}
           >
-            Start checkout
+            Continue
           </Button>
         </div>
       </div>
