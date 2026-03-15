@@ -35,6 +35,7 @@ export function ResultCard({
         modemName={modem.model}
         brand={modem.brand}
         image={getModemImageUrl(modem.id)}
+        techType={techType}
         conditions={assessment.setupConditions}
         speedWarningType={assessment.speedWarning?.type ?? null}
         onAddBelongModem={onAddBelongModem}

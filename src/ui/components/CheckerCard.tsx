@@ -19,7 +19,7 @@ import { StatusItem } from "./StatusItem";
 import { ModemImage } from "../../components/ModemImage";
 import { ConditionList } from "../../components/ConditionList";
 import { SPEED_WARNING_COPY, INDIVIDUAL_CONDITION_CODES } from "../../constants";
-import type { ConditionCode, SpeedWarning } from "../../types";
+import type { ConditionCode, SpeedWarning, TechType } from "../../types";
 
 // --- Stagger entry animation variants ---
 const EASE_SETTLE = [0.25, 0.1, 0.25, 1] as const;
@@ -64,6 +64,7 @@ interface ResultsCardProps extends React.HTMLAttributes<HTMLDivElement> {
   modemName?: React.ReactNode;
   brand?: React.ReactNode;
   image?: string;
+  techType?: TechType;
   conditions?: ConditionCode[];
   speedWarningType?: SpeedWarning["type"] | null;
   onAddBelongModem?: () => void;
@@ -79,6 +80,7 @@ const ResultsCard = React.forwardRef<
     modemName,
     brand,
     image,
+    techType,
     conditions = [],
     speedWarningType = null,
     onAddBelongModem,
@@ -90,6 +92,8 @@ const ResultsCard = React.forwardRef<
   // Only ISP_LOCK (and other INDIVIDUAL_CONDITION_CODES) get their own line item.
   // All other conditions are absorbed into the generic "Some setup required" callout.
   const individualConditions = conditions.filter((c) => INDIVIDUAL_CONDITION_CODES.has(c));
+
+  const isFttnIncompatible = status === "not-compatible" && techType === "fttn";
 
   return (
     <div
@@ -191,7 +195,27 @@ const ResultsCard = React.forwardRef<
                 }
                 description={
                   status === "not-compatible"
-                    ? onAddBelongModem
+                    ? isFttnIncompatible
+                      ? onAddBelongModem
+                        ? (
+                            <>
+                              This modem won{"\u2019"}t work with your home
+                              {"\u2019"}s nbn connection type. You can{" "}
+                              <button
+                                type="button"
+                                className="inline cursor-pointer border-none bg-transparent p-0 text-brand-800 underline hover:no-underline"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onAddBelongModem();
+                                }}
+                              >
+                                add a Belong modem
+                              </button>
+                              , or use a different compatible modem.
+                            </>
+                          )
+                        : "This modem won\u2019t work with your home\u2019s nbn connection type. You can add a Belong modem, or use a different compatible modem."
+                      : onAddBelongModem
                       ? (
                           <>
                             <button
@@ -220,7 +244,9 @@ const ResultsCard = React.forwardRef<
                 variants={statusItemVariants}
               >
                 <LinkButton variant="neutral">
-                  Learn more in our FAQs.
+                  {isFttnIncompatible
+                    ? "See our FAQs for more info."
+                    : "Learn more in our FAQs."}
                 </LinkButton>
               </motion.div>
             )}
@@ -266,6 +292,7 @@ interface CheckerCardRootProps
   brand?: React.ReactNode;
   status?: "compatible" | "not-compatible" | "speed-warning" | "callout";
   image?: string;
+  techType?: TechType;
   conditions?: ConditionCode[];
   speedWarningType?: SpeedWarning["type"] | null;
   onButtonClick?: () => void;
@@ -283,6 +310,7 @@ const CheckerCardRoot = React.forwardRef<
     brand,
     status = "compatible",
     image,
+    techType,
     conditions = [],
     speedWarningType = null,
     onButtonClick,
@@ -324,6 +352,7 @@ const CheckerCardRoot = React.forwardRef<
           modemName={modemName}
           brand={brand}
           image={image}
+          techType={techType}
           conditions={conditions}
           speedWarningType={speedWarningType}
           onAddBelongModem={onAddBelongModem}

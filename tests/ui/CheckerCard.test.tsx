@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { CheckerCard } from "../../src/ui/components/CheckerCard";
 
@@ -91,5 +91,68 @@ describe("CheckerCard", () => {
     expect(screen.getByText("Some setup required")).toBeInTheDocument();
     expect(screen.getByText("May be ISP-locked")).toBeInTheDocument();
     expect(screen.queryByText("Reconfigure to IPoE")).not.toBeInTheDocument();
+  });
+
+  it("renders FTTN-specific description when not-compatible and techType is fttn", () => {
+    render(
+      <CheckerCard.ResultsCard
+        status="not-compatible"
+        modemName="Eero 6+"
+        brand="Amazon"
+        techType="fttn"
+      />
+    );
+    expect(
+      screen.getByText(/won\u2019t work with your home\u2019s nbn connection type/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/use a different compatible modem/i)
+    ).toBeInTheDocument();
+  });
+
+  it("renders default not-compatible description when techType is not fttn", () => {
+    render(
+      <CheckerCard.ResultsCard
+        status="not-compatible"
+        modemName="Some Modem"
+        brand="Acme"
+        techType="fttp"
+      />
+    );
+    expect(
+      screen.queryByText(/won\u2019t work with your home\u2019s nbn connection type/i)
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/purchase a different compatible modem/i)
+    ).toBeInTheDocument();
+  });
+
+  it("renders 'add a Belong modem' as a clickable link in FTTN not-compatible", () => {
+    const onAddBelongModem = vi.fn();
+    render(
+      <CheckerCard.ResultsCard
+        status="not-compatible"
+        modemName="Eero 6+"
+        brand="Amazon"
+        techType="fttn"
+        onAddBelongModem={onAddBelongModem}
+      />
+    );
+    const link = screen.getByRole("button", { name: /add a belong modem/i });
+    expect(link).toBeInTheDocument();
+  });
+
+  it("renders updated FAQ link text for FTTN not-compatible", () => {
+    render(
+      <CheckerCard.ResultsCard
+        status="not-compatible"
+        modemName="Eero 6+"
+        brand="Amazon"
+        techType="fttn"
+      />
+    );
+    expect(
+      screen.getByText(/see our faqs for more info/i)
+    ).toBeInTheDocument();
   });
 });

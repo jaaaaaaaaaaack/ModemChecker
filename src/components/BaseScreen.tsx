@@ -38,6 +38,10 @@ export function BaseScreen({
 }: BaseScreenProps) {
   const [selection, setSelection] = useState<string>("");
 
+  const handleAddBelongModem = () => {
+    modemSummaryRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   const currentPlan = NBN_PLANS.find((p) => p.id === planId) ?? NBN_PLANS[1];
 
   return (
@@ -165,6 +169,8 @@ export function BaseScreen({
                           brand={verifiedModem.brand}
                           image={getModemImageUrl(verifiedModem.id)}
                           onButtonClick={onCheckModem}
+                          techType={techType}
+                          onAddBelongModem={handleAddBelongModem}
                         />
                       );
                     })()

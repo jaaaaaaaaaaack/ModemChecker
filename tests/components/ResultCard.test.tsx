@@ -150,6 +150,22 @@ describe("ResultCard", () => {
     expect(onAddBelongModem).toHaveBeenCalledOnce();
   });
 
+  it("shows FTTN-specific description when modem is incompatible on fttn", () => {
+    const modem = makeModem({
+      compatibility: {
+        fttp: { status: "yes", conditions: [] },
+        fttc: { status: "yes", conditions: [] },
+        fttn: { status: "no", conditions: [] },
+        hfc: { status: "yes", conditions: [] },
+      },
+      wan: { has_vdsl2_modem: false, wan_port_speed_mbps: 1000 },
+    });
+    render(<ResultCard modem={modem} techType="fttn" />);
+    expect(
+      screen.getByText(/won\u2019t work with your home\u2019s nbn connection type/i)
+    ).toBeInTheDocument();
+  });
+
   it("does not render cross-link button when onAddBelongModem is not provided", () => {
     const modem = makeModem({
       compatibility: {

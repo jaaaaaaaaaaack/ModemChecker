@@ -23,7 +23,8 @@ interface IconButtonRootProps
     | "destructive-secondary"
     | "destructive-tertiary"
     | "inverse"
-    | "option-1";
+    | "option-1"
+    | "neutral-secondary-2";
   size?: "large" | "medium" | "small";
   icon?: React.ReactNode;
   loading?: boolean;
@@ -48,10 +49,12 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
     return (
       <button
         className={SubframeUtils.twClassNames(
-          "group/af9405b1 flex h-8 w-8 cursor-pointer items-center justify-center gap-2 rounded-md border-none bg-transparent text-left hover:bg-neutral-100 active:bg-neutral-50 disabled:cursor-default disabled:bg-neutral-100 hover:disabled:cursor-default hover:disabled:bg-neutral-100 active:disabled:cursor-default active:disabled:bg-neutral-100",
+          "group/af9405b1 flex h-10 w-10 cursor-pointer items-center justify-center gap-2 rounded-full border-none bg-transparent text-left hover:bg-neutral-100 active:bg-neutral-50 disabled:cursor-default disabled:bg-neutral-100 hover:disabled:cursor-default hover:disabled:bg-neutral-100 active:disabled:cursor-default active:disabled:bg-neutral-100",
           {
             "h-6 w-6": size === "small",
-            "h-10 w-10": size === "large",
+            "h-12 w-12 rounded-full hover:rounded-full": size === "large",
+            "border-2 border-solid border-brand-800 bg-brand-100 hover:border-2 hover:border-solid hover:border-brand-200 hover:bg-brand-200 active:border-2 active:border-solid active:border-brand-800 active:bg-brand-800":
+              variant === "neutral-secondary-2",
             "bg-brand-200": variant === "option-1",
             "hover:bg-[#ffffff29] active:bg-[#ffffff3d]": variant === "inverse",
             "hover:bg-error-50 active:bg-error-100":
@@ -60,9 +63,9 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
               variant === "destructive-secondary",
             "bg-error-600 hover:bg-error-500 active:bg-error-600":
               variant === "destructive-primary",
-            "border-2 border-solid border-brand-800 hover:border-2 hover:border-solid hover:border-brand-200 hover:bg-brand-200 active:border-2 active:border-solid active:border-brand-700 active:bg-brand-700":
+            "border-2 border-solid border-brand-800 hover:border-2 hover:border-solid hover:border-brand-200 hover:bg-brand-200 active:border-2 active:border-solid active:border-brand-800 active:bg-brand-800":
               variant === "neutral-secondary",
-            "bg-neutral-100 hover:bg-neutral-200 active:bg-neutral-100":
+            "bg-neutral-100 hover:border hover:border-solid hover:border-neutral-700 hover:bg-default-background active:border active:border-solid active:border-neutral-400 active:bg-neutral-200":
               variant === "neutral-primary",
             "hover:bg-brand-50 active:bg-brand-100":
               variant === "brand-tertiary",
@@ -81,11 +84,13 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
         {icon ? (
           <SubframeCore.IconWrapper
             className={SubframeUtils.twClassNames(
-              "text-h3-700 font-h3-700 text-neutral-700 group-disabled/af9405b1:text-neutral-400",
+              "text-h2-500 font-h2-500 text-neutral-700 group-disabled/af9405b1:text-neutral-400",
               {
                 hidden: loading,
-                "text-body font-body": size === "small",
-                "text-h3-700 font-h3-700": size === "large",
+                "text-body-bold font-body-bold": size === "small",
+                "text-h2-500 font-h2-500": size === "large",
+                "text-brand-800 group-hover/af9405b1:text-h2-500 group-hover/af9405b1:font-h2-500 group-active/af9405b1:text-brand-100":
+                  variant === "neutral-secondary-2",
                 "text-brand-700": variant === "option-1",
                 "text-white group-hover/af9405b1:text-white":
                   variant === "inverse",
@@ -99,8 +104,10 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
                   variant === "neutral-secondary",
                 "text-neutral-700 group-hover/af9405b1:text-neutral-700 group-active/af9405b1:text-neutral-700":
                   variant === "neutral-primary",
+                "text-brand-800 group-active/af9405b1:text-brand-700":
+                  variant === "brand-tertiary",
                 "text-brand-700 group-hover/af9405b1:text-brand-700 group-active/af9405b1:text-brand-700":
-                  variant === "brand-tertiary" || variant === "brand-secondary",
+                  variant === "brand-secondary",
               }
             )}
           >
