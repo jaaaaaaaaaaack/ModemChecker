@@ -45,6 +45,10 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
             placeholder={'"Eero", "TP-Link Archer", "R400"'}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            autoComplete="off"
           />
         </TextField>
         <LinkButton variant="brand" type="button" onClick={() => {}}>

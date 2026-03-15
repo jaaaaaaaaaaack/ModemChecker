@@ -15,6 +15,7 @@ import { NoMatch } from "./NoMatch";
 import { SearchError } from "./SearchError";
 import { DevMenu } from "./DevMenu";
 import { ModemInfoSheet } from "./ModemInfoSheet";
+import { Navbar } from "./Navbar";
 
 const contentVariants = {
   enter: (direction: TransitionDirection) => ({
@@ -91,6 +92,7 @@ export function ModemChecker() {
 
   return (
     <>
+      <Navbar />
       <BaseScreen
         modemSummaryRef={modemSummaryRef}
         onCheckModem={() => setSheetOpen(true)}

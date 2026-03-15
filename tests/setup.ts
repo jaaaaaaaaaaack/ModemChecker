@@ -12,6 +12,11 @@ const MOTION_PROPS = new Set([
   "whileInView", "drag", "dragConstraints",
 ]);
 
+// Stub Element.scrollIntoView (not implemented in jsdom).
+if (typeof Element !== "undefined" && !Element.prototype.scrollIntoView) {
+  Element.prototype.scrollIntoView = vi.fn();
+}
+
 // Stub window.matchMedia for components using useMediaQuery.
 // Individual tests can override with vi.stubGlobal("matchMedia", ...).
 if (typeof window !== "undefined" && !window.matchMedia) {

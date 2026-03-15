@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FeatherCheck, FeatherChevronRight, FeatherRouter } from "@subframe/core";
 import { Button } from "../ui/components/Button";
@@ -37,6 +37,19 @@ export function BaseScreen({
   modemSummaryRef,
 }: BaseScreenProps) {
   const [selection, setSelection] = useState<string>("");
+  const byoSectionRef = useRef<HTMLDivElement>(null);
+  const orderCardRef = useRef<HTMLDivElement>(null);
+
+  // Scroll newly-revealed content into view after radio selection
+  useEffect(() => {
+    if (!selection) return;
+    // Small delay so the enter animation has started and layout is stable
+    const timeout = setTimeout(() => {
+      const target = selection === "byo" ? byoSectionRef.current : orderCardRef.current;
+      target?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+    return () => clearTimeout(timeout);
+  }, [selection]);
 
   const handleAddBelongModem = () => {
     modemSummaryRef?.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -130,6 +143,7 @@ export function BaseScreen({
           <AnimatePresence>
             {selection === "byo" && (
               <motion.div
+                ref={byoSectionRef}
                 key="byo-section"
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -203,6 +217,7 @@ export function BaseScreen({
           <AnimatePresence>
             {selection && (
               <motion.div
+                ref={orderCardRef}
                 key="order-summary"
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
