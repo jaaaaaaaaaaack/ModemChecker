@@ -1,3 +1,5 @@
+export * from "./components/OrderCard"
+export * from "./components/SettingsMenu"
 export * from "./components/CardButton"
 export * from "./components/CheckerCard"
 export * from "./components/Button"

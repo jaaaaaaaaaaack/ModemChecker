@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FeatherChevronRight } from "@subframe/core";
+import { FeatherChevronRight, FeatherRouter } from "@subframe/core";
 import { Button } from "../ui/components/Button";
 import { CheckerCard } from "../ui/components/CheckerCard";
+import { LinkButton } from "../ui/components/LinkButton";
 import { OrderCard } from "../ui/components/OrderCard";
 import { RadioCardGroup } from "../ui/components/RadioCardGroup";
 import { getModemImageUrl } from "../lib/supabase";
@@ -35,39 +36,13 @@ export function BaseScreen({
 
   const currentPlan = NBN_PLANS.find((p) => p.id === planId) ?? NBN_PLANS[1];
 
-  const renderModemCard = () => {
-    if (!verifiedModem) {
-      return (
-        <CheckerCard
-          state="default"
-          onButtonClick={onCheckModem}
-        />
-      );
-    }
-
-    const assessment = assessCompatibility(verifiedModem, techType, planSpeedMbps);
-
-    return (
-      <CheckerCard
-        state="results"
-        status={assessment.cardStatus}
-        speedWarningType={assessment.speedWarning?.type ?? null}
-        conditions={assessment.setupConditions}
-        modemName={verifiedModem.model}
-        brand={verifiedModem.brand}
-        image={getModemImageUrl(verifiedModem.id)}
-        onButtonClick={onCheckModem}
-      />
-    );
-  };
-
   return (
-    <div className="flex w-full flex-col items-center bg-white px-4 py-6">
+    <div className="flex w-full flex-col items-center bg-neutral-50 px-4 py-6">
       <div className="flex w-full max-w-[384px] flex-col items-start justify-between pb-2">
-        <div className="flex w-full flex-col items-start gap-10">
+        <div className="flex w-full flex-col items-start gap-12">
           <div className="flex w-full flex-col items-start gap-4">
             <div className="flex w-full flex-col items-start gap-4">
-              <span className="text-h2 font-h2 text-color-primary-700">
+              <span className="text-h2 font-h2 text-color-primary-600">
                 Modem selection
               </span>
               <RadioCardGroup
@@ -104,46 +79,86 @@ export function BaseScreen({
                     Modem compatibility
                   </span>
                   <span className="text-body font-body text-default-font">
-                    It&apos;s important to know that not all modems are compatible
-                    with different nbn providers. Also, if your modem isn&apos;t
-                    fast enough, it may limit the speed you can get from your
-                    plan. We recommend you check its compatibility.
+                    Not all modems are compatible with every nbn provider. If
+                    yours isn&apos;t compatible, or isn&apos;t fast enough, it
+                    could affect your connection or limit your plan&apos;s
+                    speeds.
                   </span>
-                  {renderModemCard()}
+
+                  {/* Default: check button / Results: CheckerCard */}
+                  {verifiedModem ? (
+                    (() => {
+                      const assessment = assessCompatibility(
+                        verifiedModem,
+                        techType,
+                        planSpeedMbps
+                      );
+                      return (
+                        <CheckerCard
+                          state="results"
+                          status={assessment.cardStatus}
+                          speedWarningType={
+                            assessment.speedWarning?.type ?? null
+                          }
+                          conditions={assessment.setupConditions}
+                          modemName={verifiedModem.model}
+                          brand={verifiedModem.brand}
+                          image={getModemImageUrl(verifiedModem.id)}
+                          onButtonClick={onCheckModem}
+                        />
+                      );
+                    })()
+                  ) : (
+                    <Button
+                      className="h-12 w-auto flex-none"
+                      variant="brand-tertiary"
+                      icon={<FeatherRouter />}
+                      hasLeftIcon={true}
+                      onClick={onCheckModem}
+                    >
+                      Check your modem
+                    </Button>
+                  )}
+
+                  {/* FAQ link */}
+                  <div className="flex flex-col items-start">
+                    <span className="text-body font-body text-default-font">
+                      Need more information or help? Check out our
+                    </span>
+                    <LinkButton variant="brand" onClick={() => {}}>
+                      Modem compatibility FAQs
+                    </LinkButton>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* Order summary */}
-          <div className="flex w-full flex-col items-start gap-2">
-            <div className="flex w-full items-center gap-4">
-              <span className="grow text-h2 font-h2 text-brand-800">
-                Order summary
-              </span>
-            </div>
-            <OrderCard
-              planLabel={`${currentPlan.label} plan`}
-              planPrice={currentPlan.price}
-              modemLabel={selection === "byo" ? "BYO Modem" : "Belong Modem"}
-              modemPrice={selection === "byo" ? "Free" : "$0 upfront"}
-              totalPrice={currentPlan.price}
-              onClick={onOpenDevMenu}
-              className="cursor-pointer transition-colors hover:border-brand-400 active:scale-[0.99]"
-            />
-          </div>
+          {/* Order summary — no heading, just the card */}
+          <OrderCard
+            planLabel={`${currentPlan.label} plan`}
+            planPrice={currentPlan.price}
+            modemLabel={selection === "byo" ? "BYO Modem" : "Belong Modem"}
+            modemPrice={selection === "byo" ? "Free" : "$0 upfront"}
+            totalPrice={currentPlan.price}
+            onClick={onOpenDevMenu}
+            className="cursor-pointer transition-colors hover:border-brand-400 active:scale-[0.99]"
+          />
         </div>
 
         {/* Footer buttons */}
         <div className="flex w-full items-center justify-between pt-6">
           <Button
+            className="h-12 w-auto flex-none"
             variant="brand-secondary"
             onClick={() => {}}
           >
             Back
           </Button>
           <Button
+            className="h-12 w-auto flex-none"
             iconRight={<FeatherChevronRight />}
+            hasRightIcon={true}
             onClick={() => {}}
           >
             Start checkout

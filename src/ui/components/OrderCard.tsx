@@ -32,12 +32,19 @@ const OrderCardRoot = React.forwardRef<HTMLDivElement, OrderCardRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4",
+          "flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-200 bg-default-background px-4 py-4",
           className
         )}
         ref={ref}
         {...otherProps}
       >
+        <div className="flex w-full items-center gap-4">
+          <div className="flex items-start gap-1 grow">
+            <span className="grow shrink-0 basis-0 text-h2 font-h2 text-brand-800">
+              Order summary
+            </span>
+          </div>
+        </div>
         <div className="flex w-full flex-col items-start gap-4">
           <div className="flex w-full flex-col items-start gap-3">
             <div className="flex w-full items-center justify-between">

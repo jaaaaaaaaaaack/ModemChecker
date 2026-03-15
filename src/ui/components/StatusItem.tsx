@@ -8,7 +8,7 @@
 import React from "react";
 import { FeatherAlertTriangle } from "@subframe/core";
 import { FeatherAsterisk } from "@subframe/core";
-import { FeatherWifi } from "@subframe/core";
+import { FeatherFlag } from "@subframe/core";
 import { FeatherX } from "@subframe/core";
 import * as SubframeCore from "@subframe/core";
 import * as SubframeUtils from "../utils";
@@ -19,8 +19,16 @@ interface StatusItemRootProps
   icon?: React.ReactNode;
   title?: React.ReactNode;
   description?: React.ReactNode;
-  status?: "compatible" | "incompatible" | "warning" | "callout";
+  status?:
+    | "compatible"
+    | "incompatible"
+    | "warning"
+    | "callout"
+    | "compatible-on-dark"
+    | "warning-on-dark"
+    | "info-on-dark";
   hasDescription?: boolean;
+  isOnDark?: boolean;
   className?: string;
 }
 
@@ -32,6 +40,7 @@ const StatusItemRoot = React.forwardRef<HTMLDivElement, StatusItemRootProps>(
       description,
       status = "compatible",
       hasDescription = false,
+      isOnDark = false,
       className,
       ...otherProps
     }: StatusItemRootProps,
@@ -49,7 +58,13 @@ const StatusItemRoot = React.forwardRef<HTMLDivElement, StatusItemRootProps>(
         <div className="flex items-start gap-2 pt-0.5">
           <IconWithBackground
             variant={
-              status === "callout"
+              status === "info-on-dark"
+                ? "neutral"
+                : status === "warning-on-dark"
+                ? "warning"
+                : status === "compatible-on-dark"
+                ? "success"
+                : status === "callout"
                 ? "dark-brand"
                 : status === "warning"
                 ? "neutral"
@@ -62,7 +77,7 @@ const StatusItemRoot = React.forwardRef<HTMLDivElement, StatusItemRootProps>(
               status === "callout" ? (
                 <FeatherAsterisk />
               ) : status === "warning" ? (
-                <FeatherWifi />
+                <FeatherFlag />
               ) : status === "incompatible" ? (
                 <FeatherX />
               ) : undefined
@@ -75,6 +90,11 @@ const StatusItemRoot = React.forwardRef<HTMLDivElement, StatusItemRootProps>(
               className={SubframeUtils.twClassNames(
                 "text-body font-body text-default-font",
                 {
+                  "text-brand-50":
+                    isOnDark ||
+                    status === "info-on-dark" ||
+                    status === "warning-on-dark" ||
+                    status === "compatible-on-dark",
                   "text-body-bold font-body-bold text-error-900":
                     status === "incompatible",
                 }
