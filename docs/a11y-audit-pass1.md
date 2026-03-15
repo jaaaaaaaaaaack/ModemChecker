@@ -695,9 +695,236 @@ Reviewed every component listed in the audit scope for: correct HTML element usa
 
 WCAG 1.3.1 (A): No skipped heading levels in assembled DOM per screen.
 
+### Method
+
+Traced every heading element (`<h1>`–`<h6>`) and every visual heading (non-heading element styled with `text-h*` Tailwind tokens) through the assembled DOM for each screen. Radix `Dialog.Title` renders as `<h2>` by default.
+
+**Key context:**
+- The widget is embeddable — it has no `<h1>` of its own. The host page is expected to provide the `<h1>`.
+- BottomSheet is a modal dialog. Its `Dialog.Title` (sr-only `<h2>`) provides the accessible name. Heading hierarchy inside a modal is technically independent from the page, but should still be internally consistent.
+- All "headings" in the codebase are `<span>` elements with `text-h*` Tailwind classes — **none** are semantic heading elements (`<h1>`–`<h6>`).
+
 ### Findings
 
-_Pending audit_
+#### Cross-cutting issue: No semantic headings anywhere
+
+- [owned] **high** Every screen uses `<span>` elements with visual heading classes (`text-h2`, `text-h3-700`, `text-h4-button-500`) instead of semantic heading elements (`<h2>`, `<h3>`, `<h4>`). Screen readers cannot navigate by heading, and the document outline is completely flat. This affects **all 9 screens** below.
+
+The only true heading element in the entire widget is the Radix `Dialog.Title` (`<h2>`, sr-only) inside BottomSheet. Everything else is a `<span>`.
+
+---
+
+### Screen: BaseScreen (landing — idle, no modem selected)
+
+**Context:** Renders outside the BottomSheet, directly on the page.
+
+Semantic headings: _(none)_
+
+Visual headings (all `<span>`):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | `text-h2` | "Modem selection" | h2 |
+| `<span>` | `text-h4-button-500` | "Belong Modem" | h3 or h4 |
+| `<span>` | `text-h2` | "Order summary" (in OrderCard) | h2 |
+
+- [owned] **high** `<span class="text-h2">Modem selection</span>` — visual heading, not semantic. Should be `<h2>`. **quick-win**
+- [subframe-disabled] **medium** `<span class="text-h4-button-500">Belong Modem</span>` in the Belong modem info box — visually functions as a subheading but is a `<span>`. Could be `<h3>`.
+- [subframe-disabled] **medium** `<span class="text-h2">Order summary</span>` in OrderCard — visual heading, not semantic. Should be `<h2>`. **quick-win**
+
+---
+
+### Screen: BaseScreen (results — BYO selected, modem verified)
+
+**Context:** Same as landing, plus the BYO section with CheckerCard in `state="results"`.
+
+Visual headings (all `<span>`, additional to landing):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | `text-h3-700` | "Modem compatibility" | h3 |
+| `<span>` | `text-h3-700` | "Compatibility results" (in CheckerCard) | h3 |
+
+- [owned] **high** `<span class="text-h3-700">Modem compatibility</span>` — visual heading, not semantic. Should be `<h3>` (nested under "Modem selection"). **quick-win**
+- [subframe-disabled] **medium** `<span class="text-h3-700">Compatibility results</span>` in CheckerCard — visual heading, not semantic. Should be `<h3>`. **quick-win**
+
+---
+
+### Screen: Search step (BottomSheet + SearchInput)
+
+**Context:** Inside BottomSheet modal dialog.
+
+Semantic headings:
+| Element | Level | Content | Source |
+|---|---|---|---|
+| `Dialog.Title` | h2 | "Modem search" | BottomSheet (sr-only) |
+
+Visual headings (all `<span>`):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | `text-h2` | "Search for your modem" | h2 (visually) |
+
+- [owned] **high** `<span class="text-h2">Search for your modem</span>` — visual heading, not semantic. Should be a heading element. If made `<h2>`, it would be a sibling of the sr-only `Dialog.Title` `<h2>`, which is acceptable. Alternatively, make it `<h3>` to nest under the dialog title. **quick-win**
+- [owned] **low** The sr-only `Dialog.Title` (`<h2>`) and the visual heading both convey "search" semantics — slightly redundant but not harmful. The Dialog.Title serves as the accessible dialog name (via `aria-labelledby`), while the visual heading provides on-screen context. Both can coexist.
+
+---
+
+### Screen: LoadingState (BottomSheet + LoadingState)
+
+**Context:** Inside BottomSheet modal dialog.
+
+Semantic headings:
+| Element | Level | Content | Source |
+|---|---|---|---|
+| `Dialog.Title` | h2 | "Modem search" | BottomSheet (sr-only) |
+
+Visual headings (all `<span>`):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | `text-h3-700` | "Finding your modem..." | h3 |
+
+- [owned] **medium** `<span class="text-h3-700">Finding your modem...</span>` — visual heading, not semantic. The `role="status"` on the parent div means screen readers will announce the text content, so the lack of a heading element has reduced impact here. Still should be `<h3>` for heading navigation consistency. **quick-win**
+
+---
+
+### Screen: MultipleMatches (BottomSheet + MultipleMatches)
+
+**Context:** Inside BottomSheet modal dialog.
+
+Semantic headings:
+| Element | Level | Content | Source |
+|---|---|---|---|
+| `Dialog.Title` | h2 | "Modem search" | BottomSheet (sr-only) |
+
+Visual headings (all `<span>`):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | inline styles (28px/700) | "Select your modem" | h2 (visually) |
+
+- [owned] **high** `<span>Select your modem</span>` — uses raw inline font styles (`text-[28px] font-[700]`) matching `text-h2` sizing. Not a semantic heading. Should be `<h3>` (under the dialog's `<h2>`). **quick-win**
+
+Note: CardButton items show modem model/brand with `text-h4-button-500` on model names, but these are list item labels, not document headings — appropriate as `<span>`.
+
+---
+
+### Screen: ResultCard (BottomSheet + ResultCard + CheckerCard.ResultsCard)
+
+**Context:** Inside BottomSheet modal dialog. ResultCard renders CheckerCard.ResultsCard.
+
+Semantic headings:
+| Element | Level | Content | Source |
+|---|---|---|---|
+| `Dialog.Title` | h2 | "Modem search" | BottomSheet (sr-only) |
+
+Visual headings (all `<span>`):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | `text-h2` | "Compatibility results" | h2 (visually) |
+
+- [owned] **high** `<span class="text-h2">Compatibility results</span>` in ResultCard — visual heading, not semantic. Should be `<h3>` (under the dialog's `<h2>`). **quick-win**
+
+Note: StatusItem titles use `text-body` / `text-body-bold` — these are list item labels, not headings. Appropriate as `<span>`.
+
+---
+
+### Screen: NoMatch (BottomSheet + NoMatch)
+
+**Context:** Inside BottomSheet modal dialog.
+
+Semantic headings:
+| Element | Level | Content | Source |
+|---|---|---|---|
+| `Dialog.Title` | h2 | "Modem search" | BottomSheet (sr-only) |
+
+Visual headings (all `<span>`):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | `text-h2` | "No modem found" | h2 (visually) |
+
+- [owned] **high** `<span class="text-h2">No modem found</span>` — visual heading, not semantic. Should be `<h3>` (under the dialog's `<h2>`). **quick-win**
+
+---
+
+### Screen: SearchError (BottomSheet + SearchError)
+
+**Context:** Inside BottomSheet modal dialog.
+
+Semantic headings:
+| Element | Level | Content | Source |
+|---|---|---|---|
+| `Dialog.Title` | h2 | "Modem search" | BottomSheet (sr-only) |
+
+Visual headings (all `<span>`):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | `text-h2` | "Something went wrong" | h2 (visually) |
+
+- [owned] **high** `<span class="text-h2">Something went wrong</span>` — visual heading, not semantic. Should be `<h3>` (under the dialog's `<h2>`). **quick-win**
+
+---
+
+### Screen: ErrorBoundary (crash fallback)
+
+**Context:** Replaces entire widget content. Renders outside any dialog.
+
+Semantic headings: _(none)_
+
+Visual headings (all `<span>`):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | `text-body-bold` | "Something went wrong" | — |
+
+- [owned] **low** `<span class="text-body-bold">Something went wrong</span>` — styled as bold body text, not a visual heading. In this minimal crash fallback, adding a semantic heading is nice-to-have but low priority since users rarely see this screen.
+
+---
+
+### Screen: ModemInfoSheet (BottomSheet + ModemInfoSheet)
+
+**Context:** Inside BottomSheet modal dialog (accent2 gradient). Not in the main modem-search flow but reachable from BaseScreen "Learn more".
+
+Semantic headings:
+| Element | Level | Content | Source |
+|---|---|---|---|
+| `Dialog.Title` | h2 | "Belong modem information" | BottomSheet (sr-only) |
+
+Visual headings (all `<span>`):
+| Element | Class | Content | Expected level |
+|---|---|---|---|
+| `<span>` | `text-h2` | "Belong Wi-Fi 6 Modem" | h2 (visually) |
+| `<span>` | `text-h4-button-500` | "The speed your home needs" | h4 (visually) |
+| `<span>` | `text-h4-button-500` | "Connect the whole house" | h4 (visually) |
+| `<span>` | `text-h4-button-500` | "Support and warranty" | h4 (visually) |
+| `<span>` | `text-h4-button-500` | "Safe and secure" | h4 (visually) |
+
+- [owned] **high** `<span class="text-h2">Belong Wi-Fi 6 Modem</span>` — visual heading, not semantic. Should be `<h3>`. **quick-win**
+- [subframe] **medium** FeatureItem titles (`text-h4-button-500`) — visual subheadings, not semantic. If the parent heading were `<h3>`, these should be `<h4>`. Would also require a skipped-level fix if made `<h4>` without an intervening `<h3>` — but since the parent is `<h3>`, going to `<h4>` skips nothing. **quick-win** (4 instances, one component change)
+
+---
+
+### Summary
+
+| Severity | Count | Description |
+|---|---|---|
+| **high** | 9 | Visual headings using `<span>` instead of semantic heading elements across all main screens |
+| **medium** | 5 | Subframe component visual headings not semantic (OrderCard, CheckerCard, FeatureItem, Belong Modem box) |
+| **low** | 2 | ErrorBoundary fallback heading, Dialog.Title redundancy |
+
+**Quick wins (12):** All high-severity items and most medium items can be fixed by changing `<span>` to the appropriate heading element (`<h2>`, `<h3>`, or `<h4>`) while keeping the same CSS classes. No structural refactoring needed.
+
+**Recommended heading structure:**
+
+For **BaseScreen** (page context):
+```
+<h2> "Modem selection"
+  <h3> "Belong Modem" (info box)
+  <h3> "Modem compatibility" (BYO section, when visible)
+    <h4> "Compatibility results" (CheckerCard, when modem verified)
+<h2> "Order summary" (OrderCard)
+```
+
+For **BottomSheet screens** (modal context, Dialog.Title is the `<h2>`):
+```
+<h2 sr-only> "Modem search" (Dialog.Title — already exists)
+  <h3> Screen heading ("Search for your modem" / "Select your modem" / etc.)
+```
 
 ---
 
