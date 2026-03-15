@@ -466,9 +466,142 @@ The TextField uses a different approach entirely: a border-color change via `foc
 
 WCAG 4.1.2 (A): All interactive elements must have an accessible name.
 
-### Findings
+### Method
 
-_Pending audit_
+Read every interactive component (Subframe primitives in `src/ui/components/` and owned page components in `src/components/`) and checked that each interactive element has a programmatically determinable accessible name via one of: visible text content, `aria-label`, associated `<label>`, or `alt` attribute (for images).
+
+**Interactive element types audited:** `<button>`, `<input>`, `<div role="button">`, `<div>` with `onClick`/`cursor-pointer`, `<img>`, `<a>`.
+
+### Failures
+
+#### Icon-only buttons missing `aria-label`
+
+- [subframe] high **IconButton**: The component renders a `<button>` with only an icon (no text content). It does NOT provide a default `aria-label` -- it relies on callers passing one via `...otherProps`. All current usages in the codebase DO pass `aria-label` (SearchInput: "Close", MultipleMatches: "Back"/"Close", ModemInfoSheet: "Dismiss"), so there is no runtime violation today. However, the component itself does not enforce or warn about missing labels. Low risk as long as all future callers remember to set it. No fix needed now. `informational`
+
+#### Images missing `alt`
+
+- [subframe] high **CardButton**: The `<img>` element (rendered when `image` prop is provided) has no `alt` attribute at all. Screen readers will announce the image URL. In MultipleMatches, the parent passes `aria-label` on the `<div>` wrapper, which provides context at the button level, but the `<img>` itself still lacks `alt`. `quick-win`: add `alt={String(modelName ?? "")}` to the `<img>` element. ❌
+
+#### Inputs missing labels
+
+- [owned] medium **SearchInput**: The `TextField.Input` is wrapped by a `<TextField>` component whose root is a `<label>` element -- good. However, the `label` prop is set to an empty string (`label=""`), which means there is no visible `<span>` label text inside the `<label>`. The `<label>` element still wraps the `<input>`, so it IS programmatically associated (implicit label association). But the accessible name is derived from the label's text content, which is empty. The text "Brand, model name, or model number" sits in a separate `<span>` OUTSIDE the `<TextField>` component, so it is NOT part of the label association. Screen readers will announce the placeholder text as a fallback, which is suboptimal. `quick-win`: move "Brand, model name, or model number" into the `TextField`'s `label` prop instead of a separate `<span>`, or add `aria-label="Brand, model name, or model number"` to the `<TextField.Input>`. ❌
+
+#### Interactive `<div>` elements missing accessible names
+
+- [subframe-disabled] high **OrderCard** (used as interactive in BaseScreen): The `<div>` root receives `onClick` and `className="cursor-pointer"` from BaseScreen, making it behave as an interactive element. But it has no `role`, `tabIndex`, or `aria-label`. Sighted users see "Order summary" as a heading, but there is no accessible name for the interactive control itself. Related to the Roles & Semantics finding (the element needs `role="button"` and `tabIndex={0}` to be keyboard-accessible at all). `quick-win`: add `role="button" tabIndex={0} aria-label="Edit order settings"` in BaseScreen's `<OrderCard>` usage. ❌
+
+- [subframe] medium **SettingsMenu.Item**: The `<div>` root has `cursor-pointer` but no `role`, `tabIndex`, or `aria-label`. It has visible text via the `label` prop, which would serve as the accessible name IF the element were a `<button>` or had `role="button"`. Since it has no semantic role, the accessible name is moot -- the element is not recognized as interactive by assistive technology at all. Fixing the role (separate Roles & Semantics issue) would also fix the name. `informational`
+
+#### Decorative images / icons
+
+- [owned] medium **LoadingState**: The `FeatherLoader` icon is purely decorative (the "Finding your modem..." text provides the information). The SVG icon has no `aria-hidden="true"` attribute. The `<div>` container has `role="status"` which is correct, and the text content provides the accessible name for the status region. The icon is not a critical issue since it's presentational, but adding `aria-hidden="true"` to the icon would be best practice. ❌
+
+- [owned] medium **BaseScreen** (Belong Modem info box): Three `FeatherCheck` icons are used decoratively alongside text ("Supports all Belong nbn plans", etc.). These SVG icons have no `aria-hidden="true"`. They are presentational -- the text conveys the meaning. Low impact but adding `aria-hidden="true"` would prevent screen readers from announcing "check" or the SVG path data. ❌
+
+- [subframe-disabled] medium **OrderCard**: The `FeatherHome` and `FeatherZap` icons are decorative (used alongside "Service address" and nbn tech type text). No `aria-hidden="true"`. Same low-impact issue. ❌
+
+#### DevMenu custom buttons
+
+- [owned] medium **DevMenu**: Plan selection and tech type selection use raw `<button>` elements with visible text content (e.g. "nbn 100", "FTTP"). These have accessible names via their text content. However, the currently-selected state is only communicated visually (via border/background color). There is no `aria-pressed`, `aria-selected`, or equivalent. Screen reader users cannot determine which plan/tech type is currently selected. `quick-win`: add `aria-pressed={planId === plan.id}` to each plan button and `aria-pressed={nbnTechType === tech.id}` to each tech type button. ❌
+
+- [owned] medium **DevMenu**: The backdrop overlay `<motion.div>` has `onClick={onClose}` but no accessible name, role, or keyboard access. This is acceptable -- it's a click-away-to-dismiss pattern, and the Escape key handler provides keyboard dismissal. `informational`
+
+### Passing
+
+<details>
+<summary>Buttons with text content (accessible name from visible text)</summary>
+
+- [subframe-disabled] pass **Button**: All usages have visible text `children` providing the accessible name. The component renders a native `<button>` element. ✅
+- [owned] pass **SearchInput** "Continue" button: visible text "Continue". ✅
+- [owned] pass **ResultCard** "Close" button: visible text "Close". ✅
+- [owned] pass **ResultCard** "Check another modem" LinkButton: visible text "Check another modem". ✅
+- [owned] pass **NoMatch** "Try a new search" button: visible text "Try a new search". ✅
+- [owned] pass **NoMatch** "Read the modem compatibility FAQs." LinkButton: visible text. ✅
+- [owned] pass **SearchError** "Try again" / "Start a new search" buttons: visible text. ✅
+- [owned] pass **ErrorBoundary** "Reload" button: visible text "Reload". ✅
+- [owned] pass **BaseScreen** "Check your modem" / "Back" / "Start checkout" buttons: visible text. ✅
+- [owned] pass **BaseScreen** "Learn more" / "Modem compatibility FAQs" LinkButtons: visible text. ✅
+- [subframe-disabled] pass **CheckerCard** "Check your modem" / "Check another modem" buttons: visible text. ✅
+- [subframe-disabled] pass **CheckerCard** "Learn more in our FAQs." LinkButton: visible text. ✅
+- [subframe-disabled] pass **CheckerCard** inline "Add a Belong modem to your order" button: visible text. ✅
+- [owned] pass **ModemInfoSheet** "View full details on belong.com.au" / "Close" buttons: visible text. ✅
+- [owned] pass **DevMenu** "Close" button: visible text "Close". ✅
+- [owned] pass **MultipleMatches** "Help me identify my modem" LinkButton: visible text. ✅
+
+</details>
+
+<details>
+<summary>Icon-only buttons with aria-label (all current usages)</summary>
+
+- [owned] pass **SearchInput** close `IconButton`: `aria-label="Close"`. ✅
+- [owned] pass **MultipleMatches** back `IconButton`: `aria-label="Back"`. ✅
+- [owned] pass **MultipleMatches** close `IconButton`: `aria-label="Close"`. ✅
+- [owned] pass **ModemInfoSheet** close `IconButton`: `aria-label="Dismiss"`. ✅
+
+</details>
+
+<details>
+<summary>Images with alt text</summary>
+
+- [owned] pass **ModemImage**: Requires `alt` as a mandatory prop (`alt: string`). All usages provide meaningful alt text. ✅
+- [subframe-disabled] pass **RadioCardGroup.RadioCard** (image): Uses `ModemImage` with `alt={String(label ?? "Modem")}`. ✅
+- [subframe-disabled] pass **CheckerCard.ResultsCard** (image): Uses `ModemImage` with `alt={String(modemName ?? "Modem")}`. ✅
+- [owned] pass **BaseScreen** (Belong Modem image): `alt="Belong Modem"`. ✅
+- [owned] pass **ModemInfoSheet** (Belong Modem image): `alt="Belong Wi-Fi 6 Modem"`. ✅
+
+</details>
+
+<details>
+<summary>Form inputs with label association</summary>
+
+- [subframe] pass **TextField**: Root element is a `<label>`, which implicitly associates any child `<input>` elements. When the `label` prop is provided with text content, the accessible name is clear. The component pattern is correct. ✅
+- [subframe-disabled] pass **RadioCardGroup.RadioCard**: Radix `RadioGroup.Item` provides ARIA semantics automatically. The `label` prop text serves as the accessible name. ✅
+
+</details>
+
+<details>
+<summary>Interactive divs with aria-label</summary>
+
+- [owned] pass **MultipleMatches** CardButton wrappers: Each CardButton receives `role="button" tabIndex={0} aria-label={modem.brand + " " + modem.model}`. ✅
+
+</details>
+
+<details>
+<summary>Dialog/modal accessible names</summary>
+
+- [owned] pass **BottomSheet**: Uses Radix `Dialog.Title` with `className="sr-only"` providing a visually hidden but accessible dialog title. Default: "Modem search", configurable via `title` prop. The `aria-describedby={undefined}` correctly suppresses the default Radix description warning when no `Dialog.Description` is present. ✅
+
+</details>
+
+<details>
+<summary>Status regions</summary>
+
+- [owned] pass **LoadingState**: `<div role="status">` container with text content "Finding your modem..." provides the accessible name for the live region. ✅
+
+</details>
+
+<details>
+<summary>Non-interactive elements (no accessible name needed)</summary>
+
+- **StatusItem**: Non-interactive `<div>`. Text content is visible. ✅
+- **IconWithBackground**: Non-interactive decorative container. ✅
+- **FeatureItem**: Non-interactive `<div>`. Text content is visible. ✅
+- **ConditionList**: Non-interactive wrapper rendering StatusItem children. ✅
+- **ModemChecker**: Orchestrator, no direct interactive elements. ✅
+
+</details>
+
+### Quick-win Summary
+
+| # | Component | Fix | Effort |
+|---|---|---|---|
+| 1 | CardButton | Add `alt={String(modelName ?? "")}` to the `<img>` element | Trivial (subframe, synced) |
+| 2 | SearchInput | Move "Brand, model name, or model number" into `TextField`'s `label` prop, or add `aria-label` to `TextField.Input` | Trivial (owned) |
+| 3 | OrderCard (BaseScreen usage) | Add `role="button" tabIndex={0} aria-label="Edit order settings"` | Trivial (owned) |
+| 4 | DevMenu (plan/tech buttons) | Add `aria-pressed={isSelected}` to each toggle button | Trivial (owned) |
+| 5 | LoadingState icon | Add `aria-hidden="true"` to `FeatherLoader` | Trivial (owned) |
+| 6 | BaseScreen check icons | Add `aria-hidden="true"` to `FeatherCheck` icons | Low (owned) |
+| 7 | OrderCard icons | Add `aria-hidden="true"` to `FeatherHome` and `FeatherZap` | Low (subframe-disabled) |
 
 ---
 
