@@ -24,6 +24,8 @@ The icon glyph changes from `FeatherX` to `FeatherAlertTriangle` to reinforce th
 
 Title text color shifts from `text-error-900` (red) to `text-neutral-800` (dark neutral) to match the softer tone.
 
+**Implementation path:** Add a new `StatusItem` status value (e.g., `"incompatible-soft"`) that maps to `IconWithBackground variant="warning-2"` with `FeatherAlertTriangle` icon and `text-neutral-800` title color. No existing status produces this combination — `"incompatible"` gives red (`error-dark` + `FeatherX`), and `"warning"` gives grey (`neutral` + `FeatherFlag`). `CheckerCard` passes this new status to `StatusItem` when the FTTN condition is met, instead of `"incompatible"`.
+
 #### 2. Copy
 
 **Heading (unchanged):** "Modem is not compatible"
@@ -39,7 +41,7 @@ Key copy decisions:
 - **"Add a Belong modem"** — not an upsell. By this point the user has already seen the Belong modem card (with pricing and features) and actively declined it by selecting "No, I'll use my own modem." This is a reference to a choice they already have on the same page.
 - **"Or use a different compatible modem"** — honest alternative. Avoids implying a Belong modem is the only option.
 
-**CTA link:** "See our FAQs for more info."
+**CTA link (updated):** "See our FAQs for more info." (replaces current "Learn more in our FAQs.")
 
 #### 3. "Add a Belong modem" interaction
 
@@ -51,7 +53,7 @@ This works in both contexts:
 
 ### Scope
 
-- **Applies to:** Not-compatible results when `techType === "fttn"` (which covers both FTTN and FTTB, since FTTB maps to FTTN for lookups).
+- **Applies to:** Not-compatible results when `techType === "fttn"` (the `TechType` union, not `NbnTechType`). This covers both FTTN and FTTB selections, since FTTB maps to `dbTechType: "fttn"` in `NBN_TECH_TYPES`.
 - **Does not apply to:** Not-compatible results on other tech types (hypothetical — currently no devices are incompatible with FTTP/FTTC/HFC). These retain the existing red treatment as a fallback.
 - **No assessment layer changes.** `assessCompatibility()` still returns `cardStatus: "not-compatible"`. The presentation layer checks the tech type and adjusts copy and icon accordingly.
 
@@ -59,10 +61,11 @@ This works in both contexts:
 
 | Component | Change |
 |---|---|
-| `CheckerCard` (`src/ui/components/CheckerCard.tsx`) | Accept `techType` prop. When `status === "not-compatible"` and `techType === "fttn"`, render amber icon, updated copy, and scrollable "add a Belong modem" link. |
-| `ResultCard` (`src/components/ResultCard.tsx`) | Pass `techType` through to `CheckerCard`. |
-| `BaseScreen` (`src/components/BaseScreen.tsx`) | Pass `techType` through to `CheckerCard`. Wire `onAddBelongModem` to scroll to `modemSummaryRef`. |
-| `StatusItem` (`src/ui/components/StatusItem.tsx`) | No changes needed — already supports the `warning` and `incompatible` statuses. The icon/color switch happens in `CheckerCard`. |
+| `StatusItem` (`src/ui/components/StatusItem.tsx`) | Add `"incompatible-soft"` status that maps to `IconWithBackground variant="warning-2"` + `FeatherAlertTriangle` icon + `text-neutral-800` title. |
+| `CheckerCard` (`src/ui/components/CheckerCard.tsx`) | Accept `techType: TechType` prop on both `ResultsCard` and `CheckerCardRoot`. When `status === "not-compatible"` and `techType === "fttn"`, pass `status="incompatible-soft"` to `StatusItem` and render updated description copy. |
+| `ResultCard` (`src/components/ResultCard.tsx`) | Pass `techType` through to `CheckerCard.ResultsCard` (already receives it as a prop). |
+| `BaseScreen` (`src/components/BaseScreen.tsx`) | Pass `techType` through to `CheckerCard`. Create a local `onAddBelongModem` handler that scrolls to `modemSummaryRef` (already available as a prop — no new plumbing from `ModemChecker` needed). |
+| `ModemChecker` (`src/components/ModemChecker.tsx`) | No changes needed — already passes `techType` to both `ResultCard` and `BaseScreen`. Listed for prop-threading clarity. |
 
 ### What this does NOT include
 
