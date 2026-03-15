@@ -3,10 +3,17 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 
+const GRADIENT_CLASSES = {
+  brand: { full: "bg-gradient-brand", compact: "md:bg-gradient-brand-compact" },
+  accent2: { full: "bg-gradient-accent2", compact: "md:bg-gradient-accent2-compact" },
+} as const;
+
 interface BottomSheetProps {
   open: boolean;
   onClose: () => void;
   children: ReactNode;
+  gradient?: "brand" | "accent2";
+  title?: string;
 }
 
 const overlayTransition = {
@@ -16,9 +23,10 @@ const overlayTransition = {
 
 const sheetSpring = { type: "spring" as const, damping: 30, stiffness: 300 };
 
-export function BottomSheet({ open, onClose, children }: BottomSheetProps) {
+export function BottomSheet({ open, onClose, children, gradient = "brand", title = "Modem search" }: BottomSheetProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const axis = isDesktop ? "x" : "y";
+  const gradientConfig = GRADIENT_CLASSES[gradient];
 
   return (
     <Dialog.Root
@@ -50,16 +58,16 @@ export function BottomSheet({ open, onClose, children }: BottomSheetProps) {
                 transition={sheetSpring}
                 className={[
                   // Base
-                  "fixed z-50 bg-gradient-brand shadow-xl overflow-hidden outline-none",
+                  `fixed z-50 ${gradientConfig.full} shadow-xl overflow-hidden outline-none`,
                   "flex flex-col min-h-[70vh]",
                   // Mobile: bottom sheet
                   "inset-x-0 bottom-0 max-h-[85vh] rounded-t-3xl p-5 pb-8",
                   // Desktop: side sheet
                   "md:inset-y-0 md:right-0 md:left-auto",
-                  "md:bg-gradient-brand-compact md:w-[480px] md:max-h-none md:rounded-none md:p-6",
+                  `${gradientConfig.compact} md:w-[480px] md:max-h-none md:rounded-none md:p-6`,
                 ].join(" ")}
               >
-                <Dialog.Title className="sr-only">Modem search</Dialog.Title>
+                <Dialog.Title className="sr-only">{title}</Dialog.Title>
                 {children}
               </motion.div>
             </Dialog.Content>

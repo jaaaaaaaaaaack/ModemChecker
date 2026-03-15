@@ -12,6 +12,7 @@ import { ResultCard } from "./ResultCard";
 import { NoMatch } from "./NoMatch";
 import { SearchError } from "./SearchError";
 import { DevMenu } from "./DevMenu";
+import { ModemInfoSheet } from "./ModemInfoSheet";
 
 const contentVariants = {
   enter: (direction: TransitionDirection) => ({
@@ -40,6 +41,7 @@ export function ModemChecker() {
 
   // Dev menu state
   const [devMenuOpen, setDevMenuOpen] = useState(false);
+  const [modemInfoOpen, setModemInfoOpen] = useState(false);
   const [planId, setPlanId] = useState("nbn500");
   const [nbnTechType, setNbnTechType] = useState<NbnTechType>("fttp");
 
@@ -70,6 +72,7 @@ export function ModemChecker() {
     <>
       <BaseScreen
         onCheckModem={() => setSheetOpen(true)}
+        onLearnMore={() => setModemInfoOpen(true)}
         verifiedModem={verifiedModem}
         techType={techType}
         planSpeedMbps={planSpeedMbps}
@@ -85,6 +88,14 @@ export function ModemChecker() {
         onPlanChange={setPlanId}
         onTechTypeChange={setNbnTechType}
       />
+      <BottomSheet
+        open={modemInfoOpen}
+        onClose={() => setModemInfoOpen(false)}
+        gradient="accent2"
+        title="Belong modem information"
+      >
+        <ModemInfoSheet onClose={() => setModemInfoOpen(false)} />
+      </BottomSheet>
       <BottomSheet open={sheetOpen} onClose={handleClose}>
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div

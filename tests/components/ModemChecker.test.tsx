@@ -42,6 +42,13 @@ describe("ModemChecker", () => {
     expect(screen.getByText(/finding your modem/i)).toBeInTheDocument();
   });
 
+  it("opens modem info sheet when Learn more is clicked", async () => {
+    const user = userEvent.setup();
+    render(<ModemChecker />);
+    await user.click(screen.getByText("Learn more"));
+    expect(screen.getByText("Belong Wi-Fi 6 Modem")).toBeInTheDocument();
+  });
+
   it("shows error screen when search fails", async () => {
     mockSearch.mockRejectedValue(new Error("Network error"));
     render(<ModemChecker />);
