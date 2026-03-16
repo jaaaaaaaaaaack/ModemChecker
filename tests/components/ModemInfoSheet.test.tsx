@@ -6,15 +6,13 @@ import { ModemInfoSheet } from "../../src/components/ModemInfoSheet";
 describe("ModemInfoSheet", () => {
   it("renders the modem heading and intro", () => {
     render(<ModemInfoSheet onClose={() => {}} />);
-    expect(screen.getByText("Belong Wi-Fi 6 Modem")).toBeInTheDocument();
-    expect(screen.getByText(/fast, reliable and simple modem/i)).toBeInTheDocument();
+    expect(screen.getByText("Belong Wi-Fi Modem")).toBeInTheDocument();
+    expect(screen.getByText(/get the most out of your plan/i)).toBeInTheDocument();
   });
 
-  it("renders all five feature sections", () => {
+  it("renders all three feature sections", () => {
     render(<ModemInfoSheet onClose={() => {}} />);
-    expect(screen.getByText("Speed and reliability")).toBeInTheDocument();
-    expect(screen.getByText("Connect the whole house")).toBeInTheDocument();
-    expect(screen.getByText("Super easy setup")).toBeInTheDocument();
+    expect(screen.getByText("Fast and reliable")).toBeInTheDocument();
     expect(screen.getByText("Safety and security")).toBeInTheDocument();
     expect(screen.getByText("Great support")).toBeInTheDocument();
   });

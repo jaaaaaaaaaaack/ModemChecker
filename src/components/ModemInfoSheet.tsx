@@ -5,10 +5,7 @@ import { Button } from "@/ui/components/Button";
 import { HeaderWithNavigation } from "@/ui/components/HeaderWithNavigation";
 import { IconButton } from "@/ui/components/IconButton";
 import {
-  FeatherZap,
-  FeatherWifi,
-  FeatherSmile,
-  FeatherShield,
+  FeatherLock,
   FeatherHeart,
   FeatherX,
 } from "@subframe/core";
@@ -68,36 +65,23 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
         {/* Title + intro */}
         <div className="flex flex-col items-start gap-2">
           <span className="text-h2 font-h2 text-color-accent2-800">
-            Belong Wi-Fi 6 Modem
+            Belong Wi-Fi Modem
           </span>
           <span className="text-body-bold font-body-bold text-color-accent2-800">
-            A fast, reliable and simple modem designed to get the most out of
-            your plan.
+            Designed to help you get the most out of your plan. Works with all
+            our nbn® plans right out of the box.
           </span>
         </div>
 
         {/* Feature cards */}
         <div className="flex w-full flex-col items-start gap-2">
           <FeatureItem
-            icon={<FeatherZap />}
-            title="Speed and reliability"
-            description="Capable of speeds up to 950Mbps over Wifi 6 — fast enough for all our plans."
+            title="Fast and reliable"
+            description="With speeds up to 950Mbps and support for 12+ simultaneous device connections, now everyone in the household can stream, game, and scroll seamlessly."
             variant="card"
           />
           <FeatureItem
-            icon={<FeatherWifi />}
-            title="Connect the whole house"
-            description="Supports 12+ simultaneous device connections, so everyone in the household can stream, game, and scroll seamlessly."
-            variant="card"
-          />
-          <FeatureItem
-            icon={<FeatherSmile />}
-            title="Super easy setup"
-            description="Works with all Belong plans right out of the box. Plug it in and you're ready to go."
-            variant="card"
-          />
-          <FeatureItem
-            icon={<FeatherShield />}
+            icon={<FeatherLock />}
             title="Safety and security"
             description="Customisable parental controls help keep your kids safe online, while encryption and security updates keep your network secure."
             variant="card"
