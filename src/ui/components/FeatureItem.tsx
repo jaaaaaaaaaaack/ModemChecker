@@ -16,7 +16,7 @@ interface FeatureItemRootProps
   icon?: React.ReactNode;
   title?: React.ReactNode;
   description?: React.ReactNode;
-  variant?: "default" | "card";
+  variant?: "default" | "card" | "brand";
   className?: string;
 }
 
@@ -37,6 +37,8 @@ const FeatureItemRoot = React.forwardRef<HTMLDivElement, FeatureItemRootProps>(
         className={SubframeUtils.twClassNames(
           "group/f5aec824 flex flex-col items-start gap-1",
           {
+            "rounded-md border border-solid border-brand-200 bg-brand-50 px-3 py-3":
+              variant === "brand",
             "rounded-md border border-solid border-color-accent2-200 bg-color-accent2-50 px-3 py-3":
               variant === "card",
           },
@@ -47,19 +49,35 @@ const FeatureItemRoot = React.forwardRef<HTMLDivElement, FeatureItemRootProps>(
       >
         <div className="flex items-center gap-2">
           <IconWithBackground
-            variant={variant === "card" ? "accent-2" : "accent-1"}
+            variant={
+              variant === "brand"
+                ? "neutral-on-dark"
+                : variant === "card"
+                ? "accent-2"
+                : "accent-1"
+            }
             size="medium"
             icon={icon}
             square={true}
           />
           {title ? (
-            <span className="text-h4-button-500 font-h4-button-500 text-color-accent2-800">
+            <span
+              className={SubframeUtils.twClassNames(
+                "text-h4-button-500 font-h4-button-500 text-color-accent2-800",
+                { "text-brand-800": variant === "brand" }
+              )}
+            >
               {title}
             </span>
           ) : null}
         </div>
         {description ? (
-          <span className="text-body font-body text-color-accent2-800">
+          <span
+            className={SubframeUtils.twClassNames(
+              "text-body font-body text-color-accent2-800",
+              { "text-brand-800": variant === "brand" }
+            )}
+          >
             {description}
           </span>
         ) : null}

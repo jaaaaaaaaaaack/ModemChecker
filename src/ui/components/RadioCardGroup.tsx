@@ -49,7 +49,7 @@ const RadioCard = React.forwardRef<HTMLButtonElement, RadioCardProps>(
       >
         <button
           className={SubframeUtils.twClassNames(
-            "group/502d4919 flex w-full cursor-pointer items-center gap-3 rounded-xl border border-solid border-neutral-300 bg-default-background pl-4 pr-5 py-4 text-left transition-all duration-200 hover:border hover:border-solid hover:border-brand-primary focus-within:transition-all focus-within:duration-200 focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-600 focus-within:ring-offset-2 aria-[checked=true]:border aria-[checked=true]:border-solid aria-[checked=true]:border-brand-600 aria-[checked=true]:bg-brand-50 disabled:cursor-default disabled:border disabled:border-solid disabled:border-neutral-100 disabled:bg-neutral-50 hover:disabled:cursor-default hover:disabled:border hover:disabled:border-solid hover:disabled:border-neutral-200",
+            "group/502d4919 flex min-h-[64px] w-full cursor-pointer items-center gap-3 rounded-xl border border-solid border-neutral-300 bg-default-background pl-4 pr-5 py-4 text-left transition-all duration-200 hover:border hover:border-solid hover:border-brand-primary focus-within:transition-all focus-within:duration-200 focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-600 focus-within:ring-offset-2 aria-[checked=true]:border aria-[checked=true]:border-solid aria-[checked=true]:border-brand-600 aria-[checked=true]:bg-brand-50 disabled:cursor-default disabled:border disabled:border-solid disabled:border-neutral-100 disabled:bg-neutral-50 hover:disabled:cursor-default hover:disabled:border hover:disabled:border-solid hover:disabled:border-neutral-200",
             className
           )}
           ref={ref}
@@ -130,7 +130,7 @@ const RadioCardGroupRoot = React.forwardRef<
       >
         <div className="flex flex-col items-start gap-1">
           {label ? (
-            <span className="text-h4-button-700 font-h4-button-700 text-brand-800">
+            <span className="text-body-bold font-body-bold text-brand-900">
               {label}
             </span>
           ) : null}

@@ -7,7 +7,8 @@
 
 import React from "react";
 import { FeatherHome } from "@subframe/core";
-import { FeatherZap } from "@subframe/core";
+import { FeatherRouter } from "@subframe/core";
+import { FeatherThumbsUp } from "@subframe/core";
 import * as SubframeUtils from "../utils";
 
 interface OrderCardRootProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -18,6 +19,7 @@ interface OrderCardRootProps extends React.HTMLAttributes<HTMLDivElement> {
   totalPrice?: React.ReactNode;
   serviceAddress?: React.ReactNode;
   nbnTechType?: React.ReactNode;
+  variant?: "option-1" | "option-2" | "option-3";
   className?: string;
 }
 
@@ -31,6 +33,7 @@ const OrderCardRoot = React.forwardRef<HTMLDivElement, OrderCardRootProps>(
       totalPrice,
       serviceAddress,
       nbnTechType,
+      variant = "option-1",
       className,
       ...otherProps
     }: OrderCardRootProps,
@@ -39,69 +42,78 @@ const OrderCardRoot = React.forwardRef<HTMLDivElement, OrderCardRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-default-background px-4 py-4",
+          "group/11e35c6c flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-default-background px-4 py-4",
+          {
+            "border border-solid border-neutral-border mobile:border-none mobile:bg-color-neutral-100":
+              variant === "option-2",
+          },
           className
         )}
         ref={ref}
         {...otherProps}
       >
-        <span className="w-full text-h2 font-h2 text-brand-800">
+        <span
+          className={SubframeUtils.twClassNames(
+            "w-full text-h2 font-h2 text-brand-900",
+            { hidden: variant === "option-2" }
+          )}
+        >
           Order summary
         </span>
-        <div className="flex w-full flex-col items-start gap-2">
+        <div
+          className={SubframeUtils.twClassNames(
+            "flex w-full flex-col items-start gap-2",
+            { hidden: variant === "option-2" }
+          )}
+        >
           <div className="flex w-full items-center gap-2">
-            <span className="text-body-bold font-body-bold text-brand-800">
-              Service address
+            <FeatherHome className="text-h4-button-500 font-h4-button-500 text-brand-800" />
+            <div className="flex grow shrink-0 basis-0 items-center gap-2">
+              <span className="text-body-bold font-body-bold text-brand-800">
+                Service address
+              </span>
+            </div>
+          </div>
+          {serviceAddress ? (
+            <span className="text-body font-body text-default-font">
+              {serviceAddress}
             </span>
-          </div>
-          <div className="flex flex-col items-start gap-1">
-            <div className="flex items-center gap-2">
-              <FeatherHome className="text-h4-button-500 font-h4-button-500 text-brand-800" />
-              {serviceAddress ? (
-                <span className="text-body font-body text-default-font">
-                  {serviceAddress}
-                </span>
-              ) : null}
-            </div>
-            <div className="flex items-center gap-2">
-              <FeatherZap className="text-h4-button-500 font-h4-button-500 text-brand-800" />
-              {nbnTechType ? (
-                <span className="text-body font-body text-default-font">
-                  {nbnTechType}
-                </span>
-              ) : null}
-            </div>
-          </div>
+          ) : null}
         </div>
-        <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+        <div
+          className={SubframeUtils.twClassNames(
+            "flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border",
+            { hidden: variant === "option-2" }
+          )}
+        />
         <div className="flex w-full flex-col items-start gap-4">
           <div className="flex w-full flex-col items-start gap-4">
             <div className="flex w-full flex-col items-start gap-2">
               <div className="flex w-full items-center justify-between">
-                {planLabel ? (
-                  <span className="text-body-bold font-body-bold text-brand-800">
-                    {planLabel}
-                  </span>
-                ) : null}
+                <div className="flex items-center gap-2">
+                  <FeatherThumbsUp className="text-h4-button-500 font-h4-button-500 text-brand-800" />
+                  {planLabel ? (
+                    <span className="text-body-bold font-body-bold text-brand-800">
+                      {planLabel}
+                    </span>
+                  ) : null}
+                </div>
                 {planPrice ? (
                   <span className="text-body font-body text-default-font">
                     {planPrice}
                   </span>
                 ) : null}
               </div>
-              <div className="flex w-full flex-col items-start gap-2 rounded-sm bg-color-accent2-101 px-3 py-2">
-                <span className="text-body font-body text-default-font">
-                  Offer: $20/month off for the first 6 months, then $99/month
-                  after that. See T&amp;Cs.
-                </span>
-              </div>
             </div>
             <div className="flex w-full items-center justify-between">
-              {modemLabel ? (
-                <span className="text-body-bold font-body-bold text-brand-800">
-                  {modemLabel}
-                </span>
-              ) : null}
+              <div className="flex items-center gap-2">
+                <FeatherRouter className="text-h4-button-500 font-h4-button-500 text-brand-800" />
+                {modemLabel ? (
+                  <span className="text-body-bold font-body-bold text-brand-800">
+                    {modemLabel}
+                  </span>
+                ) : null}
+              </div>
               {modemPrice ? (
                 <span className="text-body font-body text-neutral-600">
                   {modemPrice}
@@ -112,7 +124,7 @@ const OrderCardRoot = React.forwardRef<HTMLDivElement, OrderCardRootProps>(
           <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
           <div className="flex w-full flex-col items-start gap-3">
             <div className="flex w-full items-center justify-between">
-              <span className="text-h4-button-500 font-h4-button-500 text-brand-800">
+              <span className="text-body-bold font-body-bold text-brand-800">
                 Total monthly
               </span>
               {totalPrice ? (
@@ -122,7 +134,7 @@ const OrderCardRoot = React.forwardRef<HTMLDivElement, OrderCardRootProps>(
               ) : null}
             </div>
             <div className="flex w-full items-center justify-between">
-              <span className="text-h4-button-500 font-h4-button-500 text-brand-800">
+              <span className="text-body-bold font-body-bold text-brand-800">
                 Due today
               </span>
               <span className="text-h4-button-500 font-h4-button-500 text-neutral-700">

@@ -323,7 +323,7 @@ const CheckerCardRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/15c47a51 flex w-full flex-col items-start gap-4 rounded-md border border-solid border-brand-400 bg-color-primary-50 px-4 py-4",
+        "group/15c47a51 flex w-full flex-col items-start gap-4 rounded-md bg-color-primary-50 px-6 py-6",
         { "flex-col flex-nowrap gap-6": status === "speed-warning" },
         className
       )}
@@ -377,7 +377,7 @@ const CheckerCardRoot = React.forwardRef<
         Check another modem
       </LinkButton>
       <Button
-        variant="brand-secondary"
+        variant="brand-tertiary"
         icon={state === "default" ? <FeatherRouter /> : <FeatherRotateCcw />}
         hasLeftIcon={true}
         onClick={onButtonClick}

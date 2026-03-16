@@ -52,7 +52,7 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
         onScroll={handleScroll}
         className="flex w-full flex-1 flex-col items-start gap-6 min-h-0 overflow-y-auto pr-2 -mr-2 -mb-8 pb-8 md:-mb-6 md:pb-6"
         style={{
-          scrollbarColor: "rgba(160, 130, 210, 0.35) transparent",
+          scrollbarColor: "rgba(0, 150, 170, 0.3) transparent",
           scrollbarWidth: "thin" as const,
           ...(maskValue
             ? { maskImage: maskValue, WebkitMaskImage: maskValue }
@@ -64,10 +64,10 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
 
         {/* Title + intro */}
         <div className="flex flex-col items-start gap-2">
-          <span className="text-h2 font-h2 text-color-accent2-800">
+          <span className="text-h2 font-h2 text-brand-800">
             Belong Wi-Fi Modem
           </span>
-          <span className="text-body-bold font-body-bold text-color-accent2-800">
+          <span className="text-body-bold font-body-bold text-brand-800">
             Designed to help you get the most out of your plan. Works with all
             our nbn® plans right out of the box.
           </span>
@@ -78,19 +78,19 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
           <FeatureItem
             title="Fast and reliable"
             description="With speeds up to 950Mbps and support for 12+ simultaneous device connections, now everyone in the household can stream, game, and scroll seamlessly."
-            variant="card"
+            variant="brand"
           />
           <FeatureItem
             icon={<FeatherLock />}
             title="Safety and security"
             description="Customisable parental controls help keep your kids safe online, while encryption and security updates keep your network secure."
-            variant="card"
+            variant="brand"
           />
           <FeatureItem
             icon={<FeatherHeart />}
             title="Great support"
             description="Get enhanced troubleshooting and support via chat or phone. You're also covered by our 24-month warranty."
-            variant="card"
+            variant="brand"
           />
         </div>
 

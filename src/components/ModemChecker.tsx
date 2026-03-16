@@ -115,9 +115,9 @@ export function ModemChecker() {
       <BottomSheet
         open={modemInfoOpen}
         onClose={() => setModemInfoOpen(false)}
-        gradient="accent2"
+        gradient="brand"
         title="Belong modem information"
-        minHeight="87vh"
+        minHeight="93vh"
       >
         <ModemInfoSheet onClose={() => setModemInfoOpen(false)} />
       </BottomSheet>

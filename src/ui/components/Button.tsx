@@ -86,11 +86,11 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
               variant === "pink-secondary",
             "border border-solid border-color-accent3-601 bg-color-accent3-601 hover:border hover:border-solid hover:border-color-accent3-701 hover:bg-color-accent3-701 active:bg-color-accent3-801 active:transition-[background-color,border-color] active:duration-150 active:border-color-accent3-801":
               variant === "pink-primary",
-            "border border-solid border-color-accent2-201 bg-color-accent2-201 hover:border hover:border-solid hover:border-color-accent2-401 hover:bg-color-accent2-101 active:bg-color-accent2-301 active:transition-[background-color,border-color] active:duration-150 active:border-color-accent2-301":
+            "border border-solid border-color-accent2-201 bg-color-accent2-201 hover:border hover:border-solid hover:border-color-accent2-401 hover:bg-color-accent2-101 active:bg-color-accent2-301 active:transition-[background-color,border-color] active:duration-150 active:border-color-accent2-301 mobile:border mobile:border-solid mobile:border-color-accent2-301 mobile:bg-color-accent2-301 mobile:hover:border mobile:hover:border-solid mobile:hover:border-color-accent2-201 mobile:hover:bg-color-accent2-201 mobile:active:border mobile:active:border-solid mobile:active:border-color-accent2-51 mobile:active:bg-color-accent2-51":
               variant === "purple-tertiary",
             "border border-solid border-color-accent2-601 bg-transparent hover:border hover:border-solid hover:border-color-accent2-701 hover:bg-color-accent2-101 active:bg-color-accent2-201":
               variant === "purple-secondary",
-            "border border-solid border-color-accent2-601 bg-color-accent2-601 hover:border hover:border-solid hover:border-color-accent2-701 hover:bg-color-accent2-701 active:bg-color-accent2-801 active:transition-[background-color,border-color] active:duration-150 active:border-color-accent2-801":
+            "border border-solid border-color-accent2-601 bg-color-accent2-601 hover:border hover:border-solid hover:border-color-accent2-701 hover:bg-color-accent2-701 active:bg-color-accent2-801 active:transition-[background-color,border-color] active:duration-150 active:border-color-accent2-801 mobile:border mobile:border-solid mobile:border-color-accent2-701 mobile:bg-color-accent2-701 mobile:hover:border mobile:hover:border-solid mobile:hover:border-color-accent2-901 mobile:hover:bg-color-accent2-901":
               variant === "purple-primary",
             "border border-solid border-color-secondary-201 bg-color-secondary-201 hover:border hover:border-solid hover:border-color-secondary-401 hover:bg-color-secondary-101 active:bg-color-secondary-301 active:transition-[background-color,border-color] active:duration-150 active:border-color-secondary-301":
               variant === "green-tertiary",
@@ -216,11 +216,11 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
                   variant === "pink-secondary",
                 "text-white group-active/3b777358:text-color-accent3-101":
                   variant === "pink-primary",
-                "text-color-accent2-801 group-active/3b777358:text-color-accent2-801":
+                "text-color-accent2-801 group-active/3b777358:text-color-accent2-801 mobile:text-color-accent2-901":
                   variant === "purple-tertiary",
                 "text-color-accent2-701 group-active/3b777358:text-color-accent2-901":
                   variant === "purple-secondary",
-                "text-white group-active/3b777358:text-color-accent2-101":
+                "text-white group-active/3b777358:text-color-accent2-101 mobile:group-active/3b777358:text-color-accent2-301":
                   variant === "purple-primary",
                 "text-color-secondary-801 group-active/3b777358:text-color-secondary-801":
                   variant === "green-tertiary",

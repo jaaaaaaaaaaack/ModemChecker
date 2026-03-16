@@ -42,10 +42,10 @@ describe("ModemChecker", () => {
     expect(screen.getByText(/finding your modem/i)).toBeInTheDocument();
   });
 
-  it("opens modem info sheet when Learn more is clicked", async () => {
+  it("opens modem info sheet when More modem info is clicked", async () => {
     const user = userEvent.setup();
     render(<ModemChecker />);
-    await user.click(screen.getByText("Learn more"));
+    await user.click(screen.getByText("More modem info"));
     expect(screen.getByText("Belong Wi-Fi Modem")).toBeInTheDocument();
   });
 
