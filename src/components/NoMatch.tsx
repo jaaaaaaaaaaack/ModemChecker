@@ -25,7 +25,7 @@ export function NoMatch({ onRetry, query }: NoMatchProps) {
           Read the modem compatibility FAQs.
         </LinkButton>
       </div>
-      <div className="flex w-full items-center mt-auto pt-2">
+      <div className="flex w-full items-center mt-auto md:mt-10 pt-2">
         <Button
           className="rounded-full"
           variant="brand-secondary"

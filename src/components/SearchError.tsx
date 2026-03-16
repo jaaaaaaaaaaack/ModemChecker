@@ -18,7 +18,7 @@ export function SearchError({ query: _query, onRetry, onReset }: SearchErrorProp
           try again.
         </span>
       </div>
-      <div className="flex w-full flex-col items-center gap-3 mt-auto pt-2">
+      <div className="flex w-full flex-col items-center gap-3 mt-auto md:mt-10 pt-2">
         <Button
           className="rounded-full w-full"
           variant="brand-primary"

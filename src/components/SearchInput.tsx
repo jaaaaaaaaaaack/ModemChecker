@@ -55,7 +55,7 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
           Help me find the model name
         </LinkButton>
       </div>
-      <div className="flex w-full items-center justify-end mt-auto pt-2">
+      <div className="flex w-full items-center justify-end mt-auto md:mt-10 pt-2">
         <Button
           className="rounded-full"
           variant="brand-primary"

@@ -121,7 +121,7 @@ export function ModemChecker() {
       >
         <ModemInfoSheet onClose={() => setModemInfoOpen(false)} />
       </BottomSheet>
-      <BottomSheet open={sheetOpen} onClose={handleClose}>
+      <BottomSheet open={sheetOpen} onClose={handleClose} minHeight="87vh">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={state.step}
@@ -130,7 +130,7 @@ export function ModemChecker() {
             initial="enter"
             animate="center"
             exit="exit"
-            className="flex-1 flex flex-col min-h-0 px-1 -mx-1"
+            className="flex-1 md:flex-initial flex flex-col min-h-0 px-1 -mx-1"
           >
             {state.step === "idle" && <SearchInput onSearch={search} onClose={handleClose} />}
             {state.step === "searching" && <LoadingState />}

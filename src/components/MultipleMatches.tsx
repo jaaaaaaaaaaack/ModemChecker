@@ -34,7 +34,7 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
           We found multiple possible matches. Please select your device from the list below.
         </span>
       </div>
-      <div className="relative flex flex-col flex-1 min-h-0 w-full">
+      <div className="relative flex flex-col flex-1 min-h-0 md:max-h-[60vh] w-full">
         <div
           ref={scrollRef}
           onScroll={handleScroll}
@@ -78,7 +78,7 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
           }}
         />
       </div>
-      <div className="flex w-full items-center justify-between flex-shrink-0">
+      <div className="flex w-full items-center justify-between flex-shrink-0 md:mt-10">
         <Button
           variant="brand-secondary"
           onClick={onBack}

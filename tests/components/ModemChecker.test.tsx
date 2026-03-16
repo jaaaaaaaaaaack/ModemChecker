@@ -46,7 +46,7 @@ describe("ModemChecker", () => {
     const user = userEvent.setup();
     render(<ModemChecker />);
     await user.click(screen.getByText("Learn more"));
-    expect(screen.getByText("Belong Wi-Fi 6 Modem")).toBeInTheDocument();
+    expect(screen.getByText("Belong Wi-Fi Modem")).toBeInTheDocument();
   });
 
   it("shows error screen when search fails", async () => {
