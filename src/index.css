@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./ui/theme.css";
 @import "./styles/gradients.css";
+@import "./styles/docs.css";
 
 /* Reset default margins for embedded widget */
 body, #root {

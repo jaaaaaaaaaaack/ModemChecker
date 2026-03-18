@@ -1,0 +1,12 @@
+/* Editorial typography and layout for documentation pages */
+
+@theme {
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --color-doc-bg: rgb(248 248 246);
+  --color-doc-card: rgb(255 255 255);
+  --color-doc-border: rgb(229 229 224);
+  --color-doc-text: rgb(23 23 23);
+  --color-doc-muted: rgb(107 107 107);
+  --color-doc-light: rgb(154 154 148);
+}

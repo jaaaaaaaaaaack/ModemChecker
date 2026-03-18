@@ -1,5 +1,6 @@
 import React from "react";
-import { FeatherMenu, FeatherSearch } from "@subframe/core";
+import { FeatherMenu } from "@subframe/core";
+import { navigateTo } from "../hooks/useHashRoute";
 
 const BELONG_LOGO_URL =
   "https://res.cloudinary.com/subframe/image/upload/v1773613307/uploads/11901/j0u9zo01h1selmlc99ko.svg";
@@ -18,7 +19,12 @@ export const Navbar = React.memo(function Navbar() {
           src={BELONG_LOGO_URL}
           alt="Belong"
         />
-        <FeatherSearch className="text-h2-500 font-h2-500 text-neutral-50" />
+        <button
+          onClick={() => navigateTo("overview")}
+          className="rounded-full bg-neutral-800 px-3 py-1 text-xs font-semibold text-neutral-200 transition-colors hover:bg-neutral-700 active:scale-[0.97]"
+        >
+          Docs
+        </button>
       </div>
     </nav>
   );
