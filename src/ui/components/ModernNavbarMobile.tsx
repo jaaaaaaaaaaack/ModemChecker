@@ -38,6 +38,7 @@ interface ModernNavbarMobileRootProps
   extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   logo?: string;
+  variant?: "option-1" | "option-2";
   className?: string;
 }
 
@@ -45,13 +46,19 @@ const ModernNavbarMobileRoot = React.forwardRef<
   HTMLDivElement,
   ModernNavbarMobileRootProps
 >(function ModernNavbarMobileRoot(
-  { children, logo, className, ...otherProps }: ModernNavbarMobileRootProps,
+  {
+    children,
+    logo,
+    variant = "option-1",
+    className,
+    ...otherProps
+  }: ModernNavbarMobileRootProps,
   ref
 ) {
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "flex w-full max-w-[1024px] flex-wrap items-center gap-4 bg-neutral-950",
+        "group/2aee7939 flex w-full max-w-[1024px] flex-wrap items-center gap-4 bg-neutral-900 px-1",
         className
       )}
       ref={ref}

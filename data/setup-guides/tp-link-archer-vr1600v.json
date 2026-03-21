@@ -1,0 +1,114 @@
+{
+  "id": "tp-link-archer-vr1600v",
+  "brand": "TP-Link",
+  "model": "Archer VR1600v",
+  "device_type": "modem_router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.1.1",
+      "default_username": "admin",
+      "default_password": "admin",
+      "alt_access": "tplinkwifi.net",
+      "notes": "TP-Link DSL modem-routers default to 192.168.1.1 (not 192.168.0.1 like TP-Link's standalone routers). If 'admin/admin' doesn't work, the password may have been changed by a previous ISP or user \u2014 factory reset required."
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "Basic > Internet",
+        "connection_type_field": "Internet Connection Type",
+        "ipoe_label": "Dynamic IP",
+        "steps_ipoe": [
+          "Open a web browser and go to http://192.168.1.1 (or http://tplinkwifi.net)",
+          "Log in with username 'admin' and password 'admin'",
+          "Click the 'Basic' tab at the top of the page",
+          "Click 'Internet' in the left-hand menu",
+          "Change 'Internet Connection Type' from 'PPPoE' to 'Dynamic IP'",
+          "Clear any Username and Password fields if visible",
+          "Click 'Save'",
+          "Wait 1-2 minutes for the modem to establish a new connection"
+        ]
+      },
+      "dsl": {
+        "nav_path": "Advanced > Network > DSL",
+        "connection_type_field": "Internet Connection Type",
+        "ipoe_label": "Dynamic IP",
+        "steps_ipoe": [
+          "Open a web browser and go to http://192.168.1.1 (or http://tplinkwifi.net)",
+          "Log in with username 'admin' and password 'admin'",
+          "Click the 'Advanced' tab at the top of the page",
+          "Expand the 'Network' menu in the left sidebar and click 'DSL'",
+          "In the 'Internet Connections' list, click 'Delete All' to remove the existing PPPoE connection",
+          "Click 'Add' to create a new connection",
+          "Set 'DSL Modulation Type' to 'VDSL'",
+          "Set 'Internet Connection Type' to 'Dynamic IP'",
+          "Click 'Save'",
+          "Wait 1-2 minutes for the modem to sync and connect"
+        ]
+      },
+      "vlan_field": "VLAN ID",
+      "vlan_nav_path": "Advanced > Network > IPTV"
+    },
+    "physical": {
+      "wan_port_label": "LAN4/WAN",
+      "wan_port_color": "blue",
+      "wan_port_position": "leftmost Ethernet port when viewed from rear",
+      "wan_port_notes": "The 4th LAN port doubles as the WAN port \u2014 use this port to connect to the nbn connection box for FTTP/FTTC/HFC",
+      "dsl_port_label": "DSL",
+      "dsl_port_color": "grey",
+      "dsl_port_position": "RJ11 port, right side of rear panel",
+      "dsl_port_notes": "Connect phone cable from wall socket to this port for FTTN/B connections",
+      "lan_ports": "3 x Gigabit Ethernet (yellow), when LAN4 is used as WAN",
+      "other_ports": "2 x FXS (phone/VoIP), 1 x USB 2.0",
+      "reset_button": "Recessed pinhole on rear panel",
+      "reset_hold_seconds": 10
+    },
+    "factory_reset": {
+      "method": "Use a pin or paperclip to press and hold the recessed Reset button on the rear panel for 10 seconds until all LEDs flash, then release. The modem will reboot to factory defaults.",
+      "restores_default_credentials": true,
+      "notes": "Factory reset erases ALL settings including Wi-Fi name/password, ISP configuration, and any custom settings. TPG-supplied units will lose TPG's pre-configured PPPoE credentials (which is fine for Belong \u2014 you'll reconfigure to Dynamic IP anyway)."
+    },
+    "firmware": {
+      "check_path": "Advanced > System Tools > Firmware Upgrade",
+      "auto_update_available": true,
+      "download_url": "https://www.tp-link.com/au/support/download/archer-vr1600v/",
+      "notes": "TP-Link offers online firmware check from the admin panel. Firmware updates may resolve VDSL2 stability issues. Recommend updating before configuring for Belong."
+    },
+    "setup_notes": "The VR1600v is very commonly supplied by TPG with PPPoE pre-configured. The configuration path differs depending on the customer's nbn technology type: FTTP/FTTC/HFC uses the simpler Basic > Internet path (Ethernet WAN), while FTTN/B requires the Advanced > Network > DSL path where you must delete the existing PPPoE connection and create a new Dynamic IP connection with VDSL modulation. The LAN4/WAN dual-purpose port can confuse customers \u2014 make sure they use this specific port (blue) for the Ethernet connection to the nbn box, not one of the yellow LAN-only ports.",
+    "manual_url": "https://www.tp-link.com/au/support/download/archer-vr1600v/",
+    "setup_sources": [
+      {
+        "url": "https://help.lip.net.au/tp-link-vr1600v-pppoe-to-dhcp-fttn-b/",
+        "type": "isp",
+        "description": "Lightning IP \u2014 PPPoE to DHCP guide for FTTN/B",
+        "accessed": "2026-03-20"
+      },
+      {
+        "url": "https://help.lip.net.au/tp-link-vr1600v-pppoe-to-dhcp-fttc-fttp-hfc-fw/",
+        "type": "isp",
+        "description": "Lightning IP \u2014 PPPoE to DHCP guide for FTTP/FTTC/HFC",
+        "accessed": "2026-03-20"
+      },
+      {
+        "url": "https://www.tp-link.com/au/support/download/archer-vr1600v/",
+        "type": "manufacturer",
+        "description": "TP-Link AU support page \u2014 manuals, firmware, guides",
+        "accessed": "2026-03-20"
+      },
+      {
+        "url": "https://forums.whirlpool.net.au/archive/3rplz0w3",
+        "type": "community",
+        "description": "Whirlpool \u2014 configuring VR1600v for IPoE discussion",
+        "accessed": "2026-03-20"
+      },
+      {
+        "url": "https://service-provider.tp-link.com/vdsl/archer-vr1600v/",
+        "type": "manufacturer",
+        "description": "TP-Link Service Provider portal \u2014 hardware specs and port details",
+        "accessed": "2026-03-20"
+      }
+    ],
+    "setup_confidence": {
+      "score": 90,
+      "notes": "Admin IP (192.168.1.1) confirmed across 4+ independent sources \u2014 deviates from TP-Link's standard 192.168.0.1 because this is a DSL model. Default credentials (admin/admin) confirmed by TP-Link and Lightning IP guides. WAN config paths confirmed for both Ethernet and DSL modes by Lightning IP step-by-step guides with screenshots. IPoE label ('Dynamic IP') confirmed by Lightning IP and Whirlpool. Physical port layout (LAN4/WAN blue, DSL grey) confirmed by TP-Link SP portal and Pentanet guide. Factory reset (10 sec pinhole) confirmed by TP-Link and setuprouter.com. No deductions."
+    }
+  }
+}

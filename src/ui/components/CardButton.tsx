@@ -14,6 +14,7 @@ interface CardButtonRootProps extends React.HTMLAttributes<HTMLDivElement> {
   modelName?: React.ReactNode;
   brand?: React.ReactNode;
   icon?: React.ReactNode;
+  variant?: "option-1";
   className?: string;
 }
 
@@ -24,6 +25,7 @@ const CardButtonRoot = React.forwardRef<HTMLDivElement, CardButtonRootProps>(
       modelName,
       brand,
       icon = <FeatherChevronRight />,
+      variant = "option-1",
       className,
       ...otherProps
     }: CardButtonRootProps,
@@ -32,7 +34,7 @@ const CardButtonRoot = React.forwardRef<HTMLDivElement, CardButtonRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/230e0e60 flex h-24 w-full cursor-pointer items-center justify-between rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 transition-all duration-200 ease-out hover:border hover:border-solid hover:border-color-primary-500 hover:bg-white",
+          "group/230e0e60 flex h-24 w-full cursor-pointer items-center justify-between rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 transition-all duration-200 ease-out hover:border hover:border-solid hover:border-color-primary-700 hover:bg-white active:border active:border-solid active:border-brand-500 active:bg-brand-50 mobile:hover:border mobile:hover:border-solid mobile:hover:border-color-primary-600 mobile:active:bg-brand-100",
           className
         )}
         ref={ref}
@@ -55,9 +57,9 @@ const CardButtonRoot = React.forwardRef<HTMLDivElement, CardButtonRootProps>(
             ) : null}
           </div>
         </div>
-        <div className="flex items-center justify-between rounded-md bg-white px-1 py-1 transition-all duration-200 ease-out group-hover/230e0e60:bg-color-primary-100 group-active/230e0e60:bg-color-primary-700">
+        <div className="flex items-center justify-between rounded-md bg-white px-1 py-1 transition-all duration-200 ease-out group-hover/230e0e60:bg-color-primary-700 group-active/230e0e60:bg-color-primary-700 mobile:group-hover/230e0e60:bg-color-primary-600">
           {icon ? (
-            <SubframeCore.IconWrapper className="text-h3-500 font-h3-500 text-brand-700 transition-colors duration-200 ease-out group-hover/230e0e60:text-brand-800 group-active/230e0e60:text-white">
+            <SubframeCore.IconWrapper className="text-h3-500 font-h3-500 text-brand-800 transition-colors duration-200 ease-out group-hover/230e0e60:text-brand-50 group-active/230e0e60:text-white mobile:group-hover/230e0e60:text-brand-50 mobile:group-active/230e0e60:text-brand-100">
               {icon}
             </SubframeCore.IconWrapper>
           ) : null}

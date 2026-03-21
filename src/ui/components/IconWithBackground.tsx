@@ -28,7 +28,8 @@ interface IconWithBackgroundRootProps
     | "error-on-dark"
     | "neutral-on-dark"
     | "accent-1"
-    | "accent-2";
+    | "accent-2"
+    | "success-outline";
   size?: "x-large" | "large" | "medium" | "small" | "x-small";
   icon?: React.ReactNode;
   square?: boolean;
@@ -59,6 +60,8 @@ const IconWithBackgroundRoot = React.forwardRef<
           "h-8 w-8": size === "medium",
           "h-12 w-12": size === "large",
           "h-16 w-16": size === "x-large",
+          "border border-solid border-success-500 bg-transparent":
+            variant === "success-outline",
           "bg-color-accent2-100": variant === "accent-2",
           "bg-color-accent2-50": variant === "accent-1",
           "bg-error-200": variant === "error-on-dark",
@@ -90,6 +93,7 @@ const IconWithBackgroundRoot = React.forwardRef<
               "text-h4-button-500 font-h4-button-500": size === "medium",
               "text-h2 font-h2": size === "large",
               "text-h1 font-h1": size === "x-large",
+              "text-success-500": variant === "success-outline",
               "text-color-accent2-700":
                 variant === "accent-2" || variant === "accent-1",
               "text-error-800":

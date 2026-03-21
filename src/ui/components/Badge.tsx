@@ -9,7 +9,7 @@ import * as SubframeCore from "@subframe/core";
 import * as SubframeUtils from "../utils";
 
 interface BadgeRootProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "brand" | "neutral" | "error" | "warning" | "success";
+  variant?: "brand" | "neutral" | "error" | "warning" | "success" | "success-2";
   icon?: React.ReactNode;
   children?: React.ReactNode;
   iconRight?: React.ReactNode;
@@ -33,6 +33,8 @@ const BadgeRoot = React.forwardRef<HTMLDivElement, BadgeRootProps>(
         className={SubframeUtils.twClassNames(
           "group/97bdb082 flex h-6 items-center gap-1 rounded-md border border-solid border-brand-100 bg-brand-100 px-2",
           {
+            "border border-solid border-color-accent2-100 bg-color-accent2-100":
+              variant === "success-2",
             "border border-solid border-success-100 bg-success-100":
               variant === "success",
             "border border-solid border-warning-100 bg-warning-100":
@@ -52,6 +54,7 @@ const BadgeRoot = React.forwardRef<HTMLDivElement, BadgeRootProps>(
             className={SubframeUtils.twClassNames(
               "text-caption font-caption text-brand-700",
               {
+                "text-color-accent2-700": variant === "success-2",
                 "text-success-800": variant === "success",
                 "text-warning-800": variant === "warning",
                 "text-error-700": variant === "error",
@@ -67,6 +70,7 @@ const BadgeRoot = React.forwardRef<HTMLDivElement, BadgeRootProps>(
             className={SubframeUtils.twClassNames(
               "whitespace-nowrap text-caption font-caption text-brand-800",
               {
+                "text-color-accent2-700": variant === "success-2",
                 "text-success-800": variant === "success",
                 "text-warning-800": variant === "warning",
                 "text-error-800": variant === "error",
@@ -82,6 +86,7 @@ const BadgeRoot = React.forwardRef<HTMLDivElement, BadgeRootProps>(
             className={SubframeUtils.twClassNames(
               "text-caption font-caption text-brand-700",
               {
+                "text-color-accent2-700": variant === "success-2",
                 "text-success-800": variant === "success",
                 "text-warning-800": variant === "warning",
                 "text-error-700": variant === "error",
