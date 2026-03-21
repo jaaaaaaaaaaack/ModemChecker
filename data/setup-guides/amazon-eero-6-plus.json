@@ -45,10 +45,10 @@
     },
     "physical": {
       "wan_port_label": "Either Ethernet port",
-      "wan_port_color": "white (same as device)",
+      "wan_port_color": "white",
       "wan_port_position": "Two Ethernet ports on the rear/back of the device",
       "wan_port_icon": null,
-      "wan_port_notes": "Both Ethernet ports are auto-sensing \u2014 either port can serve as WAN or LAN. Simply plug the cable from the nbn box into either port and the Eero will detect it as the internet connection. The other port can be used to connect a wired device or a switch. There is no dedicated WAN port label or colour differentiation.",
+      "wan_port_notes": "Both Ethernet ports are auto-sensing (same colour as the device) \u2014 either port can serve as WAN or LAN. Simply plug the cable from the nbn box into either port and the Eero will detect it as the internet connection. The other port can be used to connect a wired device or a switch. There is no dedicated WAN port label or colour differentiation.",
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,

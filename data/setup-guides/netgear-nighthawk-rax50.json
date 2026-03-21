@@ -9,6 +9,12 @@
       "default_username": "admin",
       "default_password": "password",
       "alt_access": "routerlogin.net",
+      "credential_type": "standard",
+      "app_only": false,
+      "app_name": null,
+      "app_store_links": null,
+      "auto_detects_ipoe": false,
+      "supports_https": false,
       "notes": "Netgear's default credentials are admin/password. Newer firmware versions require changing the admin password during first-time setup. If the password was changed and forgotten, a factory reset restores admin/password. The Nighthawk app can also be used for initial setup but the full web admin panel is always available at routerlogin.net."
     },
     "wan_config": {
@@ -16,6 +22,8 @@
         "nav_path": "Basic > Internet (or ADVANCED > Setup > Internet Setup)",
         "connection_type_field": "Does your Internet connection require a login?",
         "ipoe_label": "No (DHCP is the default when login is not required)",
+        "save_button_label": "Apply",
+        "pppoe_clear_note": "If 'Yes' is selected for 'Does your Internet connection require a login?', change it to 'No' and clear any PPPoE username/password fields",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box to the yellow WAN/Internet port on the rear of the router",
           "Plug in the power cable and turn on the router",
@@ -38,6 +46,7 @@
       "wan_port_label": "Internet",
       "wan_port_color": "yellow",
       "wan_port_position": "Yellow Ethernet port on rear panel, typically rightmost or separated from the LAN ports",
+      "wan_port_icon": null,
       "wan_port_notes": "The Internet/WAN port is yellow and clearly labeled 'Internet'. Do not confuse with the LAN ports which are also Ethernet but numbered 1-4.",
       "dsl_port_label": null,
       "dsl_port_color": null,

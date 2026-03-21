@@ -8,7 +8,13 @@
       "default_ip": "192.168.0.1",
       "default_username": "admin",
       "default_password": null,
-      "alt_access": "http://mygateway/",
+      "alt_access": "mygateway",
+      "credential_type": "isp_sticker",
+      "app_only": false,
+      "app_name": null,
+      "app_store_links": null,
+      "auto_detects_ipoe": false,
+      "supports_https": false,
       "notes": "The default password is the Wi-Fi password printed on the sticker on the bottom of the modem \u2014 NOT a generic password like 'admin' or 'Telstra'. Each unit has a unique default password. After factory reset, the password reverts to this sticker value."
     },
     "wan_config": {
@@ -16,6 +22,8 @@
         "nav_path": "Internet Access (broadband tab)",
         "connection_type_field": "Connection type / Authentication mode",
         "ipoe_label": "IPoE / DHCP / Dynamic",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If the connection type shows PPPoE with username and password fields filled in, clear those fields and change the connection type to IPoE or DHCP",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to the RED WAN port on the back of the modem",
           "If UNI-D1 doesn't work, try the other UNI-D ports on the nbn box",
@@ -34,6 +42,8 @@
         "nav_path": "Internet Access (broadband tab)",
         "connection_type_field": "Connection type / Authentication mode",
         "ipoe_label": "IPoE / DHCP / Dynamic",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If the connection type shows PPPoE with username and password fields filled in, clear those fields and change the connection type to IPoE or DHCP",
         "steps_ipoe": [
           "Connect a phone cable from the wall socket to the grey DSL port on the back of the modem",
           "Plug in the power cable and turn on the modem",
@@ -55,6 +65,7 @@
       "wan_port_label": "WAN",
       "wan_port_color": "red",
       "wan_port_position": "Red Ethernet port on rear panel",
+      "wan_port_icon": null,
       "wan_port_notes": "The RED port is the WAN/Internet port \u2014 connect this to the nbn connection box for FTTP/FTTC/HFC. Do not confuse with the yellow LAN ports.",
       "dsl_port_label": "DSL",
       "dsl_port_color": "grey",

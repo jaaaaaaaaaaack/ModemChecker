@@ -10,18 +10,23 @@
       "default_password": null,
       "alt_access": null,
       "notes": "The Nest WiFi Pro has NO web-based admin panel. All configuration is done through the Google Home app on iOS or Android. The IP 192.168.86.1 is the device's default gateway address but does not host a web interface.",
+      "credential_type": "app_only",
       "app_only": true,
       "app_name": "Google Home",
       "app_store_links": {
         "ios": "https://apps.apple.com/app/google-home/id680819774",
         "android": "https://play.google.com/store/apps/details?id=com.google.android.apps.chromecast.app"
-      }
+      },
+      "auto_detects_ipoe": true,
+      "supports_https": false
     },
     "wan_config": {
       "ethernet": {
         "nav_path": "Google Home app > Wi-Fi > Settings > Advanced Networking > WAN",
         "connection_type_field": "WAN type",
         "ipoe_label": "DHCP",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If the router was previously configured for PPPoE, disconnect the Ethernet cable, open Google Home > Wi-Fi > Settings > Advanced Networking > WAN, change WAN type to 'DHCP', then reconnect the cable",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box to the port marked with the globe icon on the bottom of the Nest WiFi Pro",
           "Plug the power cable into the Nest WiFi Pro and wait about 1 minute until the light pulses white",
@@ -39,9 +44,10 @@
     },
     "physical": {
       "wan_port_label": "Globe icon",
-      "wan_port_color": "white (same as device)",
+      "wan_port_color": "white",
       "wan_port_position": "On the underside of the device \u2014 the port marked with a globe icon",
-      "wan_port_notes": "Both Ethernet ports are on the bottom of the device (not the rear). The WAN port is identified by a globe icon. The LAN port has a double-arrow icon. Either Gigabit.",
+      "wan_port_icon": "globe",
+      "wan_port_notes": "Both Ethernet ports are on the bottom of the device (not the rear), same colour as the device. The WAN port is identified by a globe icon. The LAN port has a double-arrow icon. Either Gigabit.",
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,
