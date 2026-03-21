@@ -1,0 +1,127 @@
+{
+  "id": "tp-link-deco-x60",
+  "brand": "TP-Link",
+  "model": "Deco X60",
+  "device_type": "router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.68.1",
+      "default_username": null,
+      "default_password": null,
+      "alt_access": "tplinkdeco.net",
+      "credential_type": "user_created",
+      "app_only": false,
+      "app_name": null,
+      "app_store_links": null,
+      "auto_detects_ipoe": false,
+      "supports_https": true,
+      "notes": "The Deco X60 uses 192.168.68.1 (not the standard TP-Link 192.168.0.1) and tplinkdeco.net (not tplinkwifi.net). The web management login password is the TP-Link ID password set during initial Deco app setup \u2014 there are no factory default credentials. Only the owner TP-Link ID account can access the web management page. The web panel uses a self-signed HTTPS certificate, so browsers will show a privacy warning \u2014 this is normal. The web interface is more limited than the Deco app; WAN settings can be changed via either, but the app provides a more complete configuration experience."
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "Advanced > IPv4 > Internet Connection Type",
+        "connection_type_field": "Internet Connection Type",
+        "ipoe_label": "Dynamic IP",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If 'PPPoE' is currently selected with a previous ISP's Username and Password, switch Internet Connection Type to 'Dynamic IP' \u2014 the PPPoE credential fields will disappear automatically",
+        "steps_ipoe": [
+          "Connect an Ethernet cable from the nbn connection box (UNI-D or GATEWAY port) to either of the grey Ethernet ports on the back of the Deco X60",
+          "Plug in the power cable and wait 2 minutes for the LED to stabilise (pulsing blue means ready for setup, solid green means connected)",
+          "Open a web browser and go to http://tplinkdeco.net (or http://192.168.68.1). You must be connected to the Deco's Wi-Fi or plugged into its second Ethernet port",
+          "Log in with the TP-Link ID password you set during initial Deco app setup. If you haven't set up the Deco yet, use the Deco app first to complete initial setup",
+          "Click 'Advanced' in the top menu",
+          "Under the IPv4 section, find 'Internet Connection Type'",
+          "Change the connection type to 'Dynamic IP'",
+          "Click 'Save'",
+          "Wait 1\u20132 minutes for the Deco to establish a new internet connection \u2014 the LED should turn solid green"
+        ]
+      },
+      "vlan_field": "Internet VLAN ID",
+      "vlan_nav_path": "Deco App > More > IPTV/VLAN",
+      "vlan_notes": "Belong does not require VLAN tagging. If IPTV/VLAN is enabled from a previous ISP, disable it: in the Deco app go to More > IPTV/VLAN and turn off IPTV/VLAN. The web interface also supports VLAN configuration."
+    },
+    "physical": {
+      "wan_port_label": "Ethernet (auto-sensing)",
+      "wan_port_color": "grey",
+      "wan_port_position": "Either of the two Ethernet ports on the rear panel \u2014 the Deco auto-detects which port has the internet connection",
+      "wan_port_icon": null,
+      "wan_port_notes": "The Deco X60 has two identical grey Gigabit Ethernet ports on the rear with no WAN/LAN labeling. Auto WAN Port is enabled by default \u2014 whichever port is connected to the internet source (nbn box) automatically becomes the WAN port. The other port serves as a LAN port for wired devices or Ethernet backhaul to another Deco unit.",
+      "dsl_port_label": null,
+      "dsl_port_color": null,
+      "dsl_port_position": null,
+      "dsl_port_icon": null,
+      "dsl_port_notes": null,
+      "lan_ports": "1 x Gigabit Ethernet (second port, after WAN is auto-assigned)",
+      "other_ports": null,
+      "reset_button": "Recessed pinhole on the bottom of the unit, labeled RESET",
+      "reset_hold_seconds": 1
+    },
+    "factory_reset": {
+      "method": "Turn the Deco X60 upside down and locate the small pinhole labeled RESET on the bottom. Use a pin or paperclip to press and hold the Reset button for 1 second, then release. The LED will turn off briefly and then blink yellow, indicating the reset is in progress. Wait approximately 2 minutes for the unit to restart \u2014 the LED will pulse blue when ready for re-setup.",
+      "restores_default_credentials": false,
+      "notes": "Factory reset erases all settings including Wi-Fi name/password, internet configuration, and mesh network setup. After reset, the Deco must be set up again from scratch using the Deco app \u2014 this includes creating or re-linking a TP-Link ID. There are no factory default credentials to restore to; the setup wizard runs again."
+    },
+    "firmware": {
+      "check_path": "Advanced > System > Firmware Upgrade (web) or Deco App > More > System > Update Deco",
+      "auto_update_available": true,
+      "download_url": "https://www.tp-link.com/au/support/download/deco-x60/",
+      "notes": "The Deco X60 supports automatic firmware updates (enabled by default). The Deco app can also trigger manual updates via More > System > Update Deco. For manual firmware files, select the correct hardware version (V1, V2, V3, or V4) from the TP-Link download page before downloading. Firmware can also be manually uploaded via the web interface at Advanced > System > Firmware Upgrade."
+    },
+    "setup_notes": "The Deco X60 is a mesh Wi-Fi 6 system that is primarily configured through the TP-Link Deco app, though it also has a web admin panel at tplinkdeco.net with more limited functionality. For Belong nbn (IPoE/DHCP), select 'Dynamic IP' as the connection type \u2014 this is actually the default option during the initial Deco app setup wizard, so new-out-of-box units typically work without any manual WAN configuration. If the Deco was previously configured for a PPPoE ISP (TPG, iiNet, etc.), you will need to change the connection type to Dynamic IP via the app (More > Internet Connection > IPv4) or web panel. The two Ethernet ports on the rear are identical and auto-sensing \u2014 either one can be the WAN port. Note that the Deco uses a different IP subnet (192.168.68.x) and hostname (tplinkdeco.net) compared to standard TP-Link routers.",
+    "manual_url": "https://www.tp-link.com/au/support/download/deco-x60/",
+    "setup_sources": [
+      {
+        "url": "https://www.tp-link.com/us/support/faq/2641/",
+        "type": "manufacturer",
+        "description": "TP-Link official FAQ \u2014 how to log in to Deco web management page, confirms 192.168.68.1 and tplinkdeco.net, TP-Link ID authentication",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.tp-link.com/au/support/faq/2464/",
+        "type": "manufacturer",
+        "description": "TP-Link AU \u2014 Deco X60 setup walkthrough, connection type selection (Dynamic IP/PPPoE), VLAN/IPTV settings for Australia-NBN",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.letsbemates.com.au/mate/guide-tplink-deco-router-nbn-fttp/",
+        "type": "isp",
+        "description": "MATE (Australian ISP) \u2014 step-by-step Deco nbn FTTP setup guide, confirms grey Ethernet ports, 1-second reset, Dynamic IP selection",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://community.tp-link.com/en/home/kb/detail/412520",
+        "type": "manufacturer",
+        "description": "TP-Link Community \u2014 Deco web management UI overview, Advanced menu structure, WAN/IPv4 settings path",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.tp-link.com/us/support/faq/1599/",
+        "type": "manufacturer",
+        "description": "TP-Link \u2014 how to upgrade Deco firmware, confirms web panel path and Deco app path for firmware updates",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.tp-link.com/us/support/faq/1457/",
+        "type": "manufacturer",
+        "description": "TP-Link \u2014 how to reset or reboot Deco, confirms pinhole reset button on bottom, 1-second hold duration",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.tp-link.com/au/support/faq/4252/",
+        "type": "manufacturer",
+        "description": "TP-Link AU \u2014 how to set a fixed WAN port on Deco, confirms auto-sensing WAN/LAN port behavior",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.digitalcitizen.life/tp-link-deco-x60-review/",
+        "type": "review",
+        "description": "Digital Citizen review \u2014 rear panel physical layout, two Ethernet ports and power jack, white matte design",
+        "accessed": "2026-03-22"
+      }
+    ],
+    "setup_confidence": {
+      "score": 80,
+      "notes": "Score: 100 - 5 (admin IP deviates from TP-Link brand default 192.168.0.1, but confirmed by 3+ sources as 192.168.68.1 for Deco line) - 5 (web panel nav path 'Advanced > IPv4 > Internet Connection Type' inferred from community KB and search snippets, not verified with per-model screenshots) - 5 (save button label 'Save' consistent with TP-Link brand default but not directly confirmed from a Deco X60-specific screenshot) - 5 (credential type is user_created via TP-Link ID, which deviates from brand default of standard admin/admin \u2014 well-documented but unusual for TP-Link). Physical port layout confirmed by MATE ISP guide (grey ports) and multiple reviews (two identical auto-sensing ports). Factory reset (1 second, bottom pinhole) confirmed by TP-Link official FAQ and MATE guide. Dynamic IP as IPoE label confirmed by TP-Link setup walkthrough and MATE guide."
+    }
+  }
+}

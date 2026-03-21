@@ -1,0 +1,147 @@
+{
+  "id": "tp-link-archer-vr2100v",
+  "brand": "TP-Link",
+  "model": "Archer VR2100v",
+  "device_type": "modem_router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.1.1",
+      "default_username": "admin",
+      "default_password": "admin",
+      "alt_access": "tplinkmodem.net",
+      "credential_type": "standard",
+      "app_only": false,
+      "app_name": null,
+      "app_store_links": null,
+      "auto_detects_ipoe": false,
+      "supports_https": false,
+      "notes": "TP-Link DSL modem-routers use 192.168.1.1 (not 192.168.0.1 like TP-Link's standalone routers). The alternative hostname is tplinkmodem.net (not tplinkwifi.net). If 'admin/admin' doesn't work, the password may have been changed by a previous ISP or user — factory reset required. Some newer firmware versions prompt you to create a custom password on first login; after factory reset it reverts to admin/admin."
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "Advanced > Operation Mode > Wireless Router Mode, then Basic > Internet",
+        "connection_type_field": "Connection Type",
+        "ipoe_label": "Dynamic IP",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If 'PPPoE' is currently selected, clear the Username and Password fields before switching Connection Type to 'Dynamic IP'",
+        "steps_ipoe": [
+          "Connect an Ethernet cable from the nbn connection box (UNI-D port) to the blue LAN/WAN port on the rear of the modem-router",
+          "Open a web browser and go to http://192.168.1.1 (or http://tplinkmodem.net)",
+          "Log in with username 'admin' and password 'admin'",
+          "Click the 'Advanced' tab at the top of the page",
+          "Click 'Operation Mode' in the left sidebar",
+          "Select 'Wireless Router Mode' and click 'Save' — the modem will reboot (wait 1-2 minutes)",
+          "Log back in to the admin panel at http://192.168.1.1",
+          "Click the 'Basic' tab at the top of the page",
+          "Click 'Internet' in the left-hand menu",
+          "Set 'Connection Type' to 'Dynamic IP'",
+          "Clear any Username and Password fields if visible",
+          "Click 'Save'",
+          "Wait 1-2 minutes for the modem to establish a new connection"
+        ]
+      },
+      "dsl": {
+        "nav_path": "Advanced > Network > Internet",
+        "connection_type_field": "Internet Connection Type",
+        "ipoe_label": "Dynamic IP",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If switching from a PPPoE ISP, delete the existing PPPoE connection and create a new Dynamic IP connection with VDSL modulation",
+        "steps_ipoe": [
+          "Connect a phone cable from the telephone wall socket to the grey DSL port on the rear of the modem-router",
+          "Open a web browser and go to http://192.168.1.1 (or http://tplinkmodem.net)",
+          "Log in with username 'admin' and password 'admin'",
+          "Click the 'Advanced' tab at the top of the page",
+          "Confirm the Operation Mode is set to 'DSL Modem Router Mode' (this is the default — if it shows 'Wireless Router Mode', change it back and wait for reboot)",
+          "Click the 'Advanced' tab, then expand 'Network' in the left sidebar and click 'Internet'",
+          "In the Internet Connections list, select any existing PPPoE connection and click 'Delete' (or click 'Delete All') to remove it",
+          "Click 'Add' to create a new connection",
+          "Set 'DSL Modulation Type' to 'VDSL'",
+          "Set 'Internet Connection Type' to 'Dynamic IP'",
+          "Leave VLAN fields blank (Belong does not require VLAN tagging)",
+          "Click 'Save'",
+          "Wait 2-3 minutes for the modem to sync with the DSL line and establish a connection — the DSL light should become solid"
+        ]
+      },
+      "vlan_field": "VLAN ID",
+      "vlan_nav_path": "Advanced > Network > IPTV",
+      "vlan_notes": "Belong does not require VLAN tagging. If a VLAN ID is configured from a previous ISP, clear it or set to 0."
+    },
+    "physical": {
+      "wan_port_label": "LAN/WAN",
+      "wan_port_color": "blue",
+      "wan_port_position": "leftmost Ethernet port when viewed from rear",
+      "wan_port_icon": null,
+      "wan_port_notes": "The LAN/WAN port doubles as the 4th LAN port — use this port to connect to the nbn connection box for FTTP/FTTC/HFC. Only functional as WAN when in 'Wireless Router Mode'.",
+      "dsl_port_label": "DSL",
+      "dsl_port_color": "grey",
+      "dsl_port_position": "RJ11 port on the right side of the rear panel",
+      "dsl_port_icon": null,
+      "dsl_port_notes": "Connect phone cable from wall socket to this port for FTTN/FTTB connections. Only functional in 'DSL Modem Router Mode' (the default).",
+      "lan_ports": "3 x Gigabit Ethernet (when LAN/WAN is used as WAN)",
+      "other_ports": "2 x FXS/Phone (RJ11, for VoIP handsets), 1 x USB 3.0",
+      "reset_button": "Recessed pinhole on rear panel",
+      "reset_hold_seconds": 8
+    },
+    "factory_reset": {
+      "method": "Use a pin or paperclip to press and hold the recessed Reset button on the rear panel for approximately 8 seconds until all LEDs turn on momentarily, then release. The modem will reboot to factory defaults.",
+      "restores_default_credentials": true,
+      "notes": "Factory reset erases ALL settings including Wi-Fi name/password, ISP configuration, VoIP settings, and any custom settings. After reset, admin/admin credentials are restored and the setup wizard will run on first login."
+    },
+    "firmware": {
+      "check_path": "Advanced > System Tools > Firmware Upgrade",
+      "auto_update_available": true,
+      "download_url": "https://www.tp-link.com/au/support/download/archer-vr2100v/",
+      "notes": "TP-Link offers an online firmware check from the admin panel ('Check for upgrades' button). Firmware updates may improve VDSL2 stability and SOS/ROC compliance. The VR2100v has two hardware versions (V1 and V1.20) — ensure you download the correct firmware for your hardware version (printed on the label on the bottom of the device). Recommend updating firmware before configuring for Belong."
+    },
+    "setup_notes": "The VR2100v is the VoIP-enabled successor to the VR1600v, with faster 5 GHz Wi-Fi (1733 Mbps) and VDSL2 35b Supervectoring support. It has two distinct operating modes that determine which WAN path to use: 'Wireless Router Mode' for Ethernet WAN connections (FTTP/FTTC/HFC) and 'DSL Modem Router Mode' (default) for DSL connections (FTTN/FTTB). When switching from DSL to Ethernet WAN or vice versa, the Operation Mode must be changed first — the modem reboots during this switch. For DSL connections, existing PPPoE connections must be deleted and replaced with a new Dynamic IP connection — the VR2100v does not allow in-place switching of the connection type on DSL interfaces. The alternative hostname is tplinkmodem.net (not tplinkwifi.net as on some older TP-Link models).",
+    "manual_url": "https://www.tp-link.com/au/support/download/archer-vr2100v/",
+    "setup_sources": [
+      {
+        "url": "https://www.esc.net.au/guides/tplink_nbn_vdsl_quicksetup/",
+        "type": "isp",
+        "description": "EscapeNet — TP-Link NBN FTTN VDSL quick setup guide with Dynamic IP steps, confirming DSL Modem Router Mode and WAN Settings > Add New > VDSL > Dynamic IP flow",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.esc.net.au/guides/tplink_nbn_ewan_quicksetup/",
+        "type": "isp",
+        "description": "EscapeNet — TP-Link NBN Ethernet WAN quick setup guide confirming Wireless Router Mode switch and Dynamic IP configuration for FTTP/FTTC/HFC",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://articles.spintel.net.au/en/articles/5977184-how-to-configure-tp-link-vr2100v",
+        "type": "isp",
+        "description": "SpinTel — VR2100v-specific configuration guide for nbn, confirming admin IP 192.168.1.1, tplinkmodem.net hostname, and Dynamic IP/IPoE connection type",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.tp-link.com/au/support/download/archer-vr2100v/",
+        "type": "manufacturer",
+        "description": "TP-Link AU support page — firmware downloads, user manual, quick installation guide for VR2100v",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.manualslib.com/manual/2344796/Tp-Link-Archer-Vr2100.html",
+        "type": "manual",
+        "description": "ManualsLib — full 128-page user manual for Archer VR2100, confirming admin panel nav paths, firmware upgrade path, and factory reset procedure",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://forums.whirlpool.net.au/archive/9pxjw1yy",
+        "type": "community",
+        "description": "Whirlpool — community discussion on setting up VR2100 for NBN with Dynamic IP and Operation Mode switching",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.routerdefaults.org/tp-link/archer-vr2100v",
+        "type": "community",
+        "description": "RouterDefaults — confirms default IP 192.168.1.1 and admin/admin credentials for VR2100v",
+        "accessed": "2026-03-22"
+      }
+    ],
+    "setup_confidence": {
+      "score": 82,
+      "notes": "Score: 100 - 5 (WAN port color 'blue' inferred from VR-series consistency with VR1600v, not directly confirmed for VR2100v via rear panel photo) - 5 (DSL port color 'grey' similarly inferred from VR-series) - 3 (save button label 'Save' confirmed for Basic > Internet path but not independently verified for Advanced > Network > Internet DSL path — using brand default) - 5 (Ethernet WAN nav path involves Operation Mode switch which differs from VR1600v's simpler Basic > Internet path — confirmed by ESC.net.au and Whirlpool but step count is higher and more complex for customers) = 82. Admin IP (192.168.1.1) confirmed by 4+ independent sources. Alt hostname (tplinkmodem.net) confirmed by TP-Link quick start guide and SpinTel. Default credentials (admin/admin) confirmed by 3+ sources. DSL 'delete and recreate' flow confirmed by ESC.net.au VDSL guide and community reports. IPoE label ('Dynamic IP') confirmed by ESC.net.au, SpinTel, and Whirlpool. Factory reset (8 sec) confirmed by TP-Link user manual. Firmware path confirmed by ManualsLib page 105."
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "id": "draytek-vigor-2862",
+  "brand": "DrayTek",
+  "model": "Vigor 2862",
+  "device_type": "modem_router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.1.1",
+      "default_username": "admin",
+      "default_password": "admin",
+      "alt_access": null,
+      "credential_type": "standard",
+      "app_only": false,
+      "auto_detects_ipoe": false,
+      "supports_https": true,
+      "notes": "Default credentials are admin/admin. Newer firmware versions (3.9.x+) may prompt you to change the password on first login. Both http://192.168.1.1 and https://192.168.1.1 work for admin access. DrayTek does not provide a hostname alternative (no alt_access). The admin interface is professional-grade with many options — customers unfamiliar with DrayTek may find it more complex than consumer router UIs."
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "WAN >> General Setup (enable WAN2) then WAN >> Internet Access",
+        "connection_type_field": "Access Mode (for WAN2)",
+        "ipoe_label": "Static or Dynamic IP",
+        "save_button_label": "OK",
+        "pppoe_clear_note": "If switching from a PPPoE ISP, change the Access Mode from 'PPPoE / PPPoA' to 'Static or Dynamic IP' for WAN2. No username or password fields need to be cleared — they are on a separate details page that is no longer relevant once you switch to Dynamic IP.",
+        "notes": "Used for FTTP, FTTC, and HFC connections. The Vigor 2862 uses its Ethernet WAN port (labeled P5/WAN2) for these connection types. WAN2 must first be enabled in WAN >> General Setup before configuring Internet Access. The port is shared with LAN Port 5 — enabling WAN2 mode repurposes it as a dedicated WAN port.",
+        "steps_ipoe": [
+          "Connect an Ethernet cable from the nbn connection box (NTD) to the P5/WAN2 port on the front of the Vigor 2862 — this is the rightmost Ethernet port, separated from the four LAN ports (P1-P4)",
+          "Open a web browser and go to https://192.168.1.1 (or http://192.168.1.1)",
+          "Log in with username 'admin' and password 'admin' (or the password you set if previously changed)",
+          "In the left-hand menu, go to WAN >> General Setup",
+          "Click the WAN2 link to open the WAN2 General Setup page",
+          "Set Enable to 'Yes' and Active Mode to 'Always On'",
+          "Ensure VLAN Tag Insertion is set to 'Disable' (Belong does not use VLAN tagging)",
+          "Click OK — the router will prompt to restart if changes were made",
+          "After the router restarts, go to WAN >> Internet Access",
+          "For WAN2, select 'Static or Dynamic IP' as the Access Mode",
+          "Click the 'Details Page' button next to WAN2",
+          "Set Enable to 'Yes' and select 'Obtain an IP address automatically'",
+          "Click OK to save and apply the changes",
+          "Wait 1-2 minutes for the router to obtain an IP address from the nbn connection box"
+        ]
+      },
+      "dsl": {
+        "nav_path": "WAN >> General Setup (DSL mode) then WAN >> Internet Access",
+        "connection_type_field": "Access Mode (for WAN1)",
+        "ipoe_label": "Static or Dynamic IP",
+        "save_button_label": "OK",
+        "pppoe_clear_note": "If the router was previously configured for a PPPoE ISP (TPG, iiNet, Internode), go to WAN >> Internet Access, change the Access Mode for WAN1 from 'PPPoE / PPPoA' to 'Static or Dynamic IP', then click Details Page and select 'Obtain an IP address automatically'. The PPPoE username and password are stored on a separate details page and do not need to be manually cleared.",
+        "notes": "Used for FTTN and FTTB connections where the built-in VDSL2 modem connects directly to the phone line. WAN1 is the DSL interface. The DSL Mode should be set to 'VDSL2 only' (or 'Multimode' if unsure) in WAN >> General Setup. DrayTek AU recommends DSL Modem Code 'AnnexA_574307_571801' for Australian nbn VDSL2 connections. Note: the Vigor 2862 does NOT support SOS/ROC — it relies on SRA, which may cause minor instability on some FTTN/B lines.",
+        "steps_ipoe": [
+          "Connect a phone cable (RJ-11) from the telephone wall socket to the DSL port on the front of the Vigor 2862 — this is the smaller RJ-11 port, distinct from the larger RJ-45 Ethernet ports",
+          "Open a web browser and go to https://192.168.1.1 (or http://192.168.1.1)",
+          "Log in with username 'admin' and password 'admin' (or the password you set if previously changed)",
+          "In the left-hand menu, go to WAN >> General Setup",
+          "Under DSL Mode, select 'VDSL2 only' (or leave as 'Multimode' if you are unsure of the connection type)",
+          "Set the DSL Modem Code to 'AnnexA_574307_571801' (recommended by DrayTek AU for nbn VDSL2)",
+          "Ensure VLAN Tag Insertion is set to 'Disable' (Belong does not use VLAN tagging)",
+          "Click OK to save — the router will restart if DSL mode was changed",
+          "After restart, go to WAN >> Internet Access",
+          "For WAN1, select 'Static or Dynamic IP' as the Access Mode",
+          "Click the 'Details Page' button next to WAN1",
+          "Set Enable to 'Yes' and select 'Obtain an IP address automatically'",
+          "Click OK to save and apply the changes",
+          "Wait 2-3 minutes for the DSL line to synchronise (check Online Status — 'SHOWTIME' indicates DSL sync) and for the router to obtain an IP address"
+        ]
+      },
+      "vlan_field": "VLAN Tag Insertion",
+      "vlan_nav_path": "WAN >> General Setup (within the WAN interface configuration)",
+      "vlan_notes": "VLAN tagging is configured per-WAN interface in WAN >> General Setup. Belong does not require VLAN tagging — ensure 'VLAN Tag Insertion' is set to 'Disable' for both Customer and Service tags. Some other Australian ISPs (e.g., AAPT/TPG) may require VLAN tags — if switching from one of these, ensure the tag is disabled."
+    },
+    "physical": {
+      "wan_port_label": "P5/WAN2",
+      "wan_port_color": "black",
+      "wan_port_position": "Rightmost RJ-45 Ethernet port on the front panel, separated from the four LAN ports (P1-P4)",
+      "wan_port_icon": null,
+      "wan_port_notes": "The P5/WAN2 port is dual-purpose — it functions as LAN Port 5 by default and must be switched to WAN2 mode in WAN >> General Setup. Once enabled as WAN2, it is dedicated to the Ethernet WAN connection. This port is on the FRONT of the device, not the rear. All data ports on the Vigor 2862 are on the front panel, with only the power connector on the rear.",
+      "dsl_port_label": "DSL",
+      "dsl_port_color": "black",
+      "dsl_port_position": "RJ-11 (phone cable) port on the front panel, distinct from the larger RJ-45 Ethernet ports",
+      "dsl_port_icon": null,
+      "dsl_port_notes": "The DSL port is an RJ-11 connector (smaller than the Ethernet ports) for connecting to the telephone wall socket for VDSL2/ADSL2+ connections (FTTN/FTTB). It is clearly smaller and visually distinct from the RJ-45 LAN/WAN ports.",
+      "lan_ports": "4 x Gigabit Ethernet (P1-P4) — P5 is shared with WAN2",
+      "other_ports": "2 x USB 2.0 (for 3G/4G USB modems or storage), 2 x FXS phone ports (VoIP, on Vac variant only)",
+      "reset_button": "Recessed pinhole on the device — use a paperclip or pin to press",
+      "reset_hold_seconds": 5
+    },
+    "factory_reset": {
+      "method": "With the router powered on, use a paperclip or pointed object to press and hold the recessed factory reset button for at least 5 seconds until the ACT LED begins blinking rapidly, then release. Wait for the router to restart with default settings.",
+      "restores_default_credentials": true,
+      "notes": "Factory reset restores admin/admin credentials and erases all configuration including Wi-Fi settings, VPN tunnels, and firewall rules. The router will need to be fully reconfigured after reset. DrayTek recommends backing up the configuration via System Maintenance >> Configuration Backup before performing a factory reset."
+    },
+    "firmware": {
+      "check_path": "System Maintenance >> Firmware Upgrade",
+      "auto_update_available": false,
+      "download_url": "https://www.draytek.com.au/support/downloads/vigor2862-series/",
+      "notes": "The Vigor 2862 does NOT support automatic firmware checking — firmware must be downloaded manually from the DrayTek AU website and uploaded via the admin panel. Firmware is supplied as .ALL files (firmware only) or .RST files (firmware + factory reset). The product reached End of Sale in May 2023 with End of Support in May 2028; critical security updates are still being released but new features are unlikely. Latest recommended firmware supports VDSL vectoring. Always back up the configuration before upgrading firmware."
+    },
+    "setup_notes": "The DrayTek Vigor 2862 is a professional/SMB modem-router with a more complex admin interface than consumer routers. It has both a built-in VDSL2/ADSL2+ modem (WAN1/DSL) and a Gigabit Ethernet WAN port (WAN2/P5), making it compatible with all nbn connection types. Unusually, all data ports are on the FRONT panel, not the rear — only the power connector is on the back. For FTTP/FTTC/HFC, use the Ethernet WAN2 port (must be enabled first in WAN >> General Setup). For FTTN/FTTB, use the DSL port with the built-in modem. The DrayTek admin UI uses 'Static or Dynamic IP' as its IPoE/DHCP label — select this and then choose 'Obtain an IP address automatically' on the Details Page. Belong uses IPoE with no username, password, or VLAN tagging required. Note: the Vigor 2862 does not support SOS/ROC for VDSL2, which may affect FTTN/FTTB connection stability on some lines.",
+    "manual_url": "https://www.draytek.com.au/support/downloads/vigor2862-series/",
+    "setup_sources": [
+      {
+        "url": "https://faq.draytek.com.au/2019/08/12/how-to-connect-draytek-vigor-router-to-vdsl2-connection-on-nbn-network/",
+        "type": "manufacturer",
+        "description": "DrayTek AU FAQ — step-by-step guide for connecting Vigor routers to VDSL2 on nbn, including WAN >> Internet Access nav path, Access Mode selection, and DSL Modem Code for Australian nbn",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://faq.draytek.com.au/2019/07/24/how-to-connect-draytek-vigor2860-vigor2862-to-vdsl2-connection-on-optus-nbn-network/",
+        "type": "manufacturer",
+        "description": "DrayTek AU FAQ — specific guide for Vigor 2860/2862 on Optus NBN (IPoE/DHCP), confirming 'Static or Dynamic IP' access mode and 'Obtain an IP address automatically' for DHCP",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.draytek.co.uk/support/guides/kb-ethernetwan",
+        "type": "manufacturer",
+        "description": "DrayTek UK — Ethernet WAN (WAN2) setup guide with step-by-step configuration including General Setup and Internet Access pages, confirming 'OK' button and 'Obtain an IP address automatically' label",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.draytek.co.uk/support/guides/kb-fttp-wan-setup",
+        "type": "manufacturer",
+        "description": "DrayTek UK — FTTP WAN setup guide confirming WAN >> General Setup and WAN >> Internet Access nav paths, VLAN disable steps, and DHCP configuration flow",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.draytek.co.uk/support/guides/kb-ethernetwan-enable",
+        "type": "manufacturer",
+        "description": "DrayTek UK — guide for enabling the Ethernet WAN port (WAN2) on SoHo routers, confirming the P5/WAN2 dual-purpose port and enable/Always On settings",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.draytek.com/support/knowledge-base/5680",
+        "type": "manufacturer",
+        "description": "DrayTek global KB — default login procedure confirming 192.168.1.1, admin/admin, and HTTPS support",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://faq.draytek.com.au/2015/07/10/how-to-reset-the-router-to-factory-default-settings/",
+        "type": "manufacturer",
+        "description": "DrayTek AU FAQ — factory reset procedure confirming 5-second hold until ACT LED blinks rapidly",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.draytek.co.uk/support/guides/kb-firmwareupgrade-webui",
+        "type": "manufacturer",
+        "description": "DrayTek UK — firmware upgrade via web UI guide confirming System Maintenance >> Firmware Upgrade nav path",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://manuals.plus/draytek/vigor2862-series-2-5g-security-vpn-router-manual",
+        "type": "manual",
+        "description": "Manuals.plus — Vigor 2862 user guide with front panel layout showing P1-P4 LAN, P5/WAN2, DSL, USB, and phone port positions",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.earth.org.uk/note-on-Vigor2862ac-setup.html",
+        "type": "community",
+        "description": "Earth Notes — hands-on setup guide for Vigor 2862ac, confirming DSL port and WAN2 port usage, VDSL2 connection from DSL port to wall socket",
+        "accessed": "2026-03-22"
+      }
+    ],
+    "setup_confidence": {
+      "score": 80,
+      "notes": "Score: 100 - 5 (wan_port_color 'black' inferred from product photos and DrayTek's typical all-black port styling on professional models — no explicit color documentation found from an authoritative diagram) - 5 (IPoE label 'Static or Dynamic IP' verified via DrayTek AU FAQ for Optus NBN which uses IPoE/DHCP like Belong, but the two-step selection process 'Static or Dynamic IP' then 'Obtain an IP address automatically' is unusual and differs from brand default of simple 'DHCP') - 5 (manufacturer support pages could not be directly fetched via WebFetch — all data extracted from WebSearch snippets and cross-referenced across multiple DrayTek UK/AU sources) - 5 (no Australian ISP-specific setup guide found for the Vigor 2862 from smaller ISPs like Tangerine, AGL, SpinTel, or LIP — DrayTek is a pro/SMB brand less commonly covered by consumer ISP guides) = 80."
+    }
+  }
+}

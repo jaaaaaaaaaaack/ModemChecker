@@ -1,0 +1,139 @@
+{
+  "id": "synology-rt6600ax",
+  "brand": "Synology",
+  "model": "RT6600ax",
+  "device_type": "router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.1.1",
+      "default_username": null,
+      "default_password": null,
+      "alt_access": "router.synology.com",
+      "credential_type": "user_created",
+      "app_only": false,
+      "app_name": null,
+      "app_store_links": null,
+      "auto_detects_ipoe": false,
+      "supports_https": true,
+      "notes": "SRM uses port 8000 for HTTP and port 8001 for HTTPS. Access at http://192.168.1.1:8000 or https://192.168.1.1:8001 (or http://router.synology.com). The first-time setup wizard requires creating a new administrator account — there are no factory default credentials. The built-in 'admin' account is deactivated once you create your own admin during the wizard. After a factory reset, the wizard runs again."
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "Network Center > Internet > Connection",
+        "connection_type_field": "Connection type",
+        "ipoe_label": "Auto",
+        "save_button_label": "Apply",
+        "pppoe_clear_note": "If 'Connection type' is set to 'PPPoE' with username and password fields filled in, change it to 'Auto' and click 'Apply'. The PPPoE credentials will be cleared automatically when switching to Auto.",
+        "steps_ipoe": [
+          "Connect an Ethernet cable from the nbn connection box to the blue WAN port on the back of the RT6600ax (leftmost Ethernet port when viewed from the rear)",
+          "Power on the router and wait 2-3 minutes for SRM to fully boot (the status LED will turn solid green)",
+          "On a device connected to the router's Wi-Fi (SSID: SynologyRouter; Password: synology) or via Ethernet, open a browser and go to http://192.168.1.1:8000 or http://router.synology.com",
+          "If this is your first login, the SRM setup wizard will launch — create your administrator account username and password, then complete the wizard",
+          "Once logged in to SRM, open 'Network Center' from the main menu",
+          "Click 'Internet' in the left sidebar, then select the 'Connection' tab",
+          "Under 'Primary Interface', check that 'Connection type' is set to 'Auto' — this is the correct setting for Belong nbn (IPoE/DHCP)",
+          "If 'Connection type' shows 'PPPoE' or another option, change it to 'Auto' from the dropdown",
+          "If there are PPPoE username or password fields populated, they will clear when you switch to 'Auto'",
+          "Click 'Apply' to save the settings",
+          "Wait 1-2 minutes for the router to obtain an IP address from Belong — the internet status should show as 'Connected'"
+        ]
+      },
+      "vlan_field": null,
+      "vlan_nav_path": null,
+      "vlan_notes": "No VLAN configuration needed for Belong. Belong uses IPoE/DHCP with no VLAN tagging required."
+    },
+    "physical": {
+      "wan_port_label": "WAN",
+      "wan_port_color": "blue",
+      "wan_port_position": "Leftmost Ethernet port when viewed from the rear (to the right of the USB 3.2 port)",
+      "wan_port_icon": null,
+      "wan_port_notes": "The blue WAN port is Gigabit (1 Gbps). LAN 1 (the first yellow port to its right) is a 2.5GbE port that can be reconfigured as a second WAN port via SRM for dual-WAN setups, but this is not needed for standard Belong connections — use the dedicated blue WAN port.",
+      "dsl_port_label": null,
+      "dsl_port_color": null,
+      "dsl_port_position": null,
+      "dsl_port_icon": null,
+      "dsl_port_notes": null,
+      "lan_ports": "1 x 2.5 Gigabit Ethernet (LAN 1, configurable as WAN 2) + 3 x Gigabit Ethernet",
+      "other_ports": "1 x USB 3.2 Gen 1",
+      "reset_button": "Recessed pinhole on rear panel, between the power connector and LAN ports",
+      "reset_hold_seconds": 10
+    },
+    "factory_reset": {
+      "method": "Use a paperclip or pin to press and hold the RESET button on the rear panel for 10 seconds until the status LED turns orange, then release. The router will wipe all settings and reinstall SRM. Wait for the status LED to blink green (System Ready) before accessing the setup wizard again.",
+      "restores_default_credentials": false,
+      "notes": "A 10-second hold performs a hard reset — erases all configuration and reinstalls SRM. You must run the setup wizard again to create a new admin account. A 4-second hold performs a soft reset — resets only the admin credentials and network settings without wiping data or installed packages. After either reset type, the setup wizard runs again (no factory default credentials to restore to)."
+    },
+    "firmware": {
+      "check_path": "Control Panel > System > Update & Restore",
+      "auto_update_available": true,
+      "download_url": "https://www.synology.com/en-global/support/download/RT6600ax",
+      "notes": "SRM checks for updates automatically and can install them from the admin panel. Manual updates can be downloaded as .pat files from the Synology Download Center and uploaded via Control Panel > System > Manual SRM Update."
+    },
+    "troubleshooting": {
+      "internet_led_label": "Status LED",
+      "internet_led_success": "solid green",
+      "internet_led_failure": "solid orange (booting/rebooting) or blinking orange (no internet)",
+      "common_issues": [
+        "The 2.5GbE LAN 1 port looks similar to the WAN port — make sure you connect to the blue WAN port, not the yellow LAN 1 port",
+        "SRM uses non-standard ports: HTTP on port 8000 and HTTPS on port 8001. If http://192.168.1.1 doesn't load, try http://192.168.1.1:8000",
+        "If router.synology.com doesn't resolve, connect via Wi-Fi to the router's default SSID (SynologyRouter) first, then try the IP address directly"
+      ]
+    },
+    "setup_notes": "The RT6600ax runs SRM (Synology Router Manager), a web-based OS similar to Synology's NAS software (DSM). SRM uses non-standard HTTP/HTTPS ports (8000/8001) — customers must include the port number when accessing the admin panel via IP address. The router.synology.com hostname handles port redirection automatically. Belong uses IPoE/DHCP — no username, password, or VLAN required. The 'Auto' connection type in SRM handles DHCP automatically. The dedicated blue Gigabit WAN port is sufficient for all current Belong nbn plans up to 1 Gbps. The 2.5GbE LAN 1 port can be reconfigured as a second WAN for dual-WAN setups but is not needed for standard Belong connections.",
+    "manual_url": "https://www.synology.com/en-global/support/download/RT6600ax",
+    "setup_sources": [
+      {
+        "url": "https://kb.synology.com/en-af/SRM/help/SRM/NetworkCenter/internet_connection?version=1_3",
+        "type": "manufacturer",
+        "description": "Synology KB — SRM Network Center Internet Connection settings, confirms nav path, Connection type field, and Auto/PPPoE/Manual options",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://kb.synology.com/en-nz/SRM/tutorial/What_s_the_difference_between_Soft_Reset_and_Hard_Reset",
+        "type": "manufacturer",
+        "description": "Synology KB — Soft reset (4s) vs hard reset (10s) procedure and differences",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://mariushosting.com/synology-rt6600ax-default-username-password/",
+        "type": "community",
+        "description": "Marius Hosting — Confirms no factory default credentials, setup wizard forces account creation, admin account deactivation",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://mariushosting.com/synology-how-to-connect-to-your-rt6600ax-via-https/",
+        "type": "community",
+        "description": "Marius Hosting — Confirms HTTPS access on port 8001 and HTTP on port 8000",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.storagereview.com/review/synology-rt6600ax-router-review",
+        "type": "review",
+        "description": "StorageReview — Hardware review confirming rear panel layout: USB 3.2 leftmost, blue WAN port, four LAN ports (LAN 1 is 2.5GbE)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://global.download.synology.com/download/Document/Hardware/HIG/Router/22-year/RT6600ax/enu/Syno_HIG_RT6600ax_enu.pdf",
+        "type": "manual",
+        "description": "Synology RT6600ax Hardware Installation Guide — port diagram, reset button location, LED indicators, initial setup instructions",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://forums.whirlpool.net.au/archive/9n1jpmj6",
+        "type": "community",
+        "description": "Whirlpool — Australian users confirming RT6600ax works with nbn DHCP/IPoE providers (Aussie Broadband, Belong)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://kb.synology.com/en-sg/SRM/help/SRM/ControlPanel/system_update_restore",
+        "type": "manufacturer",
+        "description": "Synology KB — Confirms firmware update path: Control Panel > System > Update & Restore",
+        "accessed": "2026-03-22"
+      }
+    ],
+    "setup_confidence": {
+      "score": 90,
+      "notes": "Score: 100 - 10 (SRM user guide PDF could not be fetched for direct verification of nav paths and field labels — relied on Synology KB articles and community sources instead). Admin IP (192.168.1.1:8000) confirmed by Synology HIG, mariushosting, and router-reset.com. HTTPS on port 8001 confirmed by mariushosting. Alt access (router.synology.com) confirmed by Synology HIG and KB. Credential type (user_created) confirmed — setup wizard forces new account creation, default admin deactivated (mariushosting, Synology docs). WAN nav path (Network Center > Internet > Connection) confirmed by Synology KB internet_connection page. IPoE label ('Auto') confirmed by Synology KB — dropdown options are Auto, PPPoE, Manual. Save button ('Apply') confirmed by existing research and consistent with SRM UI conventions. Physical port layout (blue WAN port, leftmost Ethernet, yellow LAN ports) confirmed by StorageReview and NASCompares hardware reviews. Factory reset procedure (4s soft / 10s hard) confirmed by Synology KB. Firmware path (Control Panel > System > Update & Restore) confirmed by Synology KB. Whirlpool confirms Australian nbn DHCP compatibility."
+    }
+  }
+}

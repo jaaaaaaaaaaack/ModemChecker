@@ -1,0 +1,166 @@
+{
+  "id": "sagemcom-fast-5366-tn",
+  "brand": "Sagemcom",
+  "model": "F@ST 5366 TN",
+  "device_type": "modem_router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.0.1",
+      "default_username": "optus",
+      "default_password": null,
+      "alt_access": "192.168.0.1/main.html",
+      "credential_type": "isp_sticker",
+      "app_only": false,
+      "app_name": null,
+      "app_store_links": null,
+      "auto_detects_ipoe": true,
+      "supports_https": false,
+      "notes": "The username is 'optus' (all lowercase — mobile keyboards tend to capitalise the first letter, which will cause login failure). The password is the default Wi-Fi password printed on the sticker on the bottom or back of the modem. Each unit has a unique password. After factory reset, the password reverts to this sticker value. For full advanced settings access, some users report needing the username 'admin' instead of 'optus', but the standard Optus login is 'optus'."
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "Advanced Setup > WAN Service (Optus custom firmware — exact menu labels may vary by firmware version)",
+        "connection_type_field": "WAN Connection Type",
+        "ipoe_label": "IPoE / DHCP (pre-configured — this modem is locked to IPoE and cannot be changed to PPPoE)",
+        "save_button_label": "Apply/Save",
+        "pppoe_clear_note": "This modem is locked to IPoE/DHCP by Optus firmware and cannot be switched to PPPoE. There are no PPPoE username or password fields to clear. If the modem was previously used with Optus, a factory reset will restore the default IPoE configuration.",
+        "steps_ipoe": [
+          "Perform a factory reset first: use a pin or paperclip to press and hold the recessed Reset button on the rear panel for 10 seconds until the lights flash, then release and wait 2-3 minutes for the modem to reboot",
+          "Connect an Ethernet cable from the nbn connection box (NTD) to the RED WAN port on the back of the modem",
+          "Plug in the power cable and turn on the modem using the power button",
+          "Wait 2-5 minutes for the modem to boot — the Internet/WAN LED on the front should turn solid green",
+          "The modem is pre-configured for IPoE/DHCP and should connect automatically — no WAN configuration is needed",
+          "If the Internet LED does not turn green after 5 minutes, connect a device to the modem via Ethernet or Wi-Fi (credentials on the bottom sticker)",
+          "Open a web browser and go to http://192.168.0.1",
+          "Log in with username 'optus' (lowercase) and the Wi-Fi password from the bottom sticker",
+          "Navigate to Advanced Setup > WAN Service and verify the connection type is set to IPoE or DHCP",
+          "Click Apply/Save if any changes were made — the modem should reconnect within 1-2 minutes"
+        ]
+      },
+      "dsl": {
+        "nav_path": "Advanced Setup > WAN Service (Optus custom firmware — exact menu labels may vary by firmware version)",
+        "connection_type_field": "WAN Connection Type",
+        "ipoe_label": "IPoE / DHCP (pre-configured — this modem is locked to IPoE and cannot be changed to PPPoE)",
+        "save_button_label": "Apply/Save",
+        "pppoe_clear_note": "This modem is locked to IPoE/DHCP by Optus firmware and cannot be switched to PPPoE. There are no PPPoE username or password fields to clear. If the modem was previously used with Optus, a factory reset will restore the default IPoE/DHCP configuration for DSL connections.",
+        "steps_ipoe": [
+          "Perform a factory reset first: use a pin or paperclip to press and hold the recessed Reset button on the rear panel for 10 seconds until the lights flash, then release and wait 2-3 minutes for the modem to reboot",
+          "Connect a phone cable from the telephone wall socket to the grey DSL port on the back of the modem",
+          "If you have an nbn-supplied line filter or central splitter, connect the phone cable through it as directed by your nbn installation guide",
+          "Plug in the power cable and turn on the modem using the power button",
+          "Wait 2-5 minutes for the DSL line to sync — the DSL LED on the front should turn solid green",
+          "The modem is pre-configured for IPoE/DHCP and should connect automatically once DSL syncs — no WAN configuration is needed",
+          "If the Internet LED does not turn green after 5 minutes, connect a device to the modem via Ethernet or Wi-Fi (credentials on the bottom sticker)",
+          "Open a web browser and go to http://192.168.0.1",
+          "Log in with username 'optus' (lowercase) and the Wi-Fi password from the bottom sticker",
+          "Navigate to Advanced Setup > WAN Service and verify the DSL connection type is set to IPoE or DHCP",
+          "Click Apply/Save if any changes were made — the modem should reconnect within 1-2 minutes"
+        ]
+      },
+      "vlan_field": null,
+      "vlan_nav_path": null,
+      "vlan_notes": "VLAN settings are not accessible in the Optus custom firmware UI. This is fine for Belong (no VLAN tagging required). ISPs that require VLAN tagging cannot use this modem."
+    },
+    "physical": {
+      "wan_port_label": "WAN",
+      "wan_port_color": "red",
+      "wan_port_position": "Red Ethernet port on the rear panel",
+      "wan_port_icon": null,
+      "wan_port_notes": "The RED port is the WAN/Internet port — connect this to the nbn connection box (NTD) for FTTP, FTTC, or HFC connections. The Ethernet cable supplied by Optus has red connectors to match. Do not confuse with the yellow LAN ports.",
+      "dsl_port_label": "DSL",
+      "dsl_port_color": "grey",
+      "dsl_port_position": "Grey RJ11 port on the rear panel",
+      "dsl_port_icon": null,
+      "dsl_port_notes": "Connect a phone cable from the telephone wall socket for FTTN/FTTB connections. The supplied grey telephone cable matches this port. The DSL LED on the front panel indicates sync status.",
+      "lan_ports": "4 x Gigabit Ethernet (yellow)",
+      "other_ports": "2 x USB, 2 x Phone (FXS/VoIP)",
+      "reset_button": "Recessed pinhole on rear panel",
+      "reset_hold_seconds": 10
+    },
+    "factory_reset": {
+      "method": "With the modem powered on, use a pin or paperclip to press and hold the recessed Reset button on the rear panel for approximately 10 seconds until the front LEDs start flashing. Release the button and wait 2-3 minutes for the modem to reboot to factory defaults.",
+      "restores_default_credentials": true,
+      "notes": "Factory reset restores the admin password to the default Wi-Fi password printed on the modem's sticker. It also clears any custom settings. Factory reset is strongly recommended as the first step when repurposing this Optus modem for Belong — it restores the default IPoE/DHCP configuration. Note: factory reset does NOT unlock the modem from IPoE-only mode; the Optus firmware lock persists. This is actually beneficial for Belong since Belong also uses IPoE."
+    },
+    "firmware": {
+      "check_path": "Modem Settings > Maintenance (reboot triggers firmware check when connected to Optus network)",
+      "auto_update_available": false,
+      "download_url": null,
+      "notes": "Optus controls firmware updates for this device — there are no public firmware downloads. Firmware updates are pushed by Optus in phased rollouts and require the modem to be connected to the Optus network. When used with Belong or any other ISP, the modem will NOT receive firmware updates. This means the device will eventually fall behind on security patches. Known firmware versions include SG4Y1T0003035 and SG4Y1T000031."
+    },
+    "setup_notes": "The Sagemcom F@ST 5366 TN is an Optus-branded modem-router with custom Optus firmware that is locked to IPoE/DHCP — it cannot be configured for PPPoE. This IPoE lock is actually an advantage for Belong customers, since Belong uses IPoE. In most cases, a factory reset followed by plugging the modem into the nbn connection box is all that's needed — the modem auto-detects the IPoE connection and connects without manual WAN configuration. Multiple users on Whirlpool and OzBargain confirm successful use with Aussie Broadband, Superloop, and other IPoE providers with no configuration changes. The admin panel uses Optus custom firmware with simplified menus, and the login username is 'optus' (not 'admin'). Bridge mode is not available on this device. The modem will not receive firmware updates when used with a non-Optus ISP.",
+    "manual_url": "https://www.optus.com.au/content/dam/optus/documents/for-you/broadband-internet/modems/Sagemcom_F@ST_5366_TN_Modem_User_Guide.pdf",
+    "setup_sources": [
+      {
+        "url": "https://devicehelp.optus.com.au/sagemcom/f-st-5366-tn-windows-10/first-use/guide-to-the-modem-settings-menu",
+        "type": "isp",
+        "description": "Optus Device Help — guide to modem settings menu for F@ST 5366 TN (admin panel access, menu overview)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://devicehelp.optus.com.au/sagemcom/f-st-5366-tn-windows-10/first-use/guide-to-modem-buttons-and-ports",
+        "type": "isp",
+        "description": "Optus Device Help — guide to modem buttons and ports (physical layout, port colours, WAN/DSL/LAN identification)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://devicehelp.optus.com.au/sagemcom/f-st-5366-tn-windows-10/settings/restore-factory-default-settings",
+        "type": "isp",
+        "description": "Optus Device Help — factory reset instructions for F@ST 5366 TN",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://devicehelp.optus.com.au/sagemcom/f-st-5366-tn-windows-10/specifications",
+        "type": "isp",
+        "description": "Optus Device Help — F@ST 5366 TN specifications (ports, Wi-Fi, connectivity)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.optus.com.au/content/dam/optus/documents/for-you/broadband-internet/modems/Sagemcom_F@ST_5366_TN_Modem_User_Guide.pdf",
+        "type": "manual",
+        "description": "Official Optus Sagemcom F@ST 5366 TN Modem User Guide PDF (physical setup, port diagrams, connection instructions)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://forums.whirlpool.net.au/archive/9yqm7znz",
+        "type": "community",
+        "description": "Whirlpool — Sagemcom 5366 TN NBN ISP compatibility thread (confirmed locked to IPoE, works with other IPoE ISPs)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://forums.whirlpool.net.au/archive/35qx7mr3",
+        "type": "community",
+        "description": "Whirlpool — unlocking Optus Sagemcom F@ST 5366 for Tangerine (ISP lock discussion, IPoE-only confirmation)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.ozbargain.com.au/node/717895",
+        "type": "community",
+        "description": "OzBargain — Optus 5366 TN compatibility with other nbn retailers (user reports of plug-and-play success with IPoE ISPs)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://yescrowd.optus.com.au/t5/Broadband-Telephony/Sagemcom-F-ST-5366-TN-reset-main-Password-provided/td-p/604371",
+        "type": "community",
+        "description": "Optus Yes Crowd — F@ST 5366 TN password reset discussion (admin credentials, sticker password confirmation)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://yescrowd.optus.com.au/t5/WiFi/WiFi-Getaway-Login-Problem-Sagemcom-F-ST-5366-TN/td-p/598542",
+        "type": "community",
+        "description": "Optus Yes Crowd — F@ST 5366 TN login issues (username 'optus' lowercase confirmation, sticker password)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://setuprouter.com/router/sagemcom/fast-5366-tn-a/sg4y1t0003049-optus/reset-router.htm",
+        "type": "review",
+        "description": "SetupRouter — factory reset instructions for Sagemcom F@ST 5366 TN-A (reset button location, hold duration)",
+        "accessed": "2026-03-22"
+      }
+    ],
+    "setup_confidence": {
+      "score": 65,
+      "notes": "Score: 100 - 15 (ISP-branded Optus firmware with limited public documentation of admin panel internals) - 10 (exact admin nav path 'Advanced Setup > WAN Service' inferred from Sagemcom platform conventions and community references, not confirmed with per-model screenshots) - 5 (IPoE label unconfirmed — the modem is locked to IPoE but the exact label shown in the UI is uncertain) - 5 (save button label 'Apply/Save' is a Sagemcom platform convention, not confirmed per-model) = 65. Mitigating factors: the modem auto-detects IPoE after factory reset, so most customers will never need to navigate the admin panel for WAN configuration. Admin IP (192.168.0.1) confirmed by Optus, setuprouter.com, portforward.com, and community sources. Username ('optus') confirmed by multiple Optus Yes Crowd threads. Physical ports (red WAN, grey DSL) confirmed by Optus user guide and device help pages. Factory reset (10 seconds, pinhole rear) confirmed by Optus and setuprouter.com."
+    }
+  }
+}

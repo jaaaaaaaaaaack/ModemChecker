@@ -1,0 +1,153 @@
+{
+  "id": "netcomm-nf18acv",
+  "brand": "NetComm",
+  "model": "NF18ACV",
+  "device_type": "modem_router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.20.1",
+      "default_username": "admin",
+      "default_password": "admin",
+      "alt_access": null,
+      "credential_type": "standard",
+      "app_only": false,
+      "auto_detects_ipoe": false,
+      "supports_https": false,
+      "notes": "The NF18ACV uses an unusual default IP (192.168.20.1) compared to most routers. Do NOT use https — the self-signed certificate causes authentication failures in modern browsers. Use http://192.168.20.1 only. Some ISP-supplied units (Tangerine, Mercury NZ) may have the password changed to 'admin' + the last 6 characters of the MAC address — check the label on the bottom of the device if 'admin/admin' doesn't work."
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "Basic > Quick Set Up",
+        "connection_type_field": "Connection Type",
+        "ipoe_label": "Dynamic IP",
+        "save_button_label": "Apply/Save",
+        "pppoe_clear_note": "Clear the 'Username' and 'Password' fields if populated from a previous PPPoE ISP",
+        "steps_ipoe": [
+          "Connect an Ethernet cable from the nbn connection box (UNI-D port) to the blue WAN port on the rear of the NF18ACV",
+          "Plug in the power cable and turn the modem on using the Power button on the side",
+          "Connect your computer to the modem via one of the yellow LAN ports or via Wi-Fi (check the label on the bottom of the device for the default Wi-Fi name and password)",
+          "Open a web browser and go to http://192.168.20.1",
+          "Log in with username 'admin' and password 'admin'",
+          "If the Setup Wizard appears, click 'Yes, start the setup wizard'",
+          "Under 'Internet Service', select 'Ethernet WAN'",
+          "Under 'Connection Type', select 'Dynamic IP'",
+          "Click 'Next' to proceed through the Wi-Fi and timezone settings, or click 'Apply/Save' if on the manual WAN setup page",
+          "Wait 1-2 minutes for the modem to establish a connection — the Internet light on the front should turn solid green"
+        ]
+      },
+      "dsl": {
+        "nav_path": "Basic > Quick Set Up",
+        "connection_type_field": "Connection Type",
+        "ipoe_label": "Dynamic IP",
+        "save_button_label": "Apply/Save",
+        "pppoe_clear_note": "Clear the 'Username' and 'Password' fields if populated from a previous PPPoE ISP (e.g. TPG, iiNet, Internode)",
+        "steps_ipoe": [
+          "Connect a phone cable from the telephone wall socket to the grey DSL port on the rear of the NF18ACV — use a DSL line filter if you have a telephone on the same line",
+          "Plug in the power cable and turn the modem on using the Power button on the side",
+          "Wait for the DSL light on the front to turn solid (this may take 1-2 minutes as the modem syncs with the exchange)",
+          "Connect your computer to the modem via one of the yellow LAN ports or via Wi-Fi (check the label on the bottom of the device for the default Wi-Fi name and password)",
+          "Open a web browser and go to http://192.168.20.1",
+          "Log in with username 'admin' and password 'admin'",
+          "If the Setup Wizard appears, click 'Yes, start the setup wizard'",
+          "Under 'Internet Service', select 'VDSL'",
+          "Under 'Connection Type', select 'Dynamic IP'",
+          "Clear any 'Username' and 'Password' fields if they contain old ISP credentials",
+          "Click 'Apply/Save' to save the settings",
+          "Wait 1-2 minutes for the modem to reconnect — the Internet light on the front should turn solid green"
+        ]
+      },
+      "vlan_field": "VLAN Tag",
+      "vlan_nav_path": "Basic > Quick Set Up",
+      "vlan_notes": "VLAN tagging is available in the WAN setup page. Belong does not require VLAN tagging. Some ISPs (e.g. iiNet pre-March 2023 plans with bundled phone) required VLAN Tag 2 with 802.1P priority 0, but this is not needed for Belong."
+    },
+    "physical": {
+      "wan_port_label": "WAN",
+      "wan_port_color": "blue",
+      "wan_port_position": "Rightmost Ethernet port when viewed from the rear, next to the Reset pinhole",
+      "wan_port_icon": null,
+      "wan_port_notes": "The blue WAN port is a dedicated Gigabit Ethernet port — do not confuse it with the four yellow LAN ports to its left. Use this port for FTTP, FTTC, HFC, and Fixed Wireless connections.",
+      "dsl_port_label": "DSL",
+      "dsl_port_color": "grey",
+      "dsl_port_position": "RJ11 port on the far left of the rear panel, next to the Phone ports",
+      "dsl_port_icon": null,
+      "dsl_port_notes": "The DSL port uses an RJ11 phone cable (not an Ethernet cable). Use this port for FTTN and FTTB connections only.",
+      "lan_ports": "4 x Gigabit Ethernet (yellow)",
+      "other_ports": "2 x RJ11 Phone/VoIP (FXS), 1 x USB 2.0",
+      "reset_button": "Recessed pinhole on rear panel, between the WAN port and USB port",
+      "reset_hold_seconds": 10
+    },
+    "factory_reset": {
+      "method": "Use a pin or paperclip to press and hold the recessed Reset button on the rear panel for 10 seconds until the LEDs flash, then release. The modem will reboot and restore factory default settings. If the reset doesn't trigger, disconnect the power cable for 30 seconds, reconnect it, then repeat the reset process.",
+      "restores_default_credentials": true,
+      "notes": "Factory reset erases ALL settings including Wi-Fi name/password, ISP configuration, and any custom settings. After reset, the admin credentials return to admin/admin and the Setup Wizard will appear on first login."
+    },
+    "firmware": {
+      "check_path": "Management > Update Firmware",
+      "auto_update_available": false,
+      "download_url": "https://support.netcommwireless.com/products/NF18ACV",
+      "notes": "Firmware must be manually downloaded from the NetComm support page and uploaded via the admin panel. Navigate to Management > Update Firmware, click Browse/Choose File to select the firmware file, then click 'Update Firmware'. Alternatively, access the firmware update page directly at http://192.168.20.1/upload.html if the menu option is not visible. The NF18ACV is still receiving firmware updates (latest: NC2-R6B025, February 2026) despite being discontinued. ISP-branded firmware versions (e.g. Aussie Broadband) are also available."
+    },
+    "setup_notes": "The NetComm NF18ACV is one of Australia's most widely deployed modem-routers, supplied by Aussie Broadband, Superloop, Tangerine, SpinTel, and many other ISPs. It has both a blue Ethernet WAN port (for FTTP/FTTC/HFC) and a grey DSL port (for FTTN/FTTB), so customers must use the correct port for their nbn technology type. The admin panel uses an unusual default IP of 192.168.20.1 (not the common 192.168.0.1 or 192.168.1.1). The Setup Wizard runs on first login and guides through Internet Service selection (Ethernet WAN or VDSL) and Connection Type (Dynamic IP for Belong). If the modem was previously configured for a PPPoE ISP (TPG, iiNet, Internode), the customer needs to change the Connection Type to Dynamic IP and clear any saved credentials.",
+    "manual_url": "https://support.netcommwireless.com/products/NF18ACV",
+    "setup_sources": [
+      {
+        "url": "https://help.pentanet.com.au/hc/en-us/articles/4405747653395-NetComm-NF18ACV-NC2-Router-Set-Up-Guide",
+        "type": "isp",
+        "description": "Pentanet — step-by-step NF18ACV-NC2 setup guide covering physical connection, admin login (192.168.20.1, admin/admin), and WAN configuration for both Ethernet WAN and DSL",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://help.iinet.net.au/how-set-netcomm-nf18acv-nbn-fttp",
+        "type": "isp",
+        "description": "iiNet — FTTP setup guide for NF18ACV covering Ethernet WAN connection, Setup Wizard steps with Internet Service and Connection Type selection",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://help.iinet.net.au/how-set-netcomm-nf18acv-modem-nbn-fttbn",
+        "type": "isp",
+        "description": "iiNet — FTTN/FTTB setup guide for NF18ACV covering DSL connection, VDSL Internet Service selection, and Connection Type configuration",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://help.lip.net.au/netcomm-nf18acv-ethernetwan-guide/",
+        "type": "isp",
+        "description": "Lightning IP — Ethernet WAN guide for NF18ACV covering FTTP, FTTC, HFC, and Fixed Wireless connections",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://articles.spintel.net.au/en/articles/4773568-how-to-configure-your-netcomm-nf18acv-modem",
+        "type": "isp",
+        "description": "SpinTel — NF18ACV configuration guide confirming admin IP 192.168.20.1 and admin/admin credentials",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://support.netcommwireless.com/products/NF18ACV",
+        "type": "manufacturer",
+        "description": "NetComm Wireless — official product support page with user guides, quick start guides, firmware downloads, and admin panel emulator",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.manualslib.com/manual/1513009/Netcomm-Wireless-Nf18acv.html",
+        "type": "manual",
+        "description": "Full 93-page user manual — rear panel diagram, WAN configuration paths (Basic > Quick Set Up, Internet Service and Connection Type fields), factory reset procedure, firmware update path (Management > Update Firmware)",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://support.netcommwireless.com/emulators/nf18acv-nc2/routing.html",
+        "type": "manufacturer",
+        "description": "NetComm admin panel emulator — confirms WAN Type (Ethernet WAN), WAN Mode (IP over Ethernet / IPoE), and Apply/Save button text",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.aussiebroadband.com.au/help-centre/internet/netcomm-nf18acv-setup-guide/",
+        "type": "isp",
+        "description": "Aussie Broadband — NF18ACV setup guide confirming IPoE/DHCP is the required connection type for their service",
+        "accessed": "2026-03-22"
+      }
+    ],
+    "setup_confidence": {
+      "score": 85,
+      "notes": "Score: 100 - 5 (physical port layout order inferred from manual descriptions and ISP guides rather than verified from a clear rear panel photograph — DSL port 'far left' and WAN port 'rightmost Ethernet port' are consistent across sources but exact left-to-right sequence not visually confirmed) - 5 (IPoE label for DSL path: VDSL + Dynamic IP confirmed by ManualsLib user manual and iiNet guide, but no ISP guide specifically shows selecting Dynamic IP for VDSL on Belong/IPoE ISP — most ISP guides show PPPoE since they're written for PPPoE ISPs like iiNet/TPG) - 5 (no alt_access hostname confirmed — NetComm does not appear to use one, but absence is hard to prove). Admin IP 192.168.20.1 confirmed by 6+ independent sources (Pentanet, iiNet, SpinTel, setuprouter.com, modemly.com, ManualsLib). Default credentials admin/admin confirmed by all major ISP guides and manufacturer documentation. Save button 'Apply/Save' confirmed by ManualsLib manual and admin panel emulator. Firmware path Management > Update Firmware confirmed by HardReset.info and manuals.plus. Factory reset 10 seconds confirmed by NetComm FAQ and setuprouter.com."
+    }
+  }
+}

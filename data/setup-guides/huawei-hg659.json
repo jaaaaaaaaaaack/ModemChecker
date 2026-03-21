@@ -1,0 +1,171 @@
+{
+  "id": "huawei-hg659",
+  "brand": "Huawei",
+  "model": "HG659",
+  "device_type": "modem_router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.1.1",
+      "default_username": "admin",
+      "default_password": "admin",
+      "alt_access": "huaweimobilewifi.com",
+      "credential_type": "standard",
+      "app_only": false,
+      "app_name": null,
+      "app_store_links": null,
+      "auto_detects_ipoe": false,
+      "supports_https": false,
+      "notes": "Default credentials are admin/admin across all ISP variants (TPG, Dodo, iiNet, Internode, iPrimus). TPG firmware may prompt you to change the default password on first login. If admin/admin does not work, the password was changed by a previous user or ISP auto-configuration \u2014 a factory reset will restore admin/admin. The Wi-Fi password printed on the rear sticker is for Wi-Fi only, not the admin panel."
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "Internet > Internet Settings",
+        "connection_type_field": "Connection Type",
+        "ipoe_label": "Dynamic IP (IPoE)",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If an existing PPPoE connection is listed (e.g. 'INTERNET_TR069_ETH' or similar), click Edit and change Connection Type from 'PPP' to 'Dynamic IP (IPoE)'. Clear the 'Internet Account' and 'Internet Password' fields if populated. If you cannot edit the connection, delete it and create a new one.",
+        "steps_ipoe": [
+          "Connect an Ethernet cable from the nbn connection box (UNI-D or GATEWAY port) to the blue WAN port on the rear of the HG659",
+          "Connect your computer to the HG659 via Wi-Fi or one of the yellow LAN ports",
+          "Open a web browser and go to http://192.168.1.1",
+          "Log in with username 'admin' and password 'admin' (if prompted to change the password, set a new one and note it down)",
+          "Click 'Internet' in the top navigation bar",
+          "Click 'Internet Settings' in the left sidebar",
+          "In the connection list, locate the existing Ethernet WAN connection (e.g. 'INTERNET_TR069_ETH' or 'INT_ETH') and click 'Edit'. If no Ethernet connection exists, click 'New'",
+          "Set 'Connection Type' to 'Dynamic IP (IPoE)'",
+          "Set 'Authentication Type' to 'Auto'",
+          "Clear the 'Internet Account' and 'Internet Password' fields if they contain old ISP credentials",
+          "Ensure 'Enable VLAN' is unchecked (or set VLAN to Off)",
+          "Click 'Save'",
+          "Wait 2-5 minutes for the modem to establish a connection \u2014 the Internet LED on the front should turn solid green"
+        ]
+      },
+      "dsl": {
+        "nav_path": "Internet > Internet Settings",
+        "connection_type_field": "Connection Type",
+        "ipoe_label": "Dynamic IP (IPoE)",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If the existing VDSL connection (e.g. 'INTERNET_TR069_VDSL_VID_10') is set to PPP, click Edit and change Connection Type to 'Dynamic IP (IPoE)'. Clear the 'Internet Account' and 'Internet Password' fields. Ensure VLAN is disabled.",
+        "steps_ipoe": [
+          "Connect a phone cable (RJ11) from the telephone wall socket to the grey DSL port on the rear of the HG659",
+          "Connect your computer to the HG659 via Wi-Fi or one of the yellow LAN ports",
+          "Open a web browser and go to http://192.168.1.1",
+          "Log in with username 'admin' and password 'admin' (if prompted to change the password, set a new one and note it down)",
+          "Click 'Internet' in the top navigation bar",
+          "Click 'Internet Settings' in the left sidebar",
+          "In the connection list, locate the existing VDSL connection (e.g. 'INTERNET_TR069_VDSL_VID_10') and click 'Edit'. If no VDSL connection exists, click 'New'",
+          "Set 'Connection Type' to 'Dynamic IP (IPoE)'",
+          "Set 'Authentication Type' to 'Auto'",
+          "Clear the 'Internet Account' and 'Internet Password' fields if they contain old ISP credentials",
+          "Ensure 'Enable VLAN' is unchecked (or set VLAN to Off \u2014 TPG uses VLAN 2, which must be disabled for Belong)",
+          "Click 'Save'",
+          "Wait up to 15 minutes for the modem to sync on the DSL line and establish a connection \u2014 the DSL and Internet LEDs on the front should turn solid green"
+        ]
+      },
+      "vlan_field": "Enable VLAN",
+      "vlan_nav_path": "Internet > Internet Settings > (Edit connection)",
+      "vlan_notes": "TPG firmware configures VLAN tagging (VLAN ID 2) by default. This must be disabled for Belong \u2014 uncheck 'Enable VLAN' or set VLAN to Off in the connection settings."
+    },
+    "physical": {
+      "wan_port_label": "WAN",
+      "wan_port_color": "blue",
+      "wan_port_position": "on the rear panel, separate from the four yellow LAN ports",
+      "wan_port_icon": null,
+      "wan_port_notes": "The WAN port is a dedicated blue RJ-45 Ethernet port. Use this for FTTP, FTTC, or HFC connections to the nbn connection box. Do not confuse with the four yellow LAN ports.",
+      "dsl_port_label": "DSL",
+      "dsl_port_color": "grey",
+      "dsl_port_position": "on the rear panel, smaller RJ11 connector",
+      "dsl_port_icon": null,
+      "dsl_port_notes": "The DSL port uses a smaller RJ11 connector (phone-style cable). Use this for FTTN/FTTB connections to the telephone wall socket.",
+      "lan_ports": "4 x Gigabit Ethernet (yellow)",
+      "other_ports": "2 x USB 2.0, 1 x Phone (RJ11, for VoIP)",
+      "reset_button": "Recessed pinhole on rear panel, near the DSL port",
+      "reset_hold_seconds": 10
+    },
+    "factory_reset": {
+      "method": "Use a pin or paperclip to press and hold the recessed Reset button on the rear panel for 10 seconds until the Power LED turns red or all LEDs flash, then release. The modem will restart and may take up to 5 minutes to fully reset.",
+      "restores_default_credentials": true,
+      "notes": "Factory reset restores admin/admin credentials and erases all custom settings including Wi-Fi name and password. IMPORTANT: On TPG-supplied units, a factory reset returns the modem to TPG's locked firmware configuration \u2014 it does NOT unlock the WAN settings. If TPG firmware blocks access to Internet Settings, the modem cannot be reconfigured for Belong without flashing alternative firmware (e.g. the NZ Spark build). See setup_notes for details."
+    },
+    "firmware": {
+      "check_path": "More Functions > Manage Updates > Update Now",
+      "auto_update_available": false,
+      "download_url": null,
+      "notes": "TPG-supplied units run custom ISP firmware that restricts access to WAN configuration. Huawei does not provide public firmware downloads for the HG659 consumer variant. TPG firmware updates were pushed via TR-069 (auto-configuration server) while the modem was active on TPG's network \u2014 these updates stop when the modem is used with another provider. Community-sourced firmware (NZ Spark or Vodafone NZ builds) can unlock the modem but this is unsupported and voids any remaining warranty."
+    },
+    "setup_notes": "The Huawei HG659 was widely supplied by TPG (and also Dodo, iiNet, Internode, and iPrimus \u2014 all TPG group brands). TPG's custom firmware blocks access to the WAN/Internet settings page, meaning the modem CANNOT be reconfigured from PPPoE to IPoE through the admin panel without first flashing unlocked firmware. This is the single biggest barrier for customers switching from TPG to Belong with this modem. A factory reset does NOT unlock the WAN settings \u2014 it returns the modem to TPG's locked state. The steps documented here assume the modem has unlocked firmware (either non-TPG variant, or reflashed to a generic/NZ Spark build). If the customer's HG659 still has TPG firmware and they cannot see the Internet Settings page, they should be advised to use a different modem. For unlocked units: the admin panel uses 'Internet > Internet Settings' for both Ethernet and DSL WAN paths. Connection profiles are listed by name (e.g. 'INTERNET_TR069_VDSL_VID_10' for DSL, 'INT_ETH' for Ethernet) and can be edited or deleted. The IPoE/DHCP option is labeled 'Dynamic IP (IPoE)' in the Connection Type dropdown. TPG uses VLAN 2 which must be disabled for Belong.",
+    "manual_url": "https://www.letsbemates.com.au/mate/wp-content/uploads/2021/07/HG659_user_guide.pdf",
+    "setup_sources": [
+      {
+        "url": "https://www.letsbemates.com.au/mate/guide-huawei-hg659-modem-nbn-fttp/",
+        "type": "isp",
+        "description": "MATE \u2014 HG659 nbn FTTP setup guide with step-by-step instructions and screenshots",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.letsbemates.com.au/mate/guide-huawei-hg659-modem-nbn-fttn/",
+        "type": "isp",
+        "description": "MATE \u2014 HG659 nbn FTTN/FTTB setup guide with VDSL-specific configuration steps",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://support.fuzenet.com.au/hc/en-us/articles/360037108274-HG659-FTTP-HFC-FTTC-ETHERNET-Manual-Setup-Guide",
+        "type": "isp",
+        "description": "FuzeNet \u2014 HG659 FTTP/HFC/FTTC Ethernet manual setup guide with admin panel navigation",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://support.fuzenet.com.au/hc/en-us/articles/360037108534-HG659-FTTN-VDSL-Manual-Setup-Guide",
+        "type": "isp",
+        "description": "FuzeNet \u2014 HG659 FTTN/VDSL manual setup guide with DSL-specific connection editing",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://support.simplybroadband.co.nz/instruction/huawei-hg659",
+        "type": "isp",
+        "description": "Simply Broadband NZ \u2014 HG659 settings including connection type labels (IP routing IP) and VLAN config",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.internode.on.net/support/guides/internet_access/nbn/hfc/huawei_hg659/",
+        "type": "isp",
+        "description": "Internode \u2014 HG659 nbn HFC setup guide confirming admin IP, blue WAN port, auto-configuration",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://support.moosemobile.com.au/hc/en-us/articles/4409473413135-BYO-Modem-Huawei-HG659-HFC-FTTP-FTTC-FW",
+        "type": "isp",
+        "description": "Moose Mobile \u2014 BYO HG659 setup guide confirming admin IP, Internet > Internet Settings nav path",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://forums.whirlpool.net.au/archive/988l4v2l",
+        "type": "community",
+        "description": "Whirlpool \u2014 HG659 restricted/locked firmware discussion confirming TPG WAN settings are hidden",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://forums.whirlpool.net.au/archive/2600877",
+        "type": "community",
+        "description": "Whirlpool \u2014 HG659 unlock methods discussion confirming factory reset does not unlock WAN",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://community.tpg.com.au/t5/Featured-Articles/Huawei-HG-659-Settings/ba-p/90",
+        "type": "isp",
+        "description": "TPG Community \u2014 HG659 settings page confirming default credentials admin/admin",
+        "accessed": "2026-03-22"
+      },
+      {
+        "url": "https://www.letsbemates.com.au/mate/wp-content/uploads/2021/07/HG659_user_guide.pdf",
+        "type": "manual",
+        "description": "Huawei HG659 official user guide PDF \u2014 port layout, admin panel structure, factory reset procedure",
+        "accessed": "2026-03-22"
+      }
+    ],
+    "setup_confidence": {
+      "score": 65,
+      "notes": "Score: 100 - 15 (ISP-branded TPG firmware with hidden WAN settings \u2014 steps only work on unlocked/non-TPG firmware variants) - 10 (nav path 'Internet > Internet Settings' confirmed by MATE, FuzeNet, and Moose Mobile for non-TPG units, but unverifiable on TPG-locked units) - 5 (IPoE label 'Dynamic IP (IPoE)' confirmed by MATE guide but MATE is a PPPoE ISP so their guide shows PPPoE config, IPoE label inferred from FuzeNet and Simply Broadband NZ) - 5 (physical port positions not confirmed from an official rear panel diagram \u2014 WAN=blue, LAN=yellow, DSL=grey confirmed by multiple ISP guides but exact left-right ordering not verified) = 65. The major risk is that TPG-locked units cannot follow these steps at all without firmware replacement. The steps are accurate for unlocked firmware variants (Dodo, iiNet, Internode units with stock firmware, or reflashed units)."
+    }
+  }
+}
