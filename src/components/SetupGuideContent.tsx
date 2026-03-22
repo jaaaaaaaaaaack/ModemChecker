@@ -250,26 +250,22 @@ export function SetupGuideContent({
     isp_sticker: "login-no-pass",
     app_only: "app-only",
   };
-  const credentialType: CredentialType =
-    (adminPanel as Record<string, unknown>).credential_type as CredentialType ??
-    "standard";
+  const credentialType = adminPanel.credential_type ?? "standard";
   const credentialVariant = credentialTypeMap[credentialType] ?? "login-base";
 
   // Select WAN config based on tech type
-  const isDslTech = techType === "fttn" || techType === "fttb";
-  const wanConfigObj = data.setup.wan_config as Record<string, unknown>;
+  const isDslTech = techType === "fttn";
   const wanConfig = isDslTech
-    ? (wanConfigObj.dsl as typeof data.setup.wan_config.ethernet | undefined)
+    ? (data.setup.wan_config.dsl ?? data.setup.wan_config.ethernet)
     : data.setup.wan_config.ethernet;
 
   // Whether this router lacks DSL but customer needs it
-  const needsDslButMissing = isDslTech && !wanConfigObj.dsl;
+  const needsDslButMissing = isDslTech && !data.setup.wan_config.dsl;
 
   // Port label parsing (data contract §6.3)
   const rawPortLabel = data.setup.physical.wan_port_label;
   const rawPortColor = data.setup.physical.wan_port_color;
-  const portIcon = (data.setup.physical as Record<string, unknown>)
-    .wan_port_icon as string | null;
+  const portIcon = data.setup.physical.wan_port_icon;
 
   const portTypeName = rawPortLabel
     .replace(/^Either\s+/i, "")
@@ -292,21 +288,16 @@ export function SetupGuideContent({
   const navSegments = wanConfig?.nav_path?.split(" > ") ?? [];
 
   // Protocol for admin URLs
-  const supportsHttps =
-    (adminPanel as Record<string, unknown>).supports_https === true;
-  const protocol = supportsHttps ? "https" : "http";
+  const protocol = adminPanel.supports_https ? "https" : "http";
 
   // PPPoE clear note
-  const pppoeClearNote = (wanConfig as Record<string, unknown> | undefined)
-    ?.pppoe_clear_note as string | undefined;
+  const pppoeClearNote = wanConfig?.pppoe_clear_note;
 
   // Save button label
-  const saveButtonLabel =
-    ((wanConfig as Record<string, unknown> | undefined)
-      ?.save_button_label as string) ?? "Save";
+  const saveButtonLabel = wanConfig?.save_button_label ?? "Save";
 
   // App name for login_app
-  const appName = (adminPanel as Record<string, unknown>).app_name as string | null ?? "the app";
+  const appName = adminPanel.app_name ?? "the app";
 
   // NBN hardware for the connection step
   const nbnHardware = NBN_HARDWARE[techType];
@@ -434,8 +425,8 @@ export function SetupGuideContent({
                 Set up your modem using the {appName} app
               </span>
             }
-            appStoreUrl={(adminPanel as Record<string, unknown>).app_store_links != null ? ((adminPanel as Record<string, unknown>).app_store_links as { ios: string; android: string }).ios : undefined}
-            playStoreUrl={(adminPanel as Record<string, unknown>).app_store_links != null ? ((adminPanel as Record<string, unknown>).app_store_links as { ios: string; android: string }).android : undefined}
+            appStoreUrl={adminPanel.app_store_links?.ios}
+            playStoreUrl={adminPanel.app_store_links?.android}
           />
         );
 
