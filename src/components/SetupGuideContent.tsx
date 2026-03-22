@@ -89,30 +89,23 @@ const STEP_DESCRIPTIONS: Record<StepTemplateId, string> = {
 // --- Success Screen ---
 
 function SetupSuccess({ onBack }: { onBack: () => void }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [phase, setPhase] = useState<"bg" | "content">("bg");
-  const [videoReady, setVideoReady] = useState(false);
-
-  // Content phase starts after background gradient has settled
-  useEffect(() => {
-    const timer = setTimeout(() => setPhase("content"), 1200);
-    return () => clearTimeout(timer);
-  }, []);
+  const [imageReady, setImageReady] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const showContent = phase === "content" && videoReady;
-
   return (
     <>
-      {/* Black background — fades in over the flat bg-brand-50 parent */}
+      {/* Gradient background — fades in over the flat bg-brand-50 parent */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.4, ease: "easeOut" }}
-        className="fixed inset-0 z-0 pointer-events-none bg-black"
+        className="fixed inset-0 z-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(180deg, rgb(100 232 247) 0%, rgb(195 249 255) 50vh)",
+        }}
       />
 
       {/* Content — positioned above gradient */}
@@ -120,65 +113,64 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.8 }}
-        className="relative z-10 flex w-full flex-col items-center gap-8 py-16 px-6"
+        className="relative z-10 flex w-full flex-col items-center pt-[18vh] pb-10 px-6"
       >
-        {/* Video — scales from 20% with gentle upward drift */}
+        {/* Hero image — fades and scales in gently */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.2, y: 24 }}
-          animate={
-            phase === "content"
-              ? { opacity: 1, scale: 1, y: 0 }
-              : { opacity: 0, scale: 0.2, y: 24 }
-          }
+          initial={{ opacity: 0, scale: 0.2, y: 20 }}
+          animate={imageReady ? { opacity: 1, scale: 1, y: 0 } : {}}
           transition={{
             type: "spring",
-            stiffness: 40,
+            stiffness: 30,
             damping: 14,
-            mass: 1.2,
+            mass: 1.4,
+            delay: 1,
           }}
-          className="w-full max-w-[280px]"
+          className="w-full max-w-[200px] mb-10"
         >
-          <video
-            ref={videoRef}
-            src="/success.webm"
-            autoPlay
-            muted
-            playsInline
-            onCanPlay={() => setVideoReady(true)}
-            className="w-full rounded-2xl"
+          <img
+            src="/belongWifi.webp"
+            alt="Belong Wi-Fi"
+            className="w-full"
+            onLoad={() => setImageReady(true)}
           />
         </motion.div>
 
-        {/* Heading — tighter gap to video */}
+        {/* Heading — 1.2s behind image */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.9, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-h1 font-h1 text-brand-300 text-center -mt-8"
+          initial={{ opacity: 0, y: 10 }}
+          animate={imageReady ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1.4, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-h1 font-h1 text-brand-900 text-center"
         >
           Welcome to Belong
         </motion.h1>
 
-        {/* Body text */}
+        {/* Body — 1s behind heading */}
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.9, delay: 2.0, ease: [0.16, 1, 0.3, 1] }}
-          className="text-body font-body text-brand-300 text-center max-w-sm"
+          initial={{ opacity: 0, y: 8 }}
+          animate={imageReady ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1.4, delay: 3.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-body font-body text-brand-900 text-center max-w-sm mt-3"
         >
           You&apos;re all set up and connected. Enjoy your new internet
           — we&apos;re glad you&apos;re here.
+          <span className="block mt-3">
+            If you hit any snags, just head back to the setup page and
+            we&apos;ll guide you through some extra tips to get things
+            running smoothly.
+          </span>
         </motion.p>
 
-        {/* CTA — icon on right */}
+        {/* CTA — 1s behind body */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.9, delay: 2.4, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center gap-4"
+          initial={{ opacity: 0, y: 8 }}
+          animate={imageReady ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1.4, delay: 4.2, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center gap-5 mt-10"
         >
           <Button
-            variant="brand-secondary"
+            variant="brand-primary"
             size="medium"
             iconRight={<FeatherArrowRight />}
             hasRightIcon={true}
@@ -188,8 +180,8 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
           >
             Continue to your dashboard
           </Button>
-          <LinkButton variant="inverse" onClick={onBack}>
-            Back to setup steps
+          <LinkButton onClick={onBack}>
+            Back to setup page
           </LinkButton>
         </motion.div>
       </motion.div>
@@ -216,8 +208,8 @@ export function SetupGuideContent({
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "preload";
-    link.as = "video";
-    link.href = "/success.webm";
+    link.as = "image";
+    link.href = "/belongWifi.webp";
     document.head.appendChild(link);
     return () => { document.head.removeChild(link); };
   }, []);
