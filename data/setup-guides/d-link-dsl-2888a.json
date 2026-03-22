@@ -86,6 +86,12 @@
       "download_url": "http://support.dlink.com.au/Download/download.aspx?product=DSL-2888A",
       "notes": "D-Link DSL-2888A does NOT support automatic firmware checking — firmware must be downloaded manually from the D-Link AU support site and uploaded via the admin panel. Product reached EOL on 31 December 2024; firmware updates may no longer be released."
     },
+    "troubleshooting": {
+      "internet_led_label": "Internet LED",
+      "internet_led_success": "solid green",
+      "internet_led_failure": "off",
+      "common_issues": null
+    },
     "setup_notes": "The DSL-2888A (Python) is a modem-router with both Ethernet WAN and built-in VDSL2/ADSL2+ modem, so it works on all nbn tech types. Key detail: the admin IP is 192.168.1.1, NOT 192.168.0.1 (which is D-Link's default for non-DSL routers). The D-Link admin UI uses 'Settings > Internet' for WAN configuration, where you select the WAN Access Type (Ethernet for FTTP/FTTC/HFC, VDSL for FTTN/B) and then the connection type (Dynamic IP for Belong). On FTTN/B, if the device was previously configured for PPPoE (e.g. from TPG), the existing DSL connection may need to be deleted before creating a new Dynamic IP one. For HFC connections, the nbn NTD may need to be powered off for up to 30 minutes to release the old DHCP lease before the new modem can connect.",
     "manual_url": "https://files.dlink.com.au/products/DSL-2888A/Manuals/DSL-2888A_T1_Manual_v1.00(WW).pdf",
     "setup_sources": [

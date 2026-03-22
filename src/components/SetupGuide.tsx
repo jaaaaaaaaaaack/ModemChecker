@@ -113,8 +113,8 @@ export function SetupGuide() {
   return (
     <div className="flex w-full flex-col items-center bg-brand-50 min-h-screen">
       <Navbar />
-      <div className="flex w-full max-w-[576px] flex-col items-center pt-8 pb-24 mobile:pt-4 mobile:pb-12">
-        <div className="flex w-full flex-col items-start gap-6 px-6 mobile:gap-6 mobile:px-4">
+      <div className={`flex w-full max-w-[576px] flex-col items-center ${showLanding ? "pt-4 pb-12" : "pt-8 pb-24 mobile:pt-4 mobile:pb-12"}`}>
+        <div className={`flex w-full flex-col items-start ${showLanding ? "" : "gap-6 px-6 mobile:gap-6 mobile:px-4"}`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={pageKey}

@@ -28,20 +28,20 @@
         "save_button_label": "Save",
         "pppoe_clear_note": null,
         "steps_ipoe": [
-          "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to either Ethernet port on the back of the Eero 6+ (both ports are auto-sensing \u2014 it doesn't matter which one you use)",
+          "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to either Ethernet port on the back of the Eero 6+ (both ports are auto-sensing — it doesn't matter which one you use)",
           "Plug in the Eero 6+ using the supplied USB-C power cable and wait for the LED to show solid white",
           "Download the eero app on your phone or tablet (App Store for iOS, Google Play for Android)",
           "Open the eero app and create an eero account (you can sign up with your phone number, email, or an existing Amazon account)",
           "Tap 'Set Up a New eero WiFi System' and follow the on-screen setup wizard",
-          "When prompted, the app will detect your Eero 6+ automatically \u2014 confirm the device",
+          "When prompted, the app will detect your Eero 6+ automatically — confirm the device",
           "Create your Wi-Fi network name and password when prompted",
-          "The Eero 6+ will auto-detect your internet connection type (DHCP/IPoE) \u2014 no manual configuration is needed for Belong",
+          "The Eero 6+ will auto-detect your internet connection type (DHCP/IPoE) — no manual configuration is needed for Belong",
           "Wait 1-2 minutes for the LED to turn solid white, indicating the device is online and connected"
         ]
       },
       "vlan_field": "Uplink VLAN",
       "vlan_nav_path": "eero app > Settings > ISP Settings",
-      "vlan_notes": "VLAN tagging (called 'Uplink VLAN') is available in ISP Settings on eero 6 and newer models running eeroOS 6.6.1+. Belong does not require VLAN tagging \u2014 leave this unconfigured. If a previous ISP set a VLAN tag, remove it in ISP Settings."
+      "vlan_notes": "VLAN tagging (called 'Uplink VLAN') is available in ISP Settings on eero 6 and newer models running eeroOS 6.6.1+. Belong does not require VLAN tagging — leave this unconfigured. If a previous ISP set a VLAN tag, remove it in ISP Settings."
     },
     "physical": {
       "wan_port_label": "Either Ethernet port",
@@ -62,63 +62,69 @@
     "factory_reset": {
       "method": "Ensure the Eero has been powered on for at least 45 seconds. Then press and hold the reset button on the bottom of the device for 15 seconds until the LED flashes red, then release. The LED will cycle through colours and eventually reach a flashing blue state, indicating it is ready to be set up again.",
       "restores_default_credentials": false,
-      "notes": "Hard reset (15 seconds, LED flashes red) removes all settings, logs, and removes the device from your eero network/Amazon account \u2014 you must re-run the full app setup. There is also a soft reset option (7 seconds, LED flashes yellow) which clears network configurations but keeps the device on your account. Important: wait at least 45 seconds after powering on before attempting a reset."
+      "notes": "Hard reset (15 seconds, LED flashes red) removes all settings, logs, and removes the device from your eero network/Amazon account — you must re-run the full app setup. There is also a soft reset option (7 seconds, LED flashes yellow) which clears network configurations but keeps the device on your account. Important: wait at least 45 seconds after powering on before attempting a reset."
     },
     "firmware": {
-      "check_path": "Automatic \u2014 no user action required",
+      "check_path": "Automatic — no user action required",
       "auto_update_available": true,
       "download_url": null,
-      "notes": "eero firmware (eeroOS) updates are fully automatic and mandatory \u2014 there is no way to manually check, download, or install firmware. Updates are pushed by Amazon/eero and install automatically. The eero app shows the current eeroOS version under Settings > About."
+      "notes": "eero firmware (eeroOS) updates are fully automatic and mandatory — there is no way to manually check, download, or install firmware. Updates are pushed by Amazon/eero and install automatically. The eero app shows the current eeroOS version under Settings > About."
     },
-    "setup_notes": "The Eero 6+ is one of the simplest setups for Belong customers: plug in an Ethernet cable from the nbn box to either port (auto-sensing), power on, and follow the eero app wizard. The eero auto-detects DHCP/IPoE, so no manual WAN configuration is needed for Belong. The main scenario where ISP Settings in the app would need to be changed is if the device was previously configured for PPPoE \u2014 in that case, open eero app > Settings > Advanced > ISP Settings > WAN Type and change back to DHCP. For customers coming from ABB, the Eero will work immediately since ABB also uses IPoE. Note: setup requires an eero account (phone, email, or Amazon account). For HFC connections, the nbn NTD may need to be powered off for up to 30 minutes to release the old DHCP lease. Tangerine's QSG specifically notes you must plug into the NTD's activated Uni-D port \u2014 check your ISP's 'Ready to Go' email if unsure which port is active.",
+    "troubleshooting": {
+      "internet_led_label": "Status light",
+      "internet_led_success": "solid white",
+      "internet_led_failure": "flashing red or off",
+      "common_issues": null
+    },
+    "setup_notes": "The Eero 6+ is one of the simplest setups for Belong customers: plug in an Ethernet cable from the nbn box to either port (auto-sensing), power on, and follow the eero app wizard. The eero auto-detects DHCP/IPoE, so no manual WAN configuration is needed for Belong. The main scenario where ISP Settings in the app would need to be changed is if the device was previously configured for PPPoE — in that case, open eero app > Settings > Advanced > ISP Settings > WAN Type and change back to DHCP. For customers coming from ABB, the Eero will work immediately since ABB also uses IPoE. Note: setup requires an eero account (phone, email, or Amazon account). For HFC connections, the nbn NTD may need to be powered off for up to 30 minutes to release the old DHCP lease. Tangerine's QSG specifically notes you must plug into the NTD's activated Uni-D port — check your ISP's 'Ready to Go' email if unsure which port is active.",
     "manual_url": "https://support.eero.com/hc/en-us",
     "setup_sources": [
       {
         "url": "https://support.eero.com/hc/en-us/articles/360060086931-How-do-I-configure-ISP-settings",
         "type": "manufacturer",
-        "description": "eero Help Center \u2014 ISP Settings configuration guide (WAN Type, VLAN, PPPoE options)",
+        "description": "eero Help Center — ISP Settings configuration guide (WAN Type, VLAN, PPPoE options)",
         "accessed": "2026-03-21"
       },
       {
         "url": "https://support.eero.com/hc/en-us/articles/207921253-Physical-tour-of-an-eero-What-are-all-the-ports-for",
         "type": "manufacturer",
-        "description": "eero Help Center \u2014 Physical tour of ports (auto-sensing Ethernet, USB-C power, LED indicators)",
+        "description": "eero Help Center — Physical tour of ports (auto-sensing Ethernet, USB-C power, LED indicators)",
         "accessed": "2026-03-21"
       },
       {
         "url": "https://support.eero.com/hc/en-us/articles/215473703-How-do-I-reboot-or-reset-my-eero",
         "type": "manufacturer",
-        "description": "eero Help Center \u2014 Soft reset (7s/yellow) vs hard reset (15s/red) procedures with LED indicators",
+        "description": "eero Help Center — Soft reset (7s/yellow) vs hard reset (15s/red) procedures with LED indicators",
         "accessed": "2026-03-21"
       },
       {
         "url": "https://www.tangerine.com.au/help/how-to-reset-your-eero-6",
         "type": "isp",
-        "description": "Tangerine AU \u2014 Eero 6+ reset instructions confirming button location (bottom), hold times, and 45-second power-on prerequisite",
+        "description": "Tangerine AU — Eero 6+ reset instructions confirming button location (bottom), hold times, and 45-second power-on prerequisite",
         "accessed": "2026-03-21"
       },
       {
         "url": "https://www.androidpolice.com/eero-6-plus-review/",
         "type": "review",
-        "description": "Android Police \u2014 Eero 6+ review confirming auto-sensing dual Ethernet ports and physical layout",
+        "description": "Android Police — Eero 6+ review confirming auto-sensing dual Ethernet ports and physical layout",
         "accessed": "2026-03-21"
       },
       {
         "url": "https://www.tangerine.com.au/storage/Modem%20Guides/eero%206_%20QSGuide-%20Tangerine%20(May3).pdf",
         "type": "isp",
-        "description": "Tangerine AU \u2014 eero 6+ Quick Start Guide PDF with port diagrams, LED colour table, setup steps, and nbn connection diagrams per tech type (FTTP, FTTC, HFC). Retrieved via PDF fallback after eero support site returned 403.",
+        "description": "Tangerine AU — eero 6+ Quick Start Guide PDF with port diagrams, LED colour table, setup steps, and nbn connection diagrams per tech type (FTTP, FTTC, HFC). Retrieved via PDF fallback after eero support site returned 403.",
         "accessed": "2026-03-21"
       },
       {
         "url": "https://www.agl.com.au/content/dam/digital/agl/documents/modem-guides/eero-6-device-technicalguide.pdf",
         "type": "isp",
-        "description": "AGL \u2014 eero 6 Technical Guide PDF confirming ISP Settings nav path (Settings > Advanced > ISP Settings), LED table, troubleshooting steps, and hard reset procedure. Retrieved via PDF fallback.",
+        "description": "AGL — eero 6 Technical Guide PDF confirming ISP Settings nav path (Settings > Advanced > ISP Settings), LED table, troubleshooting steps, and hard reset procedure. Retrieved via PDF fallback.",
         "accessed": "2026-03-21"
       }
     ],
     "setup_confidence": {
       "score": 88,
-      "notes": "Score: 100 - 5 (eero support pages returned 403 on direct fetch \u2014 but PDF fallback worked: Tangerine Quick Start Guide and AGL Technical Guide both confirmed setup steps, port layout, LED indicators, and connection diagrams) - 5 (default gateway IP varies across sources: some say 192.168.4.1, others say 192.168.0.1 \u2014 moot since no web interface exists) - 2 (ISP Settings nav path confirmed as Settings > Advanced > ISP Settings by AGL guide, but the 'Advanced' intermediate step wasn't in all sources \u2014 minor ambiguity in exact app version) = 88. PDF fallback recovered 3 blocked manufacturer sources, raising confidence from 80."
+      "notes": "Score: 100 - 5 (eero support pages returned 403 on direct fetch — but PDF fallback worked: Tangerine Quick Start Guide and AGL Technical Guide both confirmed setup steps, port layout, LED indicators, and connection diagrams) - 5 (default gateway IP varies across sources: some say 192.168.4.1, others say 192.168.0.1 — moot since no web interface exists) - 2 (ISP Settings nav path confirmed as Settings > Advanced > ISP Settings by AGL guide, but the 'Advanced' intermediate step wasn't in all sources — minor ambiguity in exact app version) = 88. PDF fallback recovered 3 blocked manufacturer sources, raising confidence from 80."
     }
   }
 }

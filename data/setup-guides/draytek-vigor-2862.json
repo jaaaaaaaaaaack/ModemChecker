@@ -95,6 +95,12 @@
       "download_url": "https://www.draytek.com.au/support/downloads/vigor2862-series/",
       "notes": "The Vigor 2862 does NOT support automatic firmware checking — firmware must be downloaded manually from the DrayTek AU website and uploaded via the admin panel. Firmware is supplied as .ALL files (firmware only) or .RST files (firmware + factory reset). The product reached End of Sale in May 2023 with End of Support in May 2028; critical security updates are still being released but new features are unlikely. Latest recommended firmware supports VDSL vectoring. Always back up the configuration before upgrading firmware."
     },
+    "troubleshooting": {
+      "internet_led_label": "ACT LED",
+      "internet_led_success": "solid green",
+      "internet_led_failure": "off or blinking rapidly",
+      "common_issues": null
+    },
     "setup_notes": "The DrayTek Vigor 2862 is a professional/SMB modem-router with a more complex admin interface than consumer routers. It has both a built-in VDSL2/ADSL2+ modem (WAN1/DSL) and a Gigabit Ethernet WAN port (WAN2/P5), making it compatible with all nbn connection types. Unusually, all data ports are on the FRONT panel, not the rear — only the power connector is on the back. For FTTP/FTTC/HFC, use the Ethernet WAN2 port (must be enabled first in WAN >> General Setup). For FTTN/FTTB, use the DSL port with the built-in modem. The DrayTek admin UI uses 'Static or Dynamic IP' as its IPoE/DHCP label — select this and then choose 'Obtain an IP address automatically' on the Details Page. Belong uses IPoE with no username, password, or VLAN tagging required. Note: the Vigor 2862 does not support SOS/ROC for VDSL2, which may affect FTTN/FTTB connection stability on some lines.",
     "manual_url": "https://www.draytek.com.au/support/downloads/vigor2862-series/",
     "setup_sources": [

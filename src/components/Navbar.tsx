@@ -43,7 +43,7 @@ export const Navbar = React.memo(function Navbar() {
   }, [menuOpen]);
 
   return (
-    <nav className="w-full bg-neutral-950 relative z-50" style={safeAreaStyle}>
+    <nav className="w-full bg-neutral-950 sticky top-0 z-50" style={safeAreaStyle}>
       <div className="flex h-14 items-center justify-between px-2.5 py-2">
         <div className="relative" ref={menuRef}>
           <button

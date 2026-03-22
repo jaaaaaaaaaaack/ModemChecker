@@ -54,6 +54,7 @@ export function SetupResultCard({
         <Button
           variant="brand-secondary"
           icon={<FeatherChevronLeft />}
+          hasLeftIcon={true}
           onClick={onCheckAnother}
         >
           Back
@@ -63,6 +64,7 @@ export function SetupResultCard({
             className="rounded-full"
             variant="brand-primary"
             iconRight={<FeatherChevronRight />}
+            hasRightIcon={true}
             onClick={onSetupModem}
           >
             Set up my modem

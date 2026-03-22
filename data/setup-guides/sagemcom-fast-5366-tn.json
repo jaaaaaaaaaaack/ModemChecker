@@ -88,6 +88,12 @@
       "download_url": null,
       "notes": "Optus controls firmware updates for this device — there are no public firmware downloads. Firmware updates are pushed by Optus in phased rollouts and require the modem to be connected to the Optus network. When used with Belong or any other ISP, the modem will NOT receive firmware updates. This means the device will eventually fall behind on security patches. Known firmware versions include SG4Y1T0003035 and SG4Y1T000031."
     },
+    "troubleshooting": {
+      "internet_led_label": "Internet/WAN LED",
+      "internet_led_success": "solid green",
+      "internet_led_failure": "off",
+      "common_issues": null
+    },
     "setup_notes": "The Sagemcom F@ST 5366 TN is an Optus-branded modem-router with custom Optus firmware that is locked to IPoE/DHCP — it cannot be configured for PPPoE. This IPoE lock is actually an advantage for Belong customers, since Belong uses IPoE. In most cases, a factory reset followed by plugging the modem into the nbn connection box is all that's needed — the modem auto-detects the IPoE connection and connects without manual WAN configuration. Multiple users on Whirlpool and OzBargain confirm successful use with Aussie Broadband, Superloop, and other IPoE providers with no configuration changes. The admin panel uses Optus custom firmware with simplified menus, and the login username is 'optus' (not 'admin'). Bridge mode is not available on this device. The modem will not receive firmware updates when used with a non-Optus ISP.",
     "manual_url": "https://www.optus.com.au/content/dam/optus/documents/for-you/broadband-internet/modems/Sagemcom_F@ST_5366_TN_Modem_User_Guide.pdf",
     "setup_sources": [

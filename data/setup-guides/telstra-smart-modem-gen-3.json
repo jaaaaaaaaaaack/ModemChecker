@@ -28,14 +28,14 @@
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to the RED WAN port on the back of the modem",
           "If UNI-D1 doesn't work, try the other UNI-D ports on the nbn box",
           "Plug in the power cable and turn on the modem",
-          "Wait 2-5 minutes for the modem to boot \u2014 the WAN light should turn solid green",
+          "Wait 2-5 minutes for the modem to boot — the WAN light should turn solid green",
           "Connect a device to the modem via Ethernet or Wi-Fi (credentials on the bottom sticker)",
           "Open a web browser and go to http://192.168.0.1 or http://mygateway/",
           "Log in with username 'admin' and the Wi-Fi password from the bottom sticker",
           "Navigate to the 'Internet Access' or broadband settings section",
           "Ensure the connection type is set to 'IPoE' or 'DHCP' or 'Dynamic' (NOT PPPoE)",
           "Clear any username/password fields if present",
-          "Click Save \u2014 the modem should reconnect within 1-2 minutes"
+          "Click Save — the modem should reconnect within 1-2 minutes"
         ]
       },
       "dsl": {
@@ -47,14 +47,14 @@
         "steps_ipoe": [
           "Connect a phone cable from the wall socket to the grey DSL port on the back of the modem",
           "Plug in the power cable and turn on the modem",
-          "Wait 2-5 minutes for the DSL to sync \u2014 the WAN/DSL light should turn solid green",
+          "Wait 2-5 minutes for the DSL to sync — the WAN/DSL light should turn solid green",
           "Connect a device to the modem via Ethernet or Wi-Fi (credentials on the bottom sticker)",
           "Open a web browser and go to http://192.168.0.1 or http://mygateway/",
           "Log in with username 'admin' and the Wi-Fi password from the bottom sticker",
           "Navigate to the 'Internet Access' or broadband settings section",
           "Ensure the connection type is set to 'IPoE' or 'DHCP' or 'Dynamic' (NOT PPPoE)",
           "Clear any username/password fields if present",
-          "Click Save \u2014 the modem should reconnect within 1-2 minutes"
+          "Click Save — the modem should reconnect within 1-2 minutes"
         ]
       },
       "vlan_field": null,
@@ -79,51 +79,57 @@
     "factory_reset": {
       "method": "Use a pin or paperclip to press and hold the recessed Reset button on the rear panel for about 10 seconds until the lights start flashing. The modem will reboot to factory defaults.",
       "restores_default_credentials": true,
-      "notes": "Factory reset restores the admin password to the Wi-Fi password printed on the modem's bottom sticker. It also clears any ISP configuration. Recommended as the first step when repurposing a Telstra modem for Belong \u2014 it removes any old Telstra-specific settings."
+      "notes": "Factory reset restores the admin password to the Wi-Fi password printed on the modem's bottom sticker. It also clears any ISP configuration. Recommended as the first step when repurposing a Telstra modem for Belong — it removes any old Telstra-specific settings."
     },
     "firmware": {
-      "check_path": "Admin panel \u2014 firmware section (exact path varies by firmware version)",
+      "check_path": "Admin panel — firmware section (exact path varies by firmware version)",
       "auto_update_available": false,
       "download_url": null,
-      "notes": "Telstra controls firmware updates for this device \u2014 there are no public firmware downloads. The modem may auto-update when connected to Telstra's network, but will NOT receive firmware updates when used with another ISP. This is a minor concern but means the device may eventually fall behind on security patches."
+      "notes": "Telstra controls firmware updates for this device — there are no public firmware downloads. The modem may auto-update when connected to Telstra's network, but will NOT receive firmware updates when used with another ISP. This is a minor concern but means the device may eventually fall behind on security patches."
     },
-    "setup_notes": "The Telstra Smart Modem Gen 3 has a custom Telstra firmware UI that differs from the base Technicolor interface. The admin UI is simpler than stock Technicolor but also more limited \u2014 notably, VLAN settings are hidden. For Belong, this doesn't matter (no VLAN needed). The key gotcha is the ISP_LOCK condition: while Telstra officially says the modem is locked, community consensus (Whirlpool) confirms it works fine with IPoE ISPs like Belong. The lock primarily affects VoIP features and VLAN access, not basic internet connectivity. Factory reset is strongly recommended before configuring for Belong to clear any old Telstra settings. The default admin password is unique per unit (printed on sticker), not a generic 'admin' or 'Telstra' \u2014 this is a common point of confusion.",
+    "troubleshooting": {
+      "internet_led_label": "WAN light",
+      "internet_led_success": "solid green",
+      "internet_led_failure": "off",
+      "common_issues": null
+    },
+    "setup_notes": "The Telstra Smart Modem Gen 3 has a custom Telstra firmware UI that differs from the base Technicolor interface. The admin UI is simpler than stock Technicolor but also more limited — notably, VLAN settings are hidden. For Belong, this doesn't matter (no VLAN needed). The key gotcha is the ISP_LOCK condition: while Telstra officially says the modem is locked, community consensus (Whirlpool) confirms it works fine with IPoE ISPs like Belong. The lock primarily affects VoIP features and VLAN access, not basic internet connectivity. Factory reset is strongly recommended before configuring for Belong to clear any old Telstra settings. The default admin password is unique per unit (printed on sticker), not a generic 'admin' or 'Telstra' — this is a common point of confusion.",
     "manual_url": "https://www.telstra.com.au/support/internet-and-home-phone/access-modem-settings",
     "setup_sources": [
       {
         "url": "https://www.swoop.com.au/blog/byo-modem-telstra-smart-modem-gen-3-hfc-fttp-fttc-fw/",
         "type": "isp",
-        "description": "Swoop \u2014 Telstra Gen 3 setup guide for HFC/FTTP/FTTC (IPoE and PPPoE steps, port identification)",
+        "description": "Swoop — Telstra Gen 3 setup guide for HFC/FTTP/FTTC (IPoE and PPPoE steps, port identification)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://www.swoop.com.au/blog/byo-modem-telstra-smart-modem-gen-3-nbn-fibre-to-the-node-building-setup/",
         "type": "isp",
-        "description": "Swoop \u2014 Telstra Gen 3 setup guide for FTTN/B (DSL port, phone cable, sync steps)",
+        "description": "Swoop — Telstra Gen 3 setup guide for FTTN/B (DSL port, phone cable, sync steps)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://forums.whirlpool.net.au/archive/32462wz4",
         "type": "community",
-        "description": "Whirlpool \u2014 Telstra Smart Modem Gen 3 ISP lock discussion (confirmed works with IPoE ISPs)",
+        "description": "Whirlpool — Telstra Smart Modem Gen 3 ISP lock discussion (confirmed works with IPoE ISPs)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://support.upstreamtech.io/hc/en-us/articles/4401955673871-Configuring-Telstra-Smart-Modem-for-NBN",
         "type": "isp",
-        "description": "Upstream Tech \u2014 Configuring Telstra Smart Modem for NBN (admin access, broadband tab, factory reset)",
+        "description": "Upstream Tech — Configuring Telstra Smart Modem for NBN (admin access, broadband tab, factory reset)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://forums.whirlpool.net.au/archive/9rp24nv9",
         "type": "community",
-        "description": "Whirlpool \u2014 Configuring Telstra Smart Modem for different ISP (IPoE to PPPoE switching)",
+        "description": "Whirlpool — Configuring Telstra Smart Modem for different ISP (IPoE to PPPoE switching)",
         "accessed": "2026-03-20"
       }
     ],
     "setup_confidence": {
       "score": 65,
-      "notes": "Admin IP (192.168.0.1 / mygateway) confirmed by Telstra, Swoop, and Upstream Tech. Default credentials (admin / sticker password) confirmed by multiple sources. Physical ports (red WAN, grey DSL) confirmed by Swoop guides. ISP lock nuance (works with IPoE despite 'locked' label) confirmed by Whirlpool community. However: exact admin UI menu path to WAN/broadband settings is inconsistently documented across sources \u2014 described as 'broadband tab' or 'Internet Access' but no source provides the precise click-by-click path with screenshots (-15). Telstra's custom firmware UI varies between firmware versions and no public documentation exists (-10). IPoE label in the UI unconfirmed \u2014 may be 'IPoE', 'DHCP', or 'Dynamic' depending on firmware version (-10). Score: 100 - 15 - 10 - 10 = 65."
+      "notes": "Admin IP (192.168.0.1 / mygateway) confirmed by Telstra, Swoop, and Upstream Tech. Default credentials (admin / sticker password) confirmed by multiple sources. Physical ports (red WAN, grey DSL) confirmed by Swoop guides. ISP lock nuance (works with IPoE despite 'locked' label) confirmed by Whirlpool community. However: exact admin UI menu path to WAN/broadband settings is inconsistently documented across sources — described as 'broadband tab' or 'Internet Access' but no source provides the precise click-by-click path with screenshots (-15). Telstra's custom firmware UI varies between firmware versions and no public documentation exists (-10). IPoE label in the UI unconfirmed — may be 'IPoE', 'DHCP', or 'Dynamic' depending on firmware version (-10). Score: 100 - 15 - 10 - 10 = 65."
     }
   }
 }

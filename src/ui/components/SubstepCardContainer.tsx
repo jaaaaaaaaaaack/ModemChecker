@@ -235,7 +235,7 @@ const SubstepCardContainerRoot = React.forwardRef<
                   rel="noopener noreferrer"
                 >
                   <Button
-                    variant="brand-tertiary"
+                    variant="brand-secondary"
                     iconRight={<FeatherArrowUpRight />}
                     hasRightIcon={true}
                   >
@@ -258,7 +258,7 @@ const SubstepCardContainerRoot = React.forwardRef<
                   rel="noopener noreferrer"
                 >
                   <Button
-                    variant="brand-tertiary"
+                    variant="brand-secondary"
                     iconRight={<FeatherArrowUpRight />}
                     hasRightIcon={true}
                   >

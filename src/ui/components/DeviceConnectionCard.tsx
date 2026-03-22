@@ -7,6 +7,7 @@
  */
 
 import React from "react";
+import { FeatherInfo } from "@subframe/core";
 import * as SubframeUtils from "../utils";
 
 interface DeviceConnectionCardRootProps
@@ -115,9 +116,12 @@ const DeviceConnectionCardRoot = React.forwardRef<
         </>
       )}
       {note && variant === "nbn-hardware" ? (
-        <span className="text-caption font-caption text-neutral-500">
-          {note}
-        </span>
+        <div className="flex items-center gap-1.5 text-brand-700">
+          <FeatherInfo className="h-3.5 w-3.5 flex-none" />
+          <span className="text-caption font-caption">
+            {note}
+          </span>
+        </div>
       ) : null}
     </div>
   );

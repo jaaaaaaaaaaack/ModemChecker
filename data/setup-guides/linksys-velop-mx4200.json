@@ -67,6 +67,12 @@
       "download_url": "https://support.linksys.com/kb/article/112-en/",
       "notes": "The MX4200 supports automatic firmware updates via the Linksys app. Manual firmware upload is also available through the web admin panel at Connectivity > Firmware Update. Download the .img firmware file from Linksys support, then use 'Choose File' and click 'Start' to upload. Do NOT power off the router during the update."
     },
+    "troubleshooting": {
+      "internet_led_label": "Status light",
+      "internet_led_success": "solid blue",
+      "internet_led_failure": "solid red",
+      "common_issues": null
+    },
     "setup_notes": "The Linksys Velop MX4200 defaults to DHCP out of the box, so for most Belong customers it will work by simply plugging in the Ethernet cable from the nbn box — no admin panel changes needed. The main scenario where admin access is needed is when switching from a PPPoE ISP (TPG, iiNet, etc.) where the connection type was previously changed. Key gotcha: the MX4200 requires HTTPS for admin access and will show browser security warnings — non-technical customers may think the page is unsafe and not proceed. The 'linksyssmartwifi.com' URL is more user-friendly than the IP. For mesh setups with multiple nodes, only the primary node connects to the nbn box; child nodes link via Wi-Fi or Ethernet backhaul.",
     "manual_url": "https://downloads.linksys.com/support/assets/userguide/MX4000Series_UserGuide_INTL_LNKPG-00755_RevB00.pdf",
     "setup_sources": [

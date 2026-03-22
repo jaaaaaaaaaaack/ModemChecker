@@ -93,6 +93,12 @@
       "download_url": "https://www.tp-link.com/au/support/download/archer-vr2100v/",
       "notes": "TP-Link offers an online firmware check from the admin panel ('Check for upgrades' button). Firmware updates may improve VDSL2 stability and SOS/ROC compliance. The VR2100v has two hardware versions (V1 and V1.20) — ensure you download the correct firmware for your hardware version (printed on the label on the bottom of the device). Recommend updating firmware before configuring for Belong."
     },
+    "troubleshooting": {
+      "internet_led_label": "Internet LED",
+      "internet_led_success": "solid green",
+      "internet_led_failure": "off",
+      "common_issues": null
+    },
     "setup_notes": "The VR2100v is the VoIP-enabled successor to the VR1600v, with faster 5 GHz Wi-Fi (1733 Mbps) and VDSL2 35b Supervectoring support. It has two distinct operating modes that determine which WAN path to use: 'Wireless Router Mode' for Ethernet WAN connections (FTTP/FTTC/HFC) and 'DSL Modem Router Mode' (default) for DSL connections (FTTN/FTTB). When switching from DSL to Ethernet WAN or vice versa, the Operation Mode must be changed first — the modem reboots during this switch. For DSL connections, existing PPPoE connections must be deleted and replaced with a new Dynamic IP connection — the VR2100v does not allow in-place switching of the connection type on DSL interfaces. The alternative hostname is tplinkmodem.net (not tplinkwifi.net as on some older TP-Link models).",
     "manual_url": "https://www.tp-link.com/au/support/download/archer-vr2100v/",
     "setup_sources": [

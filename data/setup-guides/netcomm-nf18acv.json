@@ -89,6 +89,12 @@
       "download_url": "https://support.netcommwireless.com/products/NF18ACV",
       "notes": "Firmware must be manually downloaded from the NetComm support page and uploaded via the admin panel. Navigate to Management > Update Firmware, click Browse/Choose File to select the firmware file, then click 'Update Firmware'. Alternatively, access the firmware update page directly at http://192.168.20.1/upload.html if the menu option is not visible. The NF18ACV is still receiving firmware updates (latest: NC2-R6B025, February 2026) despite being discontinued. ISP-branded firmware versions (e.g. Aussie Broadband) are also available."
     },
+    "troubleshooting": {
+      "internet_led_label": "Internet light",
+      "internet_led_success": "solid green",
+      "internet_led_failure": "off",
+      "common_issues": null
+    },
     "setup_notes": "The NetComm NF18ACV is one of Australia's most widely deployed modem-routers, supplied by Aussie Broadband, Superloop, Tangerine, SpinTel, and many other ISPs. It has both a blue Ethernet WAN port (for FTTP/FTTC/HFC) and a grey DSL port (for FTTN/FTTB), so customers must use the correct port for their nbn technology type. The admin panel uses an unusual default IP of 192.168.20.1 (not the common 192.168.0.1 or 192.168.1.1). The Setup Wizard runs on first login and guides through Internet Service selection (Ethernet WAN or VDSL) and Connection Type (Dynamic IP for Belong). If the modem was previously configured for a PPPoE ISP (TPG, iiNet, Internode), the customer needs to change the Connection Type to Dynamic IP and clear any saved credentials.",
     "manual_url": "https://support.netcommwireless.com/products/NF18ACV",
     "setup_sources": [

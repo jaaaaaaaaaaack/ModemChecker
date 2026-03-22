@@ -68,6 +68,12 @@
       "download_url": "https://www.netgear.com/support/product/rax50/",
       "notes": "Netgear supports online firmware check from the admin panel. The Nighthawk app also provides firmware update notifications. Update to latest firmware before configuring for Belong."
     },
+    "troubleshooting": {
+      "internet_led_label": "Internet LED",
+      "internet_led_success": "solid white",
+      "internet_led_failure": "off or amber",
+      "common_issues": null
+    },
     "setup_notes": "The Netgear RAX50 is a straightforward standalone router. Netgear's WAN configuration uses an unusual field label: 'Does your Internet connection require a login?' \u2014 selecting 'No' configures DHCP mode (IPoE), while 'Yes' switches to PPPoE. This wording can confuse customers because it doesn't explicitly mention DHCP or Dynamic IP. For Belong, the answer is always 'No'. The Nighthawk app can handle initial setup but for WAN reconfiguration, the web admin panel (routerlogin.net) is more reliable. The yellow Internet port is well-labeled and hard to confuse with LAN ports.",
     "manual_url": "https://www.downloads.netgear.com/files/GDC/RAX50/RAX50_UM_EN.pdf",
     "setup_sources": [

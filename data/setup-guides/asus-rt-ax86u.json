@@ -67,6 +67,12 @@
       "download_url": "https://www.asus.com/networking-iot-servers/wifi-routers/asus-gaming-routers/rt-ax86u/helpdesk_bios/",
       "notes": "ASUSWRT supports automatic firmware checking from the admin panel. Merlin firmware (asuswrt-merlin.net) is a popular community alternative but not recommended for non-technical users. Update to latest official firmware before configuring for Belong."
     },
+    "troubleshooting": {
+      "internet_led_label": "Internet LED",
+      "internet_led_success": "solid green",
+      "internet_led_failure": "off",
+      "common_issues": null
+    },
     "setup_notes": "The RT-AX86U is a retail standalone router \u2014 no DSL modem, so only wan_config.ethernet applies (FTTP/FTTC/HFC only, not FTTN/B). ASUS's ASUSWRT interface is consistent across models, and the WAN setting is straightforward. Key gotcha: the 2.5G port looks like it should be the WAN port (it's the first port from the left) but it's LAN-only on this model \u2014 customers must use the blue port next to it. Also: when switching from another router on HFC, the nbn NTD may need up to 30 minutes powered off to release the previous DHCP lease before the new router can connect.",
     "manual_url": "https://www.asus.com/au/networking-iot-servers/wifi-routers/all-series/rt-ax86u/helpdesk_knowledge/",
     "setup_sources": [

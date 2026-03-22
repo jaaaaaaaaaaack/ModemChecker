@@ -86,6 +86,28 @@ const STEP_DESCRIPTIONS: Record<StepTemplateId, string> = {
     "Wait 1-2 minutes for your modem to reconnect, then check that the Internet LED is solid green.",
 };
 
+/** Resolve step description, using per-modem data where available */
+function getStepDescription(
+  templateId: StepTemplateId,
+  isDslTech: boolean,
+  data: GuideEntry,
+): string {
+  // DSL override takes priority
+  if (isDslTech && STEP_DESCRIPTIONS_DSL[templateId]) {
+    return STEP_DESCRIPTIONS_DSL[templateId]!;
+  }
+
+  // Verify step: use modem-specific LED indicator data
+  if (templateId === "verify") {
+    const ts = data.setup.troubleshooting;
+    if (ts?.internet_led_label && ts?.internet_led_success) {
+      return `Wait 1-2 minutes for your modem to reconnect, then check that the ${ts.internet_led_label} is ${ts.internet_led_success}.`;
+    }
+  }
+
+  return STEP_DESCRIPTIONS[templateId];
+}
+
 // --- Success Screen ---
 
 function SetupSuccess({ onBack }: { onBack: () => void }) {
@@ -339,7 +361,7 @@ export function SetupGuideContent({
                     hasIcon={isIconPort}
                     className="inline-flex"
                   />{" "}
-                  {isAutoSensing ? "ports" : "port"}
+                  port
                 </>
               }
               variant="horizontal-stack"
@@ -411,7 +433,9 @@ export function SetupGuideContent({
             }
             message={
               <span className="text-body font-body text-subtext-color">
-                Set up your modem using the {appName} app
+                Your modem uses an app for setup and device management. Download
+                the app to your mobile device, open it, and then follow the
+                prompts to get connected.
               </span>
             }
             appStoreUrl={adminPanel.app_store_links?.ios}
@@ -450,25 +474,7 @@ export function SetupGuideContent({
                 }
               />
             </div>
-            {/* Change setting */}
-            <div className="flex w-full flex-col items-start gap-3 rounded-md bg-white px-4 py-4 shadow-sm">
-              <span className="text-caption-bold font-caption-bold text-brand-700">
-                Change setting
-              </span>
-              <div className="flex w-full flex-col items-start gap-1">
-                <span className="text-body font-body text-brand-800">
-                  Set &quot;{wanConfig?.connection_type_field}&quot; to:
-                </span>
-                <NavBreadcrumb.Segment
-                  variant="setting-value"
-                  label={wanConfig?.ipoe_label}
-                />
-              </div>
-              <span className="text-body font-body text-brand-700">
-                Then click {saveButtonLabel}
-              </span>
-            </div>
-            {/* PPPoE clear conditional (clear_pppoe — embedded, not a separate step) */}
+            {/* PPPoE clear conditional — shown before change setting for correct task order */}
             <StepCard.ConditionalBlock
               variant="info"
               title={
@@ -483,6 +489,24 @@ export function SetupGuideContent({
                 </span>
               }
             />
+            {/* Change setting */}
+            <div className="flex w-full flex-col items-start gap-3 rounded-md bg-white px-4 py-4 shadow-sm">
+              <span className="text-caption-bold font-caption-bold text-brand-700">
+                Change setting
+              </span>
+              <div className="flex w-full flex-col items-start gap-1">
+                <span className="text-body font-body text-brand-800">
+                  Set &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; to:
+                </span>
+                <NavBreadcrumb.Segment
+                  variant="setting-value"
+                  label={wanConfig?.ipoe_label}
+                />
+              </div>
+              <span className="text-body font-body text-brand-800">
+                Then click <span className="font-semibold">{saveButtonLabel}</span>
+              </span>
+            </div>
           </div>
         );
 
@@ -626,10 +650,7 @@ export function SetupGuideContent({
                       ? `Set up with ${appName}`
                       : STEP_TITLES[templateId]
                   }
-                  description={
-                    (isDslTech && STEP_DESCRIPTIONS_DSL[templateId]) ||
-                    STEP_DESCRIPTIONS[templateId]
-                  }
+                  description={getStepDescription(templateId, isDslTech, data)}
                   infoMessage={undefined}
                   variant={variant}
                   onClick={

@@ -67,6 +67,12 @@
       "download_url": "https://www.tp-link.com/au/support/download/deco-x60/",
       "notes": "The Deco X60 supports automatic firmware updates (enabled by default). The Deco app can also trigger manual updates via More > System > Update Deco. For manual firmware files, select the correct hardware version (V1, V2, V3, or V4) from the TP-Link download page before downloading. Firmware can also be manually uploaded via the web interface at Advanced > System > Firmware Upgrade."
     },
+    "troubleshooting": {
+      "internet_led_label": "Status light",
+      "internet_led_success": "solid green",
+      "internet_led_failure": "pulsing yellow",
+      "common_issues": null
+    },
     "setup_notes": "The Deco X60 is a mesh Wi-Fi 6 system that is primarily configured through the TP-Link Deco app, though it also has a web admin panel at tplinkdeco.net with more limited functionality. For Belong nbn (IPoE/DHCP), select 'Dynamic IP' as the connection type \u2014 this is actually the default option during the initial Deco app setup wizard, so new-out-of-box units typically work without any manual WAN configuration. If the Deco was previously configured for a PPPoE ISP (TPG, iiNet, etc.), you will need to change the connection type to Dynamic IP via the app (More > Internet Connection > IPv4) or web panel. The two Ethernet ports on the rear are identical and auto-sensing \u2014 either one can be the WAN port. Note that the Deco uses a different IP subnet (192.168.68.x) and hostname (tplinkdeco.net) compared to standard TP-Link routers.",
     "manual_url": "https://www.tp-link.com/au/support/download/deco-x60/",
     "setup_sources": [
