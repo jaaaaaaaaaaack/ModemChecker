@@ -13,7 +13,7 @@
       "app_only": false,
       "auto_detects_ipoe": true,
       "supports_https": true,
-      "notes": "The MX4200 requires HTTPS for admin panel access on current firmware \u2014 http:// will redirect to https://. The browser will show a security warning because the certificate is self-signed; proceed past it. There are no factory default credentials \u2014 you create a password during initial setup. If you forget your password, use the 'Reset password' option and enter the recovery key printed on the product label on the bottom of the node. Alt access changed from 'myrouter.local' (older Linksys models) to 'linksyssmartwifi.com' on Velop mesh systems."
+      "notes": "Your browser will show a security warning — this is normal. Click 'Advanced' then 'Proceed'."
     },
     "wan_config": {
       "ethernet": {
@@ -21,7 +21,7 @@
         "connection_type_field": "Type of Internet Connection",
         "ipoe_label": "Automatic Configuration - DHCP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If 'PPPoE' is selected, clear the username and password fields and switch the Type of Internet Connection dropdown to 'Automatic Configuration - DHCP'",
+        "pppoe_clear_note": null,
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to the Internet port on the back of the primary MX4200 node",
           "Power on the node and wait for the LED to show solid purple (ready for setup) or solid blue (already connected)",
@@ -33,19 +33,19 @@
           "Verify that 'Type of Internet Connection' is set to 'Automatic Configuration - DHCP'",
           "If it shows 'PPPoE' or another type, change it to 'Automatic Configuration - DHCP' and clear any username/password fields",
           "Click 'Save' (a yellow 'Save' button appears at the bottom when changes are made)",
-          "Wait 1-2 minutes for the router to reconnect \u2014 the LED should turn solid blue when online"
+          "Wait 1-2 minutes for the router to reconnect — the LED should turn solid blue when online"
         ]
       },
       "vlan_field": "VLAN ID",
       "vlan_nav_path": "Connectivity > Internet Settings (VLAN Setup section)",
-      "vlan_notes": "VLAN tagging is available under a 'VLAN Setup' section on the Internet Settings page. It is disabled by default (manual profile). Belong does not require VLAN tagging \u2014 leave it unchecked. If a previous ISP configured VLAN tagging, uncheck the 'Enable' checkbox."
+      "vlan_notes": "VLAN tagging is available under a 'VLAN Setup' section on the Internet Settings page. It is disabled by default (manual profile). Belong does not require VLAN tagging — leave it unchecked. If a previous ISP configured VLAN tagging, uncheck the 'Enable' checkbox."
     },
     "physical": {
       "wan_port_label": "Internet",
       "wan_port_color": "yellow",
       "wan_port_position": "Rear panel, leftmost Ethernet port when viewed from the back",
       "wan_port_icon": null,
-      "wan_port_notes": "The Internet (WAN) port is labeled 'Internet' and is separated from the three LAN ports. All ports are Gigabit. On the MX4200, only the parent/primary node's Internet port connects to the modem \u2014 child nodes connect to the parent via Wi-Fi backhaul or wired Ethernet backhaul through LAN ports.",
+      "wan_port_notes": null,
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,
@@ -57,7 +57,7 @@
       "reset_hold_seconds": 10
     },
     "factory_reset": {
-      "method": "Use a pin or paperclip to press and hold the reset button on the bottom of the node for 10 seconds. The LED will flash bright red, followed by three to four quick faded red pulses, then another bright red flash \u2014 release the button at this point. The node will reboot and return to factory defaults.",
+      "method": "Use a pin or paperclip to press and hold the reset button on the bottom of the node for 10 seconds. The LED will flash bright red, followed by three to four quick faded red pulses, then another bright red flash — release the button at this point. The node will reboot and return to factory defaults.",
       "restores_default_credentials": false,
       "notes": "Factory reset clears all settings and removes the node from your Linksys cloud account. You must re-run the setup process (either via browser or Linksys app) and create a new admin password. The recovery key on the product label is needed to reset the password without a full factory reset."
     },
@@ -67,43 +67,43 @@
       "download_url": "https://support.linksys.com/kb/article/112-en/",
       "notes": "The MX4200 supports automatic firmware updates via the Linksys app. Manual firmware upload is also available through the web admin panel at Connectivity > Firmware Update. Download the .img firmware file from Linksys support, then use 'Choose File' and click 'Start' to upload. Do NOT power off the router during the update."
     },
-    "setup_notes": "The Linksys Velop MX4200 defaults to DHCP out of the box, so for most Belong customers it will work by simply plugging in the Ethernet cable from the nbn box \u2014 no admin panel changes needed. The main scenario where admin access is needed is when switching from a PPPoE ISP (TPG, iiNet, etc.) where the connection type was previously changed. Key gotcha: the MX4200 requires HTTPS for admin access and will show browser security warnings \u2014 non-technical customers may think the page is unsafe and not proceed. The 'linksyssmartwifi.com' URL is more user-friendly than the IP. For mesh setups with multiple nodes, only the primary node connects to the nbn box; child nodes link via Wi-Fi or Ethernet backhaul.",
+    "setup_notes": "The Linksys Velop MX4200 defaults to DHCP out of the box, so for most Belong customers it will work by simply plugging in the Ethernet cable from the nbn box — no admin panel changes needed. The main scenario where admin access is needed is when switching from a PPPoE ISP (TPG, iiNet, etc.) where the connection type was previously changed. Key gotcha: the MX4200 requires HTTPS for admin access and will show browser security warnings — non-technical customers may think the page is unsafe and not proceed. The 'linksyssmartwifi.com' URL is more user-friendly than the IP. For mesh setups with multiple nodes, only the primary node connects to the nbn box; child nodes link via Wi-Fi or Ethernet backhaul.",
     "manual_url": "https://downloads.linksys.com/support/assets/userguide/MX4000Series_UserGuide_INTL_LNKPG-00755_RevB00.pdf",
     "setup_sources": [
       {
         "url": "https://support.linksys.com/kb/article/541-en/?section_id=161",
         "type": "manufacturer",
-        "description": "Linksys Support \u2014 How to log in to the MX4200 web browser dashboard (HTTPS requirement, password creation)",
+        "description": "Linksys Support — How to log in to the MX4200 web browser dashboard (HTTPS requirement, password creation)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://support.linksys.com/kb/article/540-en/?section_id=151",
         "type": "manufacturer",
-        "description": "Linksys Support \u2014 Setting up the MX4200 using the web browser (initial setup flow)",
+        "description": "Linksys Support — Setting up the MX4200 using the web browser (initial setup flow)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://support.linksys.com/kb/article/607-en/",
         "type": "manufacturer",
-        "description": "Linksys Support \u2014 Connectivity settings overview including Internet Connection Type options, VLAN setup, and save functionality",
+        "description": "Linksys Support — Connectivity settings overview including Internet Connection Type options, VLAN setup, and save functionality",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://support.linksys.com/kb/article/102-en/",
         "type": "manufacturer",
-        "description": "Linksys Support \u2014 Manual firmware upgrade steps for mesh WiFi systems via web browser",
+        "description": "Linksys Support — Manual firmware upgrade steps for mesh WiFi systems via web browser",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://support.linksys.com/kb/article/93-en/",
         "type": "manufacturer",
-        "description": "Linksys Support \u2014 Factory reset procedure for mesh routers (10-second hold, LED patterns)",
+        "description": "Linksys Support — Factory reset procedure for mesh routers (10-second hold, LED patterns)",
         "accessed": "2026-03-20"
       }
     ],
     "setup_confidence": {
       "score": 80,
-      "notes": "Score: 100 - 5 (WAN port color not explicitly confirmed in any text source \u2014 'yellow' inferred from Linksys product imagery and convention, port labeled 'Internet') - 5 (alt_access 'linksyssmartwifi.com' confirmed by Linksys support but brand defaults file had 'myrouter.local' \u2014 documented the deviation) - 5 (auto_detects_ipoe set to true based on 'DHCP is default out of box' from Linksys docs, but no explicit Belong/AU IPoE auto-detection confirmation) - 5 (HTTPS security warning is a usability concern that may confuse non-technical users \u2014 documented in notes but can't fully mitigate) = 80."
+      "notes": "Score: 100 - 5 (WAN port color not explicitly confirmed in any text source — 'yellow' inferred from Linksys product imagery and convention, port labeled 'Internet') - 5 (alt_access 'linksyssmartwifi.com' confirmed by Linksys support but brand defaults file had 'myrouter.local' — documented the deviation) - 5 (auto_detects_ipoe set to true based on 'DHCP is default out of box' from Linksys docs, but no explicit Belong/AU IPoE auto-detection confirmation) - 5 (HTTPS security warning is a usability concern that may confuse non-technical users — documented in notes but can't fully mitigate) = 80."
     }
   }
 }

@@ -18,7 +18,7 @@
       },
       "auto_detects_ipoe": true,
       "supports_https": false,
-      "notes": "The Eero 6+ has NO web-based admin panel. All configuration is done through the eero mobile app. The default gateway IP is 192.168.4.1 but this does not host a web interface \u2014 it's only used for network diagnostics. Setup requires an eero account \u2014 you can sign up with your phone number, email address, or an existing Amazon account. The eero app handles all network configuration including ISP settings, Wi-Fi names, and device management."
+      "notes": null
     },
     "wan_config": {
       "ethernet": {
@@ -26,7 +26,7 @@
         "connection_type_field": "WAN Type",
         "ipoe_label": "DHCP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If 'PPPoE' is currently selected in ISP Settings, tap 'WAN Type', change it back to 'DHCP', and clear any ISP username/password fields",
+        "pppoe_clear_note": null,
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to either Ethernet port on the back of the Eero 6+ (both ports are auto-sensing \u2014 it doesn't matter which one you use)",
           "Plug in the Eero 6+ using the supplied USB-C power cable and wait for the LED to show solid white",
@@ -48,7 +48,7 @@
       "wan_port_color": "white",
       "wan_port_position": "Two Ethernet ports on the rear/back of the device",
       "wan_port_icon": null,
-      "wan_port_notes": "Both Ethernet ports are auto-sensing (same colour as the device) \u2014 either port can serve as WAN or LAN. Simply plug the cable from the nbn box into either port and the Eero will detect it as the internet connection. The other port can be used to connect a wired device or a switch. There is no dedicated WAN port label or colour differentiation.",
+      "wan_port_notes": null,
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,

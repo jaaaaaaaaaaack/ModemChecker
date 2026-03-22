@@ -15,7 +15,7 @@
       "app_store_links": null,
       "auto_detects_ipoe": true,
       "supports_https": false,
-      "notes": "The username is 'optus' (all lowercase — mobile keyboards tend to capitalise the first letter, which will cause login failure). The password is the default Wi-Fi password printed on the sticker on the bottom or back of the modem. Each unit has a unique password. After factory reset, the password reverts to this sticker value. For full advanced settings access, some users report needing the username 'admin' instead of 'optus', but the standard Optus login is 'optus'."
+      "notes": "Make sure 'optus' is all lowercase \u2014 your keyboard may autocapitalise it. The password is the Wi-Fi password on the sticker on the bottom of the modem."
     },
     "wan_config": {
       "ethernet": {
@@ -23,7 +23,7 @@
         "connection_type_field": "WAN Connection Type",
         "ipoe_label": "IPoE / DHCP (pre-configured — this modem is locked to IPoE and cannot be changed to PPPoE)",
         "save_button_label": "Apply/Save",
-        "pppoe_clear_note": "This modem is locked to IPoE/DHCP by Optus firmware and cannot be switched to PPPoE. There are no PPPoE username or password fields to clear. If the modem was previously used with Optus, a factory reset will restore the default IPoE configuration.",
+        "pppoe_clear_note": null,
         "steps_ipoe": [
           "Perform a factory reset first: use a pin or paperclip to press and hold the recessed Reset button on the rear panel for 10 seconds until the lights flash, then release and wait 2-3 minutes for the modem to reboot",
           "Connect an Ethernet cable from the nbn connection box (NTD) to the RED WAN port on the back of the modem",
@@ -42,7 +42,7 @@
         "connection_type_field": "WAN Connection Type",
         "ipoe_label": "IPoE / DHCP (pre-configured — this modem is locked to IPoE and cannot be changed to PPPoE)",
         "save_button_label": "Apply/Save",
-        "pppoe_clear_note": "This modem is locked to IPoE/DHCP by Optus firmware and cannot be switched to PPPoE. There are no PPPoE username or password fields to clear. If the modem was previously used with Optus, a factory reset will restore the default IPoE/DHCP configuration for DSL connections.",
+        "pppoe_clear_note": null,
         "steps_ipoe": [
           "Perform a factory reset first: use a pin or paperclip to press and hold the recessed Reset button on the rear panel for 10 seconds until the lights flash, then release and wait 2-3 minutes for the modem to reboot",
           "Connect a phone cable from the telephone wall socket to the grey DSL port on the back of the modem",
@@ -66,12 +66,12 @@
       "wan_port_color": "red",
       "wan_port_position": "Red Ethernet port on the rear panel",
       "wan_port_icon": null,
-      "wan_port_notes": "The RED port is the WAN/Internet port — connect this to the nbn connection box (NTD) for FTTP, FTTC, or HFC connections. The Ethernet cable supplied by Optus has red connectors to match. Do not confuse with the yellow LAN ports.",
+      "wan_port_notes": "The supplied cable has red connectors to match this port.",
       "dsl_port_label": "DSL",
       "dsl_port_color": "grey",
       "dsl_port_position": "Grey RJ11 port on the rear panel",
       "dsl_port_icon": null,
-      "dsl_port_notes": "Connect a phone cable from the telephone wall socket for FTTN/FTTB connections. The supplied grey telephone cable matches this port. The DSL LED on the front panel indicates sync status.",
+      "dsl_port_notes": null,
       "lan_ports": "4 x Gigabit Ethernet (yellow)",
       "other_ports": "2 x USB, 2 x Phone (FXS/VoIP)",
       "reset_button": "Recessed pinhole on rear panel",

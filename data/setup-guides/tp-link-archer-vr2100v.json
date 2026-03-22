@@ -15,7 +15,7 @@
       "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": false,
-      "notes": "TP-Link DSL modem-routers use 192.168.1.1 (not 192.168.0.1 like TP-Link's standalone routers). The alternative hostname is tplinkmodem.net (not tplinkwifi.net). If 'admin/admin' doesn't work, the password may have been changed by a previous ISP or user — factory reset required. Some newer firmware versions prompt you to create a custom password on first login; after factory reset it reverts to admin/admin."
+      "notes": null
     },
     "wan_config": {
       "ethernet": {
@@ -23,7 +23,7 @@
         "connection_type_field": "Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If 'PPPoE' is currently selected, clear the Username and Password fields before switching Connection Type to 'Dynamic IP'",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection Type' to 'Dynamic IP' and clear any username and password fields.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D port) to the blue LAN/WAN port on the rear of the modem-router",
           "Open a web browser and go to http://192.168.1.1 (or http://tplinkmodem.net)",
@@ -45,7 +45,7 @@
         "connection_type_field": "Internet Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If switching from a PPPoE ISP, delete the existing PPPoE connection and create a new Dynamic IP connection with VDSL modulation",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, you may see their connection listed on this page. Delete it and create a new one set to 'Dynamic IP'.",
         "steps_ipoe": [
           "Connect a phone cable from the telephone wall socket to the grey DSL port on the rear of the modem-router",
           "Open a web browser and go to http://192.168.1.1 (or http://tplinkmodem.net)",
@@ -71,12 +71,12 @@
       "wan_port_color": "blue",
       "wan_port_position": "leftmost Ethernet port when viewed from rear",
       "wan_port_icon": null,
-      "wan_port_notes": "The LAN/WAN port doubles as the 4th LAN port — use this port to connect to the nbn connection box for FTTP/FTTC/HFC. Only functional as WAN when in 'Wireless Router Mode'.",
+      "wan_port_notes": "This port is shared with a LAN port \u2014 look for the one labelled 'LAN/WAN'.",
       "dsl_port_label": "DSL",
       "dsl_port_color": "grey",
       "dsl_port_position": "RJ11 port on the right side of the rear panel",
       "dsl_port_icon": null,
-      "dsl_port_notes": "Connect phone cable from wall socket to this port for FTTN/FTTB connections. Only functional in 'DSL Modem Router Mode' (the default).",
+      "dsl_port_notes": null,
       "lan_ports": "3 x Gigabit Ethernet (when LAN/WAN is used as WAN)",
       "other_ports": "2 x FXS/Phone (RJ11, for VoIP handsets), 1 x USB 3.0",
       "reset_button": "Recessed pinhole on rear panel",

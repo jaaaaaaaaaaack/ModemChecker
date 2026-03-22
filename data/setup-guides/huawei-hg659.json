@@ -15,7 +15,7 @@
       "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": false,
-      "notes": "Default credentials are admin/admin across all ISP variants (TPG, Dodo, iiNet, Internode, iPrimus). TPG firmware may prompt you to change the default password on first login. If admin/admin does not work, the password was changed by a previous user or ISP auto-configuration \u2014 a factory reset will restore admin/admin. The Wi-Fi password printed on the rear sticker is for Wi-Fi only, not the admin panel."
+      "notes": "The Wi-Fi password on the sticker is for Wi-Fi only, not the admin panel."
     },
     "wan_config": {
       "ethernet": {
@@ -23,7 +23,7 @@
         "connection_type_field": "Connection Type",
         "ipoe_label": "Dynamic IP (IPoE)",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If an existing PPPoE connection is listed (e.g. 'INTERNET_TR069_ETH' or similar), click Edit and change Connection Type from 'PPP' to 'Dynamic IP (IPoE)'. Clear the 'Internet Account' and 'Internet Password' fields if populated. If you cannot edit the connection, delete it and create a new one.",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, you may see their connection listed on this page. Click 'Edit', change 'Connection Type' to 'Dynamic IP (IPoE)', and clear the 'Internet Account' and 'Internet Password' fields.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D or GATEWAY port) to the blue WAN port on the rear of the HG659",
           "Connect your computer to the HG659 via Wi-Fi or one of the yellow LAN ports",
@@ -45,7 +45,7 @@
         "connection_type_field": "Connection Type",
         "ipoe_label": "Dynamic IP (IPoE)",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If the existing VDSL connection (e.g. 'INTERNET_TR069_VDSL_VID_10') is set to PPP, click Edit and change Connection Type to 'Dynamic IP (IPoE)'. Clear the 'Internet Account' and 'Internet Password' fields. Ensure VLAN is disabled.",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, you may see their connection listed on this page. Click 'Edit', change 'Connection Type' to 'Dynamic IP (IPoE)', and clear the 'Internet Account' and 'Internet Password' fields.",
         "steps_ipoe": [
           "Connect a phone cable (RJ11) from the telephone wall socket to the grey DSL port on the rear of the HG659",
           "Connect your computer to the HG659 via Wi-Fi or one of the yellow LAN ports",
@@ -71,12 +71,12 @@
       "wan_port_color": "blue",
       "wan_port_position": "on the rear panel, separate from the four yellow LAN ports",
       "wan_port_icon": null,
-      "wan_port_notes": "The WAN port is a dedicated blue RJ-45 Ethernet port. Use this for FTTP, FTTC, or HFC connections to the nbn connection box. Do not confuse with the four yellow LAN ports.",
+      "wan_port_notes": null,
       "dsl_port_label": "DSL",
       "dsl_port_color": "grey",
       "dsl_port_position": "on the rear panel, smaller RJ11 connector",
       "dsl_port_icon": null,
-      "dsl_port_notes": "The DSL port uses a smaller RJ11 connector (phone-style cable). Use this for FTTN/FTTB connections to the telephone wall socket.",
+      "dsl_port_notes": null,
       "lan_ports": "4 x Gigabit Ethernet (yellow)",
       "other_ports": "2 x USB 2.0, 1 x Phone (RJ11, for VoIP)",
       "reset_button": "Recessed pinhole on rear panel, near the DSL port",

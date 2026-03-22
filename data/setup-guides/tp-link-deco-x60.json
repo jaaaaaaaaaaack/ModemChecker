@@ -15,7 +15,7 @@
       "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": true,
-      "notes": "The Deco X60 uses 192.168.68.1 (not the standard TP-Link 192.168.0.1) and tplinkdeco.net (not tplinkwifi.net). The web management login password is the TP-Link ID password set during initial Deco app setup \u2014 there are no factory default credentials. Only the owner TP-Link ID account can access the web management page. The web panel uses a self-signed HTTPS certificate, so browsers will show a privacy warning \u2014 this is normal. The web interface is more limited than the Deco app; WAN settings can be changed via either, but the app provides a more complete configuration experience."
+      "notes": "The password is your TP-Link ID password from the Deco app setup. Your browser will show a security warning \u2014 this is normal, click through it."
     },
     "wan_config": {
       "ethernet": {
@@ -23,7 +23,7 @@
         "connection_type_field": "Internet Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If 'PPPoE' is currently selected with a previous ISP's Username and Password, switch Internet Connection Type to 'Dynamic IP' \u2014 the PPPoE credential fields will disappear automatically",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, 'PPPoE' may be selected. Change 'Internet Connection Type' to 'Dynamic IP'.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D or GATEWAY port) to either of the grey Ethernet ports on the back of the Deco X60",
           "Plug in the power cable and wait 2 minutes for the LED to stabilise (pulsing blue means ready for setup, solid green means connected)",
@@ -45,7 +45,7 @@
       "wan_port_color": "grey",
       "wan_port_position": "Either of the two Ethernet ports on the rear panel \u2014 the Deco auto-detects which port has the internet connection",
       "wan_port_icon": null,
-      "wan_port_notes": "The Deco X60 has two identical grey Gigabit Ethernet ports on the rear with no WAN/LAN labeling. Auto WAN Port is enabled by default \u2014 whichever port is connected to the internet source (nbn box) automatically becomes the WAN port. The other port serves as a LAN port for wired devices or Ethernet backhaul to another Deco unit.",
+      "wan_port_notes": null,
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,

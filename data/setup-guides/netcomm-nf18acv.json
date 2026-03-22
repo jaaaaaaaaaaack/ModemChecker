@@ -15,7 +15,7 @@
       "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": false,
-      "notes": "The NF18ACV uses an unusual default IP (192.168.20.1) compared to most routers. Do NOT use https — the self-signed certificate causes authentication failures in modern browsers. Use http://192.168.20.1 only. Some ISP-supplied units (Tangerine, Mercury NZ) may have the password changed to 'admin' + the last 6 characters of the MAC address — check the label on the bottom of the device if 'admin/admin' doesn't work."
+      "notes": "Some units have a different default password \u2014 check the label on the bottom of the device."
     },
     "wan_config": {
       "ethernet": {
@@ -23,7 +23,7 @@
         "connection_type_field": "Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Apply/Save",
-        "pppoe_clear_note": "Clear the 'Username' and 'Password' fields if populated from a previous PPPoE ISP",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection Type' to 'Dynamic IP' and clear any username and password fields.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D port) to the blue WAN port on the rear of the NF18ACV",
           "Plug in the power cable and turn the modem on using the Power button on the side",
@@ -42,7 +42,7 @@
         "connection_type_field": "Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Apply/Save",
-        "pppoe_clear_note": "Clear the 'Username' and 'Password' fields if populated from a previous PPPoE ISP (e.g. TPG, iiNet, Internode)",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection Type' to 'Dynamic IP' and clear any username and password fields.",
         "steps_ipoe": [
           "Connect a phone cable from the telephone wall socket to the grey DSL port on the rear of the NF18ACV — use a DSL line filter if you have a telephone on the same line",
           "Plug in the power cable and turn the modem on using the Power button on the side",
@@ -67,12 +67,12 @@
       "wan_port_color": "blue",
       "wan_port_position": "Rightmost Ethernet port when viewed from the rear, next to the Reset pinhole",
       "wan_port_icon": null,
-      "wan_port_notes": "The blue WAN port is a dedicated Gigabit Ethernet port — do not confuse it with the four yellow LAN ports to its left. Use this port for FTTP, FTTC, HFC, and Fixed Wireless connections.",
+      "wan_port_notes": null,
       "dsl_port_label": "DSL",
       "dsl_port_color": "grey",
       "dsl_port_position": "RJ11 port on the far left of the rear panel, next to the Phone ports",
       "dsl_port_icon": null,
-      "dsl_port_notes": "The DSL port uses an RJ11 phone cable (not an Ethernet cable). Use this port for FTTN and FTTB connections only.",
+      "dsl_port_notes": null,
       "lan_ports": "4 x Gigabit Ethernet (yellow)",
       "other_ports": "2 x RJ11 Phone/VoIP (FXS), 1 x USB 2.0",
       "reset_button": "Recessed pinhole on rear panel, between the WAN port and USB port",

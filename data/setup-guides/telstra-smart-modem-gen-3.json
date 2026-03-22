@@ -15,7 +15,7 @@
       "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": false,
-      "notes": "The default password is the Wi-Fi password printed on the sticker on the bottom of the modem \u2014 NOT a generic password like 'admin' or 'Telstra'. Each unit has a unique default password. After factory reset, the password reverts to this sticker value."
+      "notes": "The password is the Wi-Fi password on the sticker on the bottom of the modem."
     },
     "wan_config": {
       "ethernet": {
@@ -23,7 +23,7 @@
         "connection_type_field": "Connection type / Authentication mode",
         "ipoe_label": "IPoE / DHCP / Dynamic",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If the connection type shows PPPoE with username and password fields filled in, clear those fields and change the connection type to IPoE or DHCP",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection type / Authentication mode' to 'IPoE / DHCP / Dynamic' and clear any username and password fields.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to the RED WAN port on the back of the modem",
           "If UNI-D1 doesn't work, try the other UNI-D ports on the nbn box",
@@ -43,7 +43,7 @@
         "connection_type_field": "Connection type / Authentication mode",
         "ipoe_label": "IPoE / DHCP / Dynamic",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If the connection type shows PPPoE with username and password fields filled in, clear those fields and change the connection type to IPoE or DHCP",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection type / Authentication mode' to 'IPoE / DHCP / Dynamic' and clear any username and password fields.",
         "steps_ipoe": [
           "Connect a phone cable from the wall socket to the grey DSL port on the back of the modem",
           "Plug in the power cable and turn on the modem",
@@ -66,11 +66,11 @@
       "wan_port_color": "red",
       "wan_port_position": "Red Ethernet port on rear panel",
       "wan_port_icon": null,
-      "wan_port_notes": "The RED port is the WAN/Internet port \u2014 connect this to the nbn connection box for FTTP/FTTC/HFC. Do not confuse with the yellow LAN ports.",
+      "wan_port_notes": null,
       "dsl_port_label": "DSL",
       "dsl_port_color": "grey",
       "dsl_port_position": "Grey RJ11 port on rear panel",
-      "dsl_port_notes": "Connect phone cable from wall socket for FTTN/B connections. The WAN/DSL light on the front indicates sync status.",
+      "dsl_port_notes": null,
       "lan_ports": "4 x Gigabit Ethernet (yellow)",
       "other_ports": "2 x FXS (phone/VoIP), USB",
       "reset_button": "Recessed pinhole on rear panel",

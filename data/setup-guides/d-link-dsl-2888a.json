@@ -13,7 +13,7 @@
       "app_only": false,
       "auto_detects_ipoe": false,
       "supports_https": false,
-      "notes": "Default IP is 192.168.1.1 \u2014 differs from D-Link's typical 192.168.0.1 used on non-DSL routers. Default password is blank (empty string) \u2014 some sources report admin/admin but the official manual and Lightning IP guide indicate no password is set by default. If blank doesn't work, try 'admin'. The setup wizard runs on first access and prompts you to create an admin password."
+      "notes": "The default password is blank — leave the password field empty. If that doesn't work, try 'admin' as the password."
     },
     "wan_config": {
       "ethernet": {
@@ -21,7 +21,7 @@
         "connection_type_field": "My Internet Connection is",
         "ipoe_label": "Dynamic IP (DHCP)",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If 'PPPoE' is currently selected, clear the 'Username' and 'Password' fields before switching to Dynamic IP",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'My Internet Connection is' to 'Dynamic IP (DHCP)' and clear any username and password fields.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to the yellow WAN port on the back of the DSL-2888A",
           "Open a web browser and go to http://192.168.1.1 (or http://dlinkrouter.local)",
@@ -40,7 +40,7 @@
         "connection_type_field": "My Internet Connection is",
         "ipoe_label": "Dynamic IP (DHCP)",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If switching from a PPPoE ISP (TPG, iiNet, etc.), you may need to delete the existing DSL connection and create a new one with Dynamic IP",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, you may see their connection listed on this page. Delete it and create a new one set to 'Dynamic IP (DHCP)'.",
         "steps_ipoe": [
           "Connect a phone cable from the telephone wall socket to the grey DSL port on the back of the DSL-2888A (use the supplied micro-splitter if you have a phone on the same line)",
           "Open a web browser and go to http://192.168.1.1 (or http://dlinkrouter.local)",
@@ -57,19 +57,19 @@
       },
       "vlan_field": "VLAN Tagged",
       "vlan_nav_path": "Settings > Internet (within the WAN connection settings)",
-      "vlan_notes": "VLAN tagging is available as a checkbox within the internet connection settings. Belong does not require VLAN tagging \u2014 ensure it is unchecked. Some NZ ISPs require VLAN ID 10 but this does not apply to Australian nbn services."
+      "vlan_notes": "VLAN tagging is available as a checkbox within the internet connection settings. Belong does not require VLAN tagging — ensure it is unchecked. Some NZ ISPs require VLAN ID 10 but this does not apply to Australian nbn services."
     },
     "physical": {
       "wan_port_label": "WAN",
       "wan_port_color": "yellow",
       "wan_port_position": "Ethernet port on the far right when viewed from rear, separated from the LAN ports",
       "wan_port_icon": null,
-      "wan_port_notes": "The WAN port is a dedicated Gigabit Ethernet port, separate from the 4 LAN ports. It is used for FTTP, FTTC, and HFC connections. For FTTN/B connections, use the DSL port instead.",
+      "wan_port_notes": null,
       "dsl_port_label": "DSL",
       "dsl_port_color": "grey",
       "dsl_port_position": "RJ11 port on the right side of the rear panel, next to the power jack",
       "dsl_port_icon": null,
-      "dsl_port_notes": "RJ11 phone-style port for FTTN/B (VDSL2/ADSL2+) connections. Connect from the telephone wall socket. Use the supplied micro-splitter if sharing the line with a phone.",
+      "dsl_port_notes": null,
       "lan_ports": "4 x Gigabit Ethernet",
       "other_ports": "2 x USB 2.0, 2 x FXS (phone/VoIP)",
       "reset_button": "Recessed pinhole on the side of the device",
@@ -84,7 +84,7 @@
       "check_path": "Management > Upgrade",
       "auto_update_available": false,
       "download_url": "http://support.dlink.com.au/Download/download.aspx?product=DSL-2888A",
-      "notes": "D-Link DSL-2888A does NOT support automatic firmware checking \u2014 firmware must be downloaded manually from the D-Link AU support site and uploaded via the admin panel. Product reached EOL on 31 December 2024; firmware updates may no longer be released."
+      "notes": "D-Link DSL-2888A does NOT support automatic firmware checking — firmware must be downloaded manually from the D-Link AU support site and uploaded via the admin panel. Product reached EOL on 31 December 2024; firmware updates may no longer be released."
     },
     "setup_notes": "The DSL-2888A (Python) is a modem-router with both Ethernet WAN and built-in VDSL2/ADSL2+ modem, so it works on all nbn tech types. Key detail: the admin IP is 192.168.1.1, NOT 192.168.0.1 (which is D-Link's default for non-DSL routers). The D-Link admin UI uses 'Settings > Internet' for WAN configuration, where you select the WAN Access Type (Ethernet for FTTP/FTTC/HFC, VDSL for FTTN/B) and then the connection type (Dynamic IP for Belong). On FTTN/B, if the device was previously configured for PPPoE (e.g. from TPG), the existing DSL connection may need to be deleted before creating a new Dynamic IP one. For HFC connections, the nbn NTD may need to be powered off for up to 30 minutes to release the old DHCP lease before the new modem can connect.",
     "manual_url": "https://files.dlink.com.au/products/DSL-2888A/Manuals/DSL-2888A_T1_Manual_v1.00(WW).pdf",
@@ -92,37 +92,37 @@
       {
         "url": "https://help.lip.net.au/d-link-dsl-2888a-fttn-setup/",
         "type": "isp",
-        "description": "Lightning IP \u2014 DSL-2888A FTTN/B setup guide with step-by-step instructions and screenshots",
+        "description": "Lightning IP — DSL-2888A FTTN/B setup guide with step-by-step instructions and screenshots",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://support.simplybroadband.co.nz/instruction/d-link-dsl-2888a",
         "type": "isp",
-        "description": "Simply Broadband NZ \u2014 DSL-2888A Ethernet WAN configuration with exact field values (VLAN settings are NZ-specific)",
+        "description": "Simply Broadband NZ — DSL-2888A Ethernet WAN configuration with exact field values (VLAN settings are NZ-specific)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://www.manualslib.com/manual/1273070/D-Link-Dsl-2888a.html?page=37",
         "type": "manual",
-        "description": "ManualsLib \u2014 DSL-2888A User Manual page 37: Dynamic IP (DHCP) configuration details",
+        "description": "ManualsLib — DSL-2888A User Manual page 37: Dynamic IP (DHCP) configuration details",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://modemly.com/D-Link-DSL-2888A-router-setup",
         "type": "community",
-        "description": "Modemly \u2014 DSL-2888A default login credentials and access instructions",
+        "description": "Modemly — DSL-2888A default login credentials and access instructions",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://forums.whirlpool.net.au/archive/2750421",
         "type": "community",
-        "description": "Whirlpool \u2014 DSL-2888A settings discussion for nbn FTTN/B connections",
+        "description": "Whirlpool — DSL-2888A settings discussion for nbn FTTN/B connections",
         "accessed": "2026-03-20"
       }
     ],
     "setup_confidence": {
       "score": 75,
-      "notes": "Score: 100 - 5 (default password ambiguity: brand default says blank, some sources say admin/admin, LIP guide says no password \u2014 documented all three in notes) - 5 (WAN port color not explicitly confirmed by photos or manual diagram \u2014 yellow inferred from D-Link product convention and retailer photos) - 5 (DSL 'delete and recreate' flow not fully documented with per-step screenshots \u2014 inferred from LIP guide and Whirlpool discussion) - 10 (EOL product, no further firmware updates, admin UI may vary across firmware versions) = 75."
+      "notes": "Score: 100 - 5 (default password ambiguity: brand default says blank, some sources say admin/admin, LIP guide says no password — documented all three in notes) - 5 (WAN port color not explicitly confirmed by photos or manual diagram — yellow inferred from D-Link product convention and retailer photos) - 5 (DSL 'delete and recreate' flow not fully documented with per-step screenshots — inferred from LIP guide and Whirlpool discussion) - 10 (EOL product, no further firmware updates, admin UI may vary across firmware versions) = 75."
     }
   }
 }

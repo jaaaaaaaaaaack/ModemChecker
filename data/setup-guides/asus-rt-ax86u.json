@@ -15,7 +15,7 @@
       "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": true,
-      "notes": "ASUS AX-series routers default to 192.168.50.1 (older ASUS models used 192.168.1.1). There is no factory default username/password \u2014 the first-time setup wizard (QIS) requires you to create your own admin credentials. After a factory reset, the QIS wizard runs again. Use router.asus.com as the most reliable access method."
+      "notes": null
     },
     "wan_config": {
       "ethernet": {
@@ -23,7 +23,7 @@
         "connection_type_field": "WAN Connection Type",
         "ipoe_label": "Automatic IP",
         "save_button_label": "Apply",
-        "pppoe_clear_note": "If 'PPPoE' is selected under WAN Connection Type, clear any PPPoE username and password fields and switch to 'Automatic IP'",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, 'PPPoE' may be selected. Change 'WAN Connection Type' to 'Automatic IP' and clear any username and password fields.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box to the blue WAN port on the router",
           "Open a web browser and go to http://router.asus.com (or http://192.168.50.1)",
@@ -46,7 +46,7 @@
       "wan_port_color": "blue",
       "wan_port_position": "Second Ethernet port from the left when viewed from rear (to the right of the 2.5G port)",
       "wan_port_icon": null,
-      "wan_port_notes": "The blue WAN port is Gigabit (1 Gbps). The separate 2.5G port to its left is LAN-only on this model and CANNOT be used as WAN \u2014 that feature is exclusive to the RT-AX86U Pro.",
+      "wan_port_notes": null,
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,

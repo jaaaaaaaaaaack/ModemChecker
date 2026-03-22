@@ -15,7 +15,7 @@
       "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": true,
-      "notes": "SRM uses port 8000 for HTTP and port 8001 for HTTPS. Access at http://192.168.1.1:8000 or https://192.168.1.1:8001 (or http://router.synology.com). The first-time setup wizard requires creating a new administrator account — there are no factory default credentials. The built-in 'admin' account is deactivated once you create your own admin during the wizard. After a factory reset, the wizard runs again."
+      "notes": "The admin panel uses a non-standard web address \u2014 make sure to include the port number (:8000)."
     },
     "wan_config": {
       "ethernet": {
@@ -23,7 +23,7 @@
         "connection_type_field": "Connection type",
         "ipoe_label": "Auto",
         "save_button_label": "Apply",
-        "pppoe_clear_note": "If 'Connection type' is set to 'PPPoE' with username and password fields filled in, change it to 'Auto' and click 'Apply'. The PPPoE credentials will be cleared automatically when switching to Auto.",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, 'Connection type' may be set to 'PPPoE'. Change it to 'Auto' and click 'Apply'.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box to the blue WAN port on the back of the RT6600ax (leftmost Ethernet port when viewed from the rear)",
           "Power on the router and wait 2-3 minutes for SRM to fully boot (the status LED will turn solid green)",
@@ -47,7 +47,7 @@
       "wan_port_color": "blue",
       "wan_port_position": "Leftmost Ethernet port when viewed from the rear (to the right of the USB 3.2 port)",
       "wan_port_icon": null,
-      "wan_port_notes": "The blue WAN port is Gigabit (1 Gbps). LAN 1 (the first yellow port to its right) is a 2.5GbE port that can be reconfigured as a second WAN port via SRM for dual-WAN setups, but this is not needed for standard Belong connections — use the dedicated blue WAN port.",
+      "wan_port_notes": null,
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,

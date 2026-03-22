@@ -15,7 +15,7 @@
       "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": true,
-      "notes": "Default credentials are admin/admin. Newer firmware versions (3.9.x+) may prompt you to change the password on first login. Both http://192.168.1.1 and https://192.168.1.1 work for admin access. DrayTek does not provide a hostname alternative (no alt_access). The admin interface is professional-grade with many options — customers unfamiliar with DrayTek may find it more complex than consumer router UIs."
+      "notes": null
     },
     "wan_config": {
       "ethernet": {
@@ -23,7 +23,7 @@
         "connection_type_field": "Access Mode",
         "ipoe_label": "Static or Dynamic IP",
         "save_button_label": "OK",
-        "pppoe_clear_note": "If switching from a PPPoE ISP, change the Access Mode from 'PPPoE / PPPoA' to 'Static or Dynamic IP' for WAN2. No username or password fields need to be cleared — they are on a separate details page that is no longer relevant once you switch to Dynamic IP.",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, 'PPPoE' may be selected for 'Access Mode'. Change it to 'Static or Dynamic IP'.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (NTD) to the P5/WAN2 port on the front of the Vigor 2862 — this is the rightmost Ethernet port, separated from the four LAN ports (P1-P4)",
           "Open a web browser and go to https://192.168.1.1 (or http://192.168.1.1)",
@@ -46,7 +46,7 @@
         "connection_type_field": "Access Mode",
         "ipoe_label": "Static or Dynamic IP",
         "save_button_label": "OK",
-        "pppoe_clear_note": "If the router was previously configured for a PPPoE ISP (TPG, iiNet, Internode), go to WAN >> Internet Access, change the Access Mode for WAN1 from 'PPPoE / PPPoA' to 'Static or Dynamic IP', then click Details Page and select 'Obtain an IP address automatically'. The PPPoE username and password are stored on a separate details page and do not need to be manually cleared.",
+        "pppoe_clear_note": "If you've been using this modem with another internet provider, 'PPPoE' may be selected for 'Access Mode'. Change it to 'Static or Dynamic IP'.",
         "steps_ipoe": [
           "Connect a phone cable (RJ-11) from the telephone wall socket to the DSL port on the front of the Vigor 2862 — this is the smaller RJ-11 port, distinct from the larger RJ-45 Ethernet ports",
           "Open a web browser and go to https://192.168.1.1 (or http://192.168.1.1)",
@@ -73,12 +73,12 @@
       "wan_port_color": "black",
       "wan_port_position": "Rightmost RJ-45 Ethernet port on the front panel, separated from the four LAN ports (P1-P4)",
       "wan_port_icon": null,
-      "wan_port_notes": "The P5/WAN2 port is dual-purpose — it functions as LAN Port 5 by default and must be switched to WAN2 mode in WAN >> General Setup. Once enabled as WAN2, it is dedicated to the Ethernet WAN connection. This port is on the FRONT of the device, not the rear. All data ports on the Vigor 2862 are on the front panel, with only the power connector on the rear.",
+      "wan_port_notes": "All ports are on the front of the device, not the back.",
       "dsl_port_label": "DSL",
       "dsl_port_color": "black",
       "dsl_port_position": "RJ-11 (phone cable) port on the front panel, distinct from the larger RJ-45 Ethernet ports",
       "dsl_port_icon": null,
-      "dsl_port_notes": "The DSL port is an RJ-11 connector (smaller than the Ethernet ports) for connecting to the telephone wall socket for VDSL2/ADSL2+ connections (FTTN/FTTB). It is clearly smaller and visually distinct from the RJ-45 LAN/WAN ports.",
+      "dsl_port_notes": "All ports are on the front of the device, not the back.",
       "lan_ports": "4 x Gigabit Ethernet (P1-P4) — P5 is shared with WAN2",
       "other_ports": "2 x USB 2.0 (for 3G/4G USB modems or storage), 2 x FXS phone ports (VoIP, on Vac variant only)",
       "reset_button": "Recessed pinhole on the device — use a paperclip or pin to press",
