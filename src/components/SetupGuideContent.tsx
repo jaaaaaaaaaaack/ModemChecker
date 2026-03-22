@@ -1,4 +1,5 @@
-import { Fragment, useState, useMemo } from "react";
+import { Fragment, useState, useMemo, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ModemIdentityCard } from "@/ui/components/ModemIdentityCard";
 import { StepCard } from "@/ui/components/StepCard";
 import { DeviceConnectionCard } from "@/ui/components/DeviceConnectionCard";
@@ -17,6 +18,7 @@ import {
   FeatherHelpCircle,
   FeatherMessageCircle,
   FeatherX,
+  FeatherArrowRight,
 } from "@subframe/core";
 import type { StepTemplateId, CredentialType, TechType } from "../types";
 import type { GuideEntry } from "../lib/setupGuides";
@@ -84,6 +86,120 @@ const STEP_DESCRIPTIONS: Record<StepTemplateId, string> = {
     "Wait 1-2 minutes for your modem to reconnect, then check that the Internet LED is solid green.",
 };
 
+// --- Success Screen ---
+
+function SetupSuccess({ onBack }: { onBack: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [phase, setPhase] = useState<"bg" | "content">("bg");
+  const [videoReady, setVideoReady] = useState(false);
+
+  // Content phase starts after background gradient has settled
+  useEffect(() => {
+    const timer = setTimeout(() => setPhase("content"), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  const showContent = phase === "content" && videoReady;
+
+  return (
+    <>
+      {/* Gradient background — fades in slowly over the flat bg-brand-50 parent */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.4, ease: "easeOut" }}
+        className="fixed inset-0 z-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(180deg, rgb(100 232 247) 0%, rgb(195 249 255) 50vh)",
+        }}
+      />
+
+      {/* Content — positioned above gradient */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+        className="relative z-10 flex w-full flex-col items-center gap-8 py-16 px-6"
+      >
+        {/* Video — scales from 20% with gentle upward drift */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.2, y: 24 }}
+          animate={
+            phase === "content"
+              ? { opacity: 1, scale: 1, y: 0 }
+              : { opacity: 0, scale: 0.2, y: 24 }
+          }
+          transition={{
+            type: "spring",
+            stiffness: 40,
+            damping: 14,
+            mass: 1.2,
+          }}
+          className="w-full max-w-[280px]"
+        >
+          <video
+            ref={videoRef}
+            src="/success.webm"
+            autoPlay
+            muted
+            playsInline
+            onCanPlay={() => setVideoReady(true)}
+            className="w-full rounded-2xl"
+          />
+        </motion.div>
+
+        {/* Heading — tighter gap to video */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.9, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
+          className="text-h1 font-h1 text-brand-900 text-center -mt-8"
+        >
+          Welcome to Belong
+        </motion.h1>
+
+        {/* Body text */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+          transition={{ duration: 0.9, delay: 2.0, ease: [0.16, 1, 0.3, 1] }}
+          className="text-body font-body text-brand-900 text-center max-w-sm"
+        >
+          You&apos;re all set up and connected. Enjoy your new internet
+          — we&apos;re glad you&apos;re here.
+        </motion.p>
+
+        {/* CTA — icon on right */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+          transition={{ duration: 0.9, delay: 2.4, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center gap-4"
+        >
+          <Button
+            variant="brand-primary"
+            size="medium"
+            iconRight={<FeatherArrowRight />}
+            hasRightIcon={true}
+            onClick={() => {
+              // In production, this would navigate to the customer dashboard
+            }}
+          >
+            Continue to your dashboard
+          </Button>
+          <LinkButton onClick={onBack}>
+            Back to setup steps
+          </LinkButton>
+        </motion.div>
+      </motion.div>
+    </>
+  );
+}
+
 interface SetupGuideContentProps {
   guide: GuideEntry;
   techType: TechType;
@@ -97,6 +213,17 @@ export function SetupGuideContent({
 }: SetupGuideContentProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [disclaimerDismissed, setDisclaimerDismissed] = useState(false);
+  const [completed, setCompleted] = useState(false);
+
+  // Preload success video once the setup page mounts
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "video";
+    link.href = "/success.webm";
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, []);
 
   const modemImageUrl = getModemImageUrl(data.id);
   const adminPanel = data.setup.admin_panel;
@@ -393,7 +520,7 @@ export function SetupGuideContent({
             size="medium"
             icon={<FeatherWifi />}
             hasLeftIcon={true}
-            onClick={() => {}}
+            onClick={() => setCompleted(true)}
           >
             My internet is working
           </Button>
@@ -455,84 +582,106 @@ export function SetupGuideContent({
   }
 
   return (
-    <>
-      {/* Header */}
-      <div className="flex w-full flex-col items-start gap-6">
-        <ModemIdentityCard
-          image={modemImageUrl}
-          label="Your modem"
-          title={`${data.brand} ${data.model}`}
-          action={<LinkButton onClick={onChangeModem}>Change</LinkButton>}
-        />
-        {showDisclaimer && (
-          <Alert
-            variant="inline-brand"
-            title=""
-            description="Please note: This guide is based on information sourced from your modem's setup documents and other online sources. It may not always be 100% accurate."
-            actions={
-              <IconButton
-                variant="brand-tertiary"
-                size="small"
-                icon={<FeatherX />}
-                onClick={() => setDisclaimerDismissed(true)}
-              />
-            }
-          />
-        )}
-      </div>
-
-      {/* Steps — data-driven from sequence */}
-      <div className="flex w-full flex-col items-start gap-3">
-        <h2 className="text-h2 font-h2 text-brand-800">Setup steps</h2>
-
-        {steps.map((templateId, idx) => {
-          const variant = getStepVariant(idx, currentStep);
-          return (
-            <StepCard
-              key={templateId}
-              stepNumber={String(idx + 1)}
-              stepTitle={
-                templateId === "login_app"
-                  ? `Set up with ${appName}`
-                  : STEP_TITLES[templateId]
-              }
-              description={
-                (isDslTech && STEP_DESCRIPTIONS_DSL[templateId]) ||
-                STEP_DESCRIPTIONS[templateId]
-              }
-              infoMessage={undefined}
-              variant={variant}
-              onClick={
-                variant === "completed"
-                  ? () => setCurrentStep(idx)
-                  : undefined
-              }
-              className={
-                variant === "completed" ? "cursor-pointer" : undefined
-              }
-              primaryAction={renderPrimaryAction(templateId, idx)}
-            >
-              {renderStepContent(templateId)}
-            </StepCard>
-          );
-        })}
-      </div>
-
-      {/* Footer */}
-      <div className="flex h-px w-full flex-none items-start bg-neutral-300" />
-      <div className="flex w-full flex-col items-start justify-center gap-4">
-        <span className="text-h4-button-500 font-h4-button-500 text-subtext-color">
-          Having trouble getting connected?
-        </span>
-        <Button
-          variant="neutral-secondary"
-          icon={<FeatherMessageCircle />}
-          hasLeftIcon={true}
-          onClick={() => {}}
+    <AnimatePresence mode="wait">
+      {completed ? (
+        <motion.div
+          key="success"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.1 }}
+          className="w-full"
         >
-          Talk to support
-        </Button>
-      </div>
-    </>
+          <SetupSuccess onBack={() => {
+            setCurrentStep(lastStepIndex);
+            setCompleted(false);
+          }} />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="guide"
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.6, ease: "easeIn" }}
+          className="flex w-full flex-col items-start gap-6"
+        >
+          {/* Header */}
+          <div className="flex w-full flex-col items-start gap-6">
+            <ModemIdentityCard
+              image={modemImageUrl}
+              label="Your modem"
+              title={`${data.brand} ${data.model}`}
+              action={<LinkButton onClick={onChangeModem}>Change</LinkButton>}
+            />
+            {showDisclaimer && (
+              <Alert
+                variant="inline-brand"
+                title=""
+                description="Please note: This guide is based on information sourced from your modem's setup documents and other online sources. It may not always be 100% accurate."
+                actions={
+                  <IconButton
+                    variant="brand-tertiary"
+                    size="small"
+                    icon={<FeatherX />}
+                    onClick={() => setDisclaimerDismissed(true)}
+                  />
+                }
+              />
+            )}
+          </div>
+
+          {/* Steps — data-driven from sequence */}
+          <div className="flex w-full flex-col items-start gap-3">
+            <h2 className="text-h2 font-h2 text-brand-800">Setup steps</h2>
+
+            {steps.map((templateId, idx) => {
+              const variant = getStepVariant(idx, currentStep);
+              return (
+                <StepCard
+                  key={templateId}
+                  stepNumber={String(idx + 1)}
+                  stepTitle={
+                    templateId === "login_app"
+                      ? `Set up with ${appName}`
+                      : STEP_TITLES[templateId]
+                  }
+                  description={
+                    (isDslTech && STEP_DESCRIPTIONS_DSL[templateId]) ||
+                    STEP_DESCRIPTIONS[templateId]
+                  }
+                  infoMessage={undefined}
+                  variant={variant}
+                  onClick={
+                    variant === "completed"
+                      ? () => setCurrentStep(idx)
+                      : undefined
+                  }
+                  className={
+                    variant === "completed" ? "cursor-pointer" : undefined
+                  }
+                  primaryAction={renderPrimaryAction(templateId, idx)}
+                >
+                  {renderStepContent(templateId)}
+                </StepCard>
+              );
+            })}
+          </div>
+
+          {/* Footer */}
+          <div className="flex h-px w-full flex-none items-start bg-neutral-300" />
+          <div className="flex w-full flex-col items-start justify-center gap-4">
+            <span className="text-h4-button-500 font-h4-button-500 text-subtext-color">
+              Having trouble getting connected?
+            </span>
+            <Button
+              variant="neutral-secondary"
+              icon={<FeatherMessageCircle />}
+              hasLeftIcon={true}
+              onClick={() => {}}
+            >
+              Talk to support
+            </Button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

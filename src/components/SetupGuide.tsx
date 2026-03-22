@@ -17,7 +17,8 @@ import { SearchError } from "./SearchError";
 import { SetupLanding } from "./SetupLanding";
 import { SetupGuideContent } from "./SetupGuideContent";
 import { SetupGuideNotAvailable } from "./SetupGuideNotAvailable";
-import type { Modem, TechType } from "../types";
+import { SetupDevMenu } from "./SetupDevMenu";
+import type { Modem, TechType, NbnTechType } from "../types";
 
 const VALID_TECH_TYPES = new Set(["fttp", "fttc", "hfc", "fttn", "fttb"]);
 
@@ -30,6 +31,7 @@ export function SetupGuide() {
     : "fttp";
 
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [devMenuOpen, setDevMenuOpen] = useState(false);
   const [selectedModem, setSelectedModem] = useState<Modem | null>(null);
   const { state, direction, search, selectModem, reset, retry } = useModemSearch();
 
@@ -61,6 +63,25 @@ export function SetupGuide() {
     setSearchParams(techType !== "fttp" ? { tech: techType } : {});
   }, [setSearchParams, techType]);
 
+  const handleDevModemChange = useCallback(
+    (newModemId: string) => {
+      setSearchParams({ modem: newModemId, tech: techType });
+    },
+    [setSearchParams, techType],
+  );
+
+  const handleDevTechChange = useCallback(
+    (nbnTech: NbnTechType) => {
+      const dbTechType = nbnTech === "fttb" ? "fttn" : nbnTech;
+      if (modemId) {
+        setSearchParams({ modem: modemId, tech: dbTechType });
+      } else {
+        setSearchParams(dbTechType !== "fttp" ? { tech: dbTechType } : {});
+      }
+    },
+    [setSearchParams, modemId],
+  );
+
   // Determine page content key for AnimatePresence
   let pageKey: string;
   let pageContent: React.ReactNode;
@@ -75,7 +96,7 @@ export function SetupGuide() {
         <SetupGuideContent
           guide={guide}
           techType={techType}
-          onChangeModem={handleSearchAgain}
+          onChangeModem={() => setDevMenuOpen(true)}
         />
       </>
     );
@@ -156,6 +177,15 @@ export function SetupGuide() {
           </motion.div>
         </AnimatePresence>
       </BottomSheet>
+
+      <SetupDevMenu
+        open={devMenuOpen}
+        onClose={() => setDevMenuOpen(false)}
+        currentModemId={modemId}
+        nbnTechType={techType === "fttn" ? "fttn" : techType as NbnTechType}
+        onModemChange={handleDevModemChange}
+        onTechTypeChange={handleDevTechChange}
+      />
     </div>
   );
 }

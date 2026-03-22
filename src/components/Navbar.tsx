@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FeatherMenu, FeatherSearch } from "@subframe/core";
 
 const BELONG_LOGO_URL =
@@ -8,11 +9,75 @@ const safeAreaStyle: React.CSSProperties = {
   paddingTop: "env(safe-area-inset-top, 0px)",
 };
 
+const NAV_ITEMS = [
+  { path: "/", label: "Compatibility checker" },
+  { path: "/setup", label: "Setup guide" },
+];
+
 export const Navbar = React.memo(function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Close on outside click
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [menuOpen]);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [menuOpen]);
+
   return (
-    <nav className="w-full bg-neutral-950" style={safeAreaStyle}>
+    <nav className="w-full bg-neutral-950 relative z-50" style={safeAreaStyle}>
       <div className="flex h-14 items-center justify-between px-2.5 py-2">
-        <FeatherMenu className="text-h2-500 font-h2-500 text-neutral-50" />
+        <div className="relative" ref={menuRef}>
+          <button
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="p-1 -m-1"
+            aria-label="Navigation menu"
+            aria-expanded={menuOpen}
+          >
+            <FeatherMenu className="text-h2-500 font-h2-500 text-neutral-50" />
+          </button>
+          {menuOpen && (
+            <div className="absolute top-full left-0 mt-2 w-56 rounded-lg bg-white shadow-lg border border-neutral-200 py-1 z-50">
+              {NAV_ITEMS.map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <button
+                    key={item.path}
+                    onClick={() => {
+                      navigate(item.path);
+                      setMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2.5 text-body-bold font-body-bold transition-colors ${
+                      isActive
+                        ? "text-brand-700 bg-brand-50"
+                        : "text-neutral-700 hover:bg-neutral-50"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
         <img
           className="h-6 flex-none object-cover"
           src={BELONG_LOGO_URL}
