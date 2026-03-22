@@ -33,13 +33,13 @@ const ModemIdentityCardRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "flex w-full items-center justify-between rounded-sm bg-default-background pl-4 pr-6 py-4 shadow-sm",
+        "flex w-full items-center justify-between gap-10 rounded-sm bg-default-background pl-4 pr-6 py-4 shadow-sm",
         className
       )}
       ref={ref}
       {...otherProps}
     >
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
         {image ? <img className="w-20 flex-none" src={image} /> : null}
         <div className="flex flex-col items-start gap-1">
           {label ? (
@@ -48,7 +48,7 @@ const ModemIdentityCardRoot = React.forwardRef<
             </span>
           ) : null}
           {title ? (
-            <span className="text-h4-button-500 font-h4-button-500 text-default-font">
+            <span className="text-h4-button-500 font-h4-button-500 text-default-font text-balance">
               {title}
             </span>
           ) : null}

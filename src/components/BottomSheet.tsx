@@ -14,8 +14,10 @@ interface BottomSheetProps {
   children: ReactNode;
   gradient?: "brand" | "accent2";
   title?: string;
-  /** Mobile min-height. Defaults to "75vh". Desktop side-sheet ignores this. */
-  minHeight?: string;
+  /** Mobile sheet height. Defaults to "75vh". Desktop side-sheet ignores this. */
+  height?: string;
+  /** Overlay background opacity (0–1). Defaults to 0.4. */
+  overlayOpacity?: number;
 }
 
 const overlayTransition = {
@@ -24,8 +26,14 @@ const overlayTransition = {
 };
 
 const sheetSpring = { type: "spring" as const, damping: 30, stiffness: 300 };
+const sheetTransition = {
+  ...sheetSpring,
+  // Height changes use a fast tween so the sheet reaches its target size
+  // before AnimatePresence swaps content in (~250ms exit window).
+  height: { type: "tween" as const, duration: 0.2, ease: "easeOut" as const },
+};
 
-export function BottomSheet({ open, onClose, children, gradient = "brand", title = "Modem search", minHeight = "75vh" }: BottomSheetProps) {
+export function BottomSheet({ open, onClose, children, gradient = "brand", title = "Modem search", height = "75vh", overlayOpacity = 0.4 }: BottomSheetProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const axis = isDesktop ? "x" : "y";
   const gradientConfig = GRADIENT_CLASSES[gradient];
@@ -43,7 +51,8 @@ export function BottomSheet({ open, onClose, children, gradient = "brand", title
             <Dialog.Overlay forceMount asChild>
               <motion.div
                 data-testid="sheet-overlay"
-                className="fixed inset-0 z-50 bg-black/40"
+                className="fixed inset-0 z-50"
+                style={{ backgroundColor: `rgba(0, 0, 0, ${overlayOpacity})` }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -66,10 +75,9 @@ export function BottomSheet({ open, onClose, children, gradient = "brand", title
                 aria-modal="true"
                 aria-describedby={undefined}
                 initial={{ [axis]: "100%" }}
-                animate={{ [axis]: 0 }}
+                animate={{ [axis]: 0, ...(isDesktop ? {} : { height }) }}
                 exit={{ [axis]: "100%" }}
-                transition={sheetSpring}
-                style={isDesktop ? undefined : { minHeight }}
+                transition={sheetTransition}
                 className={[
                   // Base
                   `fixed z-50 ${gradientConfig.full} shadow-xl overflow-hidden outline-none`,

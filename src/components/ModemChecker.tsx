@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import type { TechType, Modem, TransitionDirection, NbnTechType } from "../types";
+import type { TechType, Modem, NbnTechType } from "../types";
 import { DEFAULT_PLAN_SPEED_MBPS, NBN_PLANS, NBN_TECH_TYPES } from "../constants";
+import { contentVariants } from "../lib/animations";
 import { getModemImageUrl } from "../lib/supabase";
 import { preloadImages } from "../lib/preloadImages";
 import { useModemSearch } from "../hooks/useModemSearch";
@@ -16,26 +17,6 @@ import { SearchError } from "./SearchError";
 import { DevMenu } from "./DevMenu";
 import { ModemInfoSheet } from "./ModemInfoSheet";
 import { Navbar } from "./Navbar";
-
-const contentVariants = {
-  enter: (direction: TransitionDirection) => ({
-    opacity: 0,
-    x: direction === "forward" ? 6 : -6,
-    scale: 1,
-  }),
-  center: {
-    opacity: 1,
-    x: 0,
-    scale: 1,
-    transition: { duration: 0.15, ease: "easeOut" as const },
-  },
-  exit: (direction: TransitionDirection) => ({
-    opacity: 0,
-    x: direction === "forward" ? -6 : 6,
-    scale: 0.98,
-    transition: { duration: 0.25, ease: "easeIn" as const },
-  }),
-};
 
 export function ModemChecker() {
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -117,11 +98,11 @@ export function ModemChecker() {
         onClose={() => setModemInfoOpen(false)}
         gradient="brand"
         title="Belong modem information"
-        minHeight="93vh"
+        height="93vh"
       >
         <ModemInfoSheet onClose={() => setModemInfoOpen(false)} />
       </BottomSheet>
-      <BottomSheet open={sheetOpen} onClose={handleClose} minHeight="87vh">
+      <BottomSheet open={sheetOpen} onClose={handleClose} height="87vh">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={state.step}
