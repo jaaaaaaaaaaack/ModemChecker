@@ -1,3 +1,4 @@
+// @ts-nocheck — Subframe-generated component, TS narrowing flags dead branches in variant ternary
 "use client";
 /*
  * Documentation:

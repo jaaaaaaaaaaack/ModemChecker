@@ -158,12 +158,13 @@ export function SetupGuide() {
 
   // Select WAN config based on tech type
   const isDslTech = techType === "fttn" || techType === "fttb";
+  const wanConfigObj = data.setup.wan_config as Record<string, unknown>;
   const wanConfig = isDslTech
-    ? data.setup.wan_config.dsl
+    ? (wanConfigObj.dsl as typeof data.setup.wan_config.ethernet | undefined)
     : data.setup.wan_config.ethernet;
 
   // Whether this router lacks DSL but customer needs it
-  const needsDslButMissing = isDslTech && !data.setup.wan_config.dsl;
+  const needsDslButMissing = isDslTech && !wanConfigObj.dsl;
 
   // Port label parsing (data contract §6.3)
   const rawPortLabel = data.setup.physical.wan_port_label;
@@ -206,7 +207,7 @@ export function SetupGuide() {
       ?.save_button_label as string) ?? "Save";
 
   // App name for login_app
-  const appName = adminPanel.app_name ?? "the app";
+  const appName = (adminPanel as Record<string, unknown>).app_name as string | null ?? "the app";
 
   // --- Render helpers per step template ---
 
@@ -310,8 +311,8 @@ export function SetupGuide() {
                 Set up your modem using the {appName} app
               </span>
             }
-            appStoreUrl={adminPanel.app_store_links?.ios}
-            playStoreUrl={adminPanel.app_store_links?.android}
+            appStoreUrl={(adminPanel as Record<string, unknown>).app_store_links != null ? ((adminPanel as Record<string, unknown>).app_store_links as { ios: string; android: string }).ios : undefined}
+            playStoreUrl={(adminPanel as Record<string, unknown>).app_store_links != null ? ((adminPanel as Record<string, unknown>).app_store_links as { ios: string; android: string }).android : undefined}
           />
         );
 
@@ -319,7 +320,7 @@ export function SetupGuide() {
         if (needsDslButMissing) {
           return (
             <Alert
-              variant="inline-warning"
+              variant="warning"
               title="DSL modem required"
               description="This modem doesn't have a built-in DSL modem. You'll need a separate VDSL2 modem or bridge device for FTTN/FTTB connections."
             />
@@ -336,7 +337,7 @@ export function SetupGuide() {
                 hasHome
                 steps={
                   <>
-                    {navSegments.map((segment, i) => (
+                    {navSegments.map((segment: string, i: number) => (
                       <Fragment key={i}>
                         {i > 0 && <NavBreadcrumb.Divider />}
                         <NavBreadcrumb.Segment label={segment} />
@@ -445,7 +446,7 @@ export function SetupGuide() {
               action={<LinkButton onClick={() => {}}>Change</LinkButton>}
             />
             <Alert
-              variant="inline-warning"
+              variant="warning"
               title="Setup guide unavailable"
               description="We don't have a reliable setup guide for this modem yet. Please contact Belong support for help getting connected."
             />
