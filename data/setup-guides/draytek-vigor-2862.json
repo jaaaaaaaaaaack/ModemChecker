@@ -11,18 +11,19 @@
       "alt_access": null,
       "credential_type": "standard",
       "app_only": false,
+      "app_name": null,
+      "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": true,
       "notes": "Default credentials are admin/admin. Newer firmware versions (3.9.x+) may prompt you to change the password on first login. Both http://192.168.1.1 and https://192.168.1.1 work for admin access. DrayTek does not provide a hostname alternative (no alt_access). The admin interface is professional-grade with many options — customers unfamiliar with DrayTek may find it more complex than consumer router UIs."
     },
     "wan_config": {
       "ethernet": {
-        "nav_path": "WAN >> General Setup (enable WAN2) then WAN >> Internet Access",
-        "connection_type_field": "Access Mode (for WAN2)",
+        "nav_path": "WAN > Internet Access",
+        "connection_type_field": "Access Mode",
         "ipoe_label": "Static or Dynamic IP",
         "save_button_label": "OK",
         "pppoe_clear_note": "If switching from a PPPoE ISP, change the Access Mode from 'PPPoE / PPPoA' to 'Static or Dynamic IP' for WAN2. No username or password fields need to be cleared — they are on a separate details page that is no longer relevant once you switch to Dynamic IP.",
-        "notes": "Used for FTTP, FTTC, and HFC connections. The Vigor 2862 uses its Ethernet WAN port (labeled P5/WAN2) for these connection types. WAN2 must first be enabled in WAN >> General Setup before configuring Internet Access. The port is shared with LAN Port 5 — enabling WAN2 mode repurposes it as a dedicated WAN port.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (NTD) to the P5/WAN2 port on the front of the Vigor 2862 — this is the rightmost Ethernet port, separated from the four LAN ports (P1-P4)",
           "Open a web browser and go to https://192.168.1.1 (or http://192.168.1.1)",
@@ -41,12 +42,11 @@
         ]
       },
       "dsl": {
-        "nav_path": "WAN >> General Setup (DSL mode) then WAN >> Internet Access",
-        "connection_type_field": "Access Mode (for WAN1)",
+        "nav_path": "WAN > Internet Access",
+        "connection_type_field": "Access Mode",
         "ipoe_label": "Static or Dynamic IP",
         "save_button_label": "OK",
         "pppoe_clear_note": "If the router was previously configured for a PPPoE ISP (TPG, iiNet, Internode), go to WAN >> Internet Access, change the Access Mode for WAN1 from 'PPPoE / PPPoA' to 'Static or Dynamic IP', then click Details Page and select 'Obtain an IP address automatically'. The PPPoE username and password are stored on a separate details page and do not need to be manually cleared.",
-        "notes": "Used for FTTN and FTTB connections where the built-in VDSL2 modem connects directly to the phone line. WAN1 is the DSL interface. The DSL Mode should be set to 'VDSL2 only' (or 'Multimode' if unsure) in WAN >> General Setup. DrayTek AU recommends DSL Modem Code 'AnnexA_574307_571801' for Australian nbn VDSL2 connections. Note: the Vigor 2862 does NOT support SOS/ROC — it relies on SRA, which may cause minor instability on some FTTN/B lines.",
         "steps_ipoe": [
           "Connect a phone cable (RJ-11) from the telephone wall socket to the DSL port on the front of the Vigor 2862 — this is the smaller RJ-11 port, distinct from the larger RJ-45 Ethernet ports",
           "Open a web browser and go to https://192.168.1.1 (or http://192.168.1.1)",
@@ -65,7 +65,7 @@
         ]
       },
       "vlan_field": "VLAN Tag Insertion",
-      "vlan_nav_path": "WAN >> General Setup (within the WAN interface configuration)",
+      "vlan_nav_path": "WAN > General Setup",
       "vlan_notes": "VLAN tagging is configured per-WAN interface in WAN >> General Setup. Belong does not require VLAN tagging — ensure 'VLAN Tag Insertion' is set to 'Disable' for both Customer and Service tags. Some other Australian ISPs (e.g., AAPT/TPG) may require VLAN tags — if switching from one of these, ensure the tag is disabled."
     },
     "physical": {

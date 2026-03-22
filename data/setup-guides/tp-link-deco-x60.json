@@ -52,7 +52,7 @@
       "dsl_port_icon": null,
       "dsl_port_notes": null,
       "lan_ports": "1 x Gigabit Ethernet (second port, after WAN is auto-assigned)",
-      "other_ports": null,
+      "other_ports": "None",
       "reset_button": "Recessed pinhole on the bottom of the unit, labeled RESET",
       "reset_hold_seconds": 1
     },

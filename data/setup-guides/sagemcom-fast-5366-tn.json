@@ -8,7 +8,7 @@
       "default_ip": "192.168.0.1",
       "default_username": "optus",
       "default_password": null,
-      "alt_access": "192.168.0.1/main.html",
+      "alt_access": null,
       "credential_type": "isp_sticker",
       "app_only": false,
       "app_name": null,
@@ -19,7 +19,7 @@
     },
     "wan_config": {
       "ethernet": {
-        "nav_path": "Advanced Setup > WAN Service (Optus custom firmware — exact menu labels may vary by firmware version)",
+        "nav_path": "Advanced Setup > WAN Service",
         "connection_type_field": "WAN Connection Type",
         "ipoe_label": "IPoE / DHCP (pre-configured — this modem is locked to IPoE and cannot be changed to PPPoE)",
         "save_button_label": "Apply/Save",
@@ -38,7 +38,7 @@
         ]
       },
       "dsl": {
-        "nav_path": "Advanced Setup > WAN Service (Optus custom firmware — exact menu labels may vary by firmware version)",
+        "nav_path": "Advanced Setup > WAN Service",
         "connection_type_field": "WAN Connection Type",
         "ipoe_label": "IPoE / DHCP (pre-configured — this modem is locked to IPoE and cannot be changed to PPPoE)",
         "save_button_label": "Apply/Save",

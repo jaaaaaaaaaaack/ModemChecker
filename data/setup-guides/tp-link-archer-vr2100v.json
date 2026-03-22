@@ -19,7 +19,7 @@
     },
     "wan_config": {
       "ethernet": {
-        "nav_path": "Advanced > Operation Mode > Wireless Router Mode, then Basic > Internet",
+        "nav_path": "Basic > Internet",
         "connection_type_field": "Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Save",

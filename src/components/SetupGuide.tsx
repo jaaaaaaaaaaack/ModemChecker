@@ -98,6 +98,11 @@ const STEP_TITLES: Record<StepTemplateId, string> = {
   verify: "Restart and check your connection",
 };
 
+const STEP_DESCRIPTIONS_DSL: Partial<Record<StepTemplateId, string>> = {
+  physical_connection:
+    "Connect a phone cable from your telephone wall socket to your modem's DSL port.",
+};
+
 const STEP_DESCRIPTIONS: Record<StepTemplateId, string> = {
   power_on:
     "Plug in the power cable and turn on your modem. Wait for the power light to come on.",
@@ -118,6 +123,7 @@ export function SetupGuide() {
   const [currentStep, setCurrentStep] = useState(0);
   const [techType, setTechType] = useState<TechType>("fttp");
   const [modemIndex, setModemIndex] = useState(0);
+  const [disclaimerDismissed, setDisclaimerDismissed] = useState(false);
 
   const data = ALL_MODEMS[modemIndex];
   const modemImageUrl = getModemImageUrl(data.id);
@@ -416,9 +422,78 @@ export function SetupGuide() {
     );
   }
 
-  // Confidence-based disclaimer (data contract §8)
+  // Confidence-based rendering gates (data contract §8)
   const confidenceScore = data.setup.setup_confidence.score;
-  const showDisclaimer = confidenceScore < 80;
+  const showDisclaimer = confidenceScore >= 65 && confidenceScore < 80 && !disclaimerDismissed;
+
+  // Score < 65: don't render guide at all (contract §8)
+  if (confidenceScore < 65) {
+    return (
+      <div className="flex w-full flex-col items-center bg-default-background min-h-screen mobile:bg-neutral-100">
+        <div className="flex w-full max-w-[576px] flex-col items-center bg-neutral-100 pt-8 pb-24 mobile:pt-4 mobile:pb-12">
+          <div className="flex w-full flex-col items-start gap-6 px-6 mobile:gap-6 mobile:px-4">
+            <h1 className="text-h1 font-h1 text-brand-800 mobile:text-h2 mobile:font-h2">
+              Modem setup guide
+            </h1>
+            <ModemIdentityCard
+              image={modemImageUrl}
+              label="Your modem"
+              title={`${data.brand} ${data.model}`}
+              action={<LinkButton onClick={() => {}}>Change</LinkButton>}
+            />
+            <Alert
+              variant="inline-warning"
+              title="Setup guide unavailable"
+              description="We don't have a reliable setup guide for this modem yet. Please contact Belong support for help getting connected."
+            />
+            <Button
+              variant="brand-primary"
+              size="medium"
+              icon={<FeatherMessageCircle />}
+              hasLeftIcon={true}
+              onClick={() => {}}
+            >
+              Talk to support
+            </Button>
+            {/* Dev menu */}
+            <div className="flex h-px w-full flex-none items-start bg-neutral-300" />
+            <div className="flex w-full flex-col items-start gap-3">
+              <span className="text-caption-bold font-caption-bold text-neutral-400">
+                Dev menu
+              </span>
+              <div className="flex w-full flex-col items-start gap-2">
+                <select
+                  value={modemIndex}
+                  onChange={(e) => {
+                    setModemIndex(Number(e.target.value));
+                    setCurrentStep(0);
+                  }}
+                  className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-body font-body text-default-font"
+                >
+                  {ALL_MODEMS.map((m, i) => (
+                    <option key={m.id} value={i}>
+                      {m.brand} {m.model}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={techType}
+                  onChange={(e) => setTechType(e.target.value as TechType)}
+                  className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-body font-body text-default-font"
+                >
+                  <option value="fttp">FTTP (Ethernet)</option>
+                  <option value="fttc">FTTC (Ethernet)</option>
+                  <option value="hfc">HFC (Ethernet)</option>
+                  <option value="fttn">FTTN (DSL)</option>
+                  <option value="fttb">FTTB (DSL)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-full flex-col items-center bg-default-background min-h-screen mobile:bg-neutral-100">
@@ -445,7 +520,7 @@ export function SetupGuide() {
                     variant="brand-tertiary"
                     size="small"
                     icon={<FeatherX />}
-                    onClick={() => {}}
+                    onClick={() => setDisclaimerDismissed(true)}
                   />
                 }
               />
@@ -467,7 +542,10 @@ export function SetupGuide() {
                       ? `Set up with ${appName}`
                       : STEP_TITLES[templateId]
                   }
-                  description={STEP_DESCRIPTIONS[templateId]}
+                  description={
+                    (isDslTech && STEP_DESCRIPTIONS_DSL[templateId]) ||
+                    STEP_DESCRIPTIONS[templateId]
+                  }
                   infoMessage={
                     templateId === "physical_connection"
                       ? data.setup.physical.wan_port_notes

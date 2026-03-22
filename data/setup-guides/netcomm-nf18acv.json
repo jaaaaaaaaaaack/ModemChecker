@@ -11,6 +11,8 @@
       "alt_access": null,
       "credential_type": "standard",
       "app_only": false,
+      "app_name": null,
+      "app_store_links": null,
       "auto_detects_ipoe": false,
       "supports_https": false,
       "notes": "The NF18ACV uses an unusual default IP (192.168.20.1) compared to most routers. Do NOT use https — the self-signed certificate causes authentication failures in modern browsers. Use http://192.168.20.1 only. Some ISP-supplied units (Tangerine, Mercury NZ) may have the password changed to 'admin' + the last 6 characters of the MAC address — check the label on the bottom of the device if 'admin/admin' doesn't work."
