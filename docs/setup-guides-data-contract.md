@@ -307,9 +307,13 @@ This is a **new optional** object. The pipeline can add it during batch rollout 
 | Field | Type | Required | Consumer |
 |---|---|---|---|
 | `setup_notes` | `string` | Always | Agent/support context. Potential tooltip. |
-| `manual_url` | `string \| null` | Optional | "View manual" link |
+| `manual_url` | `string \| null` | Optional | "View manual" link (manufacturer's page) |
+| `manual_pdf_path` | `string \| null` | Optional | Supabase Storage path in `modem-manuals` bucket. Pipeline uploads during research; used for internal audit, adversarial validation, and customer "I need help" fallback. |
+| `manual_pdf_pages` | `{ wan_config?: number, port_diagram?: number, factory_reset?: number } \| null` | Optional | Page numbers for key sections. Enables page-specific references in troubleshooting. |
 | `setup_sources` | `SetupSource[]` | Always (min 2) | Not rendered in UI. Provenance record. |
 | `setup_confidence` | `{ score: number, notes: string }` | Always | Rendering gate (see §8). |
+
+**PDF manual archiving:** The pipeline should download and upload manufacturer manuals to the `modem-manuals` Supabase Storage bucket during research. This serves three purposes: (1) audit trail — source URLs die frequently, the PDF is the permanent record; (2) adversarial validation — a validation agent can re-check research claims against the archived PDF without re-fetching; (3) customer fallback — the "I need help" troubleshooting flow can link to the full manual. Store using the modem ID as filename (e.g., `tp-link-archer-vr1600v.pdf`). The `manual_pdf_pages` object lets the frontend or agent link to specific pages (e.g., "see page 37 of your modem's manual for WAN settings").
 
 **`setup_sources[]` item schema:**
 
@@ -458,7 +462,13 @@ Fields that the contract requires as "always present" but are missing from some 
 
 1. **`steps_structured` (typed step objects):** Should `steps_ipoe` be replaced with typed objects? Current answer: no. The flat strings serve support well. The frontend uses structured fields directly. Revisit if a third consumer emerges.
 
-2. **Rear-panel images:** A `setup.physical.rear_image_url` field for visual port identification. Not blocking — text descriptions work. Medium priority for v2.
+2. **Rear-panel port images (planned — Gemini extraction pipeline):** Three-stage pipeline to extract port identification images from archived PDF manuals:
+   - **Stage 1 (done):** Research agent records `manual_pdf_pages.port_diagram` page number during research.
+   - **Stage 2:** Extraction skill renders the full PDF page as an image and sends it to Gemini Flash with structured output prompt. Full-page extraction is preferred over cropping individual images — the surrounding text (diagram legends, callout descriptions like "1. WAN port (blue)") provides context that improves Gemini's accuracy. Gemini returns: port identification data (label, colour, position, type for each port), crop coordinates for the rear-panel diagram, and confidence.
+   - **Stage 3:** Crop, resize to standard dimensions, convert to WebP, upload to `modem-images` bucket (or new `modem-port-diagrams` bucket). Add `setup.physical.port_diagram_url` field.
+   - **Cost:** ~$0.15/modem (one Gemini Flash call with image + structured output). Under $11 for full database.
+   - **Validation bonus:** Gemini's structured port data can be cross-checked against the text-based `physical.*` fields the research agent produced, flagging discrepancies automatically.
+   - **Status:** Documented as planned enhancement. Build as batch job across archived PDFs first, then integrate into research pipeline if successful.
 
 3. **Factory reset as prerequisite step:** Some ISP-branded modems benefit from a factory reset BEFORE setup. Current approach: handle as a warning within the login step, reading `factory_reset.notes`. Not a separate step template yet. Revisit if needed.
 
@@ -569,6 +579,12 @@ interface SetupConfidence {
 
 // ---- Root ----
 
+interface ManualPdfPages {
+  wan_config?: number;
+  port_diagram?: number;
+  factory_reset?: number;
+}
+
 interface SetupGuideData {
   admin_panel: AdminPanel;
   wan_config: WanConfig;
@@ -578,6 +594,8 @@ interface SetupGuideData {
   troubleshooting?: Troubleshooting;
   setup_notes: string;
   manual_url: string | null;
+  manual_pdf_path: string | null;
+  manual_pdf_pages: ManualPdfPages | null;
   setup_sources: SetupSource[];
   setup_confidence: SetupConfidence;
 }
@@ -590,3 +608,4 @@ interface SetupGuideData {
 | Version | Date | Changes |
 |---|---|---|
 | 1.0 | 2026-03-21 | Initial contract. 8 pilot modems validated. 8 step templates, normalization rules, cross-validation rules, rendering gates. New `troubleshooting` object proposed as optional extension. |
+| 1.1 | 2026-03-22 | Added `manual_pdf_path` and `manual_pdf_pages` fields for PDF manual archiving. Pipeline downloads and uploads manuals to `modem-manuals` Supabase bucket during research for audit, adversarial validation, and customer fallback. Documented planned Gemini extraction pipeline for rear-panel port images (3-stage: page render → Gemini structured output → crop/upload). |
