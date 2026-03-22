@@ -35,6 +35,7 @@ const PortTypeBadgeRoot = React.forwardRef<
     <div
       className={SubframeUtils.twClassNames(
         "group/189422de flex items-center gap-2",
+        { "shadow-sm": variant === "white" },
         className
       )}
       ref={ref}
@@ -42,14 +43,14 @@ const PortTypeBadgeRoot = React.forwardRef<
     >
       <div
         className={SubframeUtils.twClassNames(
-          "flex items-center gap-2 rounded-[4px] border border-solid border-[#94d6ff] bg-[#d1f0ff] px-1.5 py-px",
+          "flex items-center gap-2 rounded-[4px] border border-solid border-[#94d6ff] bg-[#d1f0ff] px-1",
           {
-            "flex-row flex-nowrap gap-1 pl-1.5 pr-2 py-px": hasIcon,
+            "flex-row flex-nowrap gap-1 pl-0.5 pr-1 py-0": hasIcon,
             "border border-solid border-color-neutral-300 bg-default-background":
               variant === "white",
             "border border-solid border-[#ffd6de] bg-[#ffd6de]":
               variant === "red",
-            "border border-solid border-success-300 bg-success-100 px-1.5 py-px":
+            "border border-solid border-success-300 bg-success-100":
               variant === "green",
             "border border-solid border-neutral-300 bg-color-neutral-100":
               variant === "neutral",
@@ -61,8 +62,14 @@ const PortTypeBadgeRoot = React.forwardRef<
         {portIcon ? (
           <SubframeCore.IconWrapper
             className={SubframeUtils.twClassNames(
-              "hidden text-h4-button-700 font-h4-button-700 text-default-font",
-              { "inline-flex": hasIcon }
+              "hidden text-h4-button-700 font-h4-button-700 text-brand-900",
+              {
+                "inline-flex": hasIcon,
+                "text-neutral-600":
+                  variant === "white" || variant === "neutral",
+                "text-neutral-900": variant === "red" || variant === "yellow",
+                "text-success-800": variant === "green",
+              }
             )}
           >
             {portIcon}
@@ -73,10 +80,10 @@ const PortTypeBadgeRoot = React.forwardRef<
             className={SubframeUtils.twClassNames(
               "text-body-bold font-body-bold text-brand-900",
               {
-                "text-neutral-700": variant === "white",
+                "text-neutral-600":
+                  variant === "white" || variant === "neutral",
                 "text-neutral-900": variant === "red" || variant === "yellow",
                 "text-success-800": variant === "green",
-                "text-neutral-600": variant === "neutral",
               }
             )}
           >

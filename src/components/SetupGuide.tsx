@@ -220,11 +220,10 @@ export function SetupGuide() {
         return (
           <DeviceConnectionCard
             image={modemImageUrl}
-            deviceName={`${data.brand} ${data.model}`}
-            connectionLabel={connectionPrefix}
-            variant="horizontal-stack"
-            portType2={
+            deviceName="Your modem"
+            connectionLabel={
               <>
+                {connectionPrefix}{" "}
                 <PortTypeBadge
                   variant={
                     colorName === "blue"
@@ -235,12 +234,12 @@ export function SetupGuide() {
                   }
                   portName={badgeLabel}
                   hasIcon={isIconPort}
-                />
-                <span className="text-body font-body text-default-font">
-                  port
-                </span>
+                  className="inline-flex"
+                />{" "}
+                {isAutoSensing ? "ports" : "port"}
               </>
             }
+            variant="horizontal-stack"
           />
         );
 

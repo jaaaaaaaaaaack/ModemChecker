@@ -1,7 +1,9 @@
+// @subframe/sync-disable
 "use client";
 /*
  * Documentation:
  * deviceConnectionCard — https://app.subframe.com/c141bce6134a/library?component=deviceConnectionCard_9e7db8d4-a7c7-43f9-8439-4f4cfacb1325
+ * PortTypeBadge — https://app.subframe.com/c141bce6134a/library?component=PortTypeBadge_189422de-a461-4798-976d-d166bdec6a94
  */
 
 import React from "react";
@@ -12,10 +14,7 @@ interface DeviceConnectionCardRootProps
   image?: string;
   deviceName?: React.ReactNode;
   connectionLabel?: React.ReactNode;
-  portType?: React.ReactNode;
-  portLabel?: React.ReactNode;
   variant?: "option-1" | "horizontal-stack";
-  portType2?: React.ReactNode;
   className?: string;
 }
 
@@ -27,10 +26,7 @@ const DeviceConnectionCardRoot = React.forwardRef<
     image,
     deviceName,
     connectionLabel,
-    portType,
-    portLabel,
     variant = "option-1",
-    portType2,
     className,
     ...otherProps
   }: DeviceConnectionCardRootProps,
@@ -39,9 +35,9 @@ const DeviceConnectionCardRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/9e7db8d4 flex h-full w-full min-w-[144px] flex-col items-center justify-between rounded-sm bg-color-neutral-100 px-6 py-6",
+        "group/9e7db8d4 flex h-full w-full min-w-[144px] flex-col items-center justify-between rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6 shadow-sm",
         {
-          "flex-row flex-nowrap items-start justify-start gap-6 px-4 py-4":
+          "flex-row flex-nowrap items-center justify-start gap-6 border border-solid border-neutral-100 px-4 py-4":
             variant === "horizontal-stack",
         },
         className
@@ -53,10 +49,7 @@ const DeviceConnectionCardRoot = React.forwardRef<
         <img
           className={SubframeUtils.twClassNames(
             "h-32 w-36 flex-none object-contain",
-            {
-              "h-auto max-h-[80px] w-20 flex-none self-stretch":
-                variant === "horizontal-stack",
-            }
+            { "h-20 w-20 flex-none": variant === "horizontal-stack" }
           )}
           src={image}
         />
@@ -65,36 +58,28 @@ const DeviceConnectionCardRoot = React.forwardRef<
         className={SubframeUtils.twClassNames(
           "flex flex-col items-center justify-center gap-3 pt-4",
           {
-            "flex-col flex-nowrap items-start justify-center gap-2 px-0 py-0":
+            "flex-col flex-nowrap items-start justify-center gap-1 px-0 py-0":
               variant === "horizontal-stack",
           }
         )}
       >
         {deviceName ? (
-          <span className="whitespace-pre-wrap text-h4-button-500 font-h4-button-500 text-default-font text-center">
+          <span className="whitespace-pre-wrap text-h4-button-700 font-h4-button-700 text-default-font text-center">
             {deviceName}
           </span>
         ) : null}
-        <div
-          className={SubframeUtils.twClassNames(
-            "flex flex-col items-center gap-1",
-            { "items-start justify-start": variant === "horizontal-stack" }
-          )}
-        >
-          {connectionLabel ? (
-            <span
-              className={SubframeUtils.twClassNames(
-                "whitespace-pre-wrap text-body font-body text-default-font text-center",
-                { "text-left": variant === "horizontal-stack" }
-              )}
-            >
-              {connectionLabel}
-            </span>
-          ) : null}
-          {portType2 ? (
-            <div className="flex items-center gap-1">{portType2}</div>
-          ) : null}
-        </div>
+        {connectionLabel ? (
+          <span
+            className={SubframeUtils.twClassNames(
+              "text-body font-body text-default-font text-center flex flex-wrap items-center justify-center gap-x-1",
+              {
+                "text-left justify-start": variant === "horizontal-stack",
+              }
+            )}
+          >
+            {connectionLabel}
+          </span>
+        ) : null}
       </div>
     </div>
   );
