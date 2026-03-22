@@ -263,17 +263,14 @@ export function SetupGuide() {
               }
               adminUrlSecondary={
                 adminPanel.alt_access ? (
-                  <span className="text-body font-body text-subtext-color">
-                    or{" "}
-                    <a
-                      href={`${protocol}://${adminPanel.alt_access}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-brand-700 underline"
-                    >
-                      {protocol}://{adminPanel.alt_access}
-                    </a>
-                  </span>
+                  <a
+                    href={`${protocol}://${adminPanel.alt_access}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brand-700 underline"
+                  >
+                    {protocol}://{adminPanel.alt_access}
+                  </a>
                 ) : undefined
               }
               username={adminPanel.default_username}
@@ -301,7 +298,11 @@ export function SetupGuide() {
             variant="app-only"
             appName={
               <span className="text-h4-button-500 font-h4-button-500 text-default-font">
-                {appName}
+                Download the{" "}
+                <span className="text-h4-button-700 font-h4-button-700">
+                  {appName}
+                </span>{" "}
+                app
               </span>
             }
             message={
@@ -309,6 +310,8 @@ export function SetupGuide() {
                 Set up your modem using the {appName} app
               </span>
             }
+            appStoreUrl={adminPanel.app_store_links?.ios}
+            playStoreUrl={adminPanel.app_store_links?.android}
           />
         );
 
