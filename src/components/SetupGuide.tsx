@@ -9,7 +9,8 @@ import { Alert } from "@/ui/components/Alert";
 import { Button } from "@/ui/components/Button";
 import { LinkButton } from "@/ui/components/LinkButton";
 import { IconButton } from "@/ui/components/IconButton";
-import { getModemImageUrl } from "../lib/supabase";
+import { getModemImageUrl, getNbnHardwareImageUrl } from "../lib/supabase";
+import { NBN_HARDWARE } from "../constants";
 import {
   FeatherCheck,
   FeatherWifi,
@@ -209,6 +210,10 @@ export function SetupGuide() {
   // App name for login_app
   const appName = (adminPanel as Record<string, unknown>).app_name as string | null ?? "the app";
 
+  // NBN hardware for the connection step
+  const nbnHardware = NBN_HARDWARE[techType];
+  const nbnImageUrl = getNbnHardwareImageUrl(nbnHardware.imageId);
+
   // --- Render helpers per step template ---
 
   function renderStepContent(templateId: StepTemplateId) {
@@ -218,29 +223,50 @@ export function SetupGuide() {
 
       case "physical_connection":
         return (
-          <DeviceConnectionCard
-            image={modemImageUrl}
-            deviceName="Your modem"
-            connectionLabel={
-              <>
-                {connectionPrefix}{" "}
-                <PortTypeBadge
-                  variant={
-                    colorName === "blue"
-                      ? "blue"
-                      : colorName === "yellow"
-                        ? "yellow"
-                        : "neutral"
-                  }
-                  portName={badgeLabel}
-                  hasIcon={isIconPort}
-                  className="inline-flex"
-                />{" "}
-                {isAutoSensing ? "ports" : "port"}
-              </>
-            }
-            variant="horizontal-stack"
-          />
+          <div className="flex w-full flex-col items-center gap-3">
+            {/* NBN hardware card */}
+            <DeviceConnectionCard
+              image={nbnImageUrl}
+              deviceName={nbnHardware.deviceName}
+              connectionLabel={
+                <>
+                  Connect to the{" "}
+                  <PortTypeBadge
+                    variant={nbnHardware.portBadgeColor}
+                    portName={nbnHardware.portBadgeLabel}
+                    className="inline-flex"
+                  />{" "}
+                  {nbnHardware.portDescription}
+                </>
+              }
+              note={nbnHardware.variantNote || undefined}
+              variant="nbn-hardware"
+            />
+            {/* Modem card */}
+            <DeviceConnectionCard
+              image={modemImageUrl}
+              deviceName="Your modem"
+              connectionLabel={
+                <>
+                  {connectionPrefix}{" "}
+                  <PortTypeBadge
+                    variant={
+                      colorName === "blue"
+                        ? "blue"
+                        : colorName === "yellow"
+                          ? "yellow"
+                          : "neutral"
+                    }
+                    portName={badgeLabel}
+                    hasIcon={isIconPort}
+                    className="inline-flex"
+                  />{" "}
+                  {isAutoSensing ? "ports" : "port"}
+                </>
+              }
+              variant="horizontal-stack"
+            />
+          </div>
         );
 
       case "connect_wifi":
@@ -549,11 +575,7 @@ export function SetupGuide() {
                     (isDslTech && STEP_DESCRIPTIONS_DSL[templateId]) ||
                     STEP_DESCRIPTIONS[templateId]
                   }
-                  infoMessage={
-                    templateId === "physical_connection"
-                      ? data.setup.physical.wan_port_notes
-                      : undefined
-                  }
+                  infoMessage={undefined}
                   variant={variant}
                   onClick={
                     variant === "completed"

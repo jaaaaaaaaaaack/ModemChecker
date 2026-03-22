@@ -1,4 +1,4 @@
-import type { ConditionCode, CompatibilityStatus, SpeedWarning, TechType, NbnTechType } from "./types";
+import type { ConditionCode, CompatibilityStatus, SpeedWarning, TechType, NbnTechType, NbnHardwareInfo } from "./types";
 
 export const CONDITION_LABELS: Record<ConditionCode, { label: string; description: string }> = {
   SWITCH_TO_IPOE: {
@@ -123,4 +123,70 @@ export const NBN_TECH_LABELS: Record<NbnTechType, string> = {
   fttn: "Fibre-to-the-node (FTTN)",
   fttc: "Fibre-to-the-curb (FTTC)",
   hfc: "Hybrid fibre coaxial (HFC)",
+};
+
+// --- NBN-side hardware for the DeviceConnectionCard ---
+
+/**
+ * Infrastructure-layer constants keyed by NbnTechType.
+ * These describe the NBN hardware the customer's modem connects TO.
+ *
+ * Port descriptions are kept generic so they're accurate across all
+ * known hardware variants (legacy and current). See docs/nbn-premises-hardware.md
+ * for the full variant inventory.
+ *
+ * FTTN and FTTB have no NBN hardware at the premises — the modem plugs
+ * directly into the phone wall socket — so they share a "wall socket" entry.
+ */
+export const NBN_HARDWARE: Record<NbnTechType, NbnHardwareInfo> = {
+  fttp: {
+    deviceName: "nbn connection box",
+    shortName: "nbn box",
+    imageId: "nbn-fttp",
+    cableType: "ethernet",
+    portDescription: "port. If there are several, use Port 1.",
+    portBadgeLabel: "Ethernet",
+    portBadgeColor: "neutral",
+    variantNote: "Your nbn connection box may look different to the one shown.",
+  },
+  fttc: {
+    deviceName: "nbn connection device (NCD)",
+    shortName: "NCD",
+    imageId: "nbn-fttc",
+    cableType: "ethernet",
+    portDescription: "port.",
+    portBadgeLabel: "Ethernet",
+    portBadgeColor: "yellow",
+    variantNote: "Your NCD may look different to the one shown.",
+  },
+  hfc: {
+    deviceName: "nbn connection box (NTD)",
+    shortName: "NTD",
+    imageId: "nbn-hfc",
+    cableType: "ethernet",
+    portDescription: "port.",
+    portBadgeLabel: "Ethernet",
+    portBadgeColor: "neutral",
+    variantNote: "Your nbn connection box may look different to the one shown.",
+  },
+  fttn: {
+    deviceName: "Phone wall socket",
+    shortName: "wall socket",
+    imageId: "nbn-phone-socket",
+    cableType: "phone",
+    portDescription: "socket.",
+    portBadgeLabel: "Phone",
+    portBadgeColor: "neutral",
+    variantNote: "",
+  },
+  fttb: {
+    deviceName: "Phone wall socket",
+    shortName: "wall socket",
+    imageId: "nbn-phone-socket",
+    cableType: "phone",
+    portDescription: "socket.",
+    portBadgeLabel: "Phone",
+    portBadgeColor: "neutral",
+    variantNote: "",
+  },
 };

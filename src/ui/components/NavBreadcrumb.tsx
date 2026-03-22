@@ -78,27 +78,21 @@ const NavBreadcrumbRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/f9462f83 flex items-center gap-2",
-        { "flex-row flex-nowrap gap-0": hasHome },
+        "group/f9462f83 flex flex-wrap items-center gap-y-2",
         className
       )}
       ref={ref}
       {...otherProps}
     >
-      <div
-        className={SubframeUtils.twClassNames(
-          "hidden items-center rounded-full",
-          { flex: hasHome }
-        )}
-      >
-        <FeatherHome className="text-h3-500 font-h3-500 text-neutral-700" />
-      </div>
-      <Divider
-        className={SubframeUtils.twClassNames("hidden", { flex: hasHome })}
-      />
-      {steps ? (
-        <div className="flex flex-wrap items-center">{steps}</div>
+      {hasHome ? (
+        <>
+          <div className="flex items-center rounded-full">
+            <FeatherHome className="text-h3-500 font-h3-500 text-neutral-700" />
+          </div>
+          <Divider />
+        </>
       ) : null}
+      {steps}
     </div>
   );
 });

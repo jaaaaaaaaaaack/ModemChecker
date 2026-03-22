@@ -215,3 +215,26 @@ export type StepTemplateId =
   | "login_app"
   | "navigate_and_configure"
   | "verify";
+
+// ---- NBN Hardware Types ----
+
+export type CableType = "ethernet" | "phone";
+
+export interface NbnHardwareInfo {
+  /** Device name shown on the connection card */
+  deviceName: string;
+  /** Short description (e.g., "nbn connection box") */
+  shortName: string;
+  /** Supabase storage image ID (without extension) */
+  imageId: string;
+  /** Cable type connecting NBN hardware to the modem */
+  cableType: CableType;
+  /** Generic port description — always accurate across hardware variants */
+  portDescription: string;
+  /** Port badge label for the PortTypeBadge component */
+  portBadgeLabel: string;
+  /** Port badge color variant */
+  portBadgeColor: "blue" | "yellow" | "neutral" | "green" | "red" | "white";
+  /** Disclaimer note about hardware variants */
+  variantNote: string;
+}

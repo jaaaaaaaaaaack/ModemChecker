@@ -82,14 +82,12 @@ const SubstepCardContainerRoot = React.forwardRef<
             </span>
           ) : null}
           {adminUrlSecondary ? (
-            <div className="flex items-center gap-1">
-              <span className="text-body font-body text-subtext-color">
-                If that doesn&apos;t work, try
-              </span>
-              <span className="text-body font-body">
+            <span className="text-body font-body text-subtext-color">
+              If that doesn&apos;t work, try{" "}
+              <span className="text-body font-body text-default-font">
                 {adminUrlSecondary}
               </span>
-            </div>
+            </span>
           ) : null}
         </div>
         <div className="flex h-px w-full flex-none items-start bg-neutral-border" />
