@@ -22,9 +22,9 @@ const Segment = React.forwardRef<HTMLDivElement, SegmentProps>(function Segment(
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/1ded16a7 flex items-center gap-2 rounded-full bg-color-neutral-200 px-4 py-1.5",
+        "group/1ded16a7 flex items-center gap-2 rounded-[4px] border border-solid border-neutral-border bg-color-neutral-100 px-2.5 py-1.5",
         {
-          "rounded-sm bg-color-accent2-100 px-3 py-1.5":
+          "border border-solid border-color-accent2-200 bg-color-accent2-100":
             variant === "setting-value",
         },
         className

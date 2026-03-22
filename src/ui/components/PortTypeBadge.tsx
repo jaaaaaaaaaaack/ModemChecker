@@ -10,7 +10,7 @@ import * as SubframeCore from "@subframe/core";
 import * as SubframeUtils from "../utils";
 
 interface PortTypeBadgeRootProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "blue" | "yellow" | "neutral" | "neutral-2";
+  variant?: "blue" | "yellow" | "neutral" | "green" | "red" | "white";
   portName?: React.ReactNode;
   hasIcon?: boolean;
   portIcon?: React.ReactNode;
@@ -42,19 +42,26 @@ const PortTypeBadgeRoot = React.forwardRef<
     >
       <div
         className={SubframeUtils.twClassNames(
-          "flex items-center gap-2 rounded-md bg-color-primary-100 px-2 py-1",
+          "flex items-center gap-2 rounded-[4px] border border-solid border-[#94d6ff] bg-[#d1f0ff] px-1.5 py-px",
           {
-            "flex-row flex-nowrap gap-1 pl-2 pr-2.5 py-1": hasIcon,
-            "bg-color-secondary-101": variant === "neutral-2",
-            "bg-color-neutral-300": variant === "neutral",
-            "bg-warning-200": variant === "yellow",
+            "flex-row flex-nowrap gap-1 pl-1.5 pr-2 py-px": hasIcon,
+            "border border-solid border-color-neutral-300 bg-default-background":
+              variant === "white",
+            "border border-solid border-[#ffd6de] bg-[#ffd6de]":
+              variant === "red",
+            "border border-solid border-success-300 bg-success-100 px-1.5 py-px":
+              variant === "green",
+            "border border-solid border-neutral-300 bg-color-neutral-100":
+              variant === "neutral",
+            "border border-solid border-warning-300 bg-warning-100":
+              variant === "yellow",
           }
         )}
       >
         {portIcon ? (
           <SubframeCore.IconWrapper
             className={SubframeUtils.twClassNames(
-              "hidden text-h3-500 font-h3-500 text-default-font",
+              "hidden text-h4-button-700 font-h4-button-700 text-default-font",
               { "inline-flex": hasIcon }
             )}
           >
@@ -62,7 +69,17 @@ const PortTypeBadgeRoot = React.forwardRef<
           </SubframeCore.IconWrapper>
         ) : null}
         {portName ? (
-          <span className="text-body-bold font-body-bold text-default-font">
+          <span
+            className={SubframeUtils.twClassNames(
+              "text-body-bold font-body-bold text-brand-900",
+              {
+                "text-neutral-700": variant === "white",
+                "text-neutral-900": variant === "red" || variant === "yellow",
+                "text-success-800": variant === "green",
+                "text-neutral-600": variant === "neutral",
+              }
+            )}
+          >
             {portName}
           </span>
         ) : null}
