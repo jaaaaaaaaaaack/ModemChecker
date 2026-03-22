@@ -113,7 +113,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.8 }}
-        className="relative z-10 flex w-full flex-col items-center pt-[18vh] pb-10 px-6"
+        className="relative z-10 flex w-full flex-col items-center justify-center min-h-dvh pt-6 pb-10 px-6"
       >
         {/* Hero image — fades and scales in gently */}
         <motion.div
@@ -126,7 +126,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
             mass: 1.4,
             delay: 1,
           }}
-          className="w-full max-w-[200px] mb-10"
+          className="w-full max-w-[200px] mb-6"
         >
           <img
             src="/belongWifi.webp"
@@ -167,7 +167,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
           initial={{ opacity: 0, y: 8 }}
           animate={imageReady ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.4, delay: 4.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center gap-5 mt-10"
+          className="flex flex-col items-center gap-5 mt-6"
         >
           <Button
             variant="brand-primary"
