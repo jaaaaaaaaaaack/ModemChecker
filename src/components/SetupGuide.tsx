@@ -4,6 +4,7 @@ import { getSetupGuide } from "../lib/setupGuides";
 import { SetupGuideContent } from "./SetupGuideContent";
 import { SetupSearch } from "./SetupSearch";
 import { SetupGuideNotAvailable } from "./SetupGuideNotAvailable";
+import { Navbar } from "./Navbar";
 import type { Modem, TechType } from "../types";
 
 const VALID_TECH_TYPES = new Set(["fttp", "fttc", "hfc", "fttn", "fttb"]);
@@ -78,6 +79,7 @@ export function SetupGuide() {
 
   return (
     <div className="flex w-full flex-col items-center bg-default-background min-h-screen mobile:bg-neutral-100">
+      <Navbar />
       <div className="flex w-full max-w-[576px] flex-col items-center bg-neutral-100 pt-8 pb-24 mobile:pt-4 mobile:pb-12">
         <div className="flex w-full flex-col items-start gap-6 px-6 mobile:gap-6 mobile:px-4">
           {content}
