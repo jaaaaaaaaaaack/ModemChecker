@@ -107,15 +107,12 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
 
   return (
     <>
-      {/* Gradient background — fades in slowly over the flat bg-brand-50 parent */}
+      {/* Black background — fades in over the flat bg-brand-50 parent */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.4, ease: "easeOut" }}
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          background: "linear-gradient(180deg, rgb(100 232 247) 0%, rgb(195 249 255) 50vh)",
-        }}
+        className="fixed inset-0 z-0 pointer-events-none bg-black"
       />
 
       {/* Content — positioned above gradient */}
@@ -157,7 +154,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
           initial={{ opacity: 0, y: 20 }}
           animate={showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.9, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-h1 font-h1 text-brand-900 text-center -mt-8"
+          className="text-h1 font-h1 text-brand-300 text-center -mt-8"
         >
           Welcome to Belong
         </motion.h1>
@@ -167,7 +164,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
           initial={{ opacity: 0, y: 16 }}
           animate={showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.9, delay: 2.0, ease: [0.16, 1, 0.3, 1] }}
-          className="text-body font-body text-brand-900 text-center max-w-sm"
+          className="text-body font-body text-brand-300 text-center max-w-sm"
         >
           You&apos;re all set up and connected. Enjoy your new internet
           — we&apos;re glad you&apos;re here.
@@ -181,7 +178,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
           className="flex flex-col items-center gap-4"
         >
           <Button
-            variant="brand-primary"
+            variant="brand-secondary"
             size="medium"
             iconRight={<FeatherArrowRight />}
             hasRightIcon={true}
@@ -191,7 +188,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
           >
             Continue to your dashboard
           </Button>
-          <LinkButton onClick={onBack}>
+          <LinkButton variant="inverse" onClick={onBack}>
             Back to setup steps
           </LinkButton>
         </motion.div>
@@ -594,6 +591,9 @@ export function SetupGuideContent({
           transition={{ duration: 0.6, ease: "easeIn" }}
           className="flex w-full flex-col items-start gap-6"
         >
+          <h1 className="text-h1 font-h1 text-brand-800 mobile:text-h2 mobile:font-h2">
+            Modem setup guide
+          </h1>
           {/* Header */}
           <div className="flex w-full flex-col items-start gap-6">
             <ModemIdentityCard

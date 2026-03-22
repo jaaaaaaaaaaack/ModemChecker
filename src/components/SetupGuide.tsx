@@ -89,16 +89,11 @@ export function SetupGuide() {
   if (guide) {
     pageKey = "guide";
     pageContent = (
-      <>
-        <h1 className="text-h1 font-h1 text-brand-800 mobile:text-h2 mobile:font-h2">
-          Modem setup guide
-        </h1>
-        <SetupGuideContent
-          guide={guide}
-          techType={techType}
-          onChangeModem={() => setDevMenuOpen(true)}
-        />
-      </>
+      <SetupGuideContent
+        guide={guide}
+        techType={techType}
+        onChangeModem={() => setDevMenuOpen(true)}
+      />
     );
   } else if (modemId && hasModemInfo) {
     pageKey = "not-available";
