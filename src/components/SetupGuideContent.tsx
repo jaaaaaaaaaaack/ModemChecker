@@ -1,4 +1,4 @@
-import { Fragment, useState, useMemo, useRef, useEffect, useCallback } from "react";
+import { Fragment, useState, useMemo, useRef, useEffect, useCallback, createRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ModemIdentityCard } from "@/ui/components/ModemIdentityCard";
 import { StepCard } from "@/ui/components/StepCard";
@@ -274,6 +274,32 @@ export function SetupGuideContent({
   );
 
   const lastStepIndex = steps.length - 1;
+
+  // Refs for smooth scroll on step change
+  const stepRefs = useMemo(
+    () => steps.map(() => createRef<HTMLDivElement>()),
+    [steps],
+  );
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    const el = stepRefs[currentStep]?.current;
+    if (!el) return;
+    // Short delay to let the expand animation start
+    const timer = setTimeout(() => {
+      const rect = el.getBoundingClientRect();
+      const navHeight = 80; // sticky navbar + scroll-mt-20
+      // Only scroll if the top of the card is above the navbar or below the fold
+      if (rect.top < navHeight || rect.top > window.innerHeight * 0.7) {
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [currentStep, stepRefs]);
 
   const handleAdvance = () => {
     setCurrentStep((prev) => Math.min(prev + 1, lastStepIndex));
@@ -706,6 +732,7 @@ export function SetupGuideContent({
               const variant = getStepVariant(idx, currentStep);
               return (
                 <StepCard
+                  ref={stepRefs[idx]}
                   key={templateId}
                   stepNumber={String(idx + 1)}
                   stepTitle={

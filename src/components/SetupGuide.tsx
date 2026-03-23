@@ -33,6 +33,7 @@ export function SetupGuide() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [devMenuOpen, setDevMenuOpen] = useState(false);
   const [selectedModem, setSelectedModem] = useState<Modem | null>(null);
+  const [transitioning, setTransitioning] = useState(false);
   const { state, direction, search, selectModem, reset, retry } = useModemSearch();
 
   // Determine page content
@@ -47,9 +48,17 @@ export function SetupGuide() {
       const modem = state.modem;
       preloadImages([getModemImageUrl(modem.id)]);
       setSelectedModem(modem);
-      setSearchParams({ modem: modem.id, tech: techType });
       setSheetOpen(false);
+      setTransitioning(true);
       reset();
+
+      // Wait for dashboard to fade out + sheet to close, then swap content
+      setTimeout(() => {
+        window.scrollTo({ top: 0 });
+        setSearchParams({ modem: modem.id, tech: techType });
+        // Brief delay before clearing transition so guide animates in cleanly
+        setTimeout(() => setTransitioning(false), 50);
+      }, 400);
     }
   }, [state, setSearchParams, techType, reset]);
 
@@ -114,9 +123,13 @@ export function SetupGuide() {
     <div className="flex w-full flex-col items-center min-h-screen bg-neutral-100">
       <Navbar />
       {showLanding && (
-        <div className="flex w-full flex-col items-center justify-center bg-black px-4 pt-4 pb-6">
+        <motion.div
+          className="flex w-full flex-col items-center justify-center bg-black px-4 pt-4 pb-6"
+          animate={{ opacity: transitioning ? 0 : 1 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+        >
           <span className="text-h1 font-h1 text-white">Welcome, Jack</span>
-        </div>
+        </motion.div>
       )}
       <div className={`flex w-full max-w-[576px] flex-col items-center ${showLanding ? "pb-12" : "pt-8 pb-24 mobile:pt-4 mobile:pb-12"}`}>
         <div className={`flex w-full flex-col items-start ${showLanding ? "" : "gap-6 px-6 mobile:gap-6 mobile:px-4"}`}>
@@ -125,6 +138,11 @@ export function SetupGuide() {
               key={pageKey}
               className="flex w-full flex-col items-start gap-6"
               {...pageTransition}
+              animate={{
+                ...pageTransition.animate,
+                opacity: transitioning ? 0 : 1,
+              }}
+              transition={{ duration: transitioning ? 0.35 : 0.25, ease: "easeOut" }}
             >
               {pageContent}
             </motion.div>

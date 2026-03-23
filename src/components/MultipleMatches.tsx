@@ -82,6 +82,7 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
       <div className="flex w-full items-center justify-between flex-shrink-0 md:mt-10">
         <IconButton
           variant="white"
+          size="large"
           icon={<FeatherChevronLeft className="-ml-0.5" />}
           onClick={onBack}
         />

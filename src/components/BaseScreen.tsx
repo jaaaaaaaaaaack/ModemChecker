@@ -236,6 +236,7 @@ export function BaseScreen({
         <div className="flex w-full items-center justify-between pt-6">
           <IconButton
             variant="white"
+            size="large"
             icon={<FeatherChevronLeft className="-ml-0.5" />}
             onClick={() => {}}
           />

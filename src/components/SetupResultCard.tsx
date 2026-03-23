@@ -63,6 +63,7 @@ export function SetupResultCard({
       <div className="flex w-full items-center justify-between mt-auto md:mt-10 pt-2">
         <IconButton
           variant="white"
+          size="large"
           icon={<FeatherChevronLeft className="-ml-0.5" />}
           onClick={onCheckAnother}
         />
