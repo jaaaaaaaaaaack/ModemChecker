@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from "react";
+import { FeatherChevronLeft } from "@subframe/core";
 import { HeaderWithNavigation } from "@/ui/components/HeaderWithNavigation";
-import { Button } from "../ui/components/Button";
+import { IconButton } from "../ui/components/IconButton";
 import { LinkButton } from "../ui/components/LinkButton";
 import { CardButton } from "../ui/components/CardButton";
 import { getModemImageUrl } from "../lib/supabase";
@@ -79,12 +80,11 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
         />
       </div>
       <div className="flex w-full items-center justify-between flex-shrink-0 md:mt-10">
-        <Button
-          variant="brand-secondary"
+        <IconButton
+          variant="white"
+          icon={<FeatherChevronLeft className="-ml-0.5" />}
           onClick={onBack}
-        >
-          Back
-        </Button>
+        />
         <LinkButton variant="brand" onClick={() => {}}>
           I can't find my modem
         </LinkButton>

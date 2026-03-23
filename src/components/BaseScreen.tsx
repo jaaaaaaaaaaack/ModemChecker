@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FeatherCheck, FeatherChevronRight, FeatherRouter } from "@subframe/core";
+import { FeatherCheck, FeatherChevronLeft, FeatherChevronRight, FeatherRouter } from "@subframe/core";
 import { Button } from "../ui/components/Button";
+import { IconButton } from "../ui/components/IconButton";
 import { CheckerCard } from "../ui/components/CheckerCard";
 import { LinkButton } from "../ui/components/LinkButton";
 import { OrderCard } from "../ui/components/OrderCard";
@@ -233,13 +234,11 @@ export function BaseScreen({
 
         {/* Footer buttons */}
         <div className="flex w-full items-center justify-between pt-6">
-          <Button
-            className="h-12 w-auto flex-none"
-            variant="brand-secondary"
+          <IconButton
+            variant="white"
+            icon={<FeatherChevronLeft className="-ml-0.5" />}
             onClick={() => {}}
-          >
-            Back
-          </Button>
+          />
           <AnimatePresence>
             {selection && (
               <motion.div

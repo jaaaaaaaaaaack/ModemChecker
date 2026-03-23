@@ -1,5 +1,6 @@
-import { FeatherChevronLeft, FeatherChevronRight } from "@subframe/core";
+import { FeatherChevronLeft, FeatherChevronRight, FeatherInfo } from "@subframe/core";
 import { Button } from "@/ui/components/Button";
+import { IconButton } from "@/ui/components/IconButton";
 import { Alert } from "@/ui/components/Alert";
 import { CheckerCard } from "@/ui/components/CheckerCard";
 import { DEFAULT_PLAN_SPEED_MBPS } from "../constants";
@@ -40,7 +41,7 @@ export function SetupResultCard({
         brand={modem.brand}
         image={getModemImageUrl(modem.id)}
         techType={techType}
-        conditions={assessment.setupConditions}
+        conditions={[]}
         speedWarningType={assessment.speedWarning?.type ?? null}
       />
       {isCompatible && !hasGuide && (
@@ -50,15 +51,21 @@ export function SetupResultCard({
           description="We don't have a setup guide for this modem yet. Contact Belong support for help getting connected."
         />
       )}
+      <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-brand-200 bg-brand-50 px-4 py-4">
+        <div className="flex items-center gap-2">
+          <FeatherInfo className="text-brand-700 flex-none w-4 h-4" />
+          <span className="text-body-bold font-body-bold text-brand-700">Important info</span>
+        </div>
+        <span className="text-body font-body text-brand-700">
+          This tool provides general advice only, sourced from the modem manufacturer and other online sources. We do our best to ensure it{"\u2019"}s accurate, but you should verify your modem{"\u2019"}s compatibility and specs on the manufacturer{"\u2019"}s website.
+        </span>
+      </div>
       <div className="flex w-full items-center justify-between mt-auto md:mt-10 pt-2">
-        <Button
-          variant="brand-secondary"
-          icon={<FeatherChevronLeft />}
-          hasLeftIcon={true}
+        <IconButton
+          variant="white"
+          icon={<FeatherChevronLeft className="-ml-0.5" />}
           onClick={onCheckAnother}
-        >
-          Back
-        </Button>
+        />
         {isCompatible && hasGuide ? (
           <Button
             className="rounded-full"

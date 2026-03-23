@@ -48,14 +48,14 @@ export const Navbar = React.memo(function Navbar() {
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setMenuOpen((prev) => !prev)}
-            className="p-1 -m-1"
+            className="flex items-center justify-center h-10 w-10"
             aria-label="Navigation menu"
             aria-expanded={menuOpen}
           >
             <FeatherMenu className="text-h2-500 font-h2-500 text-neutral-50" />
           </button>
           {menuOpen && (
-            <div className="absolute top-full left-0 mt-2 w-56 rounded-lg bg-white shadow-lg border border-neutral-200 py-1 z-50">
+            <div className="absolute top-full left-0 mt-2 w-56 rounded-lg bg-white shadow-lg border border-neutral-200 py-1 z-50 overflow-hidden">
               {NAV_ITEMS.map((item) => {
                 const isActive = location.pathname === item.path;
                 return (
@@ -83,7 +83,9 @@ export const Navbar = React.memo(function Navbar() {
           src={BELONG_LOGO_URL}
           alt="Belong"
         />
-        <FeatherSearch className="text-h2-500 font-h2-500 text-neutral-50" />
+        <div className="flex items-center justify-center h-10 w-10">
+          <FeatherSearch className="text-h2-500 font-h2-500 text-neutral-50" />
+        </div>
       </div>
     </nav>
   );

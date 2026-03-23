@@ -110,7 +110,6 @@ export interface NbnTechOption {
 
 export const NBN_TECH_TYPES: NbnTechOption[] = [
   { id: "fttp", label: "FTTP", dbTechType: "fttp" },
-  { id: "fttb", label: "FTTB", dbTechType: "fttn" },
   { id: "fttn", label: "FTTN", dbTechType: "fttn" },
   { id: "fttc", label: "FTTC", dbTechType: "fttc" },
   { id: "hfc", label: "HFC", dbTechType: "hfc" },

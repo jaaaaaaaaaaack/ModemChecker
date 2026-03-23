@@ -10,7 +10,7 @@ import { Alert } from "@/ui/components/Alert";
 import { Button } from "@/ui/components/Button";
 import { LinkButton } from "@/ui/components/LinkButton";
 import { IconButton } from "@/ui/components/IconButton";
-import { Loader } from "@/ui/components/Loader";
+import { TailSpin } from "react-loader-spinner";
 import { getModemImageUrl, getNbnHardwareImageUrl } from "../lib/supabase";
 import { NBN_HARDWARE } from "../constants";
 import {
@@ -227,22 +227,32 @@ export function SetupGuideContent({
   const [connectionTest, setConnectionTest] = useState<"idle" | "testing" | "success" | "failure">("idle");
 
   const runConnectionTest = useCallback(async () => {
+    const shouldFail = connectionTest === "success";
     setConnectionTest("testing");
+    if (shouldFail) {
+      // Demo: re-test from success always shows failure after a delay
+      await new Promise((r) => setTimeout(r, 3000));
+      setConnectionTest("failure");
+      return;
+    }
+    const minDelay = new Promise((r) => setTimeout(r, 3000));
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 8000);
-      await fetch("https://www.google.com/generate_204", {
-        mode: "no-cors",
-        signal: controller.signal,
-      });
+      await Promise.all([
+        fetch("https://www.google.com/generate_204", {
+          mode: "no-cors",
+          signal: controller.signal,
+        }),
+        minDelay,
+      ]);
       clearTimeout(timeout);
       setConnectionTest("success");
-      // Auto-advance to success screen after a short pause
-      setTimeout(() => setCompleted(true), 2000);
     } catch {
+      await minDelay;
       setConnectionTest("failure");
     }
-  }, []);
+  }, [connectionTest]);
 
   // Preload success video once the setup page mounts
   useEffect(() => {
@@ -543,9 +553,7 @@ export function SetupGuideContent({
             {connectionTest === "testing" && (
               <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md bg-brand-100 px-4 py-4">
                 <div className="flex items-center gap-2">
-                  <div className="flex w-4 flex-none items-start">
-                    <Loader />
-                  </div>
+                  <div className="h-4 w-4 flex-none rounded-full border-2 border-brand-300 border-t-brand-800 animate-spin" style={{ animationDuration: "0.6s" }} />
                   <span className="text-h4-button-500 font-h4-button-500 text-brand-800">
                     Running connection test...
                   </span>
@@ -620,7 +628,7 @@ export function SetupGuideContent({
           image={modemImageUrl}
           label="Your modem"
           title={`${data.brand} ${data.model}`}
-          action={<LinkButton onClick={onChangeModem}>Change</LinkButton>}
+          action={<LinkButton onClick={onChangeModem}>Edit</LinkButton>}
         />
         <Alert
           variant="warning"
@@ -671,7 +679,7 @@ export function SetupGuideContent({
               image={modemImageUrl}
               label="Your modem"
               title={`${data.brand} ${data.model}`}
-              action={<LinkButton onClick={onChangeModem}>Change</LinkButton>}
+              action={<LinkButton onClick={onChangeModem}>Edit</LinkButton>}
             />
             {showDisclaimer && (
               <Alert

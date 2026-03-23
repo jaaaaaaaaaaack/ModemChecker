@@ -236,6 +236,7 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
               >
                 {stepTitle ? (
                   <h3
+                    style={{ textWrap: "balance" }}
                     className={SubframeUtils.twClassNames(
                       "text-h4-button-500 font-h4-button-500 transition-colors duration-300",
                       {
@@ -275,13 +276,13 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
                   {children}
                 </div>
               ) : null}
-              <div className="flex w-full flex-col items-start">
-                {infoMessage ? (
+              {infoMessage ? (
+                <div className="flex w-full flex-col items-start">
                   <span className="text-body font-body text-brand-700">
                     {infoMessage}
                   </span>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
             </div>
           </motion.div>
         </div>
