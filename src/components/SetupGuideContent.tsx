@@ -10,7 +10,6 @@ import { Alert } from "@/ui/components/Alert";
 import { Button } from "@/ui/components/Button";
 import { LinkButton } from "@/ui/components/LinkButton";
 import { IconButton } from "@/ui/components/IconButton";
-import { TailSpin } from "react-loader-spinner";
 import { getModemImageUrl, getNbnHardwareImageUrl } from "../lib/supabase";
 import { NBN_HARDWARE } from "../constants";
 import {

@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { FeatherChevronRight } from "@subframe/core";
+import { FeatherChevronRight, FeatherInfo } from "@subframe/core";
 import { TextField } from "@/ui/components/TextField";
 import { Button } from "@/ui/components/Button";
 import { HeaderWithNavigation } from "@/ui/components/HeaderWithNavigation";
-import { LinkButton } from "@/ui/components/LinkButton";
 
 interface SearchInputProps {
   onSearch: (query: string) => void;
@@ -28,21 +27,27 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
     >
       <div className="flex w-full flex-col items-start gap-2">
         <HeaderWithNavigation
-          title="Search for your modem"
+          title="Identify your modem"
           variant="2-slot-blue"
           onClose={onClose}
         />
         <span className="text-body font-body text-default-font">
-          Search by brand, model name, or model number. You can usually find these on the back or bottom of your device.
+          Enter the model name/number if you know it, but you can also search by brand, or even just the name of the ISP who supplied the modem to you.
         </span>
+        <div className="flex items-start gap-2 mt-1">
+          <FeatherInfo className="text-brand-700 flex-none w-4 h-4 mt-0.5" />
+          <span className="text-body font-body text-brand-700">
+            Model details are usually printed on the back or bottom of the device.
+          </span>
+        </div>
       </div>
       <div className="flex w-full flex-col items-start gap-3">
         <span className="text-body-bold font-body-bold text-color-primary-701">
-          Brand, model name, or model number
+          Enter model name, number, or the brand
         </span>
         <TextField className="h-auto w-full flex-none" variant="outline" label="" helpText="">
           <TextField.Input
-            placeholder={'"Eero", "TP-Link Archer", "R400"'}
+            placeholder="eg: 'Eero', 'Netgear', 'Google Nest', 'Netgear Nighthawk'"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             autoCorrect="off"
@@ -51,9 +56,6 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
             autoComplete="off"
           />
         </TextField>
-        <LinkButton variant="brand" type="button" onClick={() => {}}>
-          Help me find the model name
-        </LinkButton>
       </div>
       <div className="flex w-full items-center justify-end mt-auto md:mt-10 pt-2">
         <Button
