@@ -22,7 +22,7 @@ describe("ModemChecker", () => {
     await userEvent.click(
       screen.getByRole("button", { name: /check your modem/i })
     );
-    expect(screen.getByText(/search for your modem/i)).toBeInTheDocument();
+    expect(screen.getByText(/find your modem/i)).toBeInTheDocument();
   });
 
   it("shows loading state after search", async () => {

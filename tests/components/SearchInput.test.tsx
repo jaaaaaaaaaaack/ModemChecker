@@ -6,7 +6,7 @@ import { SearchInput } from "../../src/components/SearchInput";
 describe("SearchInput", () => {
   it("renders heading and input field", () => {
     render(<SearchInput onSearch={() => {}} />);
-    expect(screen.getByText(/search for your modem/i)).toBeInTheDocument();
+    expect(screen.getByText(/find your modem/i)).toBeInTheDocument();
     expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 
