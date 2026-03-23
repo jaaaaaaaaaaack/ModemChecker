@@ -54,7 +54,7 @@ const DeviceConnectionCardRoot = React.forwardRef<
               </span>
             ) : null}
             {connectionLabel ? (
-              <span className="text-body font-body text-default-font flex flex-wrap items-center gap-x-1">
+              <span className="text-body font-body text-default-font">
                 {connectionLabel}
               </span>
             ) : null}

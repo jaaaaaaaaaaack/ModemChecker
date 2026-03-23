@@ -599,7 +599,7 @@ export function SetupGuideContent({
           transition={{ duration: 0.6, ease: "easeIn" }}
           className="flex w-full flex-col items-start gap-6"
         >
-          <h1 className="text-h1 font-h1 text-brand-800 mobile:text-h2 mobile:font-h2">
+          <h1 className="text-h1 font-h1 text-brand-800 mobile:text-[34px] mobile:leading-[42px]">
             Modem setup guide
           </h1>
           {/* Header */}
