@@ -2,7 +2,7 @@
   "id": "tp-link-deco-x60",
   "brand": "TP-Link",
   "model": "Deco X60",
-  "device_type": "router",
+  "device_type": "mesh_system",
   "setup": {
     "admin_panel": {
       "default_ip": "192.168.68.1",

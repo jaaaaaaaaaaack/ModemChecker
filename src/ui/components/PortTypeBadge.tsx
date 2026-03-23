@@ -1,3 +1,4 @@
+// @subframe/sync-disable
 "use client";
 /*
  * Documentation:
@@ -62,7 +63,7 @@ const PortTypeBadgeRoot = React.forwardRef<
         {portIcon ? (
           <SubframeCore.IconWrapper
             className={SubframeUtils.twClassNames(
-              "hidden text-h4-button-700 font-h4-button-700 text-brand-900",
+              "hidden h-[1em] w-[1em] text-brand-900",
               {
                 "inline-flex": hasIcon,
                 "text-neutral-600":

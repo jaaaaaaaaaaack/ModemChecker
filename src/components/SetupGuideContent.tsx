@@ -394,7 +394,7 @@ export function SetupGuideContent({
                   <PortTypeBadge
                     variant={nbnHardware.portBadgeColor}
                     portName={nbnHardware.portBadgeLabel}
-                    className="inline-flex align-middle"
+                    className="inline-flex"
                   />{" "}
                   {nbnHardware.portDescription}
                 </>
@@ -419,7 +419,7 @@ export function SetupGuideContent({
                     }
                     portName={badgeLabel}
                     hasIcon={isIconPort}
-                    className="inline-flex align-middle"
+                    className="inline-flex"
                   />{" "}
                   port
                 </>
@@ -560,7 +560,7 @@ export function SetupGuideContent({
                   <PortTypeBadge
                     variant="blue"
                     portName={wanConfig?.ipoe_label}
-                    className="inline-flex align-middle"
+                    className="inline-flex"
                   />
                 </div>
                 {wanConfig?.ipoe_notes && (

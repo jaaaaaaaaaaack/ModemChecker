@@ -2,7 +2,7 @@
   "id": "linksys-velop-mx4200",
   "brand": "Linksys",
   "model": "Velop MX4200",
-  "device_type": "router",
+  "device_type": "mesh_system",
   "setup": {
     "admin_panel": {
       "default_ip": "192.168.1.1",

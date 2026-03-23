@@ -2,7 +2,7 @@
   "id": "google-nest-wifi-pro",
   "brand": "Google",
   "model": "Nest WiFi Pro",
-  "device_type": "router",
+  "device_type": "mesh_system",
   "setup": {
     "admin_panel": {
       "default_ip": "192.168.86.1",
