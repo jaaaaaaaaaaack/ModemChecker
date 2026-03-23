@@ -25,6 +25,11 @@ import {
 import type { StepTemplateId, CredentialType, TechType } from "../types";
 import type { GuideEntry } from "../lib/setupGuides";
 
+// --- Constants ---
+const MIN_TEST_DURATION_MS = 3000;
+const TEST_TIMEOUT_MS = 8000;
+const SCROLL_DELAY_MS = 150;
+
 // --- Step sequencing (data contract §4) ---
 
 function getStepSequence(
@@ -225,20 +230,22 @@ export function SetupGuideContent({
   const [disclaimerDismissed, setDisclaimerDismissed] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [connectionTest, setConnectionTest] = useState<"idle" | "testing" | "success" | "failure">("idle");
+  const connectionTestRef = useRef(connectionTest);
+  connectionTestRef.current = connectionTest;
 
   const runConnectionTest = useCallback(async () => {
-    const shouldFail = connectionTest === "success";
+    const shouldFail = connectionTestRef.current === "success";
     setConnectionTest("testing");
     if (shouldFail) {
       // Demo: re-test from success always shows failure after a delay
-      await new Promise((r) => setTimeout(r, 3000));
+      await new Promise((r) => setTimeout(r, MIN_TEST_DURATION_MS));
       setConnectionTest("failure");
       return;
     }
-    const minDelay = new Promise((r) => setTimeout(r, 3000));
+    const minDelay = new Promise((r) => setTimeout(r, MIN_TEST_DURATION_MS));
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
+      const timeout = setTimeout(() => controller.abort(), TEST_TIMEOUT_MS);
       await Promise.all([
         fetch("https://www.google.com/generate_204", {
           mode: "no-cors",
@@ -252,7 +259,7 @@ export function SetupGuideContent({
       await minDelay;
       setConnectionTest("failure");
     }
-  }, [connectionTest]);
+  }, []);
 
   // Preload success video once the setup page mounts
   useEffect(() => {
@@ -297,7 +304,7 @@ export function SetupGuideContent({
       if (rect.top < navHeight || rect.top > window.innerHeight * 0.7) {
         el.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
-    }, 150);
+    }, SCROLL_DELAY_MS);
     return () => clearTimeout(timer);
   }, [currentStep, stepRefs]);
 

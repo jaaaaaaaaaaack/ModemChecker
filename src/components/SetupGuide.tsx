@@ -56,8 +56,7 @@ export function SetupGuide() {
       setTimeout(() => {
         window.scrollTo({ top: 0 });
         setSearchParams({ modem: modem.id, tech: techType });
-        // Brief delay before clearing transition so guide animates in cleanly
-        setTimeout(() => setTransitioning(false), 50);
+        setTransitioning(false);
       }, 400);
     }
   }, [state, setSearchParams, techType, reset]);
