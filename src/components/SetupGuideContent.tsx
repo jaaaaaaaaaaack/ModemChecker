@@ -1,4 +1,4 @@
-import { Fragment, useState, useMemo, useRef, useEffect } from "react";
+import { Fragment, useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ModemIdentityCard } from "@/ui/components/ModemIdentityCard";
 import { StepCard } from "@/ui/components/StepCard";
@@ -10,15 +10,17 @@ import { Alert } from "@/ui/components/Alert";
 import { Button } from "@/ui/components/Button";
 import { LinkButton } from "@/ui/components/LinkButton";
 import { IconButton } from "@/ui/components/IconButton";
+import { Loader } from "@/ui/components/Loader";
 import { getModemImageUrl, getNbnHardwareImageUrl } from "../lib/supabase";
 import { NBN_HARDWARE } from "../constants";
 import {
   FeatherCheck,
-  FeatherHelpCircle,
   FeatherInfo,
   FeatherMessageCircle,
+  FeatherWifiCog,
   FeatherX,
   FeatherArrowRight,
+  FeatherZapOff,
 } from "@subframe/core";
 import type { StepTemplateId, CredentialType, TechType } from "../types";
 import type { GuideEntry } from "../lib/setupGuides";
@@ -62,7 +64,7 @@ const STEP_TITLES: Record<StepTemplateId, string> = {
   login_web: "Log in to your modem",
   login_app: "Set up with the app",
   navigate_and_configure: "Update connection settings",
-  verify: "Restart and check your connection",
+  verify: "Test your connection",
 };
 
 const STEP_DESCRIPTIONS_DSL: Partial<Record<StepTemplateId, string>> = {
@@ -83,8 +85,7 @@ const STEP_DESCRIPTIONS: Record<StepTemplateId, string> = {
     "Your modem uses an app for setup and device management. Download the app to your mobile device, open it, and then follow the prompts to get connected.",
   navigate_and_configure:
     "Update your modem's internet settings so it works with Belong.",
-  verify:
-    "Wait 1-2 minutes for your modem to reconnect, then check that the Internet LED is solid green.",
+  verify: "", // Description rendered inline in the connection checker
 };
 
 /** Resolve step description, using per-modem data where available */
@@ -98,12 +99,9 @@ function getStepDescription(
     return STEP_DESCRIPTIONS_DSL[templateId]!;
   }
 
-  // Verify step: use modem-specific LED indicator data
+  // Verify step: description rendered inline in the connection checker
   if (templateId === "verify") {
-    const ts = data.setup.troubleshooting;
-    if (ts?.internet_led_label && ts?.internet_led_success) {
-      return `Wait 1-2 minutes for your modem to reconnect, then check that the ${ts.internet_led_label} is ${ts.internet_led_success}.`;
-    }
+    return "";
   }
 
   return STEP_DESCRIPTIONS[templateId];
@@ -226,6 +224,25 @@ export function SetupGuideContent({
   const [currentStep, setCurrentStep] = useState(0);
   const [disclaimerDismissed, setDisclaimerDismissed] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [connectionTest, setConnectionTest] = useState<"idle" | "testing" | "success" | "failure">("idle");
+
+  const runConnectionTest = useCallback(async () => {
+    setConnectionTest("testing");
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      await fetch("https://www.google.com/generate_204", {
+        mode: "no-cors",
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      setConnectionTest("success");
+      // Auto-advance to success screen after a short pause
+      setTimeout(() => setCompleted(true), 2000);
+    } catch {
+      setConnectionTest("failure");
+    }
+  }, []);
 
   // Preload success video once the setup page mounts
   useEffect(() => {
@@ -508,32 +525,78 @@ export function SetupGuideContent({
         );
 
       case "verify":
-        return null; // Verify step has custom primaryAction, no child content
+        return (
+          <div className="flex w-full flex-col items-start gap-4">
+            <span className="text-body font-body text-default-font">
+              Before you run the test,{" "}
+              <span className="font-semibold">make sure this device is connected to your modem&apos;s Wi-Fi network.</span>
+            </span>
+            <Button
+              variant="brand-secondary"
+              icon={<FeatherWifiCog />}
+              hasLeftIcon={true}
+              onClick={runConnectionTest}
+              disabled={connectionTest === "testing"}
+            >
+              {connectionTest === "idle" ? "Test connection" : "Test again"}
+            </Button>
+            {connectionTest === "testing" && (
+              <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md bg-brand-100 px-4 py-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex w-4 flex-none items-start">
+                    <Loader />
+                  </div>
+                  <span className="text-h4-button-500 font-h4-button-500 text-brand-800">
+                    Running connection test...
+                  </span>
+                </div>
+                <span className="text-body font-body text-brand-800">
+                  This should only take a moment
+                </span>
+              </div>
+            )}
+            {connectionTest === "success" && (
+              <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-color-secondary-300 bg-color-secondary-50 px-4 py-4">
+                <div className="flex items-center gap-2">
+                  <FeatherCheck className="text-h3-500 font-h3-500 text-success-700" />
+                  <span className="text-h4-button-500 font-h4-button-500 text-color-secondary-600">
+                    You&apos;re online
+                  </span>
+                </div>
+                <span className="text-body font-body text-color-secondary-600">
+                  Great news! You&apos;re connected to the internet. Try out your connection, and if you have any trouble, come back here and check out the troubleshooting steps.
+                </span>
+              </div>
+            )}
+            {connectionTest === "failure" && (
+              <div className="flex w-full min-w-[240px] flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-neutral-100 px-4 py-4">
+                <div className="flex w-full flex-col items-start gap-2">
+                  <div className="flex items-center gap-2">
+                    <FeatherZapOff className="text-h3-500 font-h3-500 text-neutral-700" />
+                    <span className="text-h4-button-500 font-h4-button-500 text-neutral-600">
+                      No connection yet
+                    </span>
+                  </div>
+                  <span className="text-body font-body text-neutral-600">
+                    Don&apos;t worry, there are a few easy steps we can try to get your modem connected.
+                  </span>
+                  <Button
+                    variant="cyan-tertiary"
+                    onClick={() => {}}
+                  >
+                    Help me troubleshoot
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
     }
   }
 
   function renderPrimaryAction(templateId: StepTemplateId, _stepIdx: number) {
     if (templateId === "verify") {
-      return (
-        <div className="flex flex-col items-start gap-2">
-          <Button
-            variant="cyan-tertiary"
-            icon={<FeatherCheck />}
-            hasLeftIcon={true}
-            onClick={() => setCompleted(true)}
-          >
-            My internet is working
-          </Button>
-          <Button
-            variant="brand-secondary"
-            icon={<FeatherHelpCircle />}
-            hasLeftIcon={true}
-            onClick={() => {}}
-          >
-            I&apos;m not connected
-          </Button>
-        </div>
-      );
+      return null; // Connection checker handles all actions inline
     }
     return (
       <Button
