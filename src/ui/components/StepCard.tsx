@@ -52,26 +52,16 @@ const ConditionalBlock = React.forwardRef<
       ref={ref}
       {...otherProps}
     >
-      <div className="flex flex-col items-start gap-1">
-        {badge ? (
-          <div
-            className={SubframeUtils.twClassNames("flex items-start", {
-              hidden: variant === "neutral",
-            })}
-          >
-            {badge}
-          </div>
-        ) : null}
-        {title ? (
-          <div
-            className={SubframeUtils.twClassNames("flex items-start", {
-              hidden: variant === "optional",
-            })}
-          >
-            {title}
-          </div>
-        ) : null}
-      </div>
+      {((badge && variant !== "neutral") || (title && variant !== "optional")) && (
+        <div className="flex flex-col items-start gap-1">
+          {badge && variant !== "neutral" ? (
+            <div className="flex items-start">{badge}</div>
+          ) : null}
+          {title && variant !== "optional" ? (
+            <div className="flex items-start">{title}</div>
+          ) : null}
+        </div>
+      )}
       {body ? (
         <div className="flex w-full flex-col items-start">{body}</div>
       ) : null}

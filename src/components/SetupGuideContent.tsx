@@ -532,33 +532,47 @@ export function SetupGuideContent({
                   </>
                 }
               />
+              {wanConfig?.nav_path_notes && (
+                <div className="flex items-center gap-1.5 text-brand-700">
+                  <FeatherInfo className="h-3.5 w-3.5 flex-none" />
+                  <span className="text-caption font-caption">{wanConfig.nav_path_notes}</span>
+                </div>
+              )}
             </div>
-            {/* PPPoE clear conditional — shown before change setting for correct task order */}
-            <StepCard.ConditionalBlock
-              variant="optional"
-              title={
-                <span className="text-body-bold font-body-bold text-color-accent2-800">
-                  Switching from an ISP that uses a 'PPPoE' connection? (AussieBB, iiNet, Internode, TPG, and others)
-                </span>
-              }
-              body={
-                <span className="text-body font-body text-color-accent2-800">
-                  {pppoeClearNote ??
-                    "Please make sure that the username and password fields are empty. If they're filled, clear them before continuing."}
-                </span>
-              }
-            />
+            {/* PPPoE clear conditional — only shown when modem has distinct PPPoE fields to clear */}
+            {pppoeClearNote && (
+              <StepCard.ConditionalBlock
+                variant="optional"
+                body={
+                  <span className="text-body font-body text-color-accent2-800">
+                    {pppoeClearNote}
+                  </span>
+                }
+              />
+            )}
             {/* Change setting */}
             <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
-              <div className="flex w-full flex-col items-start gap-1">
-                <span className="text-body font-body text-default-font">
-                  Change the &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; setting to
-                </span>
-                <NavBreadcrumb.Segment
-                  variant="setting-value"
-                  label={wanConfig?.ipoe_label}
-                />
+              <div className="flex w-full flex-col items-start gap-1.5">
+                <div className="flex flex-wrap items-center gap-1.5 text-body font-body text-default-font">
+                  <span>
+                    Set the &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; setting to
+                  </span>
+                  <PortTypeBadge
+                    variant="blue"
+                    portName={wanConfig?.ipoe_label}
+                    className="inline-flex"
+                  />
+                </div>
+                {wanConfig?.ipoe_notes && (
+                  <div className="flex items-center gap-1.5 text-brand-700">
+                    <FeatherInfo className="h-3.5 w-3.5 flex-none" />
+                    <span className="text-caption font-caption">{wanConfig.ipoe_notes}</span>
+                  </div>
+                )}
               </div>
+            </div>
+            {/* Save and restart */}
+            <div className="flex w-full flex-col items-start rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
               <span className="text-body font-body text-default-font">
                 Tap &quot;<span className="font-semibold">{saveButtonLabel}</span>&quot;, then wait 2-3 minutes for your modem to restart and reconnect.
               </span>

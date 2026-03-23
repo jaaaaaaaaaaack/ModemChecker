@@ -1,7 +1,7 @@
 export function LoadingState() {
   return (
     <div
-      className="flex w-full flex-1 flex-col items-center justify-center gap-3 min-h-0"
+      className="flex w-full flex-1 flex-col items-center gap-3 min-h-0 pt-32 sm:pt-40"
       role="status"
     >
       <div

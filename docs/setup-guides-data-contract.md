@@ -202,25 +202,37 @@ wan_config
 
 | Field | Type | Required | Validation | Consumer |
 |---|---|---|---|---|
-| `nav_path` | `string` | Always | Breadcrumb separator: ` > ` (space-arrow-space). No trailing separator. | `navigate_and_configure` (NavBreadcrumb) |
+| `nav_path` | `string` | Always | Breadcrumb separator: ` > ` (space-arrow-space). No trailing separator. **One path only — no alternatives, no parenthetical qualifiers.** | `navigate_and_configure` (NavBreadcrumb) |
+| `nav_path_notes` | `string \| null` | Always | Plain text note for alternative paths or qualifiers. Rendered below breadcrumb in caption style. | `navigate_and_configure` (helper text) |
 | `connection_type_field` | `string` | Always | Exact label from modem's admin UI | `navigate_and_configure` (field label) |
-| `ipoe_label` | `string` | Always | Exact option text from modem's admin UI | `navigate_and_configure` (setting value) |
+| `ipoe_label` | `string` | Always | **Exact option text only** from modem's admin UI. No parenthetical explanations — those go in `ipoe_notes`. | `navigate_and_configure` (setting value chip) |
+| `ipoe_notes` | `string \| null` | Always | Plain text explanation of the setting value, if needed. Rendered below the setting chip in caption style. | `navigate_and_configure` (helper text) |
 | `save_button_label` | `string` | Always | Exact button text: `"Save"`, `"Apply"`, etc. | `navigate_and_configure` (instruction text) |
-| `pppoe_clear_note` | `string` | Always | Uses exact field labels from modem's admin UI | `clear_pppoe` (ConditionalBlock) |
+| `pppoe_clear_note` | `string \| null` | Always | Uses exact field labels from modem's admin UI. `null` when the IPoE setting change IS the PPPoE clear (e.g., Netgear "No" toggle), or when the modem is locked to IPoE. **Frontend only renders the conditional block when non-null.** | `clear_pppoe` (ConditionalBlock) |
 | `steps_ipoe` | `string[]` | Always | Ordered, self-contained narrative steps | **NOT used by frontend UI** — support/agent channel only |
 
 **`nav_path` separator contract:** The frontend splits on ` > ` (with spaces) to produce breadcrumb segments. The pipeline MUST use this exact separator. Example: `"Basic > Internet"` → breadcrumbs `["Basic", "Internet"]`.
 
-**`ipoe_label` values:** These vary wildly between manufacturers and must be captured exactly as shown in the modem's UI. Known examples:
+**`nav_path` must contain exactly one path.** No alternative paths (e.g., `"Basic > Internet (or ADVANCED > Setup)"` is INVALID). No parenthetical qualifiers (e.g., `"Internet Access (broadband tab)"` is INVALID). If the modem has an alternative navigation path or a qualifying note, put it in `nav_path_notes`. The frontend renders `nav_path_notes` as plain caption text below the breadcrumb.
+
+**`ipoe_label` must be the exact UI option text, nothing more.** No parenthetical explanations (e.g., `"No (DHCP is the default)"` is INVALID — use `"No"` with explanation in `ipoe_notes`). The frontend renders this value inside a setting-value chip — anything beyond the literal option text creates a messy chip. If the customer needs context about what the setting means, put it in `ipoe_notes`.
+
+**`ipoe_label` known examples:**
 - `"Dynamic IP"` (TP-Link)
 - `"Automatic IP"` (ASUS)
 - `"DHCP"` (Eero, Google Nest)
-- `"Dynamic IP (DHCP)"` (D-Link)
+- `"Dynamic IP (DHCP)"` (D-Link — this IS the exact dropdown text)
 - `"Automatic Configuration - DHCP"` (Linksys)
 - `"No"` (Netgear — inverted question: "Does your connection require a login?")
-- `"IPoE / DHCP / Dynamic"` (Telstra — ambiguous, lists multiple names)
+- `"IPoE / DHCP / Dynamic"` (Telstra — ISP firmware may vary)
+- `"IPoE / DHCP"` (Sagemcom)
 
-Do NOT normalize these. The frontend renders them verbatim because the customer needs to match what they see on screen.
+Do NOT normalize these. The frontend renders them verbatim because the customer needs to match what they see on screen. But do NOT append explanations — use `ipoe_notes` for that.
+
+**`pppoe_clear_note` conditional rendering:** The frontend only shows the PPPoE conditional block when this field is non-null. Set to `null` when:
+- The modem auto-detects IPoE (`auto_detects_ipoe === true`)
+- The modem is locked to IPoE (no PPPoE settings exist)
+- Setting `ipoe_label` IS the PPPoE clear action (e.g., Netgear's "No" toggle — changing the setting to "No" already clears PPPoE, so the conditional block would duplicate the main instruction)
 
 **`steps_ipoe` purpose:** This flat string array is for support agents and chat bots that guide customers through setup over the phone. The frontend UI does NOT render these — it uses the structured fields (`nav_path`, `connection_type_field`, `ipoe_label`, etc.) to build rich components (NavBreadcrumb, SubstepCardContainer). Both must be populated and consistent, but they serve different channels.
 
@@ -513,10 +525,12 @@ interface AdminPanel {
 
 interface WanConfigPath {
   nav_path: string;
+  nav_path_notes: string | null;
   connection_type_field: string;
   ipoe_label: string;
+  ipoe_notes: string | null;
   save_button_label: string;
-  pppoe_clear_note: string;
+  pppoe_clear_note: string | null;
   steps_ipoe: string[];
 }
 

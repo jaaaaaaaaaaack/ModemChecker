@@ -19,9 +19,11 @@
     },
     "wan_config": {
       "ethernet": {
-        "nav_path": "Internet Access (broadband tab)",
+        "nav_path": "Internet Access",
+        "nav_path_notes": "Look for the 'broadband' tab within Internet Access.",
         "connection_type_field": "Connection type / Authentication mode",
         "ipoe_label": "IPoE / DHCP / Dynamic",
+        "ipoe_notes": null,
         "save_button_label": "Save",
         "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection type / Authentication mode' to 'IPoE / DHCP / Dynamic' and clear any username and password fields.",
         "steps_ipoe": [
@@ -39,9 +41,11 @@
         ]
       },
       "dsl": {
-        "nav_path": "Internet Access (broadband tab)",
+        "nav_path": "Internet Access",
+        "nav_path_notes": "Look for the 'broadband' tab within Internet Access.",
         "connection_type_field": "Connection type / Authentication mode",
         "ipoe_label": "IPoE / DHCP / Dynamic",
+        "ipoe_notes": null,
         "save_button_label": "Save",
         "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection type / Authentication mode' to 'IPoE / DHCP / Dynamic' and clear any username and password fields.",
         "steps_ipoe": [

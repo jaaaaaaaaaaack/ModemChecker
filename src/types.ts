@@ -130,10 +130,12 @@ export interface AdminPanel {
 
 export interface WanConfigPath {
   nav_path: string;
+  nav_path_notes?: string | null;
   connection_type_field: string;
   ipoe_label: string;
+  ipoe_notes?: string | null;
   save_button_label: string;
-  pppoe_clear_note: string;
+  pppoe_clear_note: string | null;
   steps_ipoe: string[];
 }
 

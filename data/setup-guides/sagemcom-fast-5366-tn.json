@@ -20,8 +20,10 @@
     "wan_config": {
       "ethernet": {
         "nav_path": "Advanced Setup > WAN Service",
+        "nav_path_notes": null,
         "connection_type_field": "WAN Connection Type",
-        "ipoe_label": "IPoE / DHCP (pre-configured — this modem is locked to IPoE and cannot be changed to PPPoE)",
+        "ipoe_label": "IPoE / DHCP",
+        "ipoe_notes": "This modem is pre-configured for IPoE and cannot be changed to PPPoE.",
         "save_button_label": "Apply/Save",
         "pppoe_clear_note": null,
         "steps_ipoe": [
@@ -39,8 +41,10 @@
       },
       "dsl": {
         "nav_path": "Advanced Setup > WAN Service",
+        "nav_path_notes": null,
         "connection_type_field": "WAN Connection Type",
-        "ipoe_label": "IPoE / DHCP (pre-configured — this modem is locked to IPoE and cannot be changed to PPPoE)",
+        "ipoe_label": "IPoE / DHCP",
+        "ipoe_notes": "This modem is pre-configured for IPoE and cannot be changed to PPPoE.",
         "save_button_label": "Apply/Save",
         "pppoe_clear_note": null,
         "steps_ipoe": [

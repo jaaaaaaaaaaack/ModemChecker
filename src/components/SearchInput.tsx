@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { FeatherChevronRight, FeatherInfo } from "@subframe/core";
+import { FeatherChevronRight } from "@subframe/core";
 import { TextField } from "@/ui/components/TextField";
 import { Button } from "@/ui/components/Button";
 import { HeaderWithNavigation } from "@/ui/components/HeaderWithNavigation";
+import { InfoCallout } from "./InfoCallout";
 
 interface SearchInputProps {
   onSearch: (query: string) => void;
@@ -50,14 +51,9 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
             autoComplete="off"
           />
         </TextField>
-        <div className="flex w-full flex-col items-start gap-1 rounded-md border border-solid border-brand-600 px-4 py-4">
-          <div className="flex items-start gap-1">
-            <FeatherInfo className="text-brand-700 flex-none w-4 h-4 mt-0.5" />
-            <span className="text-body font-body text-brand-700">
-              You can usually find the model name / number printed on the back or underside of the modem.
-            </span>
-          </div>
-        </div>
+        <InfoCallout variant="in-line">
+          You can usually find the model name and number printed on the back or underside of the modem.
+        </InfoCallout>
       </div>
       <div className="flex w-full items-center justify-end mt-auto md:mt-10 pt-2">
         <Button
