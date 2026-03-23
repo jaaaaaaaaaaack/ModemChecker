@@ -10,11 +10,6 @@ interface SetupLandingProps {
 export function SetupLanding({ onGetStarted }: SetupLandingProps) {
   return (
     <div className="flex w-full flex-col items-start">
-      {/* Welcome banner */}
-      <div className="flex w-full flex-col items-center justify-center gap-2 bg-neutral-900 -mx-0 px-4 pt-4 pb-6 -mt-4 mobile:-mt-4">
-        <span className="text-h1 font-h1 text-white">Welcome, Jack</span>
-      </div>
-
       {/* Cards */}
       <div className="flex w-full flex-col items-start gap-4 px-4 py-4">
         {/* NBN service card */}

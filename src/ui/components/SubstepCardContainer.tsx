@@ -234,12 +234,14 @@ const SubstepCardContainerRoot = React.forwardRef<
             ) : null}
             {playStoreUrl ? (
               <div className="flex flex-col items-start gap-2">
-                <span className="text-body-bold font-body-bold text-default-font">
-                  Download for Android devices
-                </span>
-                <span className="text-body font-body text-neutral-600">
-                  Samsung, Xiaomi, Pixel, and others
-                </span>
+                <div className="flex flex-col items-start gap-0.5">
+                  <span className="text-body-bold font-body-bold text-default-font">
+                    Download for Android devices
+                  </span>
+                  <span className="text-body font-body text-neutral-600">
+                    Samsung, Xiaomi, Pixel, and others
+                  </span>
+                </div>
                 <a
                   href={playStoreUrl}
                   target="_blank"
