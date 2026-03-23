@@ -24,7 +24,8 @@ interface IconButtonRootProps
     | "destructive-tertiary"
     | "inverse"
     | "option-1"
-    | "neutral-secondary-2";
+    | "neutral-secondary-2"
+    | "white";
   size?: "large" | "medium" | "small";
   icon?: React.ReactNode;
   loading?: boolean;
@@ -53,6 +54,8 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
           {
             "h-6 w-6": size === "small",
             "h-12 w-12 rounded-full hover:rounded-full": size === "large",
+            "border border-solid border-white bg-white hover:border hover:border-solid hover:border-brand-800 hover:bg-white active:border active:border-solid active:border-brand-primary active:bg-brand-100":
+              variant === "white",
             "border-2 border-solid border-brand-800 bg-brand-100 hover:border-2 hover:border-solid hover:border-brand-200 hover:bg-brand-200 active:border-2 active:border-solid active:border-brand-800 active:bg-brand-800":
               variant === "neutral-secondary-2",
             "bg-brand-200": variant === "option-1",
@@ -89,6 +92,8 @@ const IconButtonRoot = React.forwardRef<HTMLButtonElement, IconButtonRootProps>(
                 hidden: loading,
                 "text-body-bold font-body-bold": size === "small",
                 "text-h2-500 font-h2-500": size === "large",
+                "text-brand-600 group-hover/af9405b1:text-brand-800":
+                  variant === "white",
                 "text-brand-800 group-hover/af9405b1:text-h2-500 group-hover/af9405b1:font-h2-500 group-active/af9405b1:text-brand-100":
                   variant === "neutral-secondary-2",
                 "text-brand-700": variant === "option-1",

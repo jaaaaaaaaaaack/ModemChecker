@@ -79,7 +79,8 @@ const STEP_DESCRIPTIONS: Record<StepTemplateId, string> = {
     "Connect to your modem's WiFi network. Check the sticker on your modem for the WiFi name and password.",
   login_web:
     "Navigate to your modem's admin panel to log in. The default credentials are shown below.",
-  login_app: "Download the app and follow the setup wizard.",
+  login_app:
+    "Your modem uses an app for setup and device management. Download the app to your mobile device, open it, and then follow the prompts to get connected.",
   navigate_and_configure:
     "Update your modem's internet settings so it works with Belong.",
   verify:
@@ -422,22 +423,6 @@ export function SetupGuideContent({
         return (
           <SubstepCardContainer
             variant="app-only"
-            appName={
-              <span className="text-h4-button-500 font-h4-button-500 text-default-font">
-                Download the{" "}
-                <span className="text-h4-button-700 font-h4-button-700">
-                  {appName}
-                </span>{" "}
-                app
-              </span>
-            }
-            message={
-              <span className="text-body font-body text-subtext-color">
-                Your modem uses an app for setup and device management. Download
-                the app to your mobile device, open it, and then follow the
-                prompts to get connected.
-              </span>
-            }
             appStoreUrl={adminPanel.app_store_links?.ios}
             playStoreUrl={adminPanel.app_store_links?.android}
           />
@@ -647,7 +632,7 @@ export function SetupGuideContent({
                   stepNumber={String(idx + 1)}
                   stepTitle={
                     templateId === "login_app"
-                      ? `Set up with ${appName}`
+                      ? <span>Set up with the <span className="text-h4-button-700 font-h4-button-700">{appName}</span> app</span>
                       : STEP_TITLES[templateId]
                   }
                   description={getStepDescription(templateId, isDslTech, data)}

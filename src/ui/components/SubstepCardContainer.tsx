@@ -208,18 +208,6 @@ const SubstepCardContainerRoot = React.forwardRef<
         <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4">
           <div
             className={SubframeUtils.twClassNames(
-              "hidden flex-col items-start gap-2",
-              { flex: variant === "app-only" }
-            )}
-          >
-            {appName ? (
-              <div className="flex items-start gap-0.5">{appName}</div>
-            ) : null}
-            {message ? <div className="flex items-start">{message}</div> : null}
-          </div>
-          <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
-          <div
-            className={SubframeUtils.twClassNames(
               "hidden w-full flex-col items-start gap-4",
               { flex: variant === "app-only" }
             )}
