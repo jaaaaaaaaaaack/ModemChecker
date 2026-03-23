@@ -113,14 +113,14 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/b8335e7c flex w-full flex-col items-start rounded-xl border border-solid px-4 py-4 shadow-sm transition-colors duration-300",
+          "group/b8335e7c flex w-full flex-col items-start px-4 py-4 transition-colors duration-300",
           {
-            "border-brand-500 bg-[#e6f8f9]": variant === "current",
-            "border-color-accent2-300 bg-color-accent2-50":
+            "rounded-md border-none bg-default-background shadow-lg": variant === "current",
+            "rounded-xl border border-solid border-color-accent2-300 bg-color-accent2-50":
               variant === "optional",
-            "border-warning-200 bg-warning-50": variant === "warning",
-            "border-neutral-300 bg-transparent": variant === "upcoming",
-            "border-neutral-200 bg-default-background":
+            "rounded-xl border border-solid border-warning-200 bg-warning-50": variant === "warning",
+            "rounded-xl border border-solid border-neutral-300 bg-transparent": variant === "upcoming",
+            "rounded-xl border border-solid border-neutral-300 bg-neutral-50":
               variant === "completed",
           },
           className
@@ -138,9 +138,9 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
                   "bg-brand-700": variant === "current",
                   "hidden bg-color-accent2-200": variant === "optional",
                   "hidden bg-warning-200": variant === "warning",
-                  "border border-solid border-neutral-400 bg-transparent":
+                  "border border-solid border-neutral-border bg-neutral-border":
                     variant === "upcoming",
-                  "bg-success-100": variant === "completed",
+                  "bg-success-200": variant === "completed",
                 }
               )}
             >
@@ -154,7 +154,7 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
                     transition={{ duration: 0.2 }}
                     className="flex items-center justify-center"
                   >
-                    <FeatherCheck className="text-h3-500 font-h3-500 text-success-600" />
+                    <FeatherCheck className="text-h3-500 font-h3-500 text-success-700" />
                   </motion.span>
                 ) : variant === "optional" ? (
                   <motion.span

@@ -14,8 +14,7 @@ import { getModemImageUrl, getNbnHardwareImageUrl } from "../lib/supabase";
 import { NBN_HARDWARE } from "../constants";
 import {
   FeatherCheck,
-  FeatherWifi,
-  FeatherHelpCircle,
+  FeatherInfo,
   FeatherMessageCircle,
   FeatherX,
   FeatherArrowRight,
@@ -403,29 +402,44 @@ export function SetupGuideContent({
               username={adminPanel.default_username}
               password={adminPanel.default_password}
             />
-            <Alert
-              variant="inline-brand"
-              title="Can't log in to the admin panel?"
-              description="If the login details above don't work, the password may have been changed. If you've forgotten the login details, you might need to factory reset your modem."
-              actions={
-                <IconButton
-                  variant="brand-tertiary"
-                  size="small"
-                  icon={<FeatherX />}
-                  onClick={() => {}}
-                />
-              }
-            />
+            <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-brand-200 bg-brand-50 px-4 py-4">
+              <div className="flex items-start gap-1">
+                <div className="flex items-start gap-1 pt-0.5">
+                  <FeatherInfo className="text-h4-button-500 font-h4-button-500 text-brand-800" />
+                </div>
+                <span className="text-body-bold font-body-bold text-brand-800">
+                  Having trouble logging in?
+                </span>
+              </div>
+              <span className="text-body font-body text-brand-700">
+                If the default username and password isn&apos;t working and you don&apos;t know the new password, you may need to fully reset your modem. Refer to your instruction manual or the manufacturer&apos;s support webpage for more information.
+              </span>
+            </div>
           </>
         );
 
       case "login_app":
         return (
-          <SubstepCardContainer
-            variant="app-only"
-            appStoreUrl={adminPanel.app_store_links?.ios}
-            playStoreUrl={adminPanel.app_store_links?.android}
-          />
+          <>
+            <SubstepCardContainer
+              variant="app-only"
+              appStoreUrl={adminPanel.app_store_links?.ios}
+              playStoreUrl={adminPanel.app_store_links?.android}
+            />
+            <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-brand-200 bg-brand-50 px-4 py-4">
+              <div className="flex items-start gap-1">
+                <div className="flex items-start gap-1 pt-0.5">
+                  <FeatherInfo className="text-h4-button-500 font-h4-button-500 text-brand-800" />
+                </div>
+                <span className="text-body-bold font-body-bold text-brand-800">
+                  {appName} app troubleshooting and support
+                </span>
+              </div>
+              <span className="text-body font-body text-brand-700">
+                If you have any trouble downloading the app or logging in, you&apos;ll need to get support from the modem manufacturer.
+              </span>
+            </div>
+          </>
         );
 
       case "navigate_and_configure":
@@ -441,9 +455,9 @@ export function SetupGuideContent({
         return (
           <div className="flex w-full flex-col items-start gap-3">
             {/* Navigate */}
-            <div className="flex w-full flex-col items-start gap-3 rounded-md bg-white px-4 py-4 shadow-sm">
-              <span className="text-caption-bold font-caption-bold text-brand-700">
-                Navigate to
+            <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
+              <span className="text-body font-body text-default-font">
+                From the admin panel's homepage, navigate to the settings page
               </span>
               <NavBreadcrumb
                 hasHome
@@ -461,24 +475,21 @@ export function SetupGuideContent({
             </div>
             {/* PPPoE clear conditional — shown before change setting for correct task order */}
             <StepCard.ConditionalBlock
-              variant="info"
+              variant="optional"
               title={
-                <span className="text-body-bold font-body-bold text-brand-800">
-                  Coming from TPG, iiNet, or Internode?
+                <span className="text-body-bold font-body-bold text-color-accent2-800">
+                  Switching from an ISP that uses a 'PPPoE' connection? (AussieBB, iiNet, Internode, TPG, and others)
                 </span>
               }
               body={
-                <span className="text-body font-body text-brand-700">
+                <span className="text-body font-body text-color-accent2-800">
                   {pppoeClearNote ??
-                    "Before saving, clear the Username and Password fields if they contain your old ISP's credentials."}
+                    "Please make sure that the username and password fields are empty. If they're filled, clear them before continuing."}
                 </span>
               }
             />
             {/* Change setting */}
-            <div className="flex w-full flex-col items-start gap-3 rounded-md bg-white px-4 py-4 shadow-sm">
-              <span className="text-caption-bold font-caption-bold text-brand-700">
-                Change setting
-              </span>
+            <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
               <div className="flex w-full flex-col items-start gap-1">
                 <span className="text-body font-body text-brand-800">
                   Set &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; to:
@@ -503,37 +514,28 @@ export function SetupGuideContent({
   function renderPrimaryAction(templateId: StepTemplateId, _stepIdx: number) {
     if (templateId === "verify") {
       return (
-        <div className="flex items-start gap-3 mobile:w-full mobile:flex-col mobile:gap-3">
+        <>
           <Button
-            variant="brand-primary"
-            size="medium"
-            icon={<FeatherWifi />}
-            hasLeftIcon={true}
+            variant="cyan-tertiary"
             onClick={() => setCompleted(true)}
           >
             My internet is working
           </Button>
           <Button
-            variant="brand-secondary"
-            size="medium"
-            icon={<FeatherHelpCircle />}
-            hasLeftIcon={true}
+            variant="cyan-tertiary"
             onClick={() => {}}
           >
-            I still need help
+            I&apos;m not connected
           </Button>
-        </div>
+        </>
       );
     }
     return (
       <Button
-        variant="brand-primary"
-        size="medium"
-        icon={<FeatherCheck />}
-        hasLeftIcon={true}
+        variant="cyan-tertiary"
         onClick={handleAdvance}
       >
-        I've done this
+        Continue to next step
       </Button>
     );
   }

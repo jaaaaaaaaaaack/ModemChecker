@@ -38,11 +38,11 @@ const DeviceConnectionCardRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/9e7db8d4 flex h-full w-full min-w-[144px] flex-col items-center justify-between rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6 shadow-sm",
+        "group/9e7db8d4 flex h-full w-full min-w-[144px] flex-col items-center justify-between rounded-md border border-solid border-neutral-300 bg-neutral-50 px-6 py-6",
         {
-          "flex-row flex-nowrap items-center justify-start gap-6 border border-solid border-neutral-100 px-4 py-4":
+          "flex-row flex-nowrap items-center justify-start gap-6 border border-solid border-neutral-300 px-4 py-4":
             variant === "horizontal-stack",
-          "flex-col flex-nowrap items-start justify-start gap-4 border border-solid border-neutral-100 px-4 py-4":
+          "flex-col flex-nowrap items-start justify-start gap-4 border border-solid border-neutral-300 px-4 py-4":
             variant === "nbn-hardware",
         },
         className

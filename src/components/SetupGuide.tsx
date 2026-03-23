@@ -111,7 +111,7 @@ export function SetupGuide() {
   }
 
   return (
-    <div className={`flex w-full flex-col items-center min-h-screen ${showLanding ? "bg-neutral-100" : "bg-brand-50"}`}>
+    <div className="flex w-full flex-col items-center min-h-screen bg-neutral-100">
       <Navbar />
       {showLanding && (
         <div className="flex w-full flex-col items-center justify-center bg-black px-4 pt-4 pb-6">

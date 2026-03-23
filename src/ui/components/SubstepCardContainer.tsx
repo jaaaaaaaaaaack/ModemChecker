@@ -65,7 +65,7 @@ const SubstepCardContainerRoot = React.forwardRef<
     >
       <div
         className={SubframeUtils.twClassNames(
-          "flex w-full flex-col items-start gap-4 rounded-md bg-white px-4 py-4 shadow-sm",
+          "flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4",
           { hidden: variant === "app-only" }
         )}
       >
@@ -201,7 +201,7 @@ const SubstepCardContainerRoot = React.forwardRef<
       </div>
       <div
         className={SubframeUtils.twClassNames(
-          "hidden w-full items-start gap-3 rounded-md bg-white px-4 py-4 shadow-sm",
+          "hidden w-full items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4",
           { flex: variant === "app-only" }
         )}
       >
