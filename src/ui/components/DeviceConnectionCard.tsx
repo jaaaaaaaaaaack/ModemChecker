@@ -38,83 +38,35 @@ const DeviceConnectionCardRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/9e7db8d4 flex h-full w-full min-w-[144px] flex-col items-center justify-between rounded-md border border-solid border-neutral-300 bg-neutral-50 px-6 py-6",
-        {
-          "flex-row flex-nowrap items-center justify-start gap-6 border border-solid border-neutral-300 px-4 py-4":
-            variant === "horizontal-stack",
-          "flex-col flex-nowrap items-start justify-start gap-4 border border-solid border-neutral-300 px-4 py-4":
-            variant === "nbn-hardware",
-        },
+        "group/9e7db8d4 flex w-full min-w-[240px] flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4",
+        {},
         className
       )}
       ref={ref}
       {...otherProps}
     >
-      {/* Inner layout: nbn-hardware wraps image+text in a row; horizontal-stack uses the outer flex-row directly */}
-      {variant === "nbn-hardware" ? (
-        <div className="flex w-full flex-row flex-nowrap gap-4">
-          {image ? (
-            <img
-              className="h-20 w-20 flex-none object-contain"
-              src={image}
-            />
-          ) : null}
-          <div className="flex flex-1 min-w-0 flex-col items-start justify-center gap-2">
+      <div className="flex w-full items-center gap-4">
+        <div className="flex grow shrink-0 basis-0 flex-col items-start justify-center gap-2">
+          <div className="flex flex-col items-start justify-center gap-1">
             {deviceName ? (
-              <span className="whitespace-pre-wrap text-h4-button-700 font-h4-button-700 text-default-font text-left">
+              <span className="whitespace-pre-wrap text-h4-button-700 font-h4-button-700 text-default-font">
                 {deviceName}
               </span>
             ) : null}
             {connectionLabel ? (
-              <span className="text-body font-body text-default-font text-left">
+              <span className="text-body font-body text-default-font flex flex-wrap items-center gap-x-1">
                 {connectionLabel}
               </span>
             ) : null}
           </div>
         </div>
-      ) : (
-        <>
-          {image ? (
-            <img
-              className={SubframeUtils.twClassNames(
-                "h-32 w-36 flex-none object-contain",
-                { "h-20 w-20 flex-none": variant === "horizontal-stack" }
-              )}
-              src={image}
-            />
-          ) : null}
-          <div
-            className={SubframeUtils.twClassNames(
-              "flex flex-col items-center justify-center gap-3 pt-4",
-              {
-                "flex-col flex-nowrap items-start justify-center gap-1 px-0 py-0":
-                  variant === "horizontal-stack",
-              }
-            )}
-          >
-            {deviceName ? (
-              <span
-                className={SubframeUtils.twClassNames(
-                  "whitespace-pre-wrap text-h4-button-700 font-h4-button-700 text-default-font text-center",
-                  { "text-left": variant === "horizontal-stack" }
-                )}
-              >
-                {deviceName}
-              </span>
-            ) : null}
-            {connectionLabel ? (
-              <span
-                className={SubframeUtils.twClassNames(
-                  "text-body font-body text-default-font text-center flex flex-wrap items-center justify-center gap-x-1",
-                  { "text-left justify-start": variant === "horizontal-stack" }
-                )}
-              >
-                {connectionLabel}
-              </span>
-            ) : null}
-          </div>
-        </>
-      )}
+        {image ? (
+          <img
+            className="h-20 w-20 flex-none object-contain"
+            src={image}
+          />
+        ) : null}
+      </div>
       {note && variant === "nbn-hardware" ? (
         <div className="flex items-center gap-1.5 text-brand-700">
           <FeatherInfo className="h-3.5 w-3.5 flex-none" />

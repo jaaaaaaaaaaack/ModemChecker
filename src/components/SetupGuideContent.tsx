@@ -14,6 +14,7 @@ import { getModemImageUrl, getNbnHardwareImageUrl } from "../lib/supabase";
 import { NBN_HARDWARE } from "../constants";
 import {
   FeatherCheck,
+  FeatherHelpCircle,
   FeatherInfo,
   FeatherMessageCircle,
   FeatherX,
@@ -491,16 +492,16 @@ export function SetupGuideContent({
             {/* Change setting */}
             <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
               <div className="flex w-full flex-col items-start gap-1">
-                <span className="text-body font-body text-brand-800">
-                  Set &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; to:
+                <span className="text-body font-body text-default-font">
+                  Change the &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; setting to
                 </span>
                 <NavBreadcrumb.Segment
                   variant="setting-value"
                   label={wanConfig?.ipoe_label}
                 />
               </div>
-              <span className="text-body font-body text-brand-800">
-                Then click <span className="font-semibold">{saveButtonLabel}</span>
+              <span className="text-body font-body text-default-font">
+                Tap &quot;<span className="font-semibold">{saveButtonLabel}</span>&quot;, then wait 2-3 minutes for your modem to restart and reconnect.
               </span>
             </div>
           </div>
@@ -514,20 +515,24 @@ export function SetupGuideContent({
   function renderPrimaryAction(templateId: StepTemplateId, _stepIdx: number) {
     if (templateId === "verify") {
       return (
-        <>
+        <div className="flex flex-col items-start gap-2">
           <Button
             variant="cyan-tertiary"
+            icon={<FeatherCheck />}
+            hasLeftIcon={true}
             onClick={() => setCompleted(true)}
           >
             My internet is working
           </Button>
           <Button
-            variant="cyan-tertiary"
+            variant="brand-secondary"
+            icon={<FeatherHelpCircle />}
+            hasLeftIcon={true}
             onClick={() => {}}
           >
             I&apos;m not connected
           </Button>
-        </>
+        </div>
       );
     }
     return (
