@@ -358,9 +358,8 @@ const CheckerCardRoot = React.forwardRef<
           </span>
         ) : (
           <Alert
-            variant="brand"
-            title="Important info"
-            description="This tool provides general advice only, based on information sourced online. You should verify your modem\u2019s details with the manufacturer or retailer."
+            variant="inline-brand"
+            description="This tool uses information from modem manufacturers and other online sources. You should independently verify your modem's compatibility and specs."
           />
         )}
       </div>
