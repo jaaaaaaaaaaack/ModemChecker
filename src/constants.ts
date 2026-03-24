@@ -96,9 +96,9 @@ export interface NbnPlan {
 }
 
 export const NBN_PLANS: NbnPlan[] = [
-  { id: "nbn100", label: "nbn\u00AE100", speedMbps: 100, price: "$65/month" },
-  { id: "nbn500", label: "nbn\u00AE500", speedMbps: 500, price: "$79/month" },
-  { id: "nbn1000", label: "nbn\u00AE1000", speedMbps: 880, price: "$99/month" },
+  { id: "nbn100", label: "Premium nbn\u00AE", speedMbps: 100, price: "$65/month" },
+  { id: "nbn500", label: "Fast nbn\u00AE", speedMbps: 500, price: "$79/month" },
+  { id: "nbn1000", label: "Ultra fast nbn\u00AE", speedMbps: 880, price: "$99/month" },
 ];
 
 export interface NbnTechOption {

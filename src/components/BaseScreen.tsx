@@ -220,7 +220,7 @@ export function BaseScreen({
                   planLabel={`${currentPlan.label} plan`}
                   planPrice={currentPlan.price}
                   modemLabel={selection === "byo" ? "BYO Modem" : "Belong Modem"}
-                  modemPrice={selection === "byo" ? "Free" : "$0 upfront"}
+                  modemPrice={selection === "byo" ? "\u2013" : "$0 upfront"}
                   totalPrice={currentPlan.price}
                   serviceAddress="123 Somewhere St, Anytown, VIC"
                   nbnTechType={NBN_TECH_LABELS[nbnTechType]}

@@ -142,19 +142,13 @@ const ResultsCard = React.forwardRef<
             variants={modemRowVariants}
           >
             {image ? (
-              <ModemImage
-                src={image}
-                alt={String(modemName ?? "Modem")}
-                className={SubframeUtils.twClassNames(
-                  "h-16 max-w-[80px] flex-none object-contain",
-                  {
-                    "h-16 w-auto max-w-[80px] flex-none":
-                      status === "callout" ||
-                      status === "speed-warning" ||
-                      status === "not-compatible",
-                  }
-                )}
-              />
+              <div className="flex min-w-[30px] w-fit items-start">
+                <ModemImage
+                  src={image}
+                  alt={String(modemName ?? "Modem")}
+                  className="h-16 w-auto object-contain"
+                />
+              </div>
             ) : null}
             <div
               className={SubframeUtils.twClassNames(
