@@ -191,7 +191,7 @@ const ResultsCard = React.forwardRef<
                 title={
                   status === "not-compatible"
                     ? "Modem is not compatible"
-                    : "Compatible with Belong nbn\u00AE"
+                    : "Compatible with Belong"
                 }
                 description={
                   status === "not-compatible"
@@ -256,7 +256,7 @@ const ResultsCard = React.forwardRef<
                   title={
                     speedWarningType
                       ? SPEED_WARNING_COPY[speedWarningType].title
-                      : "Fast enough for your selected plan"
+                      : "Fast enough for your nbn\u00AE plan"
                   }
                   status={speedWarningType ? "warning" : undefined}
                   hasDescription={speedWarningType ? false : undefined}
