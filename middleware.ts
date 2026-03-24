@@ -12,6 +12,10 @@ export default function middleware(request: Request) {
     return;
   }
 
-  // Redirect to login
-  return Response.redirect(new URL('/login.html', url.origin), 302);
+  // Redirect to login, preserving the original URL
+  const login = new URL('/login.html', url.origin);
+  if (url.pathname !== '/') {
+    login.searchParams.set('next', url.pathname + url.search);
+  }
+  return Response.redirect(login, 302);
 }
