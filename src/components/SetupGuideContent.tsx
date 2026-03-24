@@ -596,65 +596,71 @@ export function SetupGuideContent({
             >
               {connectionTest === "idle" ? "Test connection" : "Test again"}
             </Button>
-            <AnimatePresence mode="wait">
-              {connectionTest !== "idle" ? (
-                <motion.div
-                  key={connectionTest}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  transition={{ duration: connectionTest === "testing" ? 0.25 : 0.3, ease: "easeOut" }}
-                >
-                  {connectionTest === "testing" && (
-                    <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md bg-brand-100 px-4 py-4">
-                      <div className="flex items-center gap-2">
-                        <div className="h-4 w-4 flex-none rounded-full border-2 border-brand-300 border-t-brand-800 animate-spin" style={{ animationDuration: "0.6s" }} />
-                        <span className="text-h4-button-500 font-h4-button-500 text-brand-800">
-                          Running connection test...
-                        </span>
-                      </div>
-                      <span className="text-body font-body text-brand-800">
-                        This should only take a moment
-                      </span>
-                    </div>
-                  )}
-                  {connectionTest === "success" && (
-                    <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-color-secondary-300 bg-color-secondary-50 px-4 py-4">
-                      <div className="flex items-center gap-2">
-                        <FeatherCheck className="text-h3-500 font-h3-500 text-success-700" />
-                        <span className="text-h4-button-500 font-h4-button-500 text-color-secondary-600">
-                          You&apos;re online
-                        </span>
-                      </div>
-                      <span className="text-body font-body text-color-secondary-600">
-                        Great news! You&apos;re connected to the internet. Try out your connection, and if you have any trouble, come back here and check out the troubleshooting steps.
-                      </span>
-                    </div>
-                  )}
-                  {connectionTest === "failure" && (
-                    <div className="flex w-full min-w-[240px] flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-neutral-100 px-4 py-4">
-                      <div className="flex w-full flex-col items-start gap-2">
-                        <div className="flex items-center gap-2">
-                          <FeatherZapOff className="text-h3-500 font-h3-500 text-neutral-700" />
-                          <span className="text-h4-button-500 font-h4-button-500 text-neutral-600">
-                            No connection yet
-                          </span>
-                        </div>
-                        <span className="text-body font-body text-neutral-600">
-                          Don&apos;t worry, there are a few easy steps we can try to get your modem connected.
-                        </span>
-                        <Button
-                          variant="cyan-tertiary"
-                          onClick={() => {}}
-                        >
-                          Help me troubleshoot
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
-              ) : null}
-            </AnimatePresence>
+            {connectionTest === "testing" && (
+              <motion.div
+                key="testing"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md bg-brand-100 px-4 py-4"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="h-4 w-4 flex-none rounded-full border-2 border-brand-100 border-t-brand-800 animate-spin" style={{ animationDuration: "0.6s" }} />
+                  <span className="text-h4-button-500 font-h4-button-500 text-brand-800">
+                    Running connection test...
+                  </span>
+                </div>
+                <span className="text-body font-body text-brand-800">
+                  This should only take a moment
+                </span>
+              </motion.div>
+            )}
+            {connectionTest === "success" && (
+              <motion.div
+                key="success"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-color-secondary-300 bg-color-secondary-50 px-4 py-4"
+              >
+                <div className="flex items-center gap-2">
+                  <FeatherCheck className="text-h3-500 font-h3-500 text-success-700" />
+                  <span className="text-h4-button-500 font-h4-button-500 text-color-secondary-600">
+                    You&apos;re online
+                  </span>
+                </div>
+                <span className="text-body font-body text-color-secondary-600">
+                  Great news! You&apos;re connected to the internet. Try out your connection, and if you have any trouble, come back here and check out the troubleshooting steps.
+                </span>
+              </motion.div>
+            )}
+            {connectionTest === "failure" && (
+              <motion.div
+                key="failure"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="flex w-full min-w-[240px] flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-neutral-100 px-4 py-4"
+              >
+                <div className="flex w-full flex-col items-start gap-2">
+                  <div className="flex items-center gap-2">
+                    <FeatherZapOff className="text-h3-500 font-h3-500 text-neutral-700" />
+                    <span className="text-h4-button-500 font-h4-button-500 text-neutral-600">
+                      No connection yet
+                    </span>
+                  </div>
+                  <span className="text-body font-body text-neutral-600">
+                    Don&apos;t worry, there are a few easy steps we can try to get your modem connected.
+                  </span>
+                  <Button
+                    variant="cyan-tertiary"
+                    onClick={() => {}}
+                  >
+                    Help me troubleshoot
+                  </Button>
+                </div>
+              </motion.div>
+            )}
           </div>
         );
     }
