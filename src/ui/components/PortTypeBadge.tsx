@@ -35,7 +35,7 @@ const PortTypeBadgeRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/189422de flex items-center gap-2",
+        "group/189422de inline-flex items-center gap-2",
         { "shadow-sm": variant === "white" },
         className
       )}

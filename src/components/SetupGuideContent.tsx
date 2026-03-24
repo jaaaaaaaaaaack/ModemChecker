@@ -463,17 +463,17 @@ export function SetupGuideContent({
               password={adminPanel.default_password}
             />
             <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-brand-200 bg-brand-50 px-4 py-4">
-              <div className="flex items-start gap-1">
-                <div className="flex items-start gap-1 pt-0.5">
-                  <FeatherInfo className="text-h4-button-500 font-h4-button-500 text-brand-800" />
+              <div className="flex items-start gap-2">
+                <FeatherInfo className="h-5 w-5 flex-none mt-0.5 text-brand-800" />
+                <div className="flex flex-col gap-1">
+                  <span className="text-body-bold font-body-bold text-brand-800">
+                    Having trouble logging in?
+                  </span>
+                  <span className="text-body font-body text-brand-700">
+                    If the default username and password isn&apos;t working and you don&apos;t know the new password, you may need to fully reset your modem. Refer to your instruction manual or the manufacturer&apos;s support webpage for more information.
+                  </span>
                 </div>
-                <span className="text-body-bold font-body-bold text-brand-800">
-                  Having trouble logging in?
-                </span>
               </div>
-              <span className="text-body font-body text-brand-700">
-                If the default username and password isn&apos;t working and you don&apos;t know the new password, you may need to fully reset your modem. Refer to your instruction manual or the manufacturer&apos;s support webpage for more information.
-              </span>
             </div>
           </>
         );
@@ -487,17 +487,17 @@ export function SetupGuideContent({
               playStoreUrl={adminPanel.app_store_links?.android}
             />
             <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-brand-200 bg-brand-50 px-4 py-4">
-              <div className="flex items-start gap-1">
-                <div className="flex items-start gap-1 pt-0.5">
-                  <FeatherInfo className="text-h4-button-500 font-h4-button-500 text-brand-800" />
+              <div className="flex items-start gap-2">
+                <FeatherInfo className="h-5 w-5 flex-none mt-0.5 text-brand-800" />
+                <div className="flex flex-col gap-1">
+                  <span className="text-body-bold font-body-bold text-brand-800">
+                    {appName} app troubleshooting and support
+                  </span>
+                  <span className="text-body font-body text-brand-700">
+                    If you have any trouble downloading the app or logging in, you&apos;ll need to get support from the modem manufacturer.
+                  </span>
                 </div>
-                <span className="text-body-bold font-body-bold text-brand-800">
-                  {appName} app troubleshooting and support
-                </span>
               </div>
-              <span className="text-body font-body text-brand-700">
-                If you have any trouble downloading the app or logging in, you&apos;ll need to get support from the modem manufacturer.
-              </span>
             </div>
           </>
         );
