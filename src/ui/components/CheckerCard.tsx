@@ -134,7 +134,7 @@ const ResultsCard = React.forwardRef<
         >
           <motion.div
             className={SubframeUtils.twClassNames(
-              "flex grow basis-0 min-w-0 items-center gap-4",
+              "flex w-full items-center gap-4",
               {
                 "flex-row flex-nowrap items-center justify-center gap-3":
                   status === "not-compatible",
