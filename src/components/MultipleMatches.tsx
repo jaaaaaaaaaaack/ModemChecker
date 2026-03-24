@@ -64,6 +64,17 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
               className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2"
             />
           ))}
+          <div className="flex w-full items-center justify-between pt-4">
+            <IconButton
+              variant="white"
+              size="large"
+              icon={<FeatherChevronLeft className="-ml-0.5" />}
+              onClick={onBack}
+            />
+            <LinkButton variant="brand" onClick={() => {}}>
+              I can't find my modem
+            </LinkButton>
+          </div>
         </div>
         {/* Scroll-aware top scrim — fades in when content scrolls beneath the heading */}
         <div
@@ -78,18 +89,6 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
               "linear-gradient(to bottom, rgba(210, 250, 255, 0.92), transparent)",
           }}
         />
-      </div>
-      <div className="flex w-full items-center justify-between flex-shrink-0 md:mt-10">
-        <IconButton
-          variant="white"
-          size="large"
-          icon={<FeatherChevronLeft className="-ml-0.5" />}
-          onClick={onBack}
-        />
-        <LinkButton variant="brand" onClick={() => {}}>
-          I can't find my modem
-        </LinkButton>
-      </div>
     </div>
   );
 }
