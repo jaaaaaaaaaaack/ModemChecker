@@ -149,7 +149,7 @@ export function SetupGuide() {
         </div>
       </div>
 
-      <BottomSheet open={sheetOpen} onClose={handleClose} height="85vh" overlayOpacity={0.6}>
+      <BottomSheet open={sheetOpen} onClose={handleClose} height={state.step === "single_match" ? "90vh" : "85vh"} overlayOpacity={0.6}>
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={state.step}

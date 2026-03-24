@@ -102,7 +102,7 @@ export function ModemChecker() {
       >
         <ModemInfoSheet onClose={() => setModemInfoOpen(false)} />
       </BottomSheet>
-      <BottomSheet open={sheetOpen} onClose={handleClose} height="85vh">
+      <BottomSheet open={sheetOpen} onClose={handleClose} height={state.step === "single_match" ? "90vh" : "85vh"}>
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={state.step}
