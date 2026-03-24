@@ -323,7 +323,7 @@ const CheckerCardRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/15c47a51 flex w-full flex-col items-start gap-4 rounded-md bg-color-primary-50 px-6 py-6",
+        "group/15c47a51 flex w-full flex-col items-start gap-4 rounded-md bg-color-primary-50 px-4 py-4",
         { "flex-col flex-nowrap gap-6": status === "speed-warning" },
         className
       )}
