@@ -463,17 +463,17 @@ export function SetupGuideContent({
               password={adminPanel.default_password}
             />
             <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-brand-200 bg-brand-50 px-4 py-4">
-              <div className="flex items-start gap-1">
-                <div className="flex items-start gap-1 pt-0.5">
-                  <FeatherInfo className="text-h4-button-500 font-h4-button-500 text-brand-800" />
+              <div className="flex items-start gap-2">
+                <FeatherInfo className="h-5 w-5 flex-none mt-0.5 text-brand-800" />
+                <div className="flex flex-col gap-1">
+                  <span className="text-body-bold font-body-bold text-brand-800">
+                    Having trouble logging in?
+                  </span>
+                  <span className="text-body font-body text-brand-700">
+                    If the default username and password isn&apos;t working and you don&apos;t know the new password, you may need to fully reset your modem. Refer to your instruction manual or the manufacturer&apos;s support webpage for more information.
+                  </span>
                 </div>
-                <span className="text-body-bold font-body-bold text-brand-800">
-                  Having trouble logging in?
-                </span>
               </div>
-              <span className="text-body font-body text-brand-700">
-                If the default username and password isn&apos;t working and you don&apos;t know the new password, you may need to fully reset your modem. Refer to your instruction manual or the manufacturer&apos;s support webpage for more information.
-              </span>
             </div>
           </>
         );
@@ -487,17 +487,17 @@ export function SetupGuideContent({
               playStoreUrl={adminPanel.app_store_links?.android}
             />
             <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-brand-200 bg-brand-50 px-4 py-4">
-              <div className="flex items-start gap-1">
-                <div className="flex items-start gap-1 pt-0.5">
-                  <FeatherInfo className="text-h4-button-500 font-h4-button-500 text-brand-800" />
+              <div className="flex items-start gap-2">
+                <FeatherInfo className="h-5 w-5 flex-none mt-0.5 text-brand-800" />
+                <div className="flex flex-col gap-1">
+                  <span className="text-body-bold font-body-bold text-brand-800">
+                    {appName} app troubleshooting and support
+                  </span>
+                  <span className="text-body font-body text-brand-700">
+                    If you have any trouble downloading the app or logging in, you&apos;ll need to get support from the modem manufacturer.
+                  </span>
                 </div>
-                <span className="text-body-bold font-body-bold text-brand-800">
-                  {appName} app troubleshooting and support
-                </span>
               </div>
-              <span className="text-body font-body text-brand-700">
-                If you have any trouble downloading the app or logging in, you&apos;ll need to get support from the modem manufacturer.
-              </span>
             </div>
           </>
         );
@@ -597,9 +597,15 @@ export function SetupGuideContent({
               {connectionTest === "idle" ? "Test connection" : "Test again"}
             </Button>
             {connectionTest === "testing" && (
-              <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md bg-brand-100 px-4 py-4">
+              <motion.div
+                key="testing"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md bg-brand-100 px-4 py-4"
+              >
                 <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 flex-none rounded-full border-2 border-brand-300 border-t-brand-800 animate-spin" style={{ animationDuration: "0.6s" }} />
+                  <div className="h-4 w-4 flex-none rounded-full border-2 border-brand-100 border-t-brand-800 animate-spin" style={{ animationDuration: "0.6s" }} />
                   <span className="text-h4-button-500 font-h4-button-500 text-brand-800">
                     Running connection test...
                   </span>
@@ -607,10 +613,16 @@ export function SetupGuideContent({
                 <span className="text-body font-body text-brand-800">
                   This should only take a moment
                 </span>
-              </div>
+              </motion.div>
             )}
             {connectionTest === "success" && (
-              <div className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-color-secondary-300 bg-color-secondary-50 px-4 py-4">
+              <motion.div
+                key="success"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-color-secondary-300 bg-color-secondary-50 px-4 py-4"
+              >
                 <div className="flex items-center gap-2">
                   <FeatherCheck className="text-h3-500 font-h3-500 text-success-700" />
                   <span className="text-h4-button-500 font-h4-button-500 text-color-secondary-600">
@@ -620,10 +632,16 @@ export function SetupGuideContent({
                 <span className="text-body font-body text-color-secondary-600">
                   Great news! You&apos;re connected to the internet. Try out your connection, and if you have any trouble, come back here and check out the troubleshooting steps.
                 </span>
-              </div>
+              </motion.div>
             )}
             {connectionTest === "failure" && (
-              <div className="flex w-full min-w-[240px] flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-neutral-100 px-4 py-4">
+              <motion.div
+                key="failure"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="flex w-full min-w-[240px] flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-neutral-100 px-4 py-4"
+              >
                 <div className="flex w-full flex-col items-start gap-2">
                   <div className="flex items-center gap-2">
                     <FeatherZapOff className="text-h3-500 font-h3-500 text-neutral-700" />
@@ -641,7 +659,7 @@ export function SetupGuideContent({
                     Help me troubleshoot
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             )}
           </div>
         );
