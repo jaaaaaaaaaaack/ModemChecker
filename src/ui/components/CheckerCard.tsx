@@ -119,7 +119,7 @@ const ResultsCard = React.forwardRef<
       >
         <motion.div
           className={SubframeUtils.twClassNames(
-            "flex grow shrink-0 basis-0 flex-col items-start gap-3 pr-4",
+            "flex grow basis-0 min-w-0 flex-col items-start gap-3 pr-4",
             {
               "flex-col flex-nowrap gap-3": status === "callout",
               "flex-col flex-nowrap items-start justify-center gap-3 pl-0 pr-4 py-0":
@@ -134,7 +134,7 @@ const ResultsCard = React.forwardRef<
         >
           <motion.div
             className={SubframeUtils.twClassNames(
-              "flex grow shrink-0 basis-0 items-center gap-4",
+              "flex grow basis-0 min-w-0 items-center gap-4",
               {
                 "flex-row flex-nowrap items-center justify-center gap-3":
                   status === "not-compatible",
