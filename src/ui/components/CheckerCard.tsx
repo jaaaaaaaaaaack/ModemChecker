@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 import { FeatherRotateCcw } from "@subframe/core";
 import { FeatherRouter } from "@subframe/core";
 import * as SubframeUtils from "../utils";
+import { Alert } from "./Alert";
 import { Button } from "./Button";
 import { LinkButton } from "./LinkButton";
 import { StatusItem } from "./StatusItem";
@@ -118,7 +119,7 @@ const ResultsCard = React.forwardRef<
       >
         <motion.div
           className={SubframeUtils.twClassNames(
-            "flex grow shrink-0 basis-0 flex-col items-start gap-2 pr-4",
+            "flex grow shrink-0 basis-0 flex-col items-start gap-3 pr-4",
             {
               "flex-col flex-nowrap gap-3": status === "callout",
               "flex-col flex-nowrap items-start justify-center gap-3 pl-0 pr-4 py-0":
@@ -133,7 +134,7 @@ const ResultsCard = React.forwardRef<
         >
           <motion.div
             className={SubframeUtils.twClassNames(
-              "flex grow shrink-0 basis-0 items-center gap-3",
+              "flex grow shrink-0 basis-0 items-center gap-4",
               {
                 "flex-row flex-nowrap items-center justify-center gap-3":
                   status === "not-compatible",
@@ -142,7 +143,7 @@ const ResultsCard = React.forwardRef<
             variants={modemRowVariants}
           >
             {image ? (
-              <div className="flex min-w-[30px] w-fit items-start">
+              <div className="flex min-w-[30px] max-w-[80px] w-fit items-start">
                 <ModemImage
                   src={image}
                   alt={String(modemName ?? "Modem")}
@@ -351,16 +352,17 @@ const CheckerCardRoot = React.forwardRef<
           speedWarningType={speedWarningType}
           onAddBelongModem={onAddBelongModem}
         />
-        <span
-          className={SubframeUtils.twClassNames(
-            "text-caption font-caption text-brand-900",
-            { "text-body font-body text-brand-800": state === "default" }
-          )}
-        >
-          {state === "default"
-            ? "Check if your modem is compatible with Belong, and if it\u2019s fast enough for your selected plan."
-            : "Important: This tool provides general advice only, based on information sourced online. You should verify your modem\u2019s details with the manufacturer or retailer."}
-        </span>
+        {state === "default" ? (
+          <span className="text-body font-body text-brand-800">
+            Check if your modem is compatible with Belong, and if it{"\u2019"}s fast enough for your selected plan.
+          </span>
+        ) : (
+          <Alert
+            variant="brand"
+            title="Important info"
+            description="This tool provides general advice only, based on information sourced online. You should verify your modem\u2019s details with the manufacturer or retailer."
+          />
+        )}
       </div>
       <LinkButton
         className="hidden"
