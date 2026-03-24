@@ -89,6 +89,7 @@ export function MultipleMatches({ modems, onSelect, onBack, onClose }: MultipleM
               "linear-gradient(to bottom, rgba(210, 250, 255, 0.92), transparent)",
           }}
         />
+      </div>
     </div>
   );
 }
