@@ -143,7 +143,7 @@ const ResultsCard = React.forwardRef<
             variants={modemRowVariants}
           >
             {image ? (
-              <div className="flex min-w-[30px] max-w-[80px] w-fit items-start">
+              <div className="flex flex-none min-w-[30px] max-w-[80px] w-fit items-start">
                 <ModemImage
                   src={image}
                   alt={String(modemName ?? "Modem")}
