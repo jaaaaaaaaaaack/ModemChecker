@@ -136,7 +136,7 @@ const ResultsCard = React.forwardRef<
             className={SubframeUtils.twClassNames(
               "flex w-full items-center gap-4",
               {
-                "flex-row flex-nowrap items-center justify-center gap-3":
+                "flex-row flex-nowrap items-center gap-3":
                   status === "not-compatible",
               }
             )}
