@@ -493,10 +493,10 @@ export function SetupGuideContent({
                 <FeatherInfo className="h-5 w-5 flex-none mt-0.5 text-brand-800" />
                 <div className="flex flex-col gap-1">
                   <span className="text-body-bold font-body-bold text-brand-800">
-                    {appName} app troubleshooting and support
+                    Having trouble with the app?
                   </span>
                   <span className="text-body font-body text-brand-700">
-                    If you have any trouble downloading the app or logging in, you&apos;ll need to get support from the modem manufacturer.
+                    For any issues downloading or using the {appName} app, you&apos;ll need to reach out to {data.brand} for support.
                   </span>
                 </div>
               </div>
@@ -793,8 +793,8 @@ export function SetupGuideContent({
                   initial={{ opacity: 0, x: 12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
-                    duration: 0.3,
-                    delay: 0.7 + idx * 0.07,
+                    duration: 0.4,
+                    delay: 0.7 + idx * 0.12,
                     ease: [0.25, 0.1, 0.25, 1],
                   }}
                 >
