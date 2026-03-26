@@ -35,17 +35,23 @@ export function SetupGuide() {
   const [selectedModem, setSelectedModem] = useState<Modem | null>(null);
   const [transitioning, setTransitioning] = useState(false);
   const [guide, setGuide] = useState<GuideEntry | undefined>(undefined);
+  const [guideLoading, setGuideLoading] = useState(!!modemId);
   const { state, direction, search, selectModem, reset, retry } = useModemSearch();
 
   // Lazy-load the setup guide when modemId changes
   useEffect(() => {
     if (!modemId) {
       setGuide(undefined);
+      setGuideLoading(false);
       return;
     }
+    setGuideLoading(true);
     let cancelled = false;
     getSetupGuide(modemId).then((g) => {
-      if (!cancelled) setGuide(g);
+      if (!cancelled) {
+        setGuide(g);
+        setGuideLoading(false);
+      }
     });
     return () => { cancelled = true; };
   }, [modemId]);
@@ -53,7 +59,7 @@ export function SetupGuide() {
   const hasModemInfo = selectedModem?.id === modemId;
 
   // Edge case: direct URL to modem without guide and no cached info → clear params
-  const showLanding = !modemId || (!!modemId && !guide && !hasModemInfo);
+  const showLanding = !modemId || (!!modemId && !guide && !guideLoading && !hasModemInfo);
 
   const handleSetupModem = useCallback(() => {
     if (state.step === "single_match") {
@@ -115,7 +121,10 @@ export function SetupGuide() {
   let pageKey: string;
   let pageContent: React.ReactNode;
 
-  if (guide) {
+  if (guideLoading) {
+    pageKey = "loading";
+    pageContent = null;
+  } else if (guide) {
     pageKey = "guide";
     pageContent = (
       <SetupGuideContent
