@@ -459,10 +459,20 @@ export function SetupGuideContent({
                 <FeatherInfo className="h-5 w-5 flex-none mt-0.5 text-brand-800" />
                 <div className="flex flex-col gap-1">
                   <span className="text-body-bold font-body-bold text-brand-800">
-                    Having trouble logging in?
+                    Can&apos;t log in?
                   </span>
                   <span className="text-body font-body text-brand-700">
-                    If the default username and password isn&apos;t working and you don&apos;t know the new password, you may need to fully reset your modem. Refer to your instruction manual or the manufacturer&apos;s support webpage for more information.
+                    A factory reset will{" "}
+                    {data.setup.factory_reset.restores_default_credentials
+                      ? "restore the default login details shown above"
+                      : "let you create new login details"}
+                    .{" "}
+                    <button
+                      type="button"
+                      className="inline font-medium text-brand-800 underline underline-offset-2"
+                    >
+                      How to reset your modem
+                    </button>
                   </span>
                 </div>
               </div>

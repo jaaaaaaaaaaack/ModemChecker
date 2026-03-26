@@ -73,7 +73,7 @@ const SubstepCardContainerRoot = React.forwardRef<
           <div className="flex items-center gap-1">
             <FeatherGlobe className="text-h4-button-700 font-h4-button-700 text-neutral-500" />
             <span className="text-body font-body text-subtext-color">
-              Address
+              Admin panel address
             </span>
           </div>
           {adminUrlPrimary ? (
