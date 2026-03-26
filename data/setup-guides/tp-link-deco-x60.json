@@ -26,7 +26,7 @@
         "connection_type_field": "Internet Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Next",
-        "pppoe_clear_note": "If currently set to PPPoE, tap 'Internet Connection Type', select 'Dynamic IP', and remove any username or password fields that appear. Tap Next/Save to apply.",
+        "pppoe_clear_note": "**Switching from another nbn provider?** Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
         "wan_port_notes": "The Deco X60 has two unlabelled Gigabit Ethernet ports. WAN port detection is automatic — the Deco detects which port is connected to a modem or nbn box and uses that as the WAN port. Either port can be used. If needed, a fixed WAN port can be set in the app via More > Advanced > WAN Port.",
         "steps_ipoe": [
           "Connect an Ethernet cable from your nbn connection box (NTD, HFC box, or FTTC DPU) to either Ethernet port on the back of the primary Deco X60 unit.",

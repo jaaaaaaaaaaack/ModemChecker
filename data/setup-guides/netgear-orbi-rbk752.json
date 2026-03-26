@@ -21,7 +21,7 @@
         "connection_type_field": "Does your Internet connection require a login?",
         "ipoe_label": "No",
         "save_button_label": "Apply",
-        "pppoe_clear_note": "If the field shows 'Yes' with PPPoE credentials pre-filled (e.g. from a previous ISP), change the answer to 'No'. This switches the connection type to Dynamic IP (DHCP), which is what Belong uses.",
+        "pppoe_clear_note": null,
         "steps_ipoe": [
           "Connect an Ethernet cable from your nbn equipment (nbn box or HFC connection box) to the yellow Internet port on the rear of the Orbi router",
           "Power on the Orbi router and wait 2–3 minutes for it to fully boot (the LED ring will turn solid white)",

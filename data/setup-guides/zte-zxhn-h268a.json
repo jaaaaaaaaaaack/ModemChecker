@@ -23,7 +23,7 @@
         "ip_type_field": "IP Type",
         "ip_type_label": "DHCP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If an existing Exetel WAN profile (e.g. Exetel_EthWAN) is listed, delete it before creating a new entry. Set Link Type to 'IP' and IP Type to 'DHCP' — no username or password required for Belong. Click Save.",
+        "pppoe_clear_note": "**Switching from another nbn provider?** You may see their connection listed on this page. Delete it before continuing — you'll set up a fresh one in the next step.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (NTD for FTTP, HFC connection box, or FTTC DPU) to the red WAN port on the rear of the H268A",
           "Connect to the modem via Ethernet or Wi-Fi",
@@ -55,7 +55,7 @@
         "ip_type_field": "IP Type",
         "ip_type_label": "DHCP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If an existing Exetel WAN profile (e.g. Exetel_VDSL) is listed, delete it before creating a new entry. Set Link Type to 'IP' and IP Type to 'DHCP' — no username or password required for Belong. Click Save.",
+        "pppoe_clear_note": "**Switching from another nbn provider?** You may see their connection listed on this page. Delete it before continuing — you'll set up a fresh one in the next step.",
         "steps_ipoe": [
           "Connect a phone cable (RJ-11) from the nbn wall socket to the grey DSL port on the rear of the H268A",
           "Connect to the modem via Ethernet or Wi-Fi",

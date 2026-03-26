@@ -23,7 +23,7 @@
         "connection_type_field": "Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection Type' to 'Dynamic IP' and clear any username and password fields.",
+        "pppoe_clear_note": "**Switching from another nbn provider?** Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D port) to the blue LAN/WAN port on the rear of the modem-router",
           "Open a web browser and go to http://192.168.1.1 (or http://tplinkmodem.net)",
@@ -45,7 +45,7 @@
         "connection_type_field": "Internet Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "If you've been using this modem with another internet provider, you may see their connection listed on this page. Delete it and create a new one set to 'Dynamic IP'.",
+        "pppoe_clear_note": "**Switching from another nbn provider?** You may see their connection listed on this page. Delete it before continuing — you'll set up a fresh one in the next step.",
         "steps_ipoe": [
           "Connect a phone cable from the telephone wall socket to the grey DSL port on the rear of the modem-router",
           "Open a web browser and go to http://192.168.1.1 (or http://tplinkmodem.net)",
@@ -71,7 +71,7 @@
       "wan_port_color": "blue",
       "wan_port_position": "leftmost Ethernet port when viewed from rear",
       "wan_port_icon": null,
-      "wan_port_notes": "This port is shared with a LAN port \u2014 look for the one labelled 'LAN/WAN'.",
+      "wan_port_notes": "This port is shared with a LAN port — look for the one labelled 'LAN/WAN'.",
       "dsl_port_label": "DSL",
       "dsl_port_color": "grey",
       "dsl_port_position": "RJ11 port on the right side of the rear panel",
