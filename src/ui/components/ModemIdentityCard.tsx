@@ -4,7 +4,7 @@
  * ModemIdentityCard — https://app.subframe.com/c141bce6134a/library?component=ModemIdentityCard_279003e6-45a9-4599-8c7d-3913749ef88e
  */
 
-import React from "react";
+import React, { useState, useCallback } from "react";
 import * as SubframeUtils from "../utils";
 
 interface ModemIdentityCardRootProps
@@ -30,6 +30,9 @@ const ModemIdentityCardRoot = React.forwardRef<
   }: ModemIdentityCardRootProps,
   ref
 ) {
+  const [imgReady, setImgReady] = useState(false);
+  const handleLoad = useCallback(() => setImgReady(true), []);
+
   return (
     <div
       className={SubframeUtils.twClassNames(
@@ -41,8 +44,12 @@ const ModemIdentityCardRoot = React.forwardRef<
     >
       <div className="flex items-center gap-3">
         {image ? (
-          <div className="flex min-w-[50px] shrink-0 items-center justify-center">
-            <img className="max-w-[80px] max-h-[64px] object-contain" src={image} />
+          <div className="flex h-16 min-w-[50px] max-w-[80px] shrink-0 items-center justify-center">
+            <img
+              className={`max-w-[80px] max-h-[64px] object-contain transition-opacity duration-200 ease-in-out ${imgReady ? "opacity-100" : "opacity-0"}`}
+              src={image}
+              onLoad={handleLoad}
+            />
           </div>
         ) : null}
         <div className="flex flex-col items-start gap-1">

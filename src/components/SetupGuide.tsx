@@ -48,16 +48,25 @@ export function SetupGuide() {
       const modem = state.modem;
       preloadImages([getModemImageUrl(modem.id)]);
       setSelectedModem(modem);
-      setSheetOpen(false);
-      setTransitioning(true);
       reset();
 
-      // Wait for dashboard to fade out + sheet to close, then swap content
+      // Phase 1: Close the sheet (spring ~300ms + overlay fade 200ms)
+      setSheetOpen(false);
+
+      // Phase 2: After sheet is visually gone, fade out the dashboard
+      setTimeout(() => {
+        setTransitioning(true);
+      }, 300);
+
+      // Phase 3: After dashboard fades out, swap to guide page
       setTimeout(() => {
         window.scrollTo({ top: 0 });
         setSearchParams({ modem: modem.id, tech: techType });
-        setTransitioning(false);
-      }, 400);
+        // Keep transitioning=true through the swap so the old page
+        // doesn't flash back. Clear it on next frame after the new
+        // page has mounted, letting its enter animation handle fade-in.
+        requestAnimationFrame(() => setTransitioning(false));
+      }, 650);
     }
   }, [state, setSearchParams, techType, reset]);
 
@@ -132,16 +141,17 @@ export function SetupGuide() {
       )}
       <div className={`flex w-full max-w-[576px] flex-col items-center ${showLanding ? "pb-12" : "pt-8 pb-24 mobile:pt-4 mobile:pb-12"}`}>
         <div className={`flex w-full flex-col items-start ${showLanding ? "" : "gap-6 px-6 mobile:gap-6 mobile:px-4"}`}>
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode={transitioning ? "popLayout" : "wait"}>
             <motion.div
               key={pageKey}
               className="flex w-full flex-col items-start gap-6"
-              {...pageTransition}
-              animate={{
-                ...pageTransition.animate,
-                opacity: transitioning ? 0 : 1,
+              initial={{ opacity: 0 }}
+              animate={{ opacity: transitioning ? 0 : 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: transitioning ? 0.35 : 0.15,
+                ease: "easeOut",
               }}
-              transition={{ duration: transitioning ? 0.35 : 0.25, ease: "easeOut" }}
             >
               {pageContent}
             </motion.div>

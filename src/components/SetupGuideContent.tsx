@@ -261,14 +261,6 @@ export function SetupGuideContent({
   }, []);
 
   // Preload success video once the setup page mounts
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "image";
-    link.href = "/belongWifi.webp";
-    document.head.appendChild(link);
-    return () => { document.head.removeChild(link); };
-  }, []);
 
   const modemImageUrl = getModemImageUrl(data.id);
   const adminPanel = data.setup.admin_panel;
@@ -706,7 +698,7 @@ export function SetupGuideContent({
           hasLeftIcon={true}
           onClick={() => {}}
         >
-          Talk to support
+          Get support
         </Button>
       </>
     );
@@ -734,11 +726,21 @@ export function SetupGuideContent({
           transition={{ duration: 0.6, ease: "easeIn" }}
           className="flex w-full flex-col items-start gap-6"
         >
-          <h1 className="text-h1 font-h1 text-brand-800 mobile:text-[34px] mobile:leading-[42px]">
+          <motion.h1
+            className="text-h1 font-h1 text-brand-800 mobile:text-[34px] mobile:leading-[42px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
             Modem setup guide
-          </h1>
+          </motion.h1>
           {/* Header */}
-          <div className="flex w-full flex-col items-start gap-6">
+          <motion.div
+            className="flex w-full flex-col items-start gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.06, ease: "easeOut" }}
+          >
             <ModemIdentityCard
               image={modemImageUrl}
               label="Your modem"
@@ -760,39 +762,56 @@ export function SetupGuideContent({
                 }
               />
             )}
-          </div>
+          </motion.div>
 
           {/* Steps — data-driven from sequence */}
           <div className="flex w-full flex-col items-start gap-3">
-            <h2 className="text-h2 font-h2 text-brand-800">Setup steps</h2>
+            <motion.h2
+              className="text-h2 font-h2 text-brand-800"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.12, ease: "easeOut" }}
+            >
+              Setup steps
+            </motion.h2>
 
             {steps.map((templateId, idx) => {
               const variant = getStepVariant(idx, currentStep);
               return (
-                <StepCard
-                  ref={stepRefs[idx]}
+                <motion.div
                   key={templateId}
-                  stepNumber={String(idx + 1)}
-                  stepTitle={
-                    templateId === "login_app"
-                      ? <span>Set up with the <span className="text-h4-button-700 font-h4-button-700">{appName}</span> app</span>
-                      : STEP_TITLES[templateId]
-                  }
-                  description={getStepDescription(templateId, isDslTech, data)}
-                  infoMessage={undefined}
-                  variant={variant}
-                  onClick={
-                    variant === "completed"
-                      ? () => setCurrentStep(idx)
-                      : undefined
-                  }
-                  className={
-                    variant === "completed" ? "cursor-pointer" : undefined
-                  }
-                  primaryAction={renderPrimaryAction(templateId, idx)}
+                  initial={{ opacity: 0, x: 12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: 0.7 + idx * 0.07,
+                    ease: [0.25, 0.1, 0.25, 1],
+                  }}
                 >
-                  {renderStepContent(templateId)}
-                </StepCard>
+                  <StepCard
+                    ref={stepRefs[idx]}
+                    stepNumber={String(idx + 1)}
+                    stepTitle={
+                      templateId === "login_app"
+                        ? <span>Set up with the <span className="text-h4-button-700 font-h4-button-700">{appName}</span> app</span>
+                        : STEP_TITLES[templateId]
+                    }
+                    description={getStepDescription(templateId, isDslTech, data)}
+                    infoMessage={undefined}
+                    variant={variant}
+                    onClick={
+                      variant === "completed"
+                        ? () => setCurrentStep(idx)
+                        : undefined
+                    }
+                    className={
+                      variant === "completed" ? "cursor-pointer" : undefined
+                    }
+                    primaryAction={renderPrimaryAction(templateId, idx)}
+                  >
+                    {renderStepContent(templateId)}
+                  </StepCard>
+                </motion.div>
               );
             })}
           </div>
@@ -809,7 +828,7 @@ export function SetupGuideContent({
               hasLeftIcon={true}
               onClick={() => {}}
             >
-              Talk to support
+              Get support
             </Button>
           </div>
         </motion.div>
