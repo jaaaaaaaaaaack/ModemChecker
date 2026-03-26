@@ -88,7 +88,7 @@ const STEP_DESCRIPTIONS: Record<StepTemplateId, string> = {
   login_app:
     "Your modem uses an app for setup and device management. Download the app to your mobile device, open it, and then follow the prompts to get connected.",
   navigate_and_configure:
-    "Update your modem's internet settings so it works with Belong.",
+    "Update your modem's internet settings to work with Belong.",
   verify: "", // Description rendered inline in the connection checker
 };
 
