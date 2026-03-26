@@ -9,27 +9,21 @@
       "default_username": "admin",
       "default_password": "password",
       "alt_access": "routerlogin.net",
+      "notes": "Netgear's default credentials are admin/password. Newer firmware versions require changing the admin password during first-time setup. If the password was changed and forgotten, a factory reset restores admin/password. The Nighthawk app can also be used for initial setup but the full web admin panel is always available at routerlogin.net.",
+      "supports_https": false,
       "credential_type": "standard",
       "app_only": false,
-      "app_name": null,
-      "app_store_links": null,
-      "auto_detects_ipoe": false,
-      "supports_https": false,
-      "notes": null
+      "auto_detects_ipoe": false
     },
     "wan_config": {
       "ethernet": {
-        "nav_path": "Basic > Internet",
-        "nav_path_notes": "On some firmware versions, this may be under ADVANCED > Setup > Internet Setup instead.",
+        "nav_path": "Basic > Internet (or ADVANCED > Setup > Internet Setup)",
         "connection_type_field": "Does your Internet connection require a login?",
-        "ipoe_label": "No",
-        "ipoe_notes": "Selecting 'No' sets the connection to DHCP, which is what Belong uses.",
-        "save_button_label": "Apply",
-        "pppoe_clear_note": null,
+        "ipoe_label": "No (DHCP is the default when login is not required)",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box to the yellow WAN/Internet port on the rear of the router",
           "Plug in the power cable and turn on the router",
-          "Wait 1-2 minutes for the router to boot \u2014 the Power LED should turn solid",
+          "Wait 1-2 minutes for the router to boot — the Power LED should turn solid",
           "Connect a device to the router via Ethernet or Wi-Fi (default Wi-Fi credentials are on the router's label)",
           "Open a web browser and go to http://routerlogin.net (or http://192.168.1.1)",
           "Log in with username 'admin' and password 'password' (or the password you set during initial setup)",
@@ -38,7 +32,11 @@
           "Ensure no PPPoE username/password fields are filled in",
           "Click 'Apply'",
           "Wait 1-2 minutes for the router to obtain an IP address and connect"
-        ]
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null,
+        "save_button_label": "Apply",
+        "pppoe_clear_note": null
       },
       "vlan_field": null,
       "vlan_nav_path": null,
@@ -48,8 +46,7 @@
       "wan_port_label": "Internet",
       "wan_port_color": "yellow",
       "wan_port_position": "Yellow Ethernet port on rear panel, typically rightmost or separated from the LAN ports",
-      "wan_port_icon": null,
-      "wan_port_notes": null,
+      "wan_port_notes": "The Internet/WAN port is yellow and clearly labeled 'Internet'. Do not confuse with the LAN ports which are also Ethernet but numbered 1-4.",
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,
@@ -57,7 +54,8 @@
       "lan_ports": "4 x Gigabit Ethernet",
       "other_ports": "1 x USB 3.0",
       "reset_button": "Recessed button on rear panel",
-      "reset_hold_seconds": 10
+      "reset_hold_seconds": 10,
+      "wan_port_icon": null
     },
     "factory_reset": {
       "method": "Press and hold the Reset button on the rear panel for at least 10 seconds until the Power LED starts blinking. Release and wait for the router to reboot to factory defaults.",
@@ -70,49 +68,43 @@
       "download_url": "https://www.netgear.com/support/product/rax50/",
       "notes": "Netgear supports online firmware check from the admin panel. The Nighthawk app also provides firmware update notifications. Update to latest firmware before configuring for Belong."
     },
-    "troubleshooting": {
-      "internet_led_label": "Internet LED",
-      "internet_led_success": "solid white",
-      "internet_led_failure": "off or amber",
-      "common_issues": null
-    },
-    "setup_notes": "The Netgear RAX50 is a straightforward standalone router. Netgear's WAN configuration uses an unusual field label: 'Does your Internet connection require a login?' \u2014 selecting 'No' configures DHCP mode (IPoE), while 'Yes' switches to PPPoE. This wording can confuse customers because it doesn't explicitly mention DHCP or Dynamic IP. For Belong, the answer is always 'No'. The Nighthawk app can handle initial setup but for WAN reconfiguration, the web admin panel (routerlogin.net) is more reliable. The yellow Internet port is well-labeled and hard to confuse with LAN ports.",
+    "setup_notes": "The Netgear RAX50 is a straightforward standalone router. Netgear's WAN configuration uses an unusual field label: 'Does your Internet connection require a login?' — selecting 'No' configures DHCP mode (IPoE), while 'Yes' switches to PPPoE. This wording can confuse customers because it doesn't explicitly mention DHCP or Dynamic IP. For Belong, the answer is always 'No'. The Nighthawk app can handle initial setup but for WAN reconfiguration, the web admin panel (routerlogin.net) is more reliable. The yellow Internet port is well-labeled and hard to confuse with LAN ports.",
     "manual_url": "https://www.downloads.netgear.com/files/GDC/RAX50/RAX50_UM_EN.pdf",
     "setup_sources": [
       {
         "url": "https://kb.netgear.com/980/How-do-I-log-in-to-my-NETGEAR-router",
         "type": "manufacturer",
-        "description": "Netgear KB \u2014 How to log in (admin/password, routerlogin.net)",
+        "description": "Netgear KB — How to log in (admin/password, routerlogin.net)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://community.netgear.com/t5/Nighthawk-with-WiFi-6-AX-and/Switching-from-PPPoE-to-IPOE-DHCP/td-p/2312063",
         "type": "community",
-        "description": "Netgear Community \u2014 Switching from PPPoE to IPoE/DHCP (login required = No for DHCP)",
+        "description": "Netgear Community — Switching from PPPoE to IPoE/DHCP (login required = No for DHCP)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://www.downloads.netgear.com/files/GDC/RAX50/RAX50_UM_EN.pdf",
         "type": "manufacturer",
-        "description": "Netgear \u2014 RAX50 User Manual PDF (port layout, factory reset, full UI reference)",
+        "description": "Netgear — RAX50 User Manual PDF (port layout, factory reset, full UI reference)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://kb.netgear.com/23442/How-do-I-update-the-firmware-on-my-NETGEAR-router-with-a-web-browser",
         "type": "manufacturer",
-        "description": "Netgear KB \u2014 Firmware update via web browser (ADVANCED > Administration > Firmware Update)",
+        "description": "Netgear KB — Firmware update via web browser (ADVANCED > Administration > Firmware Update)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://support.simplybroadband.co.nz/instruction/netgear-nighthawk-rax50-ax5400",
         "type": "isp",
-        "description": "Simply Broadband NZ \u2014 RAX50 configuration guide (Basic > Internet, VLAN and DHCP steps)",
+        "description": "Simply Broadband NZ — RAX50 configuration guide (Basic > Internet, VLAN and DHCP steps)",
         "accessed": "2026-03-20"
       }
     ],
     "setup_confidence": {
       "score": 85,
-      "notes": "Admin IP (192.168.1.1 / routerlogin.net) confirmed by Netgear KB and multiple router database sites. Default credentials (admin/password) confirmed by Netgear KB. WAN config approach ('Does your Internet connection require a login?' = No for DHCP) confirmed by Netgear Community forum. Physical port layout (yellow Internet port, 4 LAN, USB 3.0, rear reset button 10sec) confirmed by user manual PDF reference and search results. Firmware path (ADVANCED > Administration > Firmware Update) confirmed by Netgear KB. Score: 100 - 10 (WAN nav path has two alternatives 'Basic > Internet' vs 'ADVANCED > Setup > Internet Setup' \u2014 documented both but not verified which applies to RAX50 specifically) - 5 (Netgear manufacturer page JS-rendered, couldn't fetch directly) = 85."
+      "notes": "Admin IP (192.168.1.1 / routerlogin.net) confirmed by Netgear KB and multiple router database sites. Default credentials (admin/password) confirmed by Netgear KB. WAN config approach ('Does your Internet connection require a login?' = No for DHCP) confirmed by Netgear Community forum. Physical port layout (yellow Internet port, 4 LAN, USB 3.0, rear reset button 10sec) confirmed by user manual PDF reference and search results. Firmware path (ADVANCED > Administration > Firmware Update) confirmed by Netgear KB. Score: 100 - 10 (WAN nav path has two alternatives 'Basic > Internet' vs 'ADVANCED > Setup > Internet Setup' — documented both but not verified which applies to RAX50 specifically) - 5 (Netgear manufacturer page JS-rendered, couldn't fetch directly) = 85."
     }
   }
 }

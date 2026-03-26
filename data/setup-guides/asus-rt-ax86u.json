@@ -9,21 +9,17 @@
       "default_username": null,
       "default_password": null,
       "alt_access": "router.asus.com",
+      "notes": "ASUS AX-series routers default to 192.168.50.1 (older ASUS models used 192.168.1.1). There is no factory default username/password — the first-time setup wizard (QIS) requires you to create your own admin credentials. After a factory reset, the QIS wizard runs again. Use router.asus.com as the most reliable access method.",
+      "supports_https": false,
       "credential_type": "user_created",
       "app_only": false,
-      "app_name": null,
-      "app_store_links": null,
-      "auto_detects_ipoe": false,
-      "supports_https": true,
-      "notes": null
+      "auto_detects_ipoe": false
     },
     "wan_config": {
       "ethernet": {
         "nav_path": "WAN > Internet Connection",
         "connection_type_field": "WAN Connection Type",
         "ipoe_label": "Automatic IP",
-        "save_button_label": "Apply",
-        "pppoe_clear_note": "If you've been using this modem with another internet provider, 'PPPoE' may be selected. Change 'WAN Connection Type' to 'Automatic IP' and clear any username and password fields.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box to the blue WAN port on the router",
           "Open a web browser and go to http://router.asus.com (or http://192.168.50.1)",
@@ -35,7 +31,11 @@
           "Clear any PPPoE username/password fields if visible",
           "Click 'Apply'",
           "Wait 1-2 minutes for the router to obtain an IP address from the nbn connection box"
-        ]
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null,
+        "save_button_label": "Apply",
+        "pppoe_clear_note": null
       },
       "vlan_field": null,
       "vlan_nav_path": null,
@@ -45,8 +45,7 @@
       "wan_port_label": "WAN",
       "wan_port_color": "blue",
       "wan_port_position": "Second Ethernet port from the left when viewed from rear (to the right of the 2.5G port)",
-      "wan_port_icon": null,
-      "wan_port_notes": null,
+      "wan_port_notes": "The blue WAN port is Gigabit (1 Gbps). The separate 2.5G port to its left is LAN-only on this model and CANNOT be used as WAN — that feature is exclusive to the RT-AX86U Pro.",
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,
@@ -54,12 +53,13 @@
       "lan_ports": "4 x Gigabit Ethernet + 1 x 2.5G (LAN-only)",
       "other_ports": "1 x USB 3.2 Gen 1, 1 x USB 2.0",
       "reset_button": "Recessed button on rear panel",
-      "reset_hold_seconds": 10
+      "reset_hold_seconds": 10,
+      "wan_port_icon": null
     },
     "factory_reset": {
       "method": "Press and hold the Reset button on the rear panel for 5-10 seconds until the power LED starts flashing, then release. The router will reboot and launch the Quick Internet Setup (QIS) wizard on next access.",
       "restores_default_credentials": false,
-      "notes": "Factory reset does NOT restore to admin/admin \u2014 it clears all settings and re-launches the initial setup wizard where you create new admin credentials. Alternative: use the web GUI at Administration > Restore/Save/Upload Setting > click Restore. If the hardware reset button doesn't fully clear settings, try the WPS button method: power off the router, hold the WPS button, power on, release when the power LED turns off."
+      "notes": "Factory reset does NOT restore to admin/admin — it clears all settings and re-launches the initial setup wizard where you create new admin credentials. Alternative: use the web GUI at Administration > Restore/Save/Upload Setting > click Restore. If the hardware reset button doesn't fully clear settings, try the WPS button method: power off the router, hold the WPS button, power on, release when the power LED turns off."
     },
     "firmware": {
       "check_path": "Administration > Firmware Upgrade",
@@ -67,49 +67,43 @@
       "download_url": "https://www.asus.com/networking-iot-servers/wifi-routers/asus-gaming-routers/rt-ax86u/helpdesk_bios/",
       "notes": "ASUSWRT supports automatic firmware checking from the admin panel. Merlin firmware (asuswrt-merlin.net) is a popular community alternative but not recommended for non-technical users. Update to latest official firmware before configuring for Belong."
     },
-    "troubleshooting": {
-      "internet_led_label": "Internet LED",
-      "internet_led_success": "solid green",
-      "internet_led_failure": "off",
-      "common_issues": null
-    },
-    "setup_notes": "The RT-AX86U is a retail standalone router \u2014 no DSL modem, so only wan_config.ethernet applies (FTTP/FTTC/HFC only, not FTTN/B). ASUS's ASUSWRT interface is consistent across models, and the WAN setting is straightforward. Key gotcha: the 2.5G port looks like it should be the WAN port (it's the first port from the left) but it's LAN-only on this model \u2014 customers must use the blue port next to it. Also: when switching from another router on HFC, the nbn NTD may need up to 30 minutes powered off to release the previous DHCP lease before the new router can connect.",
+    "setup_notes": "The RT-AX86U is a retail standalone router — no DSL modem, so only wan_config.ethernet applies (FTTP/FTTC/HFC only, not FTTN/B). ASUS's ASUSWRT interface is consistent across models, and the WAN setting is straightforward. Key gotcha: the 2.5G port looks like it should be the WAN port (it's the first port from the left) but it's LAN-only on this model — customers must use the blue port next to it. Also: when switching from another router on HFC, the nbn NTD may need up to 30 minutes powered off to release the previous DHCP lease before the new router can connect.",
     "manual_url": "https://www.asus.com/au/networking-iot-servers/wifi-routers/all-series/rt-ax86u/helpdesk_knowledge/",
     "setup_sources": [
       {
         "url": "https://www.asus.com/au/support/faq/1011715/",
         "type": "manufacturer",
-        "description": "ASUS AU \u2014 How to set up Internet Connection (WAN connection types)",
+        "description": "ASUS AU — How to set up Internet Connection (WAN connection types)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://forums.whirlpool.net.au/archive/2782121",
         "type": "community",
-        "description": "Whirlpool \u2014 NBN HFC setup for ASUS RT-AC86U (same ASUSWRT UI)",
+        "description": "Whirlpool — NBN HFC setup for ASUS RT-AC86U (same ASUSWRT UI)",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://www.asus.com/support/faq/1000925/",
         "type": "manufacturer",
-        "description": "ASUS \u2014 How to reset router to factory default setting",
+        "description": "ASUS — How to reset router to factory default setting",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://www.asus.com/support/faq/1008000/",
         "type": "manufacturer",
-        "description": "ASUS \u2014 How to update firmware via WebGUI",
+        "description": "ASUS — How to update firmware via WebGUI",
         "accessed": "2026-03-20"
       },
       {
         "url": "https://www.snbforums.com/threads/asus-rt-ax86u-what-port-to-use.82117/",
         "type": "community",
-        "description": "SNBForums \u2014 RT-AX86U port identification discussion (WAN vs 2.5G)",
+        "description": "SNBForums — RT-AX86U port identification discussion (WAN vs 2.5G)",
         "accessed": "2026-03-20"
       }
     ],
     "setup_confidence": {
       "score": 85,
-      "notes": "Admin IP: 192.168.50.1 confirmed for AX-series by ASUS FAQ and router-reset.com, though some older firmware may use 192.168.1.1 \u2014 noted router.asus.com as primary access method to avoid confusion (-5 for IP ambiguity). No default credentials \u2014 QIS wizard confirmed by ASUS FAQ. WAN nav path (WAN > Internet Connection > Automatic IP) confirmed by ASUS AU official FAQ with clear field labels. Physical port layout (blue WAN second from left, 2.5G LAN-only first from left) confirmed by SNBForums and ASUS product page. Factory reset (5-10 sec hold) confirmed by ASUS FAQ. HFC DHCP lease gotcha confirmed by Whirlpool. Score: 100 - 5 (IP ambiguity) - 10 (no second source specifically for RT-AX86U nav path \u2014 used RT-AC86U Whirlpool thread which has same ASUSWRT UI) = 85."
+      "notes": "Admin IP: 192.168.50.1 confirmed for AX-series by ASUS FAQ and router-reset.com, though some older firmware may use 192.168.1.1 — noted router.asus.com as primary access method to avoid confusion (-5 for IP ambiguity). No default credentials — QIS wizard confirmed by ASUS FAQ. WAN nav path (WAN > Internet Connection > Automatic IP) confirmed by ASUS AU official FAQ with clear field labels. Physical port layout (blue WAN second from left, 2.5G LAN-only first from left) confirmed by SNBForums and ASUS product page. Factory reset (5-10 sec hold) confirmed by ASUS FAQ. HFC DHCP lease gotcha confirmed by Whirlpool. Score: 100 - 5 (IP ambiguity) - 10 (no second source specifically for RT-AX86U nav path — used RT-AC86U Whirlpool thread which has same ASUSWRT UI) = 85."
     }
   }
 }

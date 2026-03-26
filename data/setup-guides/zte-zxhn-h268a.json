@@ -1,0 +1,150 @@
+{
+  "id": "zte-zxhn-h268a",
+  "brand": "ZTE",
+  "model": "ZXHN H268A",
+  "device_type": "modem_router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.20.1",
+      "default_username": "admin",
+      "default_password": "admin",
+      "credential_type": "standard",
+      "app_only": false,
+      "auto_detects_ipoe": false,
+      "alt_access": null,
+      "notes": "Default credentials are admin/admin as documented in the official ZTE user manual. A secondary account (user/user) has limited rights. Exetel-supplied units arrive pre-configured via Automatic Configuration Server (ACS) for Exetel's PPPoE service — the admin password may remain admin/admin but verify after a factory reset.",
+      "supports_https": false
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "Internet > WAN > Ethernet",
+        "connection_type_field": "Link Type",
+        "ipoe_label": "IP",
+        "ip_type_field": "IP Type",
+        "ip_type_label": "DHCP",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If an existing Exetel WAN profile (e.g. Exetel_EthWAN) is listed, delete it before creating a new entry. Set Link Type to 'IP' and IP Type to 'DHCP' — no username or password required for Belong. Click Save.",
+        "steps_ipoe": [
+          "Connect an Ethernet cable from the nbn connection box (NTD for FTTP, HFC connection box, or FTTC DPU) to the red WAN port on the rear of the H268A",
+          "Connect to the modem via Ethernet or Wi-Fi",
+          "Open a browser and go to http://192.168.20.1",
+          "Log in with username: admin and password: admin",
+          "Click 'Internet' in the top navigation bar",
+          "Click 'WAN' in the left sidebar, then click the 'Ethernet' tab",
+          "If an existing Exetel WAN connection is listed (e.g. Exetel_EthWAN), delete it or click 'Create New Item'",
+          "Set Connection Name to a name of your choice (e.g. Belong)",
+          "Set Type to Routing",
+          "Set Service List to INTERNET",
+          "Set MTU to 1500",
+          "Set Link Type to IP",
+          "Set IP Type to DHCP",
+          "Set IP Version to IPv4 + IPv6",
+          "Set NAT to On",
+          "Set VLAN to Off",
+          "Leave Username and Password fields blank",
+          "Click Save",
+          "Wait 1–2 minutes for the modem to connect — the Internet LED on the front should turn solid green"
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null
+      },
+      "dsl": {
+        "nav_path": "Internet > WAN > DSL",
+        "connection_type_field": "Link Type",
+        "ipoe_label": "IP",
+        "ip_type_field": "IP Type",
+        "ip_type_label": "DHCP",
+        "save_button_label": "Save",
+        "pppoe_clear_note": "If an existing Exetel WAN profile (e.g. Exetel_VDSL) is listed, delete it before creating a new entry. Set Link Type to 'IP' and IP Type to 'DHCP' — no username or password required for Belong. Click Save.",
+        "steps_ipoe": [
+          "Connect a phone cable (RJ-11) from the nbn wall socket to the grey DSL port on the rear of the H268A",
+          "Connect to the modem via Ethernet or Wi-Fi",
+          "Open a browser and go to http://192.168.20.1",
+          "Log in with username: admin and password: admin",
+          "Click 'Internet' in the top navigation bar",
+          "Click 'WAN' in the left sidebar, then click the 'DSL' tab",
+          "If an existing Exetel WAN connection is listed (e.g. Exetel_VDSL), delete it or click 'Create New Item'",
+          "Set Connection Name to a name of your choice (e.g. Belong)",
+          "Set DSL Transfer Mode to PTM",
+          "Set Type to Routing",
+          "Set Service List to INTERNET",
+          "Set MTU to 1500",
+          "Set Link Type to IP",
+          "Set IP Type to DHCP",
+          "Set IP Version to IPv4 + IPv6",
+          "Set NAT to On",
+          "Set VLAN to Off",
+          "Leave Username and Password fields blank",
+          "Click Save",
+          "Wait 1–2 minutes for the modem to sync and connect — the DSL LED should turn solid green, followed by the Internet LED"
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null
+      },
+      "vlan_field": "VLAN",
+      "vlan_notes": null
+    },
+    "physical": {
+      "wan_port_label": "WAN",
+      "wan_port_color": "red",
+      "wan_port_position": "on the rear panel, rightmost of the RJ-45 ports",
+      "dsl_port_label": "DSL",
+      "dsl_port_color": "grey",
+      "dsl_port_position": "on the rear panel, leftmost position",
+      "lan_port_labels": "LAN1–LAN4",
+      "lan_port_color": "yellow",
+      "reset_button": "recessed pinhole on the rear panel",
+      "reset_hold_seconds": 10,
+      "wan_port_icon": null,
+      "other_ports": "None"
+    },
+    "factory_reset": {
+      "method": "With the device powered on, insert a pin or paperclip into the recessed Reset pinhole on the rear panel and hold for 10 seconds until the front LEDs change, then release. The device will restart automatically.",
+      "restores_default_credentials": true,
+      "notes": "Factory reset erases all custom WAN settings, Wi-Fi name and password, and any Exetel ACS-downloaded configuration. The official ZTE manual states to hold for more than 5 seconds; ISP setup guides recommend 10 seconds for a reliable reset."
+    },
+    "firmware": {
+      "check_path": "Management & Diagnosis > System Management > Software Upgrade",
+      "auto_update_available": false,
+      "download_url": "https://exewiki.exetel.com.au/index.php?title=ZTE_H268A_%E2%80%93_Firmware_V1.0.1_ETL.1T10",
+      "notes": "Exetel released custom firmware builds (e.g. V1.0.1 ETL.1T10) for this modem. These are Exetel-specific builds and will not be applicable when using the modem with Belong. Check the ZTE international support site (http://support.zte.com.cn) for generic firmware if needed. ISP firmware updates stop when using the modem with a different provider."
+    },
+    "setup_notes": "This modem is supplied by Exetel and arrives pre-configured to automatically download Exetel's PPPoE WAN settings from Exetel's configuration server (ACS/TR-069). When switching to Belong (IPoE), you must create a new WAN connection with Link Type: IP and IP Type: DHCP, and remove or disable the existing Exetel WAN entry. Belong uses IPoE/DHCP — no username, password, or VLAN is required. The WAN UI has separate tabs for Ethernet-based (FTTP/HFC/FTTC) and DSL-based (FTTN/FTTB) connections — select the correct tab for your nbn technology type.",
+    "setup_sources": [
+      {
+        "url": "https://www.letsbemates.com.au/mate/guide-zte-h268a-modem-nbn-fttp/",
+        "type": "isp",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://www.letsbemates.com.au/mate/guide-zte-h268a-modem-nbn-fttp/"
+      },
+      {
+        "url": "https://www.letsbemates.com.au/mate/guide-zte-h268a-modem-nbn-fttn/",
+        "type": "isp",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://www.letsbemates.com.au/mate/guide-zte-h268a-modem-nbn-fttn/"
+      },
+      {
+        "url": "https://flipconnect.com.au/storage/pdf/support/nbn/modem-guides/zte-h268a-eth.pdf",
+        "type": "isp",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://flipconnect.com.au/storage/pdf/support/nbn/modem-guides/zte-h268a-eth.pdf"
+      },
+      {
+        "url": "https://www.letsbemates.com.au/mate/wp-content/uploads/2021/04/ZTE_ZXHN_H268AV1.1User_Manual.pdf",
+        "type": "manual",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://www.letsbemates.com.au/mate/wp-content/uploads/2021/04/ZTE_ZXHN_H268AV1.1User_Manual.pdf"
+      },
+      {
+        "url": "https://forums.whirlpool.net.au/archive/2748423",
+        "type": "community",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://forums.whirlpool.net.au/archive/2748423"
+      }
+    ],
+    "setup_confidence": {
+      "score": 70,
+      "notes": "Admin IP (192.168.20.1) and credentials (admin/admin) confirmed by official ZTE user manual and multiple ISP setup guides. WAN nav path (Internet > WAN > Ethernet/DSL) confirmed by two independent ISP guides (MATE, Flipconnect). IPoE label (Link Type: IP, IP Type: DHCP) confirmed via MATE guide. Physical port colors (WAN=red, LAN=yellow, DSL=grey) confirmed via MATE guide descriptions. Firmware update path confirmed via Whirlpool search results referencing maintenance manual. Deductions: ISP-branded Exetel firmware with custom ACS pre-configuration (-15), firmware update path not confirmed by a directly fetched second source (-10), physical port positions not confirmed from manual diagram (manual is diagram-only for rear panel layout, descriptions inferred from ISP guides) (-5)."
+    }
+  }
+}

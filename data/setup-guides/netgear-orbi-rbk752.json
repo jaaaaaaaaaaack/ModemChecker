@@ -1,0 +1,106 @@
+{
+  "id": "netgear-orbi-rbk752",
+  "brand": "Netgear",
+  "model": "Orbi RBK752",
+  "device_type": "router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.1.1",
+      "default_username": "admin",
+      "default_password": "password",
+      "credential_type": "standard",
+      "app_only": false,
+      "auto_detects_ipoe": false,
+      "alt_access": "orbilogin.com",
+      "notes": "Username and password are case-sensitive. The Orbi app can also be used for initial setup, but the web admin panel at orbilogin.com provides full configuration access. If orbilogin.com doesn't resolve, use http://192.168.1.1 directly.",
+      "supports_https": false
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "ADVANCED > Setup > Internet Setup",
+        "connection_type_field": "Does your Internet connection require a login?",
+        "ipoe_label": "No",
+        "save_button_label": "Apply",
+        "pppoe_clear_note": "If the field shows 'Yes' with PPPoE credentials pre-filled (e.g. from a previous ISP), change the answer to 'No'. This switches the connection type to Dynamic IP (DHCP), which is what Belong uses.",
+        "steps_ipoe": [
+          "Connect an Ethernet cable from your nbn equipment (nbn box or HFC connection box) to the yellow Internet port on the rear of the Orbi router",
+          "Power on the Orbi router and wait 2–3 minutes for it to fully boot (the LED ring will turn solid white)",
+          "Connect your computer or phone to the Orbi Wi-Fi network (default network name and password are printed on the router label)",
+          "Open a web browser and go to http://orbilogin.com — if that doesn't load, try http://192.168.1.1",
+          "Log in with username 'admin' and password 'password' (both case-sensitive)",
+          "Click ADVANCED at the top of the page, then go to Setup > Internet Setup",
+          "Find the question 'Does your Internet connection require a login?' and select 'No'",
+          "Click Apply and wait 1–2 minutes for the router to establish the connection",
+          "Verify the Internet LED or status page shows a connected WAN IP address"
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null
+      }
+    },
+    "physical": {
+      "wan_port_label": "Internet",
+      "wan_port_color": "yellow",
+      "wan_port_position": "leftmost port on the rear panel (distinct from the 3 LAN ports)",
+      "dsl_port_label": null,
+      "dsl_port_position": null,
+      "reset_button": "recessed pinhole on the rear panel of the router unit; also present on the satellite unit",
+      "reset_hold_seconds": 7,
+      "notes": "The RBK752 is a 2-pack system: the router unit (RBR750) has 1 yellow WAN (Internet) port and 3 LAN ports on the rear; the satellite unit (RBS750) has 2 LAN ports and no WAN port. Only the router connects to the nbn equipment.",
+      "wan_port_icon": null,
+      "other_ports": "None"
+    },
+    "factory_reset": {
+      "method": "Use a paper clip or similar object to press and hold the Reset button on the rear of the router until the Power LED blinks amber (at least 7 seconds), then release",
+      "restores_default_credentials": true,
+      "notes": "Factory reset clears all custom settings including Wi-Fi name, password, and admin password — all revert to factory defaults. The satellite unit has its own separate Reset button if it needs to be reset independently."
+    },
+    "firmware": {
+      "check_path": "ADVANCED > Administration > Firmware",
+      "auto_update_available": true,
+      "download_url": "https://www.netgear.com/support/product/rbk752"
+    },
+    "setup_notes": "The Orbi RBK752 is a mesh system — only the router unit (RBR750) needs to be connected to the nbn equipment via its yellow Internet port. The satellite (RBS750) connects wirelessly to the router using a dedicated 5 GHz backhaul band. No WAN configuration is needed on the satellite. Belong uses IPoE/DHCP, so no login credentials are required — simply set 'Does your Internet connection require a login?' to 'No'. The Orbi app (available from orbi-app.com) can also guide initial setup but does not expose all WAN configuration options; the web admin panel is recommended for verifying connection type settings.",
+    "setup_sources": [
+      {
+        "url": "https://www.downloads.netgear.com/files/GDC/RBK752/RBK752_UM_EN.pdf",
+        "type": "manual",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://www.downloads.netgear.com/files/GDC/RBK752/RBK752_UM_EN.pdf"
+      },
+      {
+        "url": "https://kb.netgear.com/31014/How-do-I-change-my-Orbi-WiFi-System-s-admin-login-password",
+        "type": "manufacturer",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://kb.netgear.com/31014/How-do-I-change-my-Orbi-WiFi-System-s-admin-login-password"
+      },
+      {
+        "url": "https://kb.netgear.com/31017/How-do-I-set-up-my-Orbi-WiFi-System",
+        "type": "manufacturer",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://kb.netgear.com/31017/How-do-I-set-up-my-Orbi-WiFi-System"
+      },
+      {
+        "url": "https://kb.netgear.com/31486/How-do-I-reset-my-Orbi-system-to-factory-default-settings",
+        "type": "manufacturer",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://kb.netgear.com/31486/How-do-I-reset-my-Orbi-system-to-factory-default-settings"
+      },
+      {
+        "url": "https://www.manualshelf.com/manual/netgear/rbk752/user-manual-english.html",
+        "type": "manual",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://www.manualshelf.com/manual/netgear/rbk752/user-manual-english.html"
+      },
+      {
+        "url": "https://forums.whirlpool.net.au/archive/3lyw0zl9",
+        "type": "community",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://forums.whirlpool.net.au/archive/3lyw0zl9"
+      }
+    ],
+    "setup_confidence": {
+      "score": 90,
+      "notes": "Admin panel defaults (IP, hostname, credentials) confirmed via official Netgear KB and factory defaults table from RBR750 user manual. WAN nav path (ADVANCED > Setup > Internet Setup) sourced from official PDF manual via manualshelf.com. Connection type question ('Does your Internet connection require a login?') confirmed via Netgear brand pattern and Whirlpool forum for Australian nbn IPoE ISPs. Yellow Internet port confirmed via Netgear setup KB and multiple review sources. Factory reset (7 seconds until LED blinks amber) confirmed via official Netgear KB. -5 for manual being global English rather than AU-specific. -5 for WAN nav path not independently verified by a second distinct source (manualshelf sourced from same PDF)."
+    }
+  }
+}

@@ -2,7 +2,7 @@
   "id": "amazon-eero-6-plus",
   "brand": "Amazon",
   "model": "Eero 6+",
-  "device_type": "mesh_system",
+  "device_type": "router",
   "setup": {
     "admin_panel": {
       "default_ip": "192.168.4.1",
@@ -13,12 +13,12 @@
       "app_only": true,
       "app_name": "eero",
       "app_store_links": {
-        "ios": "https://apps.apple.com/au/app/eero-wi-fi-system/id1023499075",
+        "ios": "https://apps.apple.com/app/eero-wifi-system/id1023499083",
         "android": "https://play.google.com/store/apps/details?id=com.eero.android"
       },
       "auto_detects_ipoe": true,
       "supports_https": false,
-      "notes": null
+      "notes": "The Eero 6+ has NO web-based admin panel. All configuration is done through the eero mobile app. The default gateway IP is 192.168.4.1 but this does not host a web interface — it's only used for network diagnostics. Setup requires an eero account — you can sign up with your phone number, email address, or an existing Amazon account. The eero app handles all network configuration including ISP settings, Wi-Fi names, and device management."
     },
     "wan_config": {
       "ethernet": {
@@ -26,7 +26,7 @@
         "connection_type_field": "WAN Type",
         "ipoe_label": "DHCP",
         "save_button_label": "Save",
-        "pppoe_clear_note": null,
+        "pppoe_clear_note": "If 'PPPoE' is currently selected in ISP Settings, tap 'WAN Type', change it back to 'DHCP', and clear any ISP username/password fields",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to either Ethernet port on the back of the Eero 6+ (both ports are auto-sensing — it doesn't matter which one you use)",
           "Plug in the Eero 6+ using the supplied USB-C power cable and wait for the LED to show solid white",
@@ -37,7 +37,9 @@
           "Create your Wi-Fi network name and password when prompted",
           "The Eero 6+ will auto-detect your internet connection type (DHCP/IPoE) — no manual configuration is needed for Belong",
           "Wait 1-2 minutes for the LED to turn solid white, indicating the device is online and connected"
-        ]
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null
       },
       "vlan_field": "Uplink VLAN",
       "vlan_nav_path": "eero app > Settings > ISP Settings",
@@ -48,7 +50,7 @@
       "wan_port_color": "white",
       "wan_port_position": "Two Ethernet ports on the rear/back of the device",
       "wan_port_icon": null,
-      "wan_port_notes": null,
+      "wan_port_notes": "Both Ethernet ports are auto-sensing — either port can serve as WAN or LAN. Simply plug the cable from the nbn box into either port and the Eero will detect it as the internet connection. The other port can be used to connect a wired device or a switch. There is no dedicated WAN port label or colour differentiation.",
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,
@@ -69,12 +71,6 @@
       "auto_update_available": true,
       "download_url": null,
       "notes": "eero firmware (eeroOS) updates are fully automatic and mandatory — there is no way to manually check, download, or install firmware. Updates are pushed by Amazon/eero and install automatically. The eero app shows the current eeroOS version under Settings > About."
-    },
-    "troubleshooting": {
-      "internet_led_label": "Status light",
-      "internet_led_success": "solid white",
-      "internet_led_failure": "flashing red or off",
-      "common_issues": null
     },
     "setup_notes": "The Eero 6+ is one of the simplest setups for Belong customers: plug in an Ethernet cable from the nbn box to either port (auto-sensing), power on, and follow the eero app wizard. The eero auto-detects DHCP/IPoE, so no manual WAN configuration is needed for Belong. The main scenario where ISP Settings in the app would need to be changed is if the device was previously configured for PPPoE — in that case, open eero app > Settings > Advanced > ISP Settings > WAN Type and change back to DHCP. For customers coming from ABB, the Eero will work immediately since ABB also uses IPoE. Note: setup requires an eero account (phone, email, or Amazon account). For HFC connections, the nbn NTD may need to be powered off for up to 30 minutes to release the old DHCP lease. Tangerine's QSG specifically notes you must plug into the NTD's activated Uni-D port — check your ISP's 'Ready to Go' email if unsure which port is active.",
     "manual_url": "https://support.eero.com/hc/en-us",

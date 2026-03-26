@@ -1,0 +1,140 @@
+{
+  "id": "asus-dsl-ax82u",
+  "brand": "ASUS",
+  "model": "DSL-AX82U",
+  "device_type": "modem_router",
+  "setup": {
+    "admin_panel": {
+      "default_ip": "192.168.1.1",
+      "alt_access": "router.asus.com",
+      "default_username": "admin",
+      "default_password": null,
+      "credential_type": "user_created",
+      "app_only": false,
+      "auto_detects_ipoe": false,
+      "notes": "On first access (or after a factory reset), the Quick Internet Setup (QIS) wizard launches automatically and requires you to create a new admin username and password before proceeding. There are no pre-set credentials to enter — you create them during setup.",
+      "supports_https": false
+    },
+    "wan_config": {
+      "ethernet": {
+        "nav_path": "Advanced Settings > WAN > Internet Connection",
+        "connection_type_field": "WAN Connection Type",
+        "ipoe_label": "IPoE/ Automatic IP",
+        "pppoe_clear_note": "If WAN Connection Type is set to PPPoE with credentials pre-filled, change it to 'IPoE/ Automatic IP' and clear any username or password fields. Click Apply to save.",
+        "save_button_label": "Apply",
+        "notes": "Used for FTTP, FTTC, and HFC connections where an Ethernet cable runs from the nbn connection box to the router's WAN port. If any existing WAN profiles are present, delete them before configuring to avoid conflicts.",
+        "steps_ipoe": [
+          "Connect an Ethernet cable from the nbn connection box to the blue WAN port on the back of the router",
+          "Log in to the admin panel at http://192.168.1.1 (or http://router.asus.com) using the credentials you created during setup",
+          "In the left-hand menu, click WAN",
+          "Click the Internet Connection tab",
+          "If any existing WAN profiles are listed, delete them before continuing",
+          "Set WAN Connection Type to 'IPoE/ Automatic IP'",
+          "Ensure Enable WAN is set to Yes and Enable NAT is set to Yes",
+          "Leave all other fields at their defaults — no username, password, or VLAN required for Belong",
+          "Click Apply",
+          "Wait 2–3 minutes for the router to obtain an IP address and connect"
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null
+      },
+      "dsl": {
+        "nav_path": "Advanced Settings > WAN > Internet Connection",
+        "connection_type_field": "WAN Connection Type",
+        "ipoe_label": "IPoE/ Automatic IP",
+        "transfer_mode_field": "Transfer Mode",
+        "transfer_mode_value": "VDSL WAN (PTM)",
+        "pppoe_clear_note": "If an existing PPPoE WAN profile is listed (e.g., from a previous ISP), delete it before creating a new profile. Set Transfer Mode to 'VDSL WAN (PTM)' and WAN Connection Type to 'IPoE/ Automatic IP', then click Apply.",
+        "save_button_label": "Apply",
+        "notes": "Used for FTTN and FTTB connections where a phone cable (RJ-11) runs from the wall socket to the router's DSL port. The WAN section for DSL routers has a Transfer Mode field — this must be set to VDSL WAN (PTM) for nbn VDSL2 connections. If an existing PPPoE profile is pre-configured (e.g., from a previous ISP), delete it before creating the new IPoE profile.",
+        "steps_ipoe": [
+          "Connect a phone cable (RJ-11) from the wall telephone socket (or VDSL splitter) to the grey DSL port on the back of the router",
+          "Log in to the admin panel at http://192.168.1.1 (or http://router.asus.com) using the credentials you created during setup",
+          "In the left-hand menu, click WAN",
+          "Click the Internet Connection tab",
+          "If any existing WAN profiles are listed (e.g., a PPPoE profile from a previous ISP), delete them before continuing",
+          "Click Add to create a new WAN profile",
+          "Set Transfer Mode to 'VDSL WAN (PTM)'",
+          "Set WAN Connection Type to 'IPoE/ Automatic IP'",
+          "Ensure Enable WAN is set to Yes and Enable NAT is set to Yes",
+          "Leave all other fields at their defaults — no username, password, or VLAN required for Belong",
+          "Click Apply",
+          "Wait 2–3 minutes for the DSL line to synchronise and obtain an IP address"
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null
+      }
+    },
+    "physical": {
+      "wan_port_label": "WAN",
+      "wan_port_color": "blue",
+      "wan_port_position": "leftmost RJ-45 port when viewed from rear, separated from the 4 LAN ports",
+      "dsl_port_label": "DSL",
+      "dsl_port_color": "grey",
+      "dsl_port_position": "RJ-11 (phone cable) port on rear panel, distinct from the RJ-45 Ethernet ports",
+      "reset_button": "recessed button on rear panel; use a pin or paperclip to press",
+      "reset_hold_seconds": 10,
+      "wan_port_icon": null,
+      "other_ports": "None"
+    },
+    "factory_reset": {
+      "method": "With the router powered on, use a pin or paperclip to press and hold the recessed Reset button on the rear panel for approximately 10 seconds until the power LED begins to flash, then release. Wait for the router to fully reboot.",
+      "restores_default_credentials": false,
+      "notes": "Factory reset returns the router to its out-of-box state. On restart, the QIS setup wizard will launch again and require you to create new admin credentials. There are no default admin/admin credentials to fall back on after reset."
+    },
+    "firmware": {
+      "check_path": "Advanced Settings > Administration > Firmware Upgrade",
+      "auto_update_available": true,
+      "download_url": "https://www.asus.com/au/networking-iot-servers/dsl-modem-router/all-series/dsl-ax82u/helpdesk_bios/"
+    },
+    "setup_notes": "The DSL-AX82U has both a DSL (RJ-11) port and an Ethernet WAN (RJ-45) port. Use the DSL port for FTTN/FTTB connections and the Ethernet WAN port for FTTP, FTTC, and HFC connections. The admin panel IPoE label is 'IPoE/ Automatic IP' — this is slightly different from the standard ASUS brand label ('Automatic IP'). For DSL connections, always set Transfer Mode to 'VDSL WAN (PTM)' before selecting the connection type. Belong uses IPoE with no username, password, or VLAN configuration required.",
+    "setup_sources": [
+      {
+        "url": "https://dlcdnets.asus.com/pub/ASUS/wireless/DSL-AX82U/E23438_DSL_AX82U_UM_V3_WEB.pdf?model=DSL-AX82U",
+        "type": "manual",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://dlcdnets.asus.com/pub/ASUS/wireless/DSL-AX82U/E23438_DSL_AX82U_UM_V3_WEB.pdf?model=DSL-AX82U"
+      },
+      {
+        "url": "https://www.manualshelf.com/manual/asus/dsl-ax82u/user-s-manual-english.html",
+        "type": "manual",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://www.manualshelf.com/manual/asus/dsl-ax82u/user-s-manual-english.html"
+      },
+      {
+        "url": "https://articles.spintel.net.au/article/configuring-asus-modem-for-spintel-nbn.html",
+        "type": "isp",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://articles.spintel.net.au/article/configuring-asus-modem-for-spintel-nbn.html"
+      },
+      {
+        "url": "https://www.asus.com/au/support/faq/1011715/",
+        "type": "manufacturer",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://www.asus.com/au/support/faq/1011715/"
+      },
+      {
+        "url": "https://www.asus.com/au/support/FAQ/1046421/",
+        "type": "manufacturer",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://www.asus.com/au/support/FAQ/1046421/"
+      },
+      {
+        "url": "https://www.asus.com/support/faq/1044663/",
+        "type": "manufacturer",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://www.asus.com/support/faq/1044663/"
+      },
+      {
+        "url": "https://support.simplybroadband.co.nz/instruction/asus-dsl-ax82u-ax5400",
+        "type": "isp",
+        "accessed": "2026-03-21",
+        "description": "(needs description) https://support.simplybroadband.co.nz/instruction/asus-dsl-ax82u-ax5400"
+      }
+    ],
+    "setup_confidence": {
+      "score": 90,
+      "notes": "Admin IP (192.168.1.1) confirmed via SpinTel AU ISP guide and manualshelf manual content; router.asus.com alt access confirmed via ASUS official FAQ. IPoE label ('IPoE/ Automatic IP') confirmed via SpinTel AU guide and ASUS AU support FAQ — note this differs slightly from the brand default ('Automatic IP'). WAN navigation path (Advanced Settings > WAN > Internet Connection) confirmed via SpinTel AU guide and ASUS AU FAQ. DSL Transfer Mode field ('VDSL WAN (PTM)') confirmed via ASUS AU troubleshooting FAQ. Credential type (user_created) confirmed via official ASUS QIS wizard documentation — no factory default credentials. Physical port layout partially verified: WAN port blue RJ-45 confirmed via community references; DSL port grey RJ-11 confirmed via SpinTel guide; exact rear panel positions not precisely documented from a labelled diagram (-5). Factory reset hold duration (10 seconds) cross-referenced against multiple ASUS support pages. PDF manual was binary-blocked during fetch; content verified via manualshelf HTML view and multiple AU ISP guides (-5). Score: 100 - 5 - 5 = 90."
+    }
+  }
+}

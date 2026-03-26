@@ -2,7 +2,7 @@
   "id": "linksys-velop-mx4200",
   "brand": "Linksys",
   "model": "Velop MX4200",
-  "device_type": "mesh_system",
+  "device_type": "router",
   "setup": {
     "admin_panel": {
       "default_ip": "192.168.1.1",
@@ -13,7 +13,7 @@
       "app_only": false,
       "auto_detects_ipoe": true,
       "supports_https": true,
-      "notes": "Your browser will show a security warning — this is normal. Click 'Advanced' then 'Proceed'."
+      "notes": "The MX4200 requires HTTPS for admin panel access on current firmware — http:// will redirect to https://. The browser will show a security warning because the certificate is self-signed; proceed past it. There are no factory default credentials — you create a password during initial setup. If you forget your password, use the 'Reset password' option and enter the recovery key printed on the product label on the bottom of the node. Alt access changed from 'myrouter.local' (older Linksys models) to 'linksyssmartwifi.com' on Velop mesh systems."
     },
     "wan_config": {
       "ethernet": {
@@ -21,7 +21,7 @@
         "connection_type_field": "Type of Internet Connection",
         "ipoe_label": "Automatic Configuration - DHCP",
         "save_button_label": "Save",
-        "pppoe_clear_note": null,
+        "pppoe_clear_note": "If 'PPPoE' is selected, clear the username and password fields and switch the Type of Internet Connection dropdown to 'Automatic Configuration - DHCP'",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to the Internet port on the back of the primary MX4200 node",
           "Power on the node and wait for the LED to show solid purple (ready for setup) or solid blue (already connected)",
@@ -34,7 +34,9 @@
           "If it shows 'PPPoE' or another type, change it to 'Automatic Configuration - DHCP' and clear any username/password fields",
           "Click 'Save' (a yellow 'Save' button appears at the bottom when changes are made)",
           "Wait 1-2 minutes for the router to reconnect — the LED should turn solid blue when online"
-        ]
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null
       },
       "vlan_field": "VLAN ID",
       "vlan_nav_path": "Connectivity > Internet Settings (VLAN Setup section)",
@@ -45,7 +47,7 @@
       "wan_port_color": "yellow",
       "wan_port_position": "Rear panel, leftmost Ethernet port when viewed from the back",
       "wan_port_icon": null,
-      "wan_port_notes": null,
+      "wan_port_notes": "The Internet (WAN) port is labeled 'Internet' and is separated from the three LAN ports. All ports are Gigabit. On the MX4200, only the parent/primary node's Internet port connects to the modem — child nodes connect to the parent via Wi-Fi backhaul or wired Ethernet backhaul through LAN ports.",
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,
@@ -66,12 +68,6 @@
       "auto_update_available": true,
       "download_url": "https://support.linksys.com/kb/article/112-en/",
       "notes": "The MX4200 supports automatic firmware updates via the Linksys app. Manual firmware upload is also available through the web admin panel at Connectivity > Firmware Update. Download the .img firmware file from Linksys support, then use 'Choose File' and click 'Start' to upload. Do NOT power off the router during the update."
-    },
-    "troubleshooting": {
-      "internet_led_label": "Status light",
-      "internet_led_success": "solid blue",
-      "internet_led_failure": "solid red",
-      "common_issues": null
     },
     "setup_notes": "The Linksys Velop MX4200 defaults to DHCP out of the box, so for most Belong customers it will work by simply plugging in the Ethernet cable from the nbn box — no admin panel changes needed. The main scenario where admin access is needed is when switching from a PPPoE ISP (TPG, iiNet, etc.) where the connection type was previously changed. Key gotcha: the MX4200 requires HTTPS for admin access and will show browser security warnings — non-technical customers may think the page is unsafe and not proceed. The 'linksyssmartwifi.com' URL is more user-friendly than the IP. For mesh setups with multiple nodes, only the primary node connects to the nbn box; child nodes link via Wi-Fi or Ethernet backhaul.",
     "manual_url": "https://downloads.linksys.com/support/assets/userguide/MX4000Series_UserGuide_INTL_LNKPG-00755_RevB00.pdf",

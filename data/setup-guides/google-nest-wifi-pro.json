@@ -2,31 +2,29 @@
   "id": "google-nest-wifi-pro",
   "brand": "Google",
   "model": "Nest WiFi Pro",
-  "device_type": "mesh_system",
+  "device_type": "router",
   "setup": {
     "admin_panel": {
       "default_ip": "192.168.86.1",
       "default_username": null,
       "default_password": null,
       "alt_access": null,
-      "notes": null,
-      "credential_type": "app_only",
+      "notes": "The Nest WiFi Pro has NO web-based admin panel. All configuration is done through the Google Home app on iOS or Android. The IP 192.168.86.1 is the device's default gateway address but does not host a web interface.",
       "app_only": true,
       "app_name": "Google Home",
       "app_store_links": {
         "ios": "https://apps.apple.com/app/google-home/id680819774",
         "android": "https://play.google.com/store/apps/details?id=com.google.android.apps.chromecast.app"
       },
-      "auto_detects_ipoe": true,
-      "supports_https": false
+      "supports_https": false,
+      "credential_type": "app_only",
+      "auto_detects_ipoe": true
     },
     "wan_config": {
       "ethernet": {
         "nav_path": "Google Home app > Wi-Fi > Settings > Advanced Networking > WAN",
         "connection_type_field": "WAN type",
         "ipoe_label": "DHCP",
-        "save_button_label": "Save",
-        "pppoe_clear_note": null,
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box to the port marked with the globe icon on the bottom of the Nest WiFi Pro",
           "Plug the power cable into the Nest WiFi Pro and wait about 1 minute until the light pulses white",
@@ -36,7 +34,11 @@
           "To change WAN settings, the router must be offline — disconnect the Ethernet cable from the nbn box and wait until the light pulses yellow",
           "Change WAN type to 'DHCP'",
           "Reconnect the Ethernet cable and wait 3-5 minutes for the router to come online"
-        ]
+        ],
+        "save_button_label": "Save",
+        "nav_path_notes": null,
+        "ipoe_notes": null,
+        "pppoe_clear_note": null
       },
       "vlan_field": null,
       "vlan_nav_path": null,
@@ -46,8 +48,7 @@
       "wan_port_label": "Globe icon",
       "wan_port_color": "white",
       "wan_port_position": "On the underside of the device — the port marked with a globe icon",
-      "wan_port_icon": "globe",
-      "wan_port_notes": "Both ports are on the underside of your modem, not the back.",
+      "wan_port_notes": "Both Ethernet ports are on the bottom of the device (not the rear). The WAN port is identified by a globe icon. The LAN port has a double-arrow icon. Either Gigabit.",
       "dsl_port_label": null,
       "dsl_port_color": null,
       "dsl_port_position": null,
@@ -55,7 +56,8 @@
       "lan_ports": "1 x Gigabit Ethernet (LAN, marked with double-arrow icon)",
       "other_ports": "None",
       "reset_button": "On the bottom of the device — a small circle etched into the surface",
-      "reset_hold_seconds": 12
+      "reset_hold_seconds": 12,
+      "wan_port_icon": null
     },
     "factory_reset": {
       "method": "Turn the device over and locate the small reset circle on the bottom. Press and hold for 12 seconds. The light will flash yellow, then turn solid yellow. When solid yellow, release. The reset takes up to 5 minutes — do not unplug during this time. When complete, the light flashes white then blue, indicating the device is ready for fresh setup via Google Home app.",
@@ -67,12 +69,6 @@
       "auto_update_available": true,
       "download_url": null,
       "notes": "Google Nest WiFi Pro firmware updates are fully automatic and mandatory. There is no way to manually check, download, or install firmware. Updates happen silently in the background. This is a positive for Belong — the device is always on the latest firmware."
-    },
-    "troubleshooting": {
-      "internet_led_label": "Status light",
-      "internet_led_success": "solid white",
-      "internet_led_failure": "pulsing yellow",
-      "common_issues": null
     },
     "setup_notes": "The Nest WiFi Pro is the simplest possible setup for Belong customers: plug the Ethernet cable from the nbn box into the globe-icon port, power on, and it auto-detects IPoE/DHCP. No admin panel, no menu navigation, no dropdown changes. The only scenario requiring manual WAN configuration is if the device was previously used with a PPPoE ISP — in that case, the Google Home app must be used to change the WAN type to DHCP, which requires temporarily disconnecting the Ethernet cable. Ports are on the bottom of the device (unusual placement), not the rear — this is worth highlighting in the UI to avoid confusion.",
     "manual_url": "https://support.google.com/googlenest/answer/9548301?hl=en-AU",

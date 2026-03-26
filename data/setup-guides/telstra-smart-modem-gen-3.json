@@ -9,23 +9,17 @@
       "default_username": "admin",
       "default_password": null,
       "alt_access": "mygateway",
+      "notes": "The default password is the Wi-Fi password printed on the sticker on the bottom of the modem — NOT a generic password like 'admin' or 'Telstra'. Each unit has a unique default password. After factory reset, the password reverts to this sticker value.",
+      "supports_https": false,
       "credential_type": "isp_sticker",
       "app_only": false,
-      "app_name": null,
-      "app_store_links": null,
-      "auto_detects_ipoe": false,
-      "supports_https": false,
-      "notes": "The password is the Wi-Fi password on the sticker on the bottom of the modem."
+      "auto_detects_ipoe": false
     },
     "wan_config": {
       "ethernet": {
-        "nav_path": "Internet Access",
-        "nav_path_notes": "Look for the 'broadband' tab within Internet Access.",
+        "nav_path": "Internet Access (broadband tab)",
         "connection_type_field": "Connection type / Authentication mode",
         "ipoe_label": "IPoE / DHCP / Dynamic",
-        "ipoe_notes": null,
-        "save_button_label": "Save",
-        "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection type / Authentication mode' to 'IPoE / DHCP / Dynamic' and clear any username and password fields.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to the RED WAN port on the back of the modem",
           "If UNI-D1 doesn't work, try the other UNI-D ports on the nbn box",
@@ -38,16 +32,16 @@
           "Ensure the connection type is set to 'IPoE' or 'DHCP' or 'Dynamic' (NOT PPPoE)",
           "Clear any username/password fields if present",
           "Click Save — the modem should reconnect within 1-2 minutes"
-        ]
-      },
-      "dsl": {
-        "nav_path": "Internet Access",
-        "nav_path_notes": "Look for the 'broadband' tab within Internet Access.",
-        "connection_type_field": "Connection type / Authentication mode",
-        "ipoe_label": "IPoE / DHCP / Dynamic",
+        ],
+        "nav_path_notes": null,
         "ipoe_notes": null,
         "save_button_label": "Save",
-        "pppoe_clear_note": "If you've been using this modem with another internet provider, the old settings may still be saved. Change 'Connection type / Authentication mode' to 'IPoE / DHCP / Dynamic' and clear any username and password fields.",
+        "pppoe_clear_note": null
+      },
+      "dsl": {
+        "nav_path": "Internet Access (broadband tab)",
+        "connection_type_field": "Connection type / Authentication mode",
+        "ipoe_label": "IPoE / DHCP / Dynamic",
         "steps_ipoe": [
           "Connect a phone cable from the wall socket to the grey DSL port on the back of the modem",
           "Plug in the power cable and turn on the modem",
@@ -59,7 +53,11 @@
           "Ensure the connection type is set to 'IPoE' or 'DHCP' or 'Dynamic' (NOT PPPoE)",
           "Clear any username/password fields if present",
           "Click Save — the modem should reconnect within 1-2 minutes"
-        ]
+        ],
+        "nav_path_notes": null,
+        "ipoe_notes": null,
+        "save_button_label": "Save",
+        "pppoe_clear_note": null
       },
       "vlan_field": null,
       "vlan_nav_path": null,
@@ -69,16 +67,16 @@
       "wan_port_label": "WAN",
       "wan_port_color": "red",
       "wan_port_position": "Red Ethernet port on rear panel",
-      "wan_port_icon": null,
-      "wan_port_notes": null,
+      "wan_port_notes": "The RED port is the WAN/Internet port — connect this to the nbn connection box for FTTP/FTTC/HFC. Do not confuse with the yellow LAN ports.",
       "dsl_port_label": "DSL",
       "dsl_port_color": "grey",
       "dsl_port_position": "Grey RJ11 port on rear panel",
-      "dsl_port_notes": null,
+      "dsl_port_notes": "Connect phone cable from wall socket for FTTN/B connections. The WAN/DSL light on the front indicates sync status.",
       "lan_ports": "4 x Gigabit Ethernet (yellow)",
       "other_ports": "2 x FXS (phone/VoIP), USB",
       "reset_button": "Recessed pinhole on rear panel",
-      "reset_hold_seconds": 10
+      "reset_hold_seconds": 10,
+      "wan_port_icon": null
     },
     "factory_reset": {
       "method": "Use a pin or paperclip to press and hold the recessed Reset button on the rear panel for about 10 seconds until the lights start flashing. The modem will reboot to factory defaults.",
@@ -90,12 +88,6 @@
       "auto_update_available": false,
       "download_url": null,
       "notes": "Telstra controls firmware updates for this device — there are no public firmware downloads. The modem may auto-update when connected to Telstra's network, but will NOT receive firmware updates when used with another ISP. This is a minor concern but means the device may eventually fall behind on security patches."
-    },
-    "troubleshooting": {
-      "internet_led_label": "WAN light",
-      "internet_led_success": "solid green",
-      "internet_led_failure": "off",
-      "common_issues": null
     },
     "setup_notes": "The Telstra Smart Modem Gen 3 has a custom Telstra firmware UI that differs from the base Technicolor interface. The admin UI is simpler than stock Technicolor but also more limited — notably, VLAN settings are hidden. For Belong, this doesn't matter (no VLAN needed). The key gotcha is the ISP_LOCK condition: while Telstra officially says the modem is locked, community consensus (Whirlpool) confirms it works fine with IPoE ISPs like Belong. The lock primarily affects VoIP features and VLAN access, not basic internet connectivity. Factory reset is strongly recommended before configuring for Belong to clear any old Telstra settings. The default admin password is unique per unit (printed on sticker), not a generic 'admin' or 'Telstra' — this is a common point of confusion.",
     "manual_url": "https://www.telstra.com.au/support/internet-and-home-phone/access-modem-settings",
