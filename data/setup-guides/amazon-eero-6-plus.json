@@ -26,7 +26,7 @@
         "connection_type_field": "WAN Type",
         "ipoe_label": "DHCP",
         "save_button_label": "Save",
-        "pppoe_clear_note": "**Switching from another nbn provider?** Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
+        "pppoe_clear_note": "Switching from another nbn provider? Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D1 port) to either Ethernet port on the back of the Eero 6+ (both ports are auto-sensing — it doesn't matter which one you use)",
           "Plug in the Eero 6+ using the supplied USB-C power cable and wait for the LED to show solid white",

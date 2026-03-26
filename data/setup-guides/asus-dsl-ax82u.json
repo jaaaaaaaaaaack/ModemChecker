@@ -20,7 +20,7 @@
         "nav_path": "Advanced Settings > WAN > Internet Connection",
         "connection_type_field": "WAN Connection Type",
         "ipoe_label": "IPoE/ Automatic IP",
-        "pppoe_clear_note": "**Switching from another nbn provider?** Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
+        "pppoe_clear_note": "Switching from another nbn provider? Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
         "save_button_label": "Apply",
         "notes": "Used for FTTP, FTTC, and HFC connections where an Ethernet cable runs from the nbn connection box to the router's WAN port. If any existing WAN profiles are present, delete them before configuring to avoid conflicts.",
         "steps_ipoe": [
@@ -44,7 +44,7 @@
         "ipoe_label": "IPoE/ Automatic IP",
         "transfer_mode_field": "Transfer Mode",
         "transfer_mode_value": "VDSL WAN (PTM)",
-        "pppoe_clear_note": "**Switching from another nbn provider?** You may see their connection listed on this page. Delete it before continuing — you'll set up a fresh one in the next step.",
+        "pppoe_clear_note": "Switching from another nbn provider? You may see their connection listed on this page. Delete it before continuing — you'll set up a fresh one in the next step.",
         "save_button_label": "Apply",
         "notes": "Used for FTTN and FTTB connections where a phone cable (RJ-11) runs from the wall socket to the router's DSL port. The WAN section for DSL routers has a Transfer Mode field — this must be set to VDSL WAN (PTM) for nbn VDSL2 connections. If an existing PPPoE profile is pre-configured (e.g., from a previous ISP), delete it before creating the new IPoE profile.",
         "steps_ipoe": [

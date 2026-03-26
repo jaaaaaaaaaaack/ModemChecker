@@ -23,7 +23,7 @@
         "connection_type_field": "Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Apply/Save",
-        "pppoe_clear_note": "**Switching from another nbn provider?** Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
+        "pppoe_clear_note": "Switching from another nbn provider? Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
         "steps_ipoe": [
           "Connect an Ethernet cable from the nbn connection box (UNI-D port) to the blue WAN port on the rear of the NF18ACV",
           "Plug in the power cable and turn the modem on using the Power button on the side",
@@ -42,7 +42,7 @@
         "connection_type_field": "Connection Type",
         "ipoe_label": "Dynamic IP",
         "save_button_label": "Apply/Save",
-        "pppoe_clear_note": "**Switching from another nbn provider?** Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
+        "pppoe_clear_note": "Switching from another nbn provider? Check the username and password fields on this page and make sure they're both empty before continuing — they're not needed for Belong.",
         "steps_ipoe": [
           "Connect a phone cable from the telephone wall socket to the grey DSL port on the rear of the NF18ACV — use a DSL line filter if you have a telephone on the same line",
           "Plug in the power cable and turn the modem on using the Power button on the side",
