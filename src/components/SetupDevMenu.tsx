@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "../ui/components/Button";
-import { SETUP_GUIDE_MAP } from "../lib/setupGuides";
+import { getAllGuides, type GuideEntry } from "../lib/setupGuides";
 import { getModemImageUrl } from "../lib/supabase";
 import { NBN_TECH_TYPES } from "../constants";
 import type { NbnTechType } from "../types";
@@ -17,10 +17,6 @@ interface SetupDevMenuProps {
 
 const sheetSpring = { type: "spring" as const, damping: 30, stiffness: 300 };
 
-const GUIDE_LIST = Object.values(SETUP_GUIDE_MAP).sort((a, b) =>
-  `${a.brand} ${a.model}`.localeCompare(`${b.brand} ${b.model}`),
-);
-
 export function SetupDevMenu({
   open,
   onClose,
@@ -29,6 +25,14 @@ export function SetupDevMenu({
   onModemChange,
   onTechTypeChange,
 }: SetupDevMenuProps) {
+  const [guideList, setGuideList] = useState<GuideEntry[]>([]);
+
+  // Load all guides when the menu opens
+  useEffect(() => {
+    if (!open || guideList.length > 0) return;
+    getAllGuides().then(setGuideList);
+  }, [open, guideList.length]);
+
   // Close on Escape
   useEffect(() => {
     if (!open) return;
@@ -85,10 +89,10 @@ export function SetupDevMenu({
             {/* Modem selection */}
             <div className="flex flex-col gap-2 mb-4 flex-1 min-h-0">
               <span className="text-caption-bold font-caption-bold text-neutral-500 uppercase tracking-wider">
-                Modem ({GUIDE_LIST.length} with guides)
+                Modem ({guideList.length} with guides)
               </span>
               <div className="flex flex-col gap-1.5 overflow-y-auto flex-1 min-h-0">
-                {GUIDE_LIST.map((guide) => {
+                {guideList.map((guide) => {
                   const isActive = currentModemId === guide.id;
                   return (
                     <button

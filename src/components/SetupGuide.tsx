@@ -1,8 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { contentVariants, pageTransition } from "../lib/animations";
-import { getSetupGuide } from "../lib/setupGuides";
+import { getSetupGuide, type GuideEntry } from "../lib/setupGuides";
 import { getModemImageUrl } from "../lib/supabase";
 import { preloadImages } from "../lib/preloadImages";
 import { useModemSearch } from "../hooks/useModemSearch";
@@ -34,10 +34,22 @@ export function SetupGuide() {
   const [devMenuOpen, setDevMenuOpen] = useState(false);
   const [selectedModem, setSelectedModem] = useState<Modem | null>(null);
   const [transitioning, setTransitioning] = useState(false);
+  const [guide, setGuide] = useState<GuideEntry | undefined>(undefined);
   const { state, direction, search, selectModem, reset, retry } = useModemSearch();
 
-  // Determine page content
-  const guide = modemId ? getSetupGuide(modemId) : undefined;
+  // Lazy-load the setup guide when modemId changes
+  useEffect(() => {
+    if (!modemId) {
+      setGuide(undefined);
+      return;
+    }
+    let cancelled = false;
+    getSetupGuide(modemId).then((g) => {
+      if (!cancelled) setGuide(g);
+    });
+    return () => { cancelled = true; };
+  }, [modemId]);
+
   const hasModemInfo = selectedModem?.id === modemId;
 
   // Edge case: direct URL to modem without guide and no cached info → clear params

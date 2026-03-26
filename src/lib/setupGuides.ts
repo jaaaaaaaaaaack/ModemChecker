@@ -1,21 +1,5 @@
 import type { SetupGuideData } from "../types";
 
-import tpLinkData from "../../data/setup-guides/tp-link-archer-vr1600v.json";
-import asusData from "../../data/setup-guides/asus-rt-ax86u.json";
-import eeroData from "../../data/setup-guides/amazon-eero-6-plus.json";
-import nestData from "../../data/setup-guides/google-nest-wifi-pro.json";
-import dlinkData from "../../data/setup-guides/d-link-dsl-2888a.json";
-import linksysData from "../../data/setup-guides/linksys-velop-mx4200.json";
-import netgearData from "../../data/setup-guides/netgear-nighthawk-rax50.json";
-import telstraData from "../../data/setup-guides/telstra-smart-modem-gen-3.json";
-import netcommData from "../../data/setup-guides/netcomm-nf18acv.json";
-import draytekData from "../../data/setup-guides/draytek-vigor-2862.json";
-import synologyData from "../../data/setup-guides/synology-rt6600ax.json";
-import decoData from "../../data/setup-guides/tp-link-deco-x60.json";
-import huaweiData from "../../data/setup-guides/huawei-hg659.json";
-import sagemcomData from "../../data/setup-guides/sagemcom-fast-5366-tn.json";
-import vr2100Data from "../../data/setup-guides/tp-link-archer-vr2100v.json";
-
 export interface GuideEntry {
   id: string;
   brand: string;
@@ -24,32 +8,48 @@ export interface GuideEntry {
   setup: SetupGuideData;
 }
 
-const ALL_GUIDES: GuideEntry[] = [
-  tpLinkData,
-  asusData,
-  eeroData,
-  nestData,
-  dlinkData,
-  linksysData,
-  netgearData,
-  telstraData,
-  netcommData,
-  draytekData,
-  synologyData,
-  decoData,
-  huaweiData,
-  sagemcomData,
-  vr2100Data,
-] as unknown as GuideEntry[];
-
-export const SETUP_GUIDE_MAP: Record<string, GuideEntry> = Object.fromEntries(
-  ALL_GUIDES.map((g) => [g.id, g]),
+// Build a lazy-load map: each guide is only fetched when requested.
+// Vite code-splits each JSON file into its own chunk.
+const guideModules = import.meta.glob<GuideEntry>(
+  "../../data/setup-guides/*.json",
+  { eager: false },
 );
 
-export function hasSetupGuide(modemId: string): boolean {
-  return modemId in SETUP_GUIDE_MAP;
+// Map from modem ID (filename without extension) to its dynamic loader.
+// This index loads eagerly (just filenames, no content), so hasSetupGuide() is synchronous.
+const GUIDE_LOADERS: Record<string, () => Promise<unknown>> = {};
+for (const path of Object.keys(guideModules)) {
+  const filename = path.split("/").pop()?.replace(".json", "");
+  if (filename) {
+    GUIDE_LOADERS[filename] = guideModules[path];
+  }
 }
 
-export function getSetupGuide(modemId: string): GuideEntry | undefined {
-  return SETUP_GUIDE_MAP[modemId];
+/** Synchronous check — does a guide exist for this modem? */
+export function hasSetupGuide(modemId: string): boolean {
+  return modemId in GUIDE_LOADERS;
+}
+
+/** Lazy-load and return a single guide. Cached by the browser after first load. */
+export async function getSetupGuide(modemId: string): Promise<GuideEntry | undefined> {
+  const loader = GUIDE_LOADERS[modemId];
+  if (!loader) return undefined;
+  const mod = await loader() as { default: GuideEntry } | GuideEntry;
+  return "default" in mod ? mod.default : mod;
+}
+
+/** Get all available guide IDs (synchronous — no content loaded). */
+export function getAvailableGuideIds(): string[] {
+  return Object.keys(GUIDE_LOADERS);
+}
+
+/** Load all guides (for dev menu). Only loads content when called. */
+export async function getAllGuides(): Promise<GuideEntry[]> {
+  const entries = await Promise.all(
+    Object.values(GUIDE_LOADERS).map(async (loader) => {
+      const mod = await loader() as { default: GuideEntry } | GuideEntry;
+      return "default" in mod ? mod.default : mod;
+    }),
+  );
+  return entries.sort((a, b) => `${a.brand} ${a.model}`.localeCompare(`${b.brand} ${b.model}`));
 }
