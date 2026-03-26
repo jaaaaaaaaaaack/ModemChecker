@@ -509,7 +509,9 @@ export function SetupGuideContent({
             {/* Navigate */}
             <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
               <span className="text-body font-body text-default-font">
-                From the admin panel's homepage, navigate to the settings page
+                From the admin panel's homepage, navigate to the{" "}
+                <span className="font-semibold">{navSegments[navSegments.length - 1]}</span>{" "}
+                settings page:
               </span>
               <NavBreadcrumb
                 hasHome
@@ -545,16 +547,14 @@ export function SetupGuideContent({
             {/* Change setting */}
             <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
               <div className="flex w-full flex-col items-start gap-1.5">
-                <div className="flex flex-wrap items-center gap-1.5 text-body font-body text-default-font">
-                  <span>
-                    Set the &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; setting to
-                  </span>
+                <span className="text-body font-body text-default-font leading-[1.5]">
+                  Set the &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; setting to{" "}
                   <PortTypeBadge
                     variant="blue"
                     portName={wanConfig?.ipoe_label}
-                    className="inline-flex"
+                    className="inline-flex align-baseline"
                   />
-                </div>
+                </span>
                 {wanConfig?.ipoe_notes && (
                   <div className="flex items-center gap-1.5 text-brand-700">
                     <FeatherInfo className="h-3.5 w-3.5 flex-none" />
