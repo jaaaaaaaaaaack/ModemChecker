@@ -14,19 +14,35 @@ import type { Modem, TechType } from "../types";
 
 type Phase = "article" | "search" | "guide" | "not-available";
 
-function Breadcrumbs({ includeModemSetup, onNavigate }: { includeModemSetup: boolean; onNavigate: () => void }) {
+function BreadcrumbChevron() {
   return (
-    <nav className="text-caption font-caption text-neutral-500">
-      <button onClick={onNavigate} className="hover:text-neutral-700 transition-colors">
-        Support
+    <svg className="w-3 h-3 mx-1.5 text-neutral-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
+  );
+}
+
+function Breadcrumbs({ phase, onNavigate }: { phase: "article" | "search" | "guide" | "not-available"; onNavigate: () => void }) {
+  return (
+    <nav className="flex items-center flex-wrap text-caption font-caption text-neutral-500 py-3 border-b border-neutral-200">
+      <span className="hover:text-neutral-700 cursor-default">Home</span>
+      <BreadcrumbChevron />
+      <button onClick={onNavigate} className="hover:text-neutral-700 transition-colors hover:underline">
+        Support &amp; contact
       </button>
-      <span className="mx-1">&rsaquo;</span>
-      <button onClick={onNavigate} className="hover:text-neutral-700 transition-colors">
-        Internet
+      <BreadcrumbChevron />
+      <button onClick={onNavigate} className="hover:text-neutral-700 transition-colors hover:underline">
+        Internet FAQs
       </button>
-      {includeModemSetup && (
+      <BreadcrumbChevron />
+      {phase === "article" ? (
+        <span className="text-neutral-700">Getting started</span>
+      ) : (
         <>
-          <span className="mx-1">&rsaquo;</span>
+          <button onClick={onNavigate} className="hover:text-neutral-700 transition-colors hover:underline">
+            Getting started
+          </button>
+          <BreadcrumbChevron />
           <span className="text-neutral-700">Modem setup</span>
         </>
       )}
@@ -84,13 +100,20 @@ export function SetupGuideInline() {
 
   switch (phase) {
     case "article":
-      pageContent = <SupportArticlePage onGetStarted={handleGetStarted} />;
+      pageContent = (
+        <div className="w-full bg-white">
+          <div className="w-full max-w-[720px] mx-auto px-6 mobile:px-4">
+            <Breadcrumbs phase="article" onNavigate={handleBackToArticle} />
+            <SupportArticlePage onGetStarted={handleGetStarted} />
+          </div>
+        </div>
+      );
       break;
     case "search":
       pageContent = (
         <div className="w-full max-w-[576px] mx-auto px-4 py-8 mobile:py-4">
           <div className="flex flex-col gap-4 mb-6">
-            <Breadcrumbs includeModemSetup onNavigate={handleBackToArticle} />
+            <Breadcrumbs phase="search" onNavigate={handleBackToArticle} />
             <h1 className="text-h1 font-h1 text-default-font">Modem setup</h1>
           </div>
           <motion.div
@@ -123,7 +146,7 @@ export function SetupGuideInline() {
     case "guide":
       pageContent = guide ? (
         <div className="flex w-full max-w-[576px] mx-auto flex-col items-start gap-6 px-6 pt-8 pb-24 mobile:gap-6 mobile:px-4 mobile:pt-4 mobile:pb-12">
-          <Breadcrumbs includeModemSetup onNavigate={handleBackToArticle} />
+          <Breadcrumbs phase="guide" onNavigate={handleBackToArticle} />
           <h1 className="text-h1 font-h1 text-default-font -mt-2">Modem setup</h1>
           <SetupGuideContent
             guide={guide}
@@ -136,7 +159,7 @@ export function SetupGuideInline() {
     case "not-available":
       pageContent = selectedModem ? (
         <div className="flex w-full max-w-[576px] mx-auto flex-col items-start gap-6 px-6 pt-8 pb-24 mobile:gap-6 mobile:px-4 mobile:pt-4 mobile:pb-12">
-          <Breadcrumbs includeModemSetup onNavigate={handleBackToArticle} />
+          <Breadcrumbs phase="not-available" onNavigate={handleBackToArticle} />
           <h1 className="text-h1 font-h1 text-default-font -mt-2">Modem setup</h1>
           <SetupGuideNotAvailable
             modemId={selectedModem.id}
