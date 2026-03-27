@@ -14,6 +14,7 @@ interface SetupResultCardProps {
   modem: Modem;
   techType: TechType;
   planSpeedMbps?: number;
+  compact?: boolean;
   onSetupModem: () => void;
   onCheckAnother: () => void;
   onClose: () => void;
@@ -23,6 +24,7 @@ export function SetupResultCard({
   modem,
   techType,
   planSpeedMbps = DEFAULT_PLAN_SPEED_MBPS,
+  compact,
   onSetupModem,
   onCheckAnother,
   onClose,
@@ -52,7 +54,7 @@ export function SetupResultCard({
           description="We don't have a setup guide for this modem yet. Contact Belong support for help getting connected."
         />
       )}
-      <DisclaimerCallout />
+      <DisclaimerCallout className={compact ? "mobile:border-none mobile:px-0 mobile:py-0 mobile:rounded-none" : undefined} />
       <div className="flex w-full items-center justify-between mt-auto md:mt-10 pt-2">
         <IconButton
           className="border-brand-200"

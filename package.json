@@ -12,6 +12,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.15",
     "@subframe/core": "^1.154.0",
     "@supabase/supabase-js": "^2.99.1",
     "framer-motion": "^12.36.0",

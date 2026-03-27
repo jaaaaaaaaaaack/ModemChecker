@@ -736,14 +736,6 @@ export function SetupGuideContent({
           transition={{ duration: 0.6, ease: "easeIn" }}
           className="flex w-full flex-col items-start gap-6"
         >
-          <motion.h1
-            className="text-h1 font-h1 text-brand-800 mobile:text-[34px] mobile:leading-[42px]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            Modem setup guide
-          </motion.h1>
           {/* Header */}
           <motion.div
             className="flex w-full flex-col items-start gap-6"
@@ -782,7 +774,7 @@ export function SetupGuideContent({
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.12, ease: "easeOut" }}
             >
-              Setup steps
+              Your setup guide
             </motion.h2>
 
             {steps.map((templateId, idx) => {

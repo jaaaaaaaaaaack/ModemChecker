@@ -1,19 +1,14 @@
 import { useState, useCallback, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { contentVariants, pageTransition } from "../lib/animations";
 import { getSetupGuide, type GuideEntry } from "../lib/setupGuides";
 import { getModemImageUrl } from "../lib/supabase";
 import { preloadImages } from "../lib/preloadImages";
 import { useModemSearch } from "../hooks/useModemSearch";
 import { Navbar } from "./Navbar";
 import { BottomSheet } from "./BottomSheet";
-import { SearchInput } from "./SearchInput";
-import { LoadingState } from "./LoadingState";
-import { MultipleMatches } from "./MultipleMatches";
+import { ModemSearchFlow } from "./ModemSearchFlow";
 import { SetupResultCard } from "./SetupResultCard";
-import { NoMatch } from "./NoMatch";
-import { SearchError } from "./SearchError";
 import { SetupLanding } from "./SetupLanding";
 import { SetupGuideContent } from "./SetupGuideContent";
 import { SetupGuideNotAvailable } from "./SetupGuideNotAvailable";
@@ -181,49 +176,24 @@ export function SetupGuide() {
       </div>
 
       <BottomSheet open={sheetOpen} onClose={handleClose} height={state.step === "single_match" ? "90vh" : "85vh"} overlayOpacity={0.6}>
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={state.step}
-            custom={direction}
-            variants={contentVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            className="flex-1 md:flex-initial flex flex-col min-h-0 px-1 -mx-1"
-          >
-            {state.step === "idle" && (
-              <SearchInput onSearch={search} onClose={handleClose} />
-            )}
-            {state.step === "searching" && <LoadingState />}
-            {state.step === "multiple_matches" && (
-              <MultipleMatches
-                modems={state.modems}
-                onSelect={selectModem}
-                onBack={reset}
-                onClose={handleClose}
-              />
-            )}
-            {state.step === "single_match" && (
-              <SetupResultCard
-                modem={state.modem}
-                techType={techType}
-                onSetupModem={handleSetupModem}
-                onCheckAnother={reset}
-                onClose={handleClose}
-              />
-            )}
-            {state.step === "no_match" && (
-              <NoMatch onRetry={reset} query={state.query} />
-            )}
-            {state.step === "error" && (
-              <SearchError
-                query={state.query}
-                onRetry={retry}
-                onReset={reset}
-              />
-            )}
-          </motion.div>
-        </AnimatePresence>
+        <ModemSearchFlow
+          state={state}
+          direction={direction}
+          onSearch={search}
+          onSelectModem={selectModem}
+          onReset={reset}
+          onRetry={retry}
+          onClose={handleClose}
+          renderResult={(modem) => (
+            <SetupResultCard
+              modem={modem}
+              techType={techType}
+              onSetupModem={handleSetupModem}
+              onCheckAnother={reset}
+              onClose={handleClose}
+            />
+          )}
+        />
       </BottomSheet>
 
       <SetupDevMenu

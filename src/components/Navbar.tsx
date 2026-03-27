@@ -12,6 +12,7 @@ const safeAreaStyle: React.CSSProperties = {
 const NAV_ITEMS = [
   { path: "/", label: "Compatibility checker" },
   { path: "/setup", label: "Setup guide" },
+  { path: "/setup-inline", label: "Setup guide (inline)" },
 ];
 
 export const Navbar = React.memo(function Navbar() {
