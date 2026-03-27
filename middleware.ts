@@ -1,8 +1,13 @@
 export default function middleware(request: Request) {
   const url = new URL(request.url);
 
-  // Don't protect the login page or login API
-  if (url.pathname === '/login' || url.pathname === '/login.html' || url.pathname.startsWith('/api/')) {
+  // Don't protect the login page, login API, or static assets
+  if (
+    url.pathname === '/login' ||
+    url.pathname.startsWith('/api/') ||
+    url.pathname.startsWith('/assets/') ||
+    url.pathname.match(/\.\w+$/)
+  ) {
     return;
   }
 
