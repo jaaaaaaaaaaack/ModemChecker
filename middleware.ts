@@ -2,7 +2,7 @@ export default function middleware(request: Request) {
   const url = new URL(request.url);
 
   // Don't protect the login page or login API
-  if (url.pathname === '/login.html' || url.pathname.startsWith('/api/')) {
+  if (url.pathname === '/login' || url.pathname === '/login.html' || url.pathname.startsWith('/api/')) {
     return;
   }
 
@@ -13,7 +13,7 @@ export default function middleware(request: Request) {
   }
 
   // Redirect to login, preserving the original URL
-  const login = new URL('/login.html', url.origin);
+  const login = new URL('/login', url.origin);
   if (url.pathname !== '/') {
     login.searchParams.set('next', url.pathname + url.search);
   }

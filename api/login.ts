@@ -15,7 +15,7 @@ export default function handler(
   const expected = process.env.SITE_PASSWORD;
 
   if (!expected || password !== expected) {
-    const errorUrl = next !== '/' ? `/login.html?error=1&next=${encodeURIComponent(next)}` : '/login.html?error=1';
+    const errorUrl = next !== '/' ? `/login?error=1&next=${encodeURIComponent(next)}` : '/login?error=1';
     return res.redirect(302, errorUrl);
   }
 
