@@ -8,6 +8,10 @@ body, #root {
   padding: 0;
 }
 
+#root {
+  min-height: 100dvh;
+}
+
 /* Black html background so iOS overscroll at top matches the navbar.
    Body stays neutral-50 so bottom overscroll matches the content area. */
 html {

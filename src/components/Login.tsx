@@ -20,7 +20,7 @@ export function Login() {
   const [password, setPassword] = useState("");
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center bg-color-primary-800 px-6 py-12">
+    <div className="flex min-h-dvh w-full flex-col items-center justify-center bg-color-primary-800 px-6 py-12">
       <div className="flex w-full max-w-[320px] flex-col items-center gap-8">
         <div className="flex w-full flex-col items-center gap-20">
           <div className="flex flex-col items-center gap-8 px-4 py-4 mobile:px-2 mobile:py-2">
