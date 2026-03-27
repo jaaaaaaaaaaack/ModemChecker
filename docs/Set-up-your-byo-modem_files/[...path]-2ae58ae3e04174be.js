@@ -1,0 +1,2 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[1057],{19069:(_,e,t)=>{"use strict";t.r(e),t.d(e,{__N_SSP:()=>a,default:()=>s});var n=t(6029),r=t(74841),u=t(194),a=!0;let s=_=>{let{data:e}=_,t=e.type===u.d.category?r.cM:r.m7;return(0,n.jsx)(t,{data:e})}},23731:(_,e,t)=>{(window.__NEXT_P=window.__NEXT_P||[]).push(["/internet/[...path]",function(){return t(19069)}])}},_=>{_.O(0,[1067,7311,5459,3599,3228,4841,636,6593,8792],()=>_(_.s=23731)),_N_E=_.O()}]);
+//# sourceMappingURL=[...path]-2ae58ae3e04174be.js.map
