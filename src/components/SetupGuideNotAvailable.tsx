@@ -9,6 +9,7 @@ interface SetupGuideNotAvailableProps {
   modemId: string;
   brand?: string;
   model?: string;
+  omitHeading?: boolean;
   onSearchAgain: () => void;
 }
 
@@ -16,15 +17,18 @@ export function SetupGuideNotAvailable({
   modemId,
   brand,
   model,
+  omitHeading,
   onSearchAgain,
 }: SetupGuideNotAvailableProps) {
   const modemName = brand && model ? `${brand} ${model}` : "this modem";
 
   return (
     <div className="flex w-full flex-col items-start gap-6">
-      <h1 className="text-h1 font-h1 text-brand-800 mobile:text-h2 mobile:font-h2">
-        Modem setup guide
-      </h1>
+      {!omitHeading && (
+        <h1 className="text-h1 font-h1 text-brand-800 mobile:text-h2 mobile:font-h2">
+          Modem setup guide
+        </h1>
+      )}
       {brand && model && (
         <ModemIdentityCard
           image={getModemImageUrl(modemId)}

@@ -142,6 +142,7 @@ export function SetupGuideInline() {
             modemId={selectedModem.id}
             brand={selectedModem.brand}
             model={selectedModem.model}
+            omitHeading
             onSearchAgain={handleSearchAgain}
           />
         </div>
