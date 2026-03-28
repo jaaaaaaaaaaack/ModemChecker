@@ -57,7 +57,6 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
       </div>
       <div className="flex w-full items-center justify-end mt-auto md:mt-10 pt-2">
         <Button
-          className="rounded-full"
           variant="brand-primary"
           iconRight={<FeatherChevronRight />}
           type="submit"

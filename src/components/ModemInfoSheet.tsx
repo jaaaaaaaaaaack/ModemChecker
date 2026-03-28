@@ -38,7 +38,7 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
     <div className="relative flex w-full flex-1 min-h-0">
       {/* Pinned close button — always accessible, above scroll + mask */}
       <IconButton
-        className="absolute top-0 right-0 z-10 rounded-full"
+        className="absolute top-0 right-0 z-10"
         variant="neutral-primary"
         size="large"
         icon={<FeatherX />}

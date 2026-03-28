@@ -65,7 +65,6 @@ export function SetupResultCard({
         />
         {isCompatible && hasGuide ? (
           <Button
-            className="rounded-full"
             variant="brand-primary"
             iconRight={<FeatherChevronRight />}
             hasRightIcon={true}
@@ -75,7 +74,6 @@ export function SetupResultCard({
           </Button>
         ) : (
           <Button
-            className="rounded-full"
             variant="brand-primary"
             icon={null}
             iconRight={null}

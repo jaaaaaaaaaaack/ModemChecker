@@ -52,7 +52,6 @@ export function ResultCard({
           Check another modem
         </LinkButton>
         <Button
-          className="rounded-full"
           variant="brand-primary"
           icon={null}
           iconRight={null}

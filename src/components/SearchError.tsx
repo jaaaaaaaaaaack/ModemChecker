@@ -20,14 +20,14 @@ export function SearchError({ query: _query, onRetry, onReset }: SearchErrorProp
       </div>
       <div className="flex w-full flex-col items-center gap-3 mt-auto md:mt-10 pt-2">
         <Button
-          className="rounded-full w-full"
+          className="w-full"
           variant="brand-primary"
           onClick={onRetry}
         >
           Try again
         </Button>
         <Button
-          className="rounded-full w-full"
+          className="w-full"
           variant="brand-secondary"
           onClick={onReset}
         >
