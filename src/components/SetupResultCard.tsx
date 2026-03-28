@@ -1,6 +1,7 @@
 import { FeatherChevronLeft, FeatherChevronRight } from "@subframe/core";
 import { Button } from "@/ui/components/Button";
 import { IconButton } from "@/ui/components/IconButton";
+import { SheetFooter } from "./SheetFooter";
 import { Alert } from "@/ui/components/Alert";
 import { CheckerCard } from "@/ui/components/CheckerCard";
 import { DisclaimerCallout } from "./DisclaimerCallout";
@@ -55,7 +56,7 @@ export function SetupResultCard({
         />
       )}
       <DisclaimerCallout className={compact ? "mobile:border-none mobile:px-0 mobile:py-0 mobile:rounded-none" : undefined} />
-      <div className="flex w-full items-center justify-between mt-auto md:mt-10 pt-2">
+      <SheetFooter className="justify-between">
         <IconButton
           className="border-brand-200"
           variant="white"
@@ -82,7 +83,7 @@ export function SetupResultCard({
             Close
           </Button>
         )}
-      </div>
+      </SheetFooter>
     </div>
   );
 }

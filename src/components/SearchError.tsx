@@ -1,4 +1,5 @@
 import { Button } from "@/ui/components/Button";
+import { SheetFooter } from "./SheetFooter";
 
 interface SearchErrorProps {
   query: string;
@@ -18,7 +19,7 @@ export function SearchError({ query: _query, onRetry, onReset }: SearchErrorProp
           try again.
         </span>
       </div>
-      <div className="flex w-full flex-col items-center gap-3 mt-auto md:mt-10 pt-2">
+      <SheetFooter className="flex-col gap-3">
         <Button
           className="w-full"
           variant="brand-primary"
@@ -33,7 +34,7 @@ export function SearchError({ query: _query, onRetry, onReset }: SearchErrorProp
         >
           Start a new search
         </Button>
-      </div>
+      </SheetFooter>
     </div>
   );
 }
