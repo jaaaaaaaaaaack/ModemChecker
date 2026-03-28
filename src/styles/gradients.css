@@ -69,6 +69,14 @@
   scrollbar-width: thin;
 }
 
+/* Overlay backgrounds for modals, sheets, and drawers. */
+@utility bg-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+@utility bg-overlay-heavy {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
 /* Spinner speed variants for CSS border-spinners (used with animate-spin). */
 @utility animate-spin-fast {
   animation: spin 0.6s linear infinite;
