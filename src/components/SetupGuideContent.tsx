@@ -607,7 +607,7 @@ export function SetupGuideContent({
                 className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md bg-brand-100 px-4 py-4"
               >
                 <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 flex-none rounded-full border-2 border-brand-100 border-t-brand-800 animate-spin" style={{ animationDuration: "0.6s" }} />
+                  <div className="h-4 w-4 flex-none rounded-full border-2 border-brand-100 border-t-brand-800 animate-spin-fast" />
                   <span className="text-h4-button-500 font-h4-button-500 text-brand-800">
                     Running connection test...
                   </span>

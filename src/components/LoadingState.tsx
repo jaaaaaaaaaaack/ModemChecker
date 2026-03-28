@@ -5,8 +5,7 @@ export function LoadingState() {
       role="status"
     >
       <div
-        className="h-9 w-9 rounded-full border-[3px] border-brand-200 border-t-brand-700 animate-spin"
-        style={{ animationDuration: "0.7s" }}
+        className="h-9 w-9 rounded-full border-[3px] border-brand-200 border-t-brand-700 animate-spin-slow"
       />
       <span className="text-h3-700 font-h3-700 text-brand-800 text-center">
         Finding your modem...

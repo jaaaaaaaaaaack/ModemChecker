@@ -60,3 +60,19 @@
     rgba(255, 255, 255, 1) 320px
   );
 }
+
+/* ── Shared utilities ─────────────────────────────────────────────── */
+
+/* Brand-tinted thin scrollbar for scrollable panels. */
+@utility scrollbar-brand {
+  scrollbar-color: rgba(0, 150, 170, 0.3) transparent;
+  scrollbar-width: thin;
+}
+
+/* Spinner speed variants for CSS border-spinners (used with animate-spin). */
+@utility animate-spin-fast {
+  animation: spin 0.6s linear infinite;
+}
+@utility animate-spin-slow {
+  animation: spin 0.7s linear infinite;
+}
