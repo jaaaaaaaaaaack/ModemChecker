@@ -226,8 +226,8 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
               >
                 {stepTitle ? (
                   <h3
-                    style={{ textWrap: "balance" }}
                     className={SubframeUtils.twClassNames(
+                      "text-balance",
                       "text-h4-button-500 font-h4-button-500 transition-colors duration-300",
                       {
                         "text-brand-800": variant === "current",
@@ -253,7 +253,7 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
               opacity: isExpanded ? 1 : 0,
             }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            style={{ overflow: "hidden", width: "100%" }}
+            className="overflow-hidden w-full"
           >
             <div className="flex w-full flex-col items-start gap-4 pt-4">
               {description ? (
@@ -286,7 +286,7 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
               opacity: isExpanded ? 1 : 0,
             }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            style={{ overflow: "hidden", width: "100%" }}
+            className="overflow-hidden w-full"
           >
             <div className="flex flex-col items-start gap-8 pt-4">
               {primaryAction}

@@ -1,6 +1,7 @@
 import { FeatherChevronLeft, FeatherChevronRight } from "@subframe/core";
 import { Button } from "@/ui/components/Button";
 import { IconButton } from "@/ui/components/IconButton";
+import { SheetFooter } from "./SheetFooter";
 import { Alert } from "@/ui/components/Alert";
 import { CheckerCard } from "@/ui/components/CheckerCard";
 import { DisclaimerCallout } from "./DisclaimerCallout";
@@ -55,17 +56,15 @@ export function SetupResultCard({
         />
       )}
       <DisclaimerCallout className={compact ? "mobile:border-none mobile:px-0 mobile:py-0 mobile:rounded-none" : undefined} />
-      <div className="flex w-full items-center justify-between mt-auto md:mt-10 pt-2">
+      <SheetFooter className="justify-between">
         <IconButton
-          className="border-brand-200"
-          variant="white"
+          variant="brand-outline"
           size="large"
           icon={<FeatherChevronLeft className="-ml-0.5" />}
           onClick={onCheckAnother}
         />
         {isCompatible && hasGuide ? (
           <Button
-            className="rounded-full"
             variant="brand-primary"
             iconRight={<FeatherChevronRight />}
             hasRightIcon={true}
@@ -75,7 +74,6 @@ export function SetupResultCard({
           </Button>
         ) : (
           <Button
-            className="rounded-full"
             variant="brand-primary"
             icon={null}
             iconRight={null}
@@ -84,7 +82,7 @@ export function SetupResultCard({
             Close
           </Button>
         )}
-      </div>
+      </SheetFooter>
     </div>
   );
 }

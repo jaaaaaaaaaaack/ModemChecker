@@ -38,7 +38,7 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
     <div className="relative flex w-full flex-1 min-h-0">
       {/* Pinned close button — always accessible, above scroll + mask */}
       <IconButton
-        className="absolute top-0 right-0 z-10 rounded-full"
+        className="absolute top-0 right-0 z-10"
         variant="neutral-primary"
         size="large"
         icon={<FeatherX />}
@@ -50,14 +50,12 @@ export function ModemInfoSheet({ onClose }: ModemInfoSheetProps) {
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex w-full flex-1 flex-col items-start gap-6 min-h-0 overflow-y-auto pr-2 -mr-2 -mb-8 pb-8 md:-mb-6 md:pb-6"
-        style={{
-          scrollbarColor: "rgba(0, 150, 170, 0.3) transparent",
-          scrollbarWidth: "thin" as const,
-          ...(maskValue
+        className="flex w-full flex-1 flex-col items-start gap-6 min-h-0 overflow-y-auto pr-2 -mr-2 -mb-8 pb-8 md:-mb-6 md:pb-6 scrollbar-brand"
+        style={
+          maskValue
             ? { maskImage: maskValue, WebkitMaskImage: maskValue }
-            : undefined),
-        }}
+            : undefined
+        }
       >
         {/* Modem image only — close button is pinned separately above */}
         <HeaderWithNavigation variant="image" />

@@ -26,7 +26,7 @@ export function SetupGuideNotAvailable({
     <div className="flex w-full flex-col items-start gap-6">
       {!omitHeading && (
         <h1 className="text-h1 font-h1 text-brand-800 mobile:text-h2 mobile:font-h2">
-          Modem setup guide
+          BYO modem setup
         </h1>
       )}
       {brand && model && (

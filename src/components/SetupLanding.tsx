@@ -21,7 +21,7 @@ export function SetupLanding({ onGetStarted }: SetupLandingProps) {
                 src="/nbnPlan.webp"
                 alt="nbn modem"
               />
-              <div className="flex h-9 items-center gap-2 rounded-lg bg-[#ecfdf5] px-3.5">
+              <div className="flex h-9 items-center gap-2 rounded-lg bg-color-secondary-50 px-3.5">
                 <div className="flex h-3 w-3 flex-none rounded-full bg-color-secondary-400" />
                 <span className="whitespace-nowrap text-caption-bold font-caption-bold text-color-secondary-400">
                   Active
@@ -90,9 +90,9 @@ export function SetupLanding({ onGetStarted }: SetupLandingProps) {
                 src="/mobilePlan.webp"
                 alt="Mobile plan"
               />
-              <div className="flex h-9 items-center gap-2 rounded-lg bg-[#ecfdf5] px-3.5">
+              <div className="flex h-9 items-center gap-2 rounded-lg bg-color-secondary-50 px-3.5">
                 <div className="flex h-3 w-3 flex-none rounded-full bg-color-secondary-400" />
-                <span className="whitespace-nowrap text-caption-bold font-caption-bold text-[#00b862]">
+                <span className="whitespace-nowrap text-caption-bold font-caption-bold text-color-secondary-400">
                   Active
                 </span>
               </div>

@@ -6,6 +6,7 @@ import { TextField } from "@/ui/components/TextField";
 import { Button } from "@/ui/components/Button";
 import { HeaderWithNavigation } from "@/ui/components/HeaderWithNavigation";
 import { InfoCallout } from "./InfoCallout";
+import { SheetFooter } from "./SheetFooter";
 
 interface SearchInputProps {
   onSearch: (query: string) => void;
@@ -55,16 +56,15 @@ export function SearchInput({ onSearch, onClose }: SearchInputProps) {
           You can usually find the model name and number printed on the back or underside of the modem.
         </InfoCallout>
       </div>
-      <div className="flex w-full items-center justify-end mt-auto md:mt-10 pt-2">
+      <SheetFooter className="justify-end">
         <Button
-          className="rounded-full"
           variant="brand-primary"
           iconRight={<FeatherChevronRight />}
           type="submit"
         >
           Continue
         </Button>
-      </div>
+      </SheetFooter>
     </form>
   );
 }

@@ -1,5 +1,6 @@
 import { Button } from "@/ui/components/Button";
 import { LinkButton } from "@/ui/components/LinkButton";
+import { SheetFooter } from "./SheetFooter";
 
 interface NoMatchProps {
   onRetry: () => void;
@@ -25,15 +26,14 @@ export function NoMatch({ onRetry, query }: NoMatchProps) {
           Read the modem compatibility FAQs.
         </LinkButton>
       </div>
-      <div className="flex w-full items-center mt-auto md:mt-10 pt-2">
+      <SheetFooter>
         <Button
-          className="rounded-full"
           variant="brand-secondary"
           onClick={onRetry}
         >
           Try a new search
         </Button>
-      </div>
+      </SheetFooter>
     </div>
   );
 }
