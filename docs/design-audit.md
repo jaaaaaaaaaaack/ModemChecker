@@ -36,13 +36,11 @@ DefaultPageLayout, DialogLayout, DrawerLayout — all unused by the app.
 
 These are patterns where behavioural components consistently override UI component defaults. Each represents a variant or token that the design system should own instead.
 
-### 2a. Pill buttons — `className="rounded-full"` on `<Button>`
+### 2a. ~~Pill buttons~~ — RESOLVED (redundant overrides)
 
-**6 call sites:** ResultCard, SetupResultCard (×2), SearchInput, NoMatch, BaseScreen
+**Was:** `className="rounded-full"` on 6 call sites.
 
-Every primary/secondary action button in the sheet flow gets `rounded-full` applied. The Button component's built-in border-radius (from theme: `rounded-md` / 16px) is overridden to pill shape.
-
-**Recommendation:** Add a `shape` prop to Button (`"default" | "pill"`) or introduce a `rounded` variant. The sheet CTA buttons consistently use pill; the page-level buttons use default. This is a real design distinction, not a one-off.
+**Finding:** Button's base class already includes `rounded-full`. All overrides were no-ops. Removed in batch 3.
 
 ### 2b. Back buttons — `className="border-brand-200"` on `<IconButton variant="white">`
 
@@ -243,34 +241,28 @@ Used only in `DefaultPageLayout` (which is itself unused). Transitive dead code.
 
 ## 9. Recommendations Summary
 
-### Quick wins (low effort, immediate cleanup)
+### Quick wins — DONE
 
-| # | Action | Files affected |
-|---|--------|---------------|
-| 1 | Delete 39 unused UI components + 3 layouts | 42 files |
-| 2 | Replace `style={{ textWrap: "balance" }}` with `text-balance` class | StepCard |
-| 3 | Replace `style={{ overflow: "hidden", width: "100%" }}` with `className="overflow-hidden w-full"` | StepCard (×2), SetupGuideContent |
-| 4 | Extract scrollbar CSS utility (`scrollbar-brand`) | ModemInfoSheet, MultipleMatches |
-| 5 | Standardise SetupLanding badge to use `color-secondary-400` for text (matching the dot) and `success-50` bg token | SetupLanding |
-
-### Component system improvements (medium effort)
-
-| # | Action | Impact |
+| # | Action | Commit |
 |---|--------|--------|
-| 6 | Add `shape="pill"` prop to Button | Eliminates 6 `rounded-full` overrides |
-| 7 | Add `brand-outline` variant to IconButton (white fill, brand-200 border, chevron nudge) | Eliminates 3 className overrides + 3 icon nudges |
-| 8 | Extract `SheetFooter` layout component (`mt-auto md:mt-10 pt-2`) | Eliminates 5 identical className strings |
-| 9 | Merge InfoCallout into a proper component with variants (`bordered`, `filled`, `inline`) | Consolidates 3 ad-hoc callout patterns |
-| 10 | Audit and prune Button colour variants (remove confirmed-unused) | Reduces sync-disabled complexity |
-| 11 | Standardise overlay opacities (one heavy, one light) | BottomSheet, Dialog, Drawer |
+| 1 | Delete 41 unused UI components + 3 layouts | `22e4dc1` |
+| 2 | Replace inline styles with Tailwind equivalents (text-balance, overflow, scrollbar, spinners) | `861d8ac` |
+| 3 | Remove 8 redundant `rounded-full` overrides (Button/IconButton already pill-shaped) | `905c482` |
+| 4 | Extract `SheetFooter` component for bottom-pinned action bars | `f1b0a5b` |
+| 5 | Add `brand-outline` variant to IconButton for back buttons | `2914714` |
+| 6 | Replace hardcoded hex colours in SetupLanding with theme tokens | `e8ac19e` |
+| 7 | Standardise overlay opacities with `bg-overlay` / `bg-overlay-heavy` utilities | `fa36cfb` |
+| 8 | Prune 19 unused Button colour variants (280 → 140 lines) | `b7ce2b8` |
+| 9 | Replace Login hardcoded hex with theme token | `720d982` |
 
-### Larger efforts (worth doing before "production")
+### Remaining recommendations
 
-| # | Action | Impact |
-|---|--------|--------|
-| 12 | Design Navbar in Subframe (or write a definitive spec) | Only hand-built visual component with no design system ownership |
-| 13 | Evaluate un-sync-disabling DeviceConnectionCard and OrderCard by moving their overrides to call sites | Reduces sync-disabled count from 9 to 7 |
-| 14 | Unify spinner primitives (LoadingState spinner vs SetupGuideContent spinner — two different speeds, two different sizes) | Single source of truth for loading indicators |
+| # | Action | Impact | Notes |
+|---|--------|--------|-------|
+| 10 | InfoCallout `filled` variant | Would consolidate brand-50/brand-200 callout containers | Skipped — containers have varied children (headings, buttons, credentials) that don't fit InfoCallout's icon+text pattern |
+| 11 | Design Navbar in Subframe (or write a definitive spec) | Only hand-built visual component with no design system ownership | Larger effort |
+| 12 | Evaluate un-sync-disabling DeviceConnectionCard and OrderCard | Reduces sync-disabled count from 10 to 8 | Their overrides could move to call sites |
+| 13 | Unify spinner primitives into a shared component | Two different spinners exist (fast/slow, different sizes) | CSS utilities created but a `Spinner` component would be cleaner |
 
 ### Where overrides still make sense
 
@@ -288,34 +280,28 @@ These inline styles or overrides are justified and should stay:
 ## 10. Proposed Component Hierarchy (Post-Cleanup)
 
 ```
-src/ui/components/          ← Subframe-synced primitives (design-owned)
-  Alert, Avatar, Badge, Button (+pill shape), CardButton, Dialog,
-  Drawer, DropdownMenu, FeatureItem, HeaderWithNavigation,
-  IconButton (+brand-outline), IconWithBackground, LinkButton,
-  ModemIdentityCard, NavBreadcrumb, OrderCard, PortTypeBadge,
-  ProductCard, RadioCardGroup, StatusItem, StepCard,
-  SubstepCardContainer, TextField, Tooltip
-  [24 components, down from 68]
+src/ui/components/          ← 27 components (down from 68)
+  Sync-disabled (10):
+    Button, CheckerCard, DeviceConnectionCard, HeaderWithNavigation,
+    IconButton, OrderCard, PortTypeBadge, RadioCardGroup, StepCard,
+    SubstepCardContainer
 
-src/ui/components/          ← Sync-disabled (design+code co-owned)
-  Button, CheckerCard, DeviceConnectionCard*, HeaderWithNavigation,
-  OrderCard*, PortTypeBadge, RadioCardGroup, StepCard,
-  SubstepCardContainer
-  [7-9 components]
-  * = candidates for re-sync
+  Unmodified:
+    Alert, Avatar, Badge, CardButton, Dialog, Drawer, DropdownMenu,
+    FeatureItem, IconWithBackground, LinkButton, ModemIdentityCard,
+    NavBreadcrumb, ProductCard, StatusItem, TextField, Tooltip
 
-src/components/             ← Behavioural composites (code-owned)
+src/components/             ← 28 behavioural composites (code-owned)
   Navbar, BottomSheet, BaseScreen, Login, ErrorBoundary,
   ModemChecker, SetupGuide, SetupGuideContent, SetupGuideInline,
   SetupLanding, SupportArticlePage,
   ModemSearchFlow, SearchInput, LoadingState, MultipleMatches,
   ResultCard, SetupResultCard, NoMatch, SearchError,
   ModemInfoSheet, SetupGuideNotAvailable,
-  InfoCallout (+variants), DisclaimerCallout, ConditionList,
-  ModemImage, SheetFooter (new)
-  [26 components]
+  InfoCallout, DisclaimerCallout, ConditionList,
+  ModemImage, SheetFooter, DevMenu, SetupDevMenu
 
 src/styles/
-  gradients.css             ← Gradient utilities (5 gradients)
-  utilities.css (new)       ← scrollbar-brand, spinner duration vars
+  gradients.css             ← Gradients + shared utilities
+                              (scrollbar-brand, overlays, spinner speeds)
 ```
