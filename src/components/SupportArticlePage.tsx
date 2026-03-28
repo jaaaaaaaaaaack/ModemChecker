@@ -27,6 +27,28 @@ export function SupportArticlePage({ onGetStarted }: SupportArticlePageProps) {
         </p>
       </div>
 
+      {/* CTA card */}
+      <div className="flex flex-col gap-6 rounded-lg border border-brand-200 bg-brand-50 p-6">
+        <div className="flex flex-col gap-2">
+          <span className="text-h3-700 font-h3-700 text-brand-700">
+            BYO modem setup guides
+          </span>
+          <span className="text-body font-body text-brand-700">
+            Search for your modem and we&apos;ll provide a step-by-step setup
+            guide.
+          </span>
+        </div>
+        <Button
+          className="rounded-full self-start"
+          variant="brand-primary"
+          iconRight={<FeatherChevronRight />}
+          hasRightIcon
+          onClick={onGetStarted}
+        >
+          Set up my modem
+        </Button>
+      </div>
+
       {/* Quick tips */}
       <div className="flex flex-col gap-3">
         <h2 className="text-h3-700 font-h3-700 text-default-font">
@@ -55,28 +77,6 @@ export function SupportArticlePage({ onGetStarted }: SupportArticlePageProps) {
             what&apos;s working and what&apos;s not.
           </li>
         </ol>
-      </div>
-
-      {/* CTA card */}
-      <div className="flex flex-col gap-6 rounded-lg border border-brand-200 bg-brand-50 p-6">
-        <div className="flex flex-col gap-2">
-          <span className="text-h3-700 font-h3-700 text-brand-700">
-            Ready to get connected?
-          </span>
-          <span className="text-body font-body text-brand-700">
-            Search for your modem and we&apos;ll provide a step-by-step setup
-            guide.
-          </span>
-        </div>
-        <Button
-          className="rounded-full self-start"
-          variant="brand-primary"
-          iconRight={<FeatherChevronRight />}
-          hasRightIcon
-          onClick={onGetStarted}
-        >
-          Set up my modem
-        </Button>
       </div>
     </div>
   );

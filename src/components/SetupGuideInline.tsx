@@ -43,7 +43,7 @@ function Breadcrumbs({ phase, onNavigate }: { phase: "article" | "search" | "gui
             Getting started
           </button>
           <BreadcrumbChevron />
-          <span className="text-neutral-700">Modem setup</span>
+          <span className="text-neutral-700">BYO modem setup</span>
         </>
       )}
     </nav>
@@ -114,7 +114,7 @@ export function SetupGuideInline() {
         <div className="w-full max-w-[576px] mx-auto px-4 py-8 mobile:py-4">
           <div className="flex flex-col gap-4 mb-6">
             <Breadcrumbs phase="search" onNavigate={handleBackToArticle} />
-            <h1 className="text-h1 font-h1 text-default-font">Modem setup</h1>
+            <h1 className="text-h1 font-h1 text-default-font">BYO modem setup</h1>
           </div>
           <motion.div
             layout
@@ -147,7 +147,7 @@ export function SetupGuideInline() {
       pageContent = guide ? (
         <div className="flex w-full max-w-[576px] mx-auto flex-col items-start gap-6 px-6 pt-8 pb-24 mobile:gap-6 mobile:px-4 mobile:pt-4 mobile:pb-12">
           <Breadcrumbs phase="guide" onNavigate={handleBackToArticle} />
-          <h1 className="text-h1 font-h1 text-default-font -mt-2">Modem setup</h1>
+          <h1 className="text-h1 font-h1 text-default-font -mt-2">BYO modem setup</h1>
           <SetupGuideContent
             guide={guide}
             techType={techType}
@@ -160,7 +160,7 @@ export function SetupGuideInline() {
       pageContent = selectedModem ? (
         <div className="flex w-full max-w-[576px] mx-auto flex-col items-start gap-6 px-6 pt-8 pb-24 mobile:gap-6 mobile:px-4 mobile:pt-4 mobile:pb-12">
           <Breadcrumbs phase="not-available" onNavigate={handleBackToArticle} />
-          <h1 className="text-h1 font-h1 text-default-font -mt-2">Modem setup</h1>
+          <h1 className="text-h1 font-h1 text-default-font -mt-2">BYO modem setup</h1>
           <SetupGuideNotAvailable
             modemId={selectedModem.id}
             brand={selectedModem.brand}

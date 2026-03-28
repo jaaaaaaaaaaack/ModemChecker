@@ -775,7 +775,7 @@ export function SetupGuideContent({
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.12, ease: "easeOut" }}
             >
-              Your setup guide
+              Step-by-step guide
             </motion.h2>
 
             {steps.map((templateId, idx) => {

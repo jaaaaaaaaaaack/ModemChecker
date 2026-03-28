@@ -42,12 +42,19 @@ export function SetupGuide() {
     }
     setGuideLoading(true);
     let cancelled = false;
-    getSetupGuide(modemId).then((g) => {
-      if (!cancelled) {
-        setGuide(g);
-        setGuideLoading(false);
-      }
-    });
+    getSetupGuide(modemId)
+      .then((g) => {
+        if (!cancelled) {
+          setGuide(g);
+          setGuideLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setGuide(undefined);
+          setGuideLoading(false);
+        }
+      });
     return () => { cancelled = true; };
   }, [modemId]);
 
@@ -74,6 +81,7 @@ export function SetupGuide() {
       // Phase 3: After dashboard fades out, swap to guide page
       setTimeout(() => {
         window.scrollTo({ top: 0 });
+        setGuideLoading(true);
         setSearchParams({ modem: modem.id, tech: techType });
         // Keep transitioning=true through the swap so the old page
         // doesn't flash back. Clear it on next frame after the new
@@ -118,15 +126,25 @@ export function SetupGuide() {
 
   if (guideLoading) {
     pageKey = "loading";
-    pageContent = null;
+    pageContent = (
+      <div className="flex w-full flex-col items-start gap-6">
+        <h1 className="text-h1 font-h1 text-default-font">BYO modem setup</h1>
+        <div className="flex w-full justify-center py-12">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-neutral-300 border-t-brand-600" />
+        </div>
+      </div>
+    );
   } else if (guide) {
     pageKey = "guide";
     pageContent = (
-      <SetupGuideContent
-        guide={guide}
-        techType={techType}
-        onChangeModem={() => setDevMenuOpen(true)}
-      />
+      <>
+        <h1 className="text-h1 font-h1 text-default-font">BYO modem setup</h1>
+        <SetupGuideContent
+          guide={guide}
+          techType={techType}
+          onChangeModem={() => setDevMenuOpen(true)}
+        />
+      </>
     );
   } else if (modemId && hasModemInfo) {
     pageKey = "not-available";
