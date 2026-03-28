@@ -58,8 +58,7 @@ export function SetupResultCard({
       <DisclaimerCallout className={compact ? "mobile:border-none mobile:px-0 mobile:py-0 mobile:rounded-none" : undefined} />
       <SheetFooter className="justify-between">
         <IconButton
-          className="border-brand-200"
-          variant="white"
+          variant="brand-outline"
           size="large"
           icon={<FeatherChevronLeft className="-ml-0.5" />}
           onClick={onCheckAnother}

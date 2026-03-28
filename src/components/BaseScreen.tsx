@@ -235,8 +235,7 @@ export function BaseScreen({
         {/* Footer buttons */}
         <div className="flex w-full items-center justify-between pt-6">
           <IconButton
-            className="border-brand-200"
-            variant="white"
+            variant="brand-outline"
             size="large"
             icon={<FeatherChevronLeft className="-ml-0.5" />}
             onClick={() => {}}
