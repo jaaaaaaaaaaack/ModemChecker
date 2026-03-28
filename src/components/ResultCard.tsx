@@ -1,5 +1,6 @@
 import { Button } from "@/ui/components/Button";
 import { LinkButton } from "@/ui/components/LinkButton";
+import { SheetFooter } from "./SheetFooter";
 import { CheckerCard } from "@/ui/components/CheckerCard";
 import { DisclaimerCallout } from "./DisclaimerCallout";
 import { DEFAULT_PLAN_SPEED_MBPS } from "../constants";
@@ -42,7 +43,7 @@ export function ResultCard({
         onAddBelongModem={onAddBelongModem}
       />
       <DisclaimerCallout />
-      <div className="flex w-full items-center justify-between mt-auto md:mt-10 pt-2">
+      <SheetFooter className="justify-between">
         <LinkButton
           variant="brand"
           icon={null}
@@ -52,7 +53,6 @@ export function ResultCard({
           Check another modem
         </LinkButton>
         <Button
-          className="rounded-full"
           variant="brand-primary"
           icon={null}
           iconRight={null}
@@ -60,7 +60,7 @@ export function ResultCard({
         >
           Close
         </Button>
-      </div>
+      </SheetFooter>
     </div>
   );
 }

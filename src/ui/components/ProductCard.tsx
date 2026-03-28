@@ -115,19 +115,9 @@ const ProductCardRoot = React.forwardRef<HTMLDivElement, ProductCardRootProps>(
               hidden: variant === "brand-flat",
             })}
             variant={
-              variant === "brand-outline-2"
-                ? "brand-tertiary"
-                : variant === "brand-outline"
-                ? "brand-tertiary"
-                : variant === "brand-flat"
-                ? "brand-tertiary"
-                : variant === "brand-reversed"
+              variant === "brand-reversed"
                 ? "cyan-tertiary"
-                : variant === "green"
-                ? "green-tertiary"
-                : variant === "brand"
-                ? "brand-tertiary"
-                : "purple-tertiary"
+                : "brand-tertiary"
             }
             size="small"
           >

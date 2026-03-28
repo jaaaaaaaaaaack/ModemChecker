@@ -30,7 +30,7 @@ export function Login() {
             <form
               action="/api/login"
               method="POST"
-              className="flex w-full flex-col items-center gap-4 rounded-xl bg-[#114e5f] px-2 py-2"
+              className="flex w-full flex-col items-center gap-4 rounded-xl bg-color-primary-700 px-2 py-2"
             >
               <input type="hidden" name="next" value={next} />
               <div className="flex w-full items-center gap-2">
