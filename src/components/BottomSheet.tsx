@@ -6,13 +6,14 @@ import { useMediaQuery } from "../hooks/useMediaQuery";
 const GRADIENT_CLASSES = {
   brand: { full: "bg-gradient-brand", compact: "md:bg-gradient-brand-compact" },
   accent2: { full: "bg-gradient-accent2", compact: "md:bg-gradient-accent2-compact" },
+  neutral: { full: "bg-white", compact: "md:bg-white" },
 } as const;
 
 interface BottomSheetProps {
   open: boolean;
   onClose: () => void;
   children: ReactNode;
-  gradient?: "brand" | "accent2";
+  gradient?: "brand" | "accent2" | "neutral";
   title?: string;
   /** Mobile sheet height. Defaults to "75vh". Desktop side-sheet ignores this. */
   height?: string;

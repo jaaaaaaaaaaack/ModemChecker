@@ -1,4 +1,4 @@
-import { Fragment, useState, useMemo, useRef, useEffect, useCallback, createRef } from "react";
+import { Fragment, useState, useMemo, useRef, useEffect, createRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ModemIdentityCard } from "@/ui/components/ModemIdentityCard";
 import { StepCard } from "@/ui/components/StepCard";
@@ -10,7 +10,7 @@ import { Alert } from "@/ui/components/Alert";
 import { Button } from "@/ui/components/Button";
 import { LinkButton } from "@/ui/components/LinkButton";
 import { IconButton } from "@/ui/components/IconButton";
-import { Spinner } from "./Spinner";
+import { ConnectionTestSheet } from "./ConnectionTestSheet";
 import { getModemImageUrl, getNbnHardwareImageUrl } from "../lib/supabase";
 import { NBN_HARDWARE } from "../constants";
 import {
@@ -20,14 +20,11 @@ import {
   FeatherWifiCog,
   FeatherX,
   FeatherArrowRight,
-  FeatherZapOff,
 } from "@subframe/core";
-import type { StepTemplateId, CredentialType, TechType } from "../types";
+import type { StepTemplateId, TechType } from "../types";
 import type { GuideEntry } from "../lib/setupGuides";
 
 // --- Constants ---
-const MIN_TEST_DURATION_MS = 3000;
-const TEST_TIMEOUT_MS = 8000;
 const SCROLL_DELAY_MS = 150;
 
 // --- Step sequencing (data contract §4) ---
@@ -229,39 +226,9 @@ export function SetupGuideContent({
   const [currentStep, setCurrentStep] = useState(0);
   const [disclaimerDismissed, setDisclaimerDismissed] = useState(false);
   const [completed, setCompleted] = useState(false);
-  const [connectionTest, setConnectionTest] = useState<"idle" | "testing" | "success" | "failure">("idle");
-  const connectionTestRef = useRef(connectionTest);
-  connectionTestRef.current = connectionTest;
+  const [connectionTest, setConnectionTest] = useState<"idle" | "success">("idle");
+  const [testSheetOpen, setTestSheetOpen] = useState(false);
 
-  const runConnectionTest = useCallback(async () => {
-    const shouldFail = connectionTestRef.current === "success";
-    setConnectionTest("testing");
-    if (shouldFail) {
-      // Demo: re-test from success always shows failure after a delay
-      await new Promise((r) => setTimeout(r, MIN_TEST_DURATION_MS));
-      setConnectionTest("failure");
-      return;
-    }
-    const minDelay = new Promise((r) => setTimeout(r, MIN_TEST_DURATION_MS));
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), TEST_TIMEOUT_MS);
-      await Promise.all([
-        fetch("https://www.google.com/generate_204", {
-          mode: "no-cors",
-          signal: controller.signal,
-        }),
-        minDelay,
-      ]);
-      clearTimeout(timeout);
-      setConnectionTest("success");
-    } catch {
-      await minDelay;
-      setConnectionTest("failure");
-    }
-  }, []);
-
-  // Preload success video once the setup page mounts
 
   const modemImageUrl = getModemImageUrl(data.id);
   const adminPanel = data.setup.admin_panel;
@@ -590,80 +557,28 @@ export function SetupGuideContent({
               Before you run the test,{" "}
               <span className="font-semibold">make sure this device is connected to your modem&apos;s Wi-Fi network.</span>
             </span>
+            {connectionTest === "success" && (
+              <motion.div
+                key="verify-success"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4 }}
+                className="flex w-full items-center gap-3 rounded-md border border-solid border-color-secondary-300 bg-color-secondary-50 px-4 py-4"
+              >
+                <FeatherCheck className="text-h3-500 font-h3-500 text-success-700 flex-none" />
+                <span className="text-h4-button-500 font-h4-button-500 text-color-secondary-600">
+                  You&apos;re online
+                </span>
+              </motion.div>
+            )}
             <Button
               variant="brand-secondary"
               icon={<FeatherWifiCog />}
               hasLeftIcon={true}
-              onClick={runConnectionTest}
-              disabled={connectionTest === "testing"}
+              onClick={() => setTestSheetOpen(true)}
             >
-              {connectionTest === "idle" ? "Test connection" : "Test again"}
+              {connectionTest === "success" ? "Test again" : "Test connection"}
             </Button>
-            {connectionTest === "testing" && (
-              <motion.div
-                key="testing"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md bg-brand-100 px-4 py-4"
-              >
-                <div className="flex items-center gap-2">
-                  <Spinner size="small" />
-                  <span className="text-h4-button-500 font-h4-button-500 text-brand-800">
-                    Running connection test...
-                  </span>
-                </div>
-                <span className="text-body font-body text-brand-800">
-                  This should only take a moment
-                </span>
-              </motion.div>
-            )}
-            {connectionTest === "success" && (
-              <motion.div
-                key="success"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4 }}
-                className="flex w-full min-w-[240px] flex-col items-start gap-2 rounded-md border border-solid border-color-secondary-300 bg-color-secondary-50 px-4 py-4"
-              >
-                <div className="flex items-center gap-2">
-                  <FeatherCheck className="text-h3-500 font-h3-500 text-success-700" />
-                  <span className="text-h4-button-500 font-h4-button-500 text-color-secondary-600">
-                    You&apos;re online
-                  </span>
-                </div>
-                <span className="text-body font-body text-color-secondary-600">
-                  Great news! You&apos;re connected to the internet. Try out your connection, and if you have any trouble, come back here and check out the troubleshooting steps.
-                </span>
-              </motion.div>
-            )}
-            {connectionTest === "failure" && (
-              <motion.div
-                key="failure"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4 }}
-                className="flex w-full min-w-[240px] flex-col items-start gap-4 rounded-md border border-solid border-neutral-300 bg-neutral-100 px-4 py-4"
-              >
-                <div className="flex w-full flex-col items-start gap-2">
-                  <div className="flex items-center gap-2">
-                    <FeatherZapOff className="text-h3-500 font-h3-500 text-neutral-700" />
-                    <span className="text-h4-button-500 font-h4-button-500 text-neutral-600">
-                      No connection yet
-                    </span>
-                  </div>
-                  <span className="text-body font-body text-neutral-600">
-                    Don&apos;t worry, there are a few easy steps we can try to get your modem connected.
-                  </span>
-                  <Button
-                    variant="cyan-tertiary"
-                    onClick={() => {}}
-                  >
-                    Help me troubleshoot
-                  </Button>
-                </div>
-              </motion.div>
-            )}
           </div>
         );
     }
@@ -716,6 +631,7 @@ export function SetupGuideContent({
   }
 
   return (
+    <>
     <AnimatePresence mode="wait">
       {completed ? (
         <motion.div
@@ -837,5 +753,18 @@ export function SetupGuideContent({
         </motion.div>
       )}
     </AnimatePresence>
+
+      <ConnectionTestSheet
+        open={testSheetOpen}
+        onClose={() => setTestSheetOpen(false)}
+        onSuccess={() => {
+          setTestSheetOpen(false);
+          setConnectionTest("success");
+        }}
+        onContinueSetup={() => setTestSheetOpen(false)}
+        modemImageUrl={modemImageUrl}
+        demoForceFailure={connectionTest === "success"}
+      />
+    </>
   );
 }
