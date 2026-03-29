@@ -26,12 +26,7 @@ interface ConnectionTestSheetProps {
   demoForceFailure?: boolean;
 }
 
-const SHEET_HEIGHTS: Record<TestState, string> = {
-  testing: "55vh",
-  success: "auto",
-  failure: "40vh",
-  error: "45vh",
-};
+const SHEET_HEIGHT = "auto";
 
 const contentTransition = { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] as const };
 
@@ -127,7 +122,7 @@ export function ConnectionTestSheet({
       open={open}
       onClose={handleClose}
       gradient="brand"
-      height={SHEET_HEIGHTS[state]}
+      height={SHEET_HEIGHT}
       overlayOpacity={0.6}
       title="Connection test"
     >
@@ -146,7 +141,7 @@ export function ConnectionTestSheet({
           {state === "testing" && (
             <motion.div
               key="testing"
-              className="relative flex flex-col items-center justify-center h-full gap-4 px-4"
+              className="relative flex flex-col items-center justify-center min-h-[40vh] gap-4 px-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -156,10 +151,14 @@ export function ConnectionTestSheet({
               <div className="relative flex items-center justify-center w-[140px] h-[120px]">
                 <div className="absolute inset-0 overflow-visible">
                   <Ripple
-                    mainCircleSize={100}
-                    mainCircleOpacity={0.84}
+                    mainCircleSize={140}
+                    mainCircleOpacity={0.74}
                     numCircles={8}
-                    circleIncrement={80}
+                    circleIncrement={90}
+                    opacityStep={0.2}
+                    duration={2}
+                    staggerDelay={0.2}
+                    pulseScale={1.3}
                   />
                 </div>
                 <img
@@ -267,7 +266,7 @@ export function ConnectionTestSheet({
           {state === "failure" && (
             <motion.div
               key="failure"
-              className="relative z-10 flex flex-col items-center justify-center h-full gap-3 px-6"
+              className="relative z-10 flex flex-col items-center justify-center min-h-[40vh] gap-3 px-6 pt-12"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -294,7 +293,7 @@ export function ConnectionTestSheet({
           {state === "error" && (
             <motion.div
               key="error"
-              className="relative z-10 flex flex-col items-center justify-center h-full gap-3 px-6"
+              className="relative z-10 flex flex-col items-center justify-center min-h-[40vh] gap-3 px-6 pt-12"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
