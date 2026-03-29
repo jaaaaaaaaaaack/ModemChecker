@@ -9,8 +9,7 @@ import { FeatherArrowRight, FeatherXCircle } from "@subframe/core";
 const CONFLUENCE_URL =
   "https://belongranda.atlassian.net/wiki/spaces/BEL/pages/3814556263/BYO+Modem+Tools+Compatibility+checker+setup+guides#Try-out-the-demo-for-yourself%3A";
 
-const BELONG_LOGO_URL =
-  "https://res.cloudinary.com/subframe/image/upload/v1774220418/uploads/11901/d5boxn9jzxijpwfu8wmg.png";
+const BELONG_LOGO_URL = "/belongLogo.webp";
 
 export function Login() {
   const [searchParams] = useSearchParams();
