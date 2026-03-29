@@ -85,21 +85,27 @@
   animation: spin 0.7s linear infinite;
 }
 
-/* Ripple animation for concentric circles (MagicUI-inspired).
- * Controlled via CSS custom properties set by the Ripple component:
- *   --duration:    full cycle length (default 2s)
- *   --pulse-scale: scale at animation peak (default 0.9; >1 = expand, <1 = contract)
- *   --stagger:     per-ring delay offset (default 0.2s)
- *   --i:           ring index (set per element)
+/* Ripple pulse — circles spawn small/invisible, fade in over ~7% of the cycle,
+ * then expand outward while fading to transparent. CSS animation-delay keeps
+ * stagger consistent across infinite loops (unlike framer-motion's one-time delay).
+ *
+ * Custom properties per circle (set via inline style):
+ *   --ripple-expand:  scale multiplier at end of life (default 5)
+ *   --ripple-opacity: peak opacity during fade-in (default 0.6)
+ *
+ * `backwards` fill mode ensures circles render at 0% keyframe values (invisible)
+ * during their animation-delay period.
  */
-@keyframes ripple {
-  0%, 100% {
+@keyframes ripple-pulse {
+  0% {
     transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
   }
-  50% {
-    transform: translate(-50%, -50%) scale(var(--pulse-scale, 0.9));
+  7% {
+    opacity: var(--ripple-opacity, 0.6);
   }
-}
-@utility animate-ripple {
-  animation: ripple var(--duration, 2s) ease-in-out calc(var(--i, 0) * var(--stagger, 0.2s)) infinite;
+  100% {
+    transform: translate(-50%, -50%) scale(var(--ripple-expand, 5));
+    opacity: 0;
+  }
 }

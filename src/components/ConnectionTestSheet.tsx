@@ -151,14 +151,12 @@ export function ConnectionTestSheet({
               <div className="relative flex items-center justify-center w-[140px] h-[120px]">
                 <div className="absolute inset-0 overflow-visible">
                   <Ripple
-                    mainCircleSize={140}
-                    mainCircleOpacity={0.74}
-                    numCircles={8}
-                    circleIncrement={90}
-                    opacityStep={0.2}
-                    duration={2}
-                    staggerDelay={0.2}
-                    pulseScale={1.3}
+                    mainCircleSize={80}
+                    mainCircleOpacity={0.6}
+                    numCircles={4}
+                    expandScale={5}
+                    duration={4}
+                    staggerDelay={1}
                   />
                 </div>
                 <img
