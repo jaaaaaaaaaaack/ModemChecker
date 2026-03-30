@@ -49,7 +49,7 @@ export const Ripple = memo(function Ripple({
               left: "50%",
               borderWidth: `${borderWidth}px`,
               borderStyle: "solid",
-              borderColor: "rgba(103, 232, 249, 1)",
+              borderColor: "rgba(103, 232, 249, 0.7)",
               backgroundColor: "rgba(165, 243, 252, 0.15)",
               "--ripple-expand": expandScale,
               "--ripple-opacity": mainCircleOpacity,
