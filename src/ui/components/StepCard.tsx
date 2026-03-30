@@ -105,7 +105,7 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
         className={SubframeUtils.twClassNames(
           "group/b8335e7c flex w-full flex-col items-start px-4 py-4 transition-colors duration-300 scroll-mt-20",
           {
-            "rounded-md border border-solid border-white bg-default-background shadow-lg": variant === "current",
+            "rounded-xl border border-solid border-white bg-default-background shadow-lg": variant === "current",
             "rounded-xl border border-solid border-color-accent2-300 bg-color-accent2-50":
               variant === "optional",
             "rounded-xl border border-solid border-warning-200 bg-warning-50": variant === "warning",

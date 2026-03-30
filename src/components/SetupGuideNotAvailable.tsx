@@ -32,8 +32,8 @@ export function SetupGuideNotAvailable({
       {brand && model && (
         <ModemIdentityCard
           image={getModemImageUrl(modemId)}
-          label="Your modem"
-          title={modemName}
+          label={brand}
+          title={model}
           action={<LinkButton onClick={onSearchAgain}>Change</LinkButton>}
         />
       )}

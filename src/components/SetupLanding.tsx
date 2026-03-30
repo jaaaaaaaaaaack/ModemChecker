@@ -13,7 +13,7 @@ export function SetupLanding({ onGetStarted }: SetupLandingProps) {
       {/* Cards */}
       <div className="flex w-full flex-col items-start gap-4 px-4 py-4">
         {/* NBN service card */}
-        <div className="flex w-full flex-col items-start gap-4 rounded-md bg-default-background px-4 py-4 shadow-lg">
+        <div className="flex w-full flex-col items-start gap-4 rounded-xl bg-default-background px-4 py-4 shadow-lg">
           <div className="flex w-full flex-col items-start gap-4">
             <div className="flex w-full items-start justify-between">
               <img
@@ -63,7 +63,7 @@ export function SetupLanding({ onGetStarted }: SetupLandingProps) {
                   onClick={() => {}}
                 />
               </div>
-              <span className="w-full text-body font-body text-brand-700 text-balance">
+              <span className="w-full text-body font-body text-brand-700 text-pretty">
                 Need a hand getting connected? We have setup guides for many
                 popular modems to help you get online fast.
               </span>
@@ -82,7 +82,7 @@ export function SetupLanding({ onGetStarted }: SetupLandingProps) {
         </div>
 
         {/* Mobile service card */}
-        <div className="flex w-full flex-col items-start gap-4 rounded-md bg-default-background px-4 py-4 shadow-lg">
+        <div className="flex w-full flex-col items-start gap-4 rounded-xl bg-default-background px-4 py-4 shadow-lg">
           <div className="flex w-full flex-col items-start gap-4">
             <div className="flex w-full items-start justify-between">
               <img

@@ -18,7 +18,7 @@ export function InfoCallout({ children, variant = "bordered", className }: InfoC
     >
       <div className="flex items-start gap-1">
         <FeatherInfo className="text-brand-700 flex-none w-4 h-4 mt-0.5" />
-        <span className="text-body font-body text-brand-700">
+        <span className="text-body font-body text-brand-700 text-pretty">
           {children}
         </span>
       </div>
