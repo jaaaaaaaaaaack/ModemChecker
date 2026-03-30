@@ -164,7 +164,7 @@ export function ConnectionTestSheet({
         {displayState === "testing" && (
           <motion.div
             key="testing"
-            className="relative flex flex-col items-center justify-center min-h-[40vh] gap-4 px-4"
+            className="relative flex flex-col items-center justify-center min-h-[40vh] gap-14 px-4"
             initial={{ opacity: 0 }}
             animate={fadingOut
               ? { opacity: 0, transition: { duration: 0.3, ease: "easeIn" } }
@@ -249,10 +249,10 @@ export function ConnectionTestSheet({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <span className="text-h4-button-700 font-h4-button-700 text-brand-900 text-center whitespace-pre-wrap">
+                    <span className="text-h4-button-700 font-h4-button-700 text-brand-900 text-center text-balance whitespace-pre-wrap">
                       Great news — Your modem is online and your plan is now active.
                     </span>
-                    <span className="text-h4-button-500 font-h4-button-500 text-brand-900 text-center whitespace-pre-wrap">
+                    <span className="text-h4-button-500 font-h4-button-500 text-brand-900 text-center text-balance whitespace-pre-wrap">
                       Enjoy your new Belong nbn&reg; plan!
                     </span>
                   </motion.div>
@@ -293,10 +293,10 @@ export function ConnectionTestSheet({
               exit={{ opacity: 0 }}
               transition={contentTransition}
             >
-              <h2 className="text-h2 font-h2 text-default-font text-center">
+              <h2 className="text-h2 font-h2 text-default-font text-center text-balance">
                 Not connected yet
               </h2>
-              <p className="text-body font-body text-subtext-color text-center max-w-sm">
+              <p className="text-body font-body text-subtext-color text-center text-balance max-w-sm">
                 All good — there&apos;s a few additional steps we can try that
                 resolve many common issues.
               </p>
@@ -320,10 +320,10 @@ export function ConnectionTestSheet({
               exit={{ opacity: 0 }}
               transition={contentTransition}
             >
-              <h2 className="text-h2 font-h2 text-default-font text-center">
+              <h2 className="text-h2 font-h2 text-default-font text-center text-balance">
                 Something went wrong
               </h2>
-              <p className="text-body font-body text-subtext-color text-center max-w-sm">
+              <p className="text-body font-body text-subtext-color text-center text-balance max-w-sm">
                 Sorry, the connection test returned an error. Please try the
                 test again.
               </p>

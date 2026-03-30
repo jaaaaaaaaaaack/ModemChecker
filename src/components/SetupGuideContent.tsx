@@ -164,7 +164,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
           initial={{ opacity: 0, y: 10 }}
           animate={imageReady ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.4, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-h1 font-h1 text-brand-900 text-center"
+          className="text-h1 font-h1 text-brand-900 text-center text-balance"
         >
           Welcome to Belong
         </motion.h1>
@@ -174,7 +174,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
           initial={{ opacity: 0, y: 8 }}
           animate={imageReady ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.4, delay: 3.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-body font-body text-brand-900 text-center max-w-sm mt-3"
+          className="text-body font-body text-brand-900 text-center text-balance max-w-sm mt-3"
         >
           You&apos;re all set up and connected. Enjoy your new internet
           — we&apos;re glad you&apos;re here.
@@ -429,7 +429,7 @@ export function SetupGuideContent({
                   <span className="text-body-bold font-body-bold text-brand-800">
                     Can&apos;t log in?
                   </span>
-                  <span className="text-body font-body text-brand-700">
+                  <span className="text-body font-body text-brand-700 text-balance">
                     A factory reset will{" "}
                     {data.setup.factory_reset.restores_default_credentials
                       ? "restore the default login details shown above"
@@ -463,7 +463,7 @@ export function SetupGuideContent({
                   <span className="text-body-bold font-body-bold text-brand-800">
                     Having trouble with the app?
                   </span>
-                  <span className="text-body font-body text-brand-700">
+                  <span className="text-body font-body text-brand-700 text-balance">
                     For any issues downloading or using the {appName} app, you&apos;ll need to reach out to {data.brand} for support.
                   </span>
                 </div>
@@ -486,7 +486,7 @@ export function SetupGuideContent({
           <div className="flex w-full flex-col items-start gap-3">
             {/* Navigate */}
             <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
-              <span className="text-body font-body text-default-font">
+              <span className="text-body font-body text-default-font text-balance">
                 From the admin panel's homepage, navigate to the{" "}
                 <span className="font-semibold">{navSegments[navSegments.length - 1]}</span>{" "}
                 settings page:
@@ -516,7 +516,7 @@ export function SetupGuideContent({
               <StepCard.ConditionalBlock
                 variant="optional"
                 body={
-                  <span className="text-body font-body text-color-accent2-800">
+                  <span className="text-body font-body text-color-accent2-800 text-balance">
                     {pppoeClearNote}
                   </span>
                 }
@@ -525,7 +525,7 @@ export function SetupGuideContent({
             {/* Change setting */}
             <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
               <div className="flex w-full flex-col items-start gap-1.5">
-                <span className="text-body font-body text-default-font leading-[1.5]">
+                <span className="text-body font-body text-default-font text-balance leading-[1.5]">
                   Set the &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; setting to{" "}
                   <PortTypeBadge
                     variant="blue"
@@ -543,7 +543,7 @@ export function SetupGuideContent({
             </div>
             {/* Save and restart */}
             <div className="flex w-full flex-col items-start rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
-              <span className="text-body font-body text-default-font">
+              <span className="text-body font-body text-default-font text-balance">
                 Tap &quot;<span className="font-semibold">{saveButtonLabel}</span>&quot;, then wait 2-3 minutes for your modem to restart and reconnect.
               </span>
             </div>
@@ -553,7 +553,7 @@ export function SetupGuideContent({
       case "verify":
         return (
           <div className="flex w-full flex-col items-start gap-4">
-            <span className="text-body font-body text-default-font">
+            <span className="text-body font-body text-default-font text-balance">
               Before you run the test,{" "}
               <span className="font-semibold">make sure this device is connected to your modem&apos;s Wi-Fi network.</span>
             </span>
@@ -738,7 +738,7 @@ export function SetupGuideContent({
           {/* Footer */}
           <div className="flex h-px w-full flex-none items-start bg-neutral-300" />
           <div className="flex w-full flex-col items-start justify-center gap-4">
-            <span className="text-h4-button-500 font-h4-button-500 text-subtext-color">
+            <span className="text-h4-button-500 font-h4-button-500 text-subtext-color text-balance">
               Having trouble getting connected?
             </span>
             <Button

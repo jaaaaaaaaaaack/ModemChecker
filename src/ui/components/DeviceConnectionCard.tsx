@@ -54,7 +54,7 @@ const DeviceConnectionCardRoot = React.forwardRef<
               </span>
             ) : null}
             {connectionLabel ? (
-              <span className="text-body font-body text-default-font">
+              <span className="text-body font-body text-default-font text-balance">
                 {connectionLabel}
               </span>
             ) : null}
@@ -70,7 +70,7 @@ const DeviceConnectionCardRoot = React.forwardRef<
       {note && variant === "nbn-hardware" ? (
         <div className="flex items-center gap-1.5 text-brand-700">
           <FeatherInfo className="h-3.5 w-3.5 flex-none" />
-          <span className="text-caption font-caption">
+          <span className="text-caption font-caption text-balance">
             {note}
           </span>
         </div>

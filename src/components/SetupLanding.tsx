@@ -63,7 +63,7 @@ export function SetupLanding({ onGetStarted }: SetupLandingProps) {
                   onClick={() => {}}
                 />
               </div>
-              <span className="w-full text-body font-body text-brand-700">
+              <span className="w-full text-body font-body text-brand-700 text-balance">
                 Need a hand getting connected? We have setup guides for many
                 popular modems to help you get online fast.
               </span>

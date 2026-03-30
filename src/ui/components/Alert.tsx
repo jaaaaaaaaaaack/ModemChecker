@@ -110,7 +110,7 @@ const AlertRoot = React.forwardRef<HTMLDivElement, AlertRootProps>(
             {description ? (
               <span
                 className={SubframeUtils.twClassNames(
-                  "w-full whitespace-pre-wrap text-caption font-caption text-color-secondary-700",
+                  "w-full whitespace-pre-wrap text-caption font-caption text-color-secondary-700 text-balance",
                   {
                     "text-body font-body text-brand-700":
                       variant === "inline-brand",

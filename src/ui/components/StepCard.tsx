@@ -257,7 +257,7 @@ const StepCardRoot = React.forwardRef<HTMLDivElement, StepCardRootProps>(
           >
             <div className="flex w-full flex-col items-start gap-4 pt-4">
               {description ? (
-                <span className="w-full text-body font-body text-brand-800">
+                <span className="w-full text-body font-body text-brand-800 text-balance">
                   {description}
                 </span>
               ) : null}
