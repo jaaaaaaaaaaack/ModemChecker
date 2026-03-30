@@ -50,14 +50,14 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonRootProps>(
     return (
       <button
         className={SubframeUtils.twClassNames(
-          "group/3b777358 flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-solid border-brand-800 bg-brand-800 px-8 text-left transition-[background-color,border-color,transform] duration-150 active:scale-[0.98] disabled:active:scale-100 hover:border hover:border-solid hover:border-brand-950 hover:bg-brand-950 disabled:cursor-default disabled:border disabled:border-solid disabled:border-neutral-200 disabled:bg-neutral-200 hover:disabled:cursor-default hover:disabled:border hover:disabled:border-solid hover:disabled:border-neutral-300 hover:disabled:bg-neutral-100 active:disabled:cursor-default active:disabled:bg-neutral-200",
+          "group/3b777358 flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-solid border-brand-800 bg-brand-800 px-8 text-left transition-[background-color,border-color,scale] duration-150 active:scale-[0.96] disabled:active:scale-100 hover:border hover:border-solid hover:border-brand-950 hover:bg-brand-950 disabled:cursor-default disabled:border disabled:border-solid disabled:border-neutral-200 disabled:bg-neutral-200 hover:disabled:cursor-default hover:disabled:border hover:disabled:border-solid hover:disabled:border-neutral-300 hover:disabled:bg-neutral-100 active:disabled:cursor-default active:disabled:bg-neutral-200",
           {
             "pl-7 pr-6 py-0": hasRightIcon,
             "pl-5 pr-7 py-0": hasLeftIcon,
             "px-12 py-0": loading,
             "h-9 w-auto flex-row flex-nowrap gap-1 px-4 py-0": size === "small",
             "h-14 w-auto px-8 py-0": size === "large",
-            "border border-solid border-color-primary-201 bg-color-primary-201 hover:border hover:border-solid hover:border-color-primary-401 hover:bg-color-primary-101 active:bg-color-primary-301 active:transition-[background-color,border-color] active:duration-150 active:border-color-primary-301":
+            "border border-solid border-color-primary-201 bg-color-primary-201 hover:border hover:border-solid hover:border-color-primary-401 hover:bg-color-primary-101 active:bg-color-primary-301 active:transition-[background-color,border-color,scale] active:duration-150 active:border-color-primary-301":
               variant === "cyan-tertiary",
             "border border-solid border-neutral-border bg-default-background hover:bg-neutral-50 active:border active:border-solid active:border-neutral-800 active:bg-color-neutral-800":
               variant === "neutral-secondary",

@@ -140,7 +140,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
       >
         {/* Hero image — fades and scales in gently */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.2, y: 20 }}
+          initial={{ opacity: 0, scale: 0.6, y: 20 }}
           animate={imageReady ? { opacity: 1, scale: 1, y: 0 } : {}}
           transition={{
             type: "spring",
@@ -174,7 +174,7 @@ function SetupSuccess({ onBack }: { onBack: () => void }) {
           initial={{ opacity: 0, y: 8 }}
           animate={imageReady ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.4, delay: 3.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-body font-body text-brand-900 text-center text-balance max-w-sm mt-3"
+          className="text-body font-body text-brand-900 text-center text-pretty max-w-sm mt-3"
         >
           You&apos;re all set up and connected. Enjoy your new internet
           — we&apos;re glad you&apos;re here.
@@ -429,7 +429,7 @@ export function SetupGuideContent({
                   <span className="text-body-bold font-body-bold text-brand-800">
                     Can&apos;t log in?
                   </span>
-                  <span className="text-body font-body text-brand-700 text-balance">
+                  <span className="text-body font-body text-brand-700 text-pretty">
                     A factory reset will{" "}
                     {data.setup.factory_reset.restores_default_credentials
                       ? "restore the default login details shown above"
@@ -463,7 +463,7 @@ export function SetupGuideContent({
                   <span className="text-body-bold font-body-bold text-brand-800">
                     Having trouble with the app?
                   </span>
-                  <span className="text-body font-body text-brand-700 text-balance">
+                  <span className="text-body font-body text-brand-700 text-pretty">
                     For any issues downloading or using the {appName} app, you&apos;ll need to reach out to {data.brand} for support.
                   </span>
                 </div>
@@ -486,7 +486,7 @@ export function SetupGuideContent({
           <div className="flex w-full flex-col items-start gap-3">
             {/* Navigate */}
             <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
-              <span className="text-body font-body text-default-font text-balance">
+              <span className="text-body font-body text-default-font text-pretty">
                 From the admin panel's homepage, navigate to the{" "}
                 <span className="font-semibold">{navSegments[navSegments.length - 1]}</span>{" "}
                 settings page:
@@ -516,7 +516,7 @@ export function SetupGuideContent({
               <StepCard.ConditionalBlock
                 variant="optional"
                 body={
-                  <span className="text-body font-body text-color-accent2-800 text-balance">
+                  <span className="text-body font-body text-color-accent2-800 text-pretty">
                     {pppoeClearNote}
                   </span>
                 }
@@ -525,7 +525,7 @@ export function SetupGuideContent({
             {/* Change setting */}
             <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
               <div className="flex w-full flex-col items-start gap-1.5">
-                <span className="text-body font-body text-default-font text-balance leading-[1.5]">
+                <span className="text-body font-body text-default-font text-pretty leading-[1.5]">
                   Set the &quot;<span className="font-semibold">{wanConfig?.connection_type_field}</span>&quot; setting to{" "}
                   <PortTypeBadge
                     variant="blue"
@@ -543,7 +543,7 @@ export function SetupGuideContent({
             </div>
             {/* Save and restart */}
             <div className="flex w-full flex-col items-start rounded-md border border-solid border-neutral-300 bg-neutral-50 px-4 py-4">
-              <span className="text-body font-body text-default-font text-balance">
+              <span className="text-body font-body text-default-font text-pretty">
                 Tap &quot;<span className="font-semibold">{saveButtonLabel}</span>&quot;, then wait 2-3 minutes for your modem to restart and reconnect.
               </span>
             </div>
@@ -553,7 +553,7 @@ export function SetupGuideContent({
       case "verify":
         return (
           <div className="flex w-full flex-col items-start gap-4">
-            <span className="text-body font-body text-default-font text-balance">
+            <span className="text-body font-body text-default-font text-pretty">
               Before you run the test,{" "}
               <span className="font-semibold">make sure this device is connected to your modem&apos;s Wi-Fi network.</span>
             </span>
@@ -608,8 +608,8 @@ export function SetupGuideContent({
       <>
         <ModemIdentityCard
           image={modemImageUrl}
-          label="Your modem"
-          title={`${data.brand} ${data.model}`}
+          label={data.brand}
+          title={data.model}
           action={<LinkButton onClick={onChangeModem}>Edit</LinkButton>}
         />
         <Alert
@@ -653,43 +653,51 @@ export function SetupGuideContent({
           transition={{ duration: 0.6, ease: "easeIn" }}
           className="flex w-full flex-col items-start gap-6"
         >
-          {/* Header */}
-          <motion.div
-            className="flex w-full flex-col items-start gap-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.06, ease: "easeOut" }}
-          >
-            <ModemIdentityCard
-              image={modemImageUrl}
-              label="Your modem"
-              title={`${data.brand} ${data.model}`}
-              action={<LinkButton onClick={onChangeModem}>Edit</LinkButton>}
-            />
-            {showDisclaimer && (
-              <Alert
-                variant="inline-brand"
-                title=""
-                description="Please note: This guide is based on information sourced from your modem's setup documents and other online sources. It may not always be 100% accurate."
-                actions={
-                  <IconButton
-                    variant="brand-tertiary"
-                    size="small"
-                    icon={<FeatherX />}
-                    onClick={() => setDisclaimerDismissed(true)}
-                  />
-                }
+          {/* Header — modem card and disclaimer staggered separately */}
+          <div className="flex w-full flex-col items-start gap-6">
+            <motion.div
+              className="w-full"
+              initial={{ opacity: 0, filter: "blur(4px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.3, delay: 0.06, ease: "easeOut" }}
+            >
+              <ModemIdentityCard
+                image={modemImageUrl}
+                label={data.brand}
+                title={data.model}
+                action={<LinkButton onClick={onChangeModem}>Edit</LinkButton>}
               />
+            </motion.div>
+            {showDisclaimer && (
+              <motion.div
+                initial={{ opacity: 0, filter: "blur(4px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.3, delay: 0.16, ease: "easeOut" }}
+              >
+                <Alert
+                  variant="inline-brand"
+                  title=""
+                  description="Please note: This guide is based on information sourced from your modem's setup documents and other online sources. It may not always be 100% accurate."
+                  actions={
+                    <IconButton
+                      variant="brand-tertiary"
+                      size="small"
+                      icon={<FeatherX />}
+                      onClick={() => setDisclaimerDismissed(true)}
+                    />
+                  }
+                />
+              </motion.div>
             )}
-          </motion.div>
+          </div>
 
           {/* Steps — data-driven from sequence */}
           <div className="flex w-full flex-col items-start gap-3">
             <motion.h2
               className="text-h2 font-h2 text-brand-800"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.12, ease: "easeOut" }}
+              initial={{ opacity: 0, filter: "blur(4px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.35, delay: 0.3, ease: "easeOut" }}
             >
               Step-by-step guide
             </motion.h2>
@@ -699,8 +707,8 @@ export function SetupGuideContent({
               return (
                 <motion.div
                   key={templateId}
-                  initial={{ opacity: 0, x: 12 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, x: 12, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                   transition={{
                     duration: 0.4,
                     delay: 0.7 + idx * 0.12,

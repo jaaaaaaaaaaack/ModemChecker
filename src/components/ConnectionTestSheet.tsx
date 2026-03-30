@@ -232,11 +232,17 @@ export function ConnectionTestSheet({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <IconWithBackground
-                      variant="success-strong"
-                      size="medium"
-                      icon={<FeatherCheck />}
-                    />
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
+                      animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                      transition={{ type: "spring", duration: 0.3, bounce: 0, delay: 0.3 }}
+                    >
+                      <IconWithBackground
+                        variant="success-strong"
+                        size="medium"
+                        icon={<FeatherCheck />}
+                      />
+                    </motion.div>
                     <span className="text-h2 font-h2 text-brand-900">
                       Connected to nbn&reg;
                     </span>
@@ -296,7 +302,7 @@ export function ConnectionTestSheet({
               <h2 className="text-h2 font-h2 text-default-font text-center text-balance">
                 Not connected yet
               </h2>
-              <p className="text-body font-body text-subtext-color text-center text-balance max-w-sm">
+              <p className="text-body font-body text-subtext-color text-center text-pretty max-w-sm">
                 All good — there&apos;s a few additional steps we can try that
                 resolve many common issues.
               </p>
@@ -323,7 +329,7 @@ export function ConnectionTestSheet({
               <h2 className="text-h2 font-h2 text-default-font text-center text-balance">
                 Something went wrong
               </h2>
-              <p className="text-body font-body text-subtext-color text-center text-balance max-w-sm">
+              <p className="text-body font-body text-subtext-color text-center text-pretty max-w-sm">
                 Sorry, the connection test returned an error. Please try the
                 test again.
               </p>

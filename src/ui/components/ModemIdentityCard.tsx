@@ -53,14 +53,14 @@ const ModemIdentityCardRoot = React.forwardRef<
           </div>
         ) : null}
         <div className="flex flex-col items-start gap-1">
-          {label ? (
-            <span className="text-body font-body text-neutral-500">
-              {label}
-            </span>
-          ) : null}
           {title ? (
             <span className="text-h4-button-500 font-h4-button-500 text-default-font text-balance">
               {title}
+            </span>
+          ) : null}
+          {label ? (
+            <span className="text-body font-body text-neutral-500">
+              {label}
             </span>
           ) : null}
         </div>

@@ -112,12 +112,12 @@ const AlertRoot = React.forwardRef<HTMLDivElement, AlertRootProps>(
                 className={SubframeUtils.twClassNames(
                   "w-full whitespace-pre-wrap text-caption font-caption text-color-secondary-700 text-balance",
                   {
-                    "text-body font-body text-brand-700":
+                    "text-body font-body text-brand-700 text-pretty":
                       variant === "inline-brand",
                     "text-warning-800": variant === "warning",
                     "text-success-800": variant === "success",
                     "text-error-800": variant === "error",
-                    "text-body font-body text-brand-800": variant === "brand",
+                    "text-body font-body text-brand-800 text-pretty": variant === "brand",
                   }
                 )}
               >

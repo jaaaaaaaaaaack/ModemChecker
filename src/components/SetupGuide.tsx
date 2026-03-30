@@ -127,24 +127,18 @@ export function SetupGuide() {
   if (guideLoading) {
     pageKey = "loading";
     pageContent = (
-      <div className="flex w-full flex-col items-start gap-6">
-        <h1 className="text-h1 font-h1 text-default-font">BYO modem setup</h1>
-        <div className="flex w-full justify-center py-12">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-neutral-300 border-t-brand-600" />
-        </div>
+      <div className="flex w-full justify-center py-12">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-neutral-300 border-t-brand-600" />
       </div>
     );
   } else if (guide) {
     pageKey = "guide";
     pageContent = (
-      <>
-        <h1 className="text-h1 font-h1 text-default-font">BYO modem setup</h1>
-        <SetupGuideContent
-          guide={guide}
-          techType={techType}
-          onChangeModem={() => setDevMenuOpen(true)}
-        />
-      </>
+      <SetupGuideContent
+        guide={guide}
+        techType={techType}
+        onChangeModem={() => setDevMenuOpen(true)}
+      />
     );
   } else if (modemId && hasModemInfo) {
     pageKey = "not-available";
@@ -175,11 +169,14 @@ export function SetupGuide() {
       )}
       <div className={`flex w-full max-w-[576px] flex-col items-center ${showLanding ? "pb-12" : "pt-8 pb-24 mobile:pt-4 mobile:pb-12"}`}>
         <div className={`flex w-full flex-col items-start ${showLanding ? "" : "gap-6 px-6 mobile:gap-6 mobile:px-4"}`}>
+          {(pageKey === "loading" || pageKey === "guide") && (
+            <h1 className="text-h1 font-h1 text-default-font">BYO modem setup</h1>
+          )}
           <AnimatePresence mode={transitioning ? "popLayout" : "wait"}>
             <motion.div
               key={pageKey}
               className="flex w-full flex-col items-start gap-6"
-              initial={{ opacity: 0 }}
+              initial={transitioning ? { opacity: 0 } : false}
               animate={{ opacity: transitioning ? 0 : 1 }}
               exit={{ opacity: 0 }}
               transition={{
